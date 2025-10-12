@@ -80,9 +80,9 @@ To skip the tutorial, click **"Skip Tutorial"** button.
 ### 1. Start with Money Management
 
 **Starting Situation**:
-- Cash: $75,000
+- Cash: $225,000
 - Monthly Burn: $30,000
-- Runway: ~10 weeks
+- Runway: ~30 weeks
 
 **You need to make money fast!** The studio loses $30,000 every month in overhead costs.
 
