@@ -80,9 +80,9 @@ To skip the tutorial, click **"Skip Tutorial"** button.
 ### 1. Start with Money Management
 
 **Starting Situation**:
-- Cash: $225,000
+- Cash: $410,000
 - Monthly Burn: $30,000
-- Runway: ~30 weeks
+- Runway: ~54 weeks
 
 **You need to make money fast!** The studio loses $30,000 every month in overhead costs.
 
@@ -438,7 +438,7 @@ A: Start with cheap gangster films (pre-1934), build cash, then diversify
 
 ### Financial Targets
 - **Survival**: Keep cash above $0
-- **Comfortable**: $200,000+ and 20+ weeks runway
+- **Comfortable**: $400,000+ and 40+ weeks runway
 - **Victory**: $500,000+ by 1949
 
 ### Film Strategy

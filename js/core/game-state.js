@@ -14,7 +14,7 @@ window.HollywoodMogul = (function() {
         gameYear: 1933,
         
         // Financial State
-        cash: 225000,
+        cash: 410000,
         monthlyBurn: 30000,
         totalRevenue: 0,
         totalExpenses: 0,
@@ -55,7 +55,7 @@ window.HollywoodMogul = (function() {
     
     // Game Constants
     const GAME_CONSTANTS = {
-        STARTING_CASH: 225000,
+        STARTING_CASH: 410000,
         BASE_MONTHLY_BURN: 30000,
         SOUND_STAGE_COST: 15000,
         OVERHEAD_COST: 5000,

@@ -60,7 +60,7 @@ When you first open the game, a **tutorial will guide you through everything**:
 - Can be skipped if you prefer
 
 ### Quick Game Overview
-1. **Start**: January 1933, $225,000 cash
+1. **Start**: January 1933, $410,000 cash
 2. **Goal**: Build a successful Hollywood studio, survive to 1949
 3. **Gameplay**: Greenlight films → Watch production → Distribute → Earn money → Repeat!
 4. **Challenge**: Don't go bankrupt! Monthly overhead costs $30,000
@@ -229,7 +229,7 @@ Navigate the Golden Age of Hollywood!
 
 **Build the greatest Hollywood studio of the Golden Age!**
 
-- Start: January 1933, humble studio with $225,000
+- Start: January 1933, humble studio with $410,000
 - Navigate: Hays Code censorship, World War II, Communist witch hunts
 - Produce: Gangster films, musicals, war dramas, film noir
 - Survive: Financial challenges, industry crises, historical events
