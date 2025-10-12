@@ -75,6 +75,46 @@ window.BoxOfficeSystem = (function() {
         }
     };
 
+    function normalizePhase(phase) {
+        if (!phase) return '';
+        const mapping = {
+            'DEVELOPMENT': 'greenlit',
+            'PRE_PRODUCTION': 'pre_production',
+            'PRINCIPAL_PHOTOGRAPHY': 'shooting',
+            'POST_PRODUCTION': 'post_production',
+            'DISTRIBUTION_PREP': 'post_production_complete',
+            'COMPLETED': 'post_production_complete'
+        };
+        const normalized = mapping[phase] || phase;
+        return typeof normalized === 'string' ? normalized.toLowerCase() : '';
+    }
+
+    function getAllFilms(gameState) {
+        const collections = [];
+        if (Array.isArray(gameState.films) && gameState.films.length > 0) {
+            collections.push(...gameState.films);
+        }
+        if (Array.isArray(gameState.activeFilms)) {
+            collections.push(...gameState.activeFilms);
+        }
+        if (Array.isArray(gameState.completedFilms)) {
+            collections.push(...gameState.completedFilms);
+        }
+
+        const uniqueFilms = new Map();
+        collections.forEach(film => {
+            if (film && film.id && !uniqueFilms.has(film.id)) {
+                uniqueFilms.set(film.id, film);
+            }
+        });
+
+        return Array.from(uniqueFilms.values());
+    }
+
+    function findFilmById(gameState, filmId) {
+        return getAllFilms(gameState).find(film => film.id === filmId);
+    }
+
     /**
      * Calculate base box office potential based on film quality factors
      */
@@ -250,31 +290,36 @@ window.BoxOfficeSystem = (function() {
      */
     function releaseFilm(filmId, strategy) {
         const gameState = window.HollywoodMogul.getGameState();
-        const film = gameState.films.find(f => f.id === filmId);
-        
-        if (!film || film.phase !== 'post_production_complete') {
+        const film = findFilmById(gameState, filmId);
+        const phase = normalizePhase(film?.phase);
+
+        if (!film || (phase !== 'post_production_complete' && phase !== 'completed')) {
             return { success: false, message: "Film not ready for release" };
         }
+
+        const budget = film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0;
 
         // For states' rights, immediate payment
         if (strategy === 'states_rights') {
             const payment = calculateBaseBoxOffice(film, strategy);
             window.FinancialSystem.addTransaction(-payment, `States' Rights sale: ${film.title}`);
-            
+
             film.phase = 'completed';
             film.distribution = {
                 strategy: 'states_rights',
                 totalRevenue: payment,
-                netProfit: payment - film.actualBudget,
+                netProfit: payment - budget,
                 completedDate: window.TimeSystem.getCurrentDate()
             };
 
-            window.HollywoodMogul.addEvent({
-                type: 'financial',
-                title: 'Film Rights Sold',
-                message: `Sold distribution rights for "${film.title}" for $${payment.toLocaleString()}`,
-                severity: 'info'
-            });
+            if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+                window.HollywoodMogul.addEvent({
+                    type: 'financial',
+                    title: 'Film Rights Sold',
+                    message: `Sold distribution rights for "${film.title}" for $${payment.toLocaleString()}`,
+                    severity: 'info'
+                });
+            }
 
             return { success: true, payment: payment };
         }
@@ -301,15 +346,17 @@ window.BoxOfficeSystem = (function() {
         };
 
         // Add initial event
-        window.HollywoodMogul.addEvent({
-            type: 'production',
-            title: 'Film Released!',
-            message: `"${film.title}" opens in theaters with ${DISTRIBUTION_STRATEGIES[strategy].name}`,
-            severity: 'success'
-        });
+        if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+            window.HollywoodMogul.addEvent({
+                type: 'production',
+                title: 'Film Released!',
+                message: `"${film.title}" opens in theaters with ${DISTRIBUTION_STRATEGIES[strategy].name}`,
+                severity: 'success'
+            });
+        }
 
         // Add critical reception event
-        if (boxOfficeResults.criticalReception) {
+        if (boxOfficeResults.criticalReception && window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
             window.HollywoodMogul.addEvent({
                 type: 'production',
                 title: 'Critical Reception',
@@ -319,14 +366,16 @@ window.BoxOfficeSystem = (function() {
         }
 
         // Add market events
-        boxOfficeResults.events.forEach(event => {
-            window.HollywoodMogul.addEvent({
-                type: 'market',
-                title: 'Market Conditions',
-                message: event.description,
-                severity: event.impact > 0 ? 'success' : 'warning'
+        if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+            boxOfficeResults.events.forEach(event => {
+                window.HollywoodMogul.addEvent({
+                    type: 'market',
+                    title: 'Market Conditions',
+                    message: event.description,
+                    severity: event.impact > 0 ? 'success' : 'warning'
+                });
             });
-        });
+        }
 
         return { success: true, results: boxOfficeResults };
     }
@@ -336,8 +385,8 @@ window.BoxOfficeSystem = (function() {
      */
     function processWeeklyBoxOffice() {
         const gameState = window.HollywoodMogul.getGameState();
-        const filmsInTheaters = gameState.films.filter(f => f.phase === 'in_theaters');
-        
+        const filmsInTheaters = getAllFilms(gameState).filter(f => normalizePhase(f.phase) === 'in_theaters');
+
         filmsInTheaters.forEach(film => {
             const distribution = film.distribution;
             const currentWeek = distribution.currentWeek;
@@ -355,29 +404,34 @@ window.BoxOfficeSystem = (function() {
                 
                 // Create box office update event
                 const dropoffText = weekData.dropoff > 0 ? ` (↓${weekData.dropoff}%)` : '';
-                window.HollywoodMogul.addEvent({
-                    type: 'financial',
-                    title: `Box Office Update`,
-                    message: `"${film.title}" Week ${weekData.week}: $${weekData.grossRevenue.toLocaleString()} gross${dropoffText}`,
-                    severity: weekData.grossRevenue > 50000 ? 'success' : 'info'
-                });
-                
+                if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+                    window.HollywoodMogul.addEvent({
+                        type: 'financial',
+                        title: `Box Office Update`,
+                        message: `"${film.title}" Week ${weekData.week}: $${weekData.grossRevenue.toLocaleString()} gross${dropoffText}`,
+                        severity: weekData.grossRevenue > 50000 ? 'success' : 'info'
+                    });
+                }
+
                 // Check if film run is complete
                 if (distribution.currentWeek >= distribution.boxOfficeResults.weeks.length) {
                     film.phase = 'completed';
                     const totalRevenue = distribution.boxOfficeResults.totalStudioRevenue;
-                    const netProfit = totalRevenue - film.actualBudget - distribution.marketingCost;
-                    
+                    const budget = film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0;
+                    const netProfit = totalRevenue - budget - distribution.marketingCost;
+
                     film.distribution.totalRevenue = totalRevenue;
                     film.distribution.netProfit = netProfit;
                     film.distribution.completedDate = window.TimeSystem.getCurrentDate();
-                    
-                    window.HollywoodMogul.addEvent({
-                        type: 'production',
-                        title: 'Theatrical Run Complete',
-                        message: `"${film.title}" finishes theatrical run. Total revenue: $${totalRevenue.toLocaleString()}. ${netProfit >= 0 ? 'Profit' : 'Loss'}: $${Math.abs(netProfit).toLocaleString()}`,
-                        severity: netProfit >= 0 ? 'success' : 'warning'
-                    });
+
+                    if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+                        window.HollywoodMogul.addEvent({
+                            type: 'production',
+                            title: 'Theatrical Run Complete',
+                            message: `"${film.title}" finishes theatrical run. Total revenue: $${totalRevenue.toLocaleString()}. ${netProfit >= 0 ? 'Profit' : 'Loss'}: $${Math.abs(netProfit).toLocaleString()}`,
+                            severity: netProfit >= 0 ? 'success' : 'warning'
+                        });
+                    }
                 }
             }
         });
@@ -389,19 +443,20 @@ window.BoxOfficeSystem = (function() {
     function getDistributionStrategies(film) {
         const strategies = {};
         const gameState = window.HollywoodMogul.getGameState();
-        
+        const budget = film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? film.budget ?? 0;
+
         Object.keys(DISTRIBUTION_STRATEGIES).forEach(key => {
             const strategy = { ...DISTRIBUTION_STRATEGIES[key] };
-            
+
             // Calculate projected returns for this film
             if (key !== 'states_rights') {
                 const baseGross = calculateBaseBoxOffice(film, key);
                 strategy.projectedGross = baseGross;
                 strategy.projectedStudioRevenue = Math.floor(baseGross * (1 - strategy.theaterCut));
-                strategy.projectedProfit = strategy.projectedStudioRevenue - strategy.marketingCost - film.actualBudget;
+                strategy.projectedProfit = strategy.projectedStudioRevenue - strategy.marketingCost - budget;
             } else {
                 strategy.guaranteedPayment = calculateBaseBoxOffice(film, key);
-                strategy.projectedProfit = strategy.guaranteedPayment - film.actualBudget;
+                strategy.projectedProfit = strategy.guaranteedPayment - budget;
             }
             
             // Check affordability
@@ -418,14 +473,17 @@ window.BoxOfficeSystem = (function() {
      */
     function getCurrentBoxOfficeData() {
         const gameState = window.HollywoodMogul.getGameState();
-        return gameState.films
-            .filter(f => f.phase === 'in_theaters' || f.phase === 'completed')
+        return getAllFilms(gameState)
+            .filter(f => {
+                const phase = normalizePhase(f.phase);
+                return phase === 'in_theaters' || phase === 'completed';
+            })
             .map(film => ({
                 id: film.id,
                 title: film.title,
-                phase: film.phase,
+                phase: normalizePhase(film.phase),
                 distribution: film.distribution,
-                actualBudget: film.actualBudget
+                actualBudget: film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0
             }));
     }
 

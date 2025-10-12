@@ -349,6 +349,10 @@ window.ModalSystem = (function() {
         const date = new Date(save.timestamp);
         const gameDate = save.gameState.currentDate;
         
+        const filmCount = Array.isArray(save.gameState.films)
+            ? save.gameState.films.length
+            : ((save.gameState.activeFilms || []).length + (save.gameState.completedFilms || []).length);
+
         return `
             <div class="save-slot">
                 <div class="save-info">
@@ -356,7 +360,7 @@ window.ModalSystem = (function() {
                     <div class="save-details">
                         <span class="save-date">Game Date: ${getMonthName(gameDate.month)} ${gameDate.year}</span>
                         <span class="save-cash">Cash: $${save.gameState.cash.toLocaleString()}</span>
-                        <span class="save-films">Films: ${save.gameState.films.length}</span>
+                        <span class="save-films">Films: ${filmCount}</span>
                     </div>
                     <div class="save-timestamp">Saved: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}</div>
                 </div>

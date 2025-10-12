@@ -132,9 +132,10 @@ window.DashboardUI = (function() {
      */
     function updateFilmsInProduction() {
         const gameState = window.HollywoodMogul.getGameState();
-        const productionFilms = gameState.films.filter(f => 
-            f.phase !== 'completed' && f.phase !== 'in_theaters'
-        );
+        const productionFilms = getAllFilms(gameState).filter(film => {
+            const phase = normalizePhase(film.phase);
+            return phase && phase !== 'completed' && phase !== 'in_theaters';
+        });
         
         const container = document.getElementById('films-in-production');
         if (!container) return;
@@ -151,7 +152,9 @@ window.DashboardUI = (function() {
      * Update films in theaters section
      */
     function updateFilmsInTheaters() {
-        const boxOfficeData = window.BoxOfficeSystem.getCurrentBoxOfficeData();
+        const boxOfficeData = window.BoxOfficeSystem && typeof window.BoxOfficeSystem.getCurrentBoxOfficeData === 'function'
+            ? window.BoxOfficeSystem.getCurrentBoxOfficeData()
+            : [];
         const container = document.getElementById('films-in-theaters');
         
         if (!container) return;
@@ -172,16 +175,18 @@ window.DashboardUI = (function() {
     function createFilmProductionCard(film) {
         const progressPercent = getProductionProgress(film);
         const statusColor = getProductionStatusColor(film.phase);
-        
+        const normalizedPhase = normalizePhase(film.phase);
+        const budget = film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0;
+
         return `
             <div class="film-card production-card">
                 <div class="film-header">
                     <h4 class="film-title">${film.title}</h4>
-                    <span class="film-budget">$${film.actualBudget.toLocaleString()}</span>
+                    <span class="film-budget">$${budget.toLocaleString()}</span>
                 </div>
                 <div class="film-info">
                     <span class="genre-tag">${film.genre}</span>
-                    <span class="phase-indicator ${statusColor}">${formatPhase(film.phase)}</span>
+                    <span class="phase-indicator ${statusColor}">${formatPhase(normalizedPhase)}</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${progressPercent}%"></div>
@@ -189,7 +194,7 @@ window.DashboardUI = (function() {
                 <div class="film-details">
                     ${getFilmPhaseDetails(film)}
                 </div>
-                ${film.phase === 'post_production_complete' ? 
+                ${normalizedPhase === 'post_production_complete' ?
                     `<button class="distribute-btn cta-button" data-film-id="${film.id}">DISTRIBUTE</button>` : ''
                 }
             </div>
@@ -497,9 +502,10 @@ window.DashboardUI = (function() {
      */
     function updateEventsLog() {
         const gameState = window.HollywoodMogul.getGameState();
-        const recentEvents = gameState.events.slice(-5).reverse();
+        const eventLog = Array.isArray(gameState.events) ? gameState.events : [];
+        const recentEvents = eventLog.slice(-5).reverse();
         const container = document.getElementById('events-log');
-        
+
         if (!container) return;
         
         if (recentEvents.length === 0) {
@@ -541,10 +547,10 @@ window.DashboardUI = (function() {
      */
     function showDistributionModal(filmId) {
         const gameState = window.HollywoodMogul.getGameState();
-        const film = gameState.films.find(f => f.id === filmId);
-        
+        const film = findFilmById(gameState, filmId);
+
         if (!film) return;
-        
+
         const strategies = window.BoxOfficeSystem.getDistributionStrategies(film);
         
         const modal = document.createElement('div');
@@ -557,7 +563,7 @@ window.DashboardUI = (function() {
                 </div>
                 <div class="modal-content">
                     <div class="film-summary">
-                        <p><strong>Budget:</strong> $${film.actualBudget.toLocaleString()}</p>
+                        <p><strong>Budget:</strong> $${(film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0).toLocaleString()}</p>
                         <p><strong>Genre:</strong> ${film.genre}</p>
                         <p><strong>Quality:</strong> ${film.scriptQuality}/100</p>
                     </div>
@@ -613,9 +619,9 @@ window.DashboardUI = (function() {
         
         if (result.success) {
             updateDashboard();
-            const message = strategy === 'states_rights' ? 
+            const message = strategy === 'states_rights' ?
                 `Rights sold for $${result.payment.toLocaleString()}` :
-                `Film released with ${DISTRIBUTION_STRATEGIES[strategy]?.name || strategy}`;
+                `Film released with ${getStrategyName(strategy)}`;
             showNotification('Film Released!', message, 'success');
         } else {
             showNotification('Distribution Failed', result.message, 'error');
@@ -690,11 +696,13 @@ window.DashboardUI = (function() {
 
     function getProductionProgress(film) {
         const phases = ['greenlit', 'pre_production', 'shooting', 'post_production', 'post_production_complete'];
-        const currentIndex = phases.indexOf(film.phase);
-        return (currentIndex + 1) / phases.length * 100;
+        const normalizedPhase = normalizePhase(film.phase);
+        const currentIndex = phases.indexOf(normalizedPhase);
+        return currentIndex >= 0 ? ((currentIndex + 1) / phases.length) * 100 : 0;
     }
 
     function getProductionStatusColor(phase) {
+        phase = normalizePhase(phase);
         const colors = {
             'greenlit': 'phase-greenlit',
             'pre_production': 'phase-prep',
@@ -708,6 +716,7 @@ window.DashboardUI = (function() {
     }
 
     function formatPhase(phase) {
+        phase = normalizePhase(phase);
         const formats = {
             'greenlit': 'Greenlit',
             'pre_production': 'Pre-Production',
@@ -721,7 +730,8 @@ window.DashboardUI = (function() {
     }
 
     function getFilmPhaseDetails(film) {
-        switch(film.phase) {
+        const phase = normalizePhase(film.phase);
+        switch(phase) {
             case 'shooting':
                 return `<div class="phase-details">Day ${film.productionDay || 1} of ${film.shootingDays}</div>`;
             case 'post_production':
@@ -762,7 +772,9 @@ window.DashboardUI = (function() {
         }
         
         // Production alerts
-        const readyForDistribution = gameState.films.filter(f => f.phase === 'post_production_complete');
+        const readyForDistribution = getAllFilms(gameState).filter(f =>
+            normalizePhase(f.phase) === 'post_production_complete'
+        );
         if (readyForDistribution.length > 0) {
             alerts.push({
                 title: 'Films Ready for Release',
@@ -770,8 +782,57 @@ window.DashboardUI = (function() {
                 severity: 'info'
             });
         }
-        
+
         return alerts;
+    }
+
+    function getStrategyName(strategy) {
+        const names = {
+            wide: 'Wide Release',
+            limited: 'Limited Release',
+            states_rights: "States' Rights Sale"
+        };
+        return names[strategy] || strategy;
+    }
+
+    function normalizePhase(phase) {
+        if (!phase) return '';
+        const mapping = {
+            'DEVELOPMENT': 'greenlit',
+            'PRE_PRODUCTION': 'pre_production',
+            'PRINCIPAL_PHOTOGRAPHY': 'shooting',
+            'POST_PRODUCTION': 'post_production',
+            'DISTRIBUTION_PREP': 'post_production_complete',
+            'COMPLETED': 'post_production_complete'
+        };
+        const normalized = mapping[phase] || phase;
+        return typeof normalized === 'string' ? normalized.toLowerCase() : '';
+    }
+
+    function getAllFilms(gameState) {
+        const collections = [];
+        if (Array.isArray(gameState.films) && gameState.films.length > 0) {
+            collections.push(...gameState.films);
+        }
+        if (Array.isArray(gameState.activeFilms)) {
+            collections.push(...gameState.activeFilms);
+        }
+        if (Array.isArray(gameState.completedFilms)) {
+            collections.push(...gameState.completedFilms);
+        }
+
+        const uniqueFilms = new Map();
+        collections.forEach(film => {
+            if (film && film.id && !uniqueFilms.has(film.id)) {
+                uniqueFilms.set(film.id, film);
+            }
+        });
+
+        return Array.from(uniqueFilms.values());
+    }
+
+    function findFilmById(gameState, filmId) {
+        return getAllFilms(gameState).find(film => film.id === filmId);
     }
 
     function getEventIcon(eventType) {
@@ -786,7 +847,17 @@ window.DashboardUI = (function() {
     }
 
     function formatDate(date) {
-        return `${getMonthName(date.month)} ${date.year}`;
+        if (!date) return '—';
+
+        if (date instanceof Date) {
+            return `${getMonthName(date.getMonth() + 1)} ${date.getFullYear()}`;
+        }
+
+        if (typeof date === 'object' && typeof date.month === 'number' && typeof date.year === 'number') {
+            return `${getMonthName(date.month)} ${date.year}`;
+        }
+
+        return String(date);
     }
 
     function getMonthName(monthNum) {
@@ -794,7 +865,7 @@ window.DashboardUI = (function() {
             'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
             'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
         ];
-        return months[monthNum - 1] || 'Unknown';
+        return months[(monthNum || 0) - 1] || months[monthNum] || 'Unknown';
     }
 
     // Public API
