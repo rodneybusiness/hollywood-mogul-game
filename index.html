@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOGUL - Hollywood Tycoon (1933-1949)</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/achievements.css">
+    <link rel="stylesheet" href="css/modals-extended.css">
+    
+    <!-- Google Fonts for Art Deco Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="game-container">
+        <!-- Game Header -->
+        <header id="game-header">
+            <div class="studio-logo">
+                <h1>MOGUL PICTURES</h1>
+                <div class="studio-tagline">Est. 1933</div>
+            </div>
+            <div class="game-date">
+                <span id="current-date">January 1933</span>
+                <span id="current-era" class="era-indicator">Pre-Code Era</span>
+            </div>
+        </header>
+
+        <!-- Financial Dashboard -->
+        <section id="financial-dashboard" class="dashboard-panel">
+            <div class="dashboard-grid">
+                <div class="finance-card cash-card">
+                    <div class="card-header">CASH ON HAND</div>
+                    <div class="card-value" id="current-cash">$75,000</div>
+                </div>
+                
+                <div class="finance-card burn-card">
+                    <div class="card-header">MONTHLY BURN</div>
+                    <div class="card-value negative" id="monthly-burn">-$30,000</div>
+                </div>
+                
+                <div class="finance-card runway-card">
+                    <div class="card-header">RUNWAY</div>
+                    <div class="card-value" id="cash-runway">10 weeks</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Game Area -->
+        <main id="game-main">
+            <!-- Dashboard Section (Default) -->
+            <section id="dashboard-section" class="game-section active">
+                <!-- Active Productions Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title">FILMS IN PRODUCTION</h2>
+                    <div id="films-in-production" class="films-list">
+                        <div class="no-content">
+                            <p>No films currently in production</p>
+                            <button id="btn-new-script" class="action-btn primary">REVIEW SCRIPTS</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Box Office Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title">IN THEATERS</h2>
+                    <div id="films-in-theaters" class="films-list">
+                        <div class="no-content">No films currently in theaters</div>
+                    </div>
+                </div>
+
+                <!-- Alerts Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title">ALERTS</h2>
+                    <div id="alerts-section" class="alerts-list">
+                        <div class="alert-item tutorial">
+                            <div class="alert-icon">📋</div>
+                            <div class="alert-text">Welcome to Mogul Pictures! Review available scripts to begin production.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Events Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title">RECENT EVENTS</h2>
+                    <div id="events-log" class="events-list">
+                        <div class="no-content">No recent events</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scripts Section -->
+            <section id="scripts-section" class="game-section">
+                <div class="section-header">
+                    <h2>AVAILABLE SCRIPTS</h2>
+                    <p class="section-description">Select a script to greenlight and begin production</p>
+                </div>
+                <div id="available-scripts" class="scripts-grid">
+                    <!-- Script cards will be dynamically generated -->
+                </div>
+            </section>
+
+            <!-- Finances Section -->
+            <section id="finances-section" class="game-section">
+                <div class="section-header">
+                    <h2>FINANCIAL MANAGEMENT</h2>
+                    <p class="section-description">Monitor cash flow, loans, and studio financial health</p>
+                </div>
+                <div id="financial-details" class="financial-overview">
+                    <!-- Financial details will be dynamically generated -->
+                </div>
+            </section>
+
+            <!-- Studio Section -->
+            <section id="studio-section" class="game-section">
+                <div class="section-header">
+                    <h2>STUDIO LOT</h2>
+                    <p class="section-description">Manage your studio facilities and infrastructure</p>
+                </div>
+                <div id="studio-management" class="studio-grid">
+                    <div class="no-content">Studio management coming soon...</div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Navigation -->
+        <nav id="game-navigation">
+            <button class="nav-button active" data-section="dashboard">
+                <span class="nav-icon">🏢</span>
+                <span class="nav-label">DASHBOARD</span>
+            </button>
+            <button class="nav-button" data-section="scripts">
+                <span class="nav-icon">📜</span>
+                <span class="nav-label">SCRIPTS</span>
+            </button>
+            <button class="nav-button" data-section="studio">
+                <span class="nav-icon">🎬</span>
+                <span class="nav-label">STUDIO</span>
+            </button>
+            <button class="nav-button" data-section="finances">
+                <span class="nav-icon">💰</span>
+                <span class="nav-label">FINANCES</span>
+            </button>
+        </nav>
+
+        <!-- Time Controls -->
+        <div id="time-controls">
+            <button id="btn-advance-week" class="time-btn">ADVANCE 1 WEEK</button>
+            <button id="btn-advance-month" class="time-btn">ADVANCE 1 MONTH</button>
+            <button id="save-game" class="utility-btn">SAVE</button>
+            <button id="load-game" class="utility-btn">LOAD</button>
+        </div>
+    </div>
+
+    <!-- Notifications Container -->
+    <div id="notifications" class="notifications-container"></div>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div id="modal-content" class="modal-content">
+            <!-- Dynamic modal content will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Game Over Screen -->
+    <div id="game-over-screen" class="game-over hidden">
+        <div class="game-over-content">
+            <h1 id="game-over-title">THE END</h1>
+            <div id="game-over-message"></div>
+            <div id="final-stats"></div>
+            <button id="btn-restart" class="action-btn primary">START NEW STUDIO</button>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="studio-logo large">
+                <h1>MOGUL</h1>
+                <div class="tagline">Golden Age Hollywood Tycoon</div>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-text">Establishing Studio Empire...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/core/game-state.js"></script>
+    <script src="js/core/time-system.js"></script>
+    <script src="js/core/save-load.js"></script>
+    
+    <!-- Game Systems -->
+    <script src="js/systems/financial.js"></script>
+    <script src="js/systems/production.js"></script>
+    <script src="js/systems/boxoffice.js"></script>
+    <script src="js/systems/events.js"></script>
+    <script src="js/systems/censorship.js"></script>
+    <script src="js/systems/crisis.js"></script>
+    <script src="js/systems/achievements.js"></script>
+
+    <!-- Data Files -->
+    <script src="js/data/scripts.js"></script>
+    <script src="js/data/historical-events.js"></script>
+    <script src="js/data/talent-roster.js"></script>
+
+    <!-- UI Components -->
+    <script src="js/ui/dashboard.js"></script>
+    <script src="js/ui/modals.js"></script>
+    <script src="js/ui/tutorial.js"></script>
+
+    <!-- Integration (must load last) -->
+    <script src="js/core/integration.js"></script>
+
+    <!-- Main Game Initialization -->
+    <!-- Note: Initialization is handled automatically by js/core/integration.js -->
+</body>
+</html>

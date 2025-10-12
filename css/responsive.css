@@ -1,0 +1,306 @@
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet Styles (768px - 1024px) */
+@media screen and (max-width: 1024px) {
+    #game-container {
+        padding: var(--spacing-md);
+    }
+    
+    .studio-logo h1 {
+        font-size: 2rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: var(--spacing-md);
+    }
+    
+    .card-value {
+        font-size: 1.5rem;
+    }
+    
+    #game-navigation {
+        gap: var(--spacing-sm);
+        padding: var(--spacing-md);
+    }
+    
+    .nav-btn {
+        min-width: 60px;
+        padding: var(--spacing-sm);
+    }
+    
+    .nav-icon {
+        font-size: 1.25rem;
+    }
+    
+    .nav-label {
+        font-size: 0.7rem;
+    }
+}
+
+/* Mobile Styles (up to 768px) */
+@media screen and (max-width: 768px) {
+    #game-container {
+        padding: var(--spacing-sm);
+    }
+    
+    /* Header Mobile Layout */
+    #game-header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+    }
+    
+    .studio-logo h1 {
+        font-size: 1.75rem;
+    }
+    
+    .game-date {
+        font-size: 1rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    
+    /* Dashboard Mobile Layout */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-sm);
+    }
+    
+    .finance-card {
+        padding: var(--spacing-md);
+    }
+    
+    .card-value {
+        font-size: 1.25rem;
+    }
+    
+    /* Panels Mobile */
+    .game-panel {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .panel-title {
+        font-size: 1.1rem;
+    }
+    
+    /* Navigation Mobile */
+    #game-navigation {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        background: rgba(10, 10, 10, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 100;
+    }
+    
+    .nav-btn {
+        flex: 1;
+        min-width: auto;
+        padding: var(--spacing-sm) var(--spacing-xs);
+    }
+    
+    .nav-icon {
+        font-size: 1.1rem;
+    }
+    
+    .nav-label {
+        font-size: 0.65rem;
+    }
+    
+    /* Main content padding for fixed navigation */
+    #game-main {
+        padding-bottom: 100px;
+    }
+    
+    /* Time Controls Mobile */
+    #time-controls {
+        margin-top: var(--spacing-lg);
+        margin-bottom: 100px; /* Space for fixed navigation */
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .time-btn, .utility-btn {
+        width: 100%;
+        padding: var(--spacing-md);
+    }
+    
+    /* Modal Mobile */
+    .modal-content {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md);
+    }
+    
+    /* Loading Screen Mobile */
+    .studio-logo.large h1 {
+        font-size: 2.5rem;
+    }
+    
+    .tagline {
+        font-size: 1rem;
+    }
+    
+    /* Game Over Mobile */
+    #game-over-title {
+        font-size: 2rem;
+    }
+    
+    .game-over-content {
+        padding: var(--spacing-lg);
+        margin: var(--spacing-md);
+    }
+}
+
+/* Small Mobile Styles (up to 480px) */
+@media screen and (max-width: 480px) {
+    .studio-logo h1 {
+        font-size: 1.5rem;
+    }
+    
+    .card-value {
+        font-size: 1.1rem;
+    }
+    
+    .action-btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9rem;
+    }
+    
+    .nav-icon {
+        font-size: 1rem;
+    }
+    
+    .nav-label {
+        font-size: 0.6rem;
+    }
+    
+    .alert-item {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .alert-icon {
+        margin-right: 0;
+        margin-bottom: var(--spacing-sm);
+    }
+}
+
+/* High DPI Display Support */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Enhanced film grain for high DPI displays */
+    body::before {
+        background-size: 2px 2px, 1px 1px;
+    }
+}
+
+/* Landscape Mobile Orientation */
+@media screen and (max-width: 768px) and (orientation: landscape) {
+    #game-header {
+        flex-direction: row;
+        padding: var(--spacing-md) 0;
+    }
+    
+    .studio-logo h1 {
+        font-size: 1.5rem;
+    }
+    
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    #time-controls {
+        flex-direction: row;
+        margin-bottom: 80px;
+    }
+    
+    #game-navigation {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Larger touch targets */
+    .action-btn {
+        min-height: 44px;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    .nav-btn {
+        min-height: 50px;
+    }
+    
+    .time-btn, .utility-btn {
+        min-height: 44px;
+    }
+    
+    /* Remove hover effects on touch devices */
+    .finance-card:hover,
+    .action-btn:hover,
+    .nav-btn:hover,
+    .time-btn:hover,
+    .utility-btn:hover {
+        transform: none;
+        box-shadow: initial;
+    }
+    
+    /* Add active states for touch feedback */
+    .action-btn:active {
+        background: rgba(184, 134, 11, 0.8);
+        transform: scale(0.98);
+    }
+    
+    .nav-btn:active {
+        background: rgba(218, 165, 32, 0.2);
+        transform: scale(0.95);
+    }
+}
+
+/* Accessibility - Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .loading-progress {
+        animation: none;
+        width: 100%;
+    }
+    
+    .loading-text {
+        animation: none;
+        opacity: 1;
+    }
+}
+
+/* Print Styles */
+@media print {
+    * {
+        background: white !important;
+        color: black !important;
+        box-shadow: none !important;
+    }
+    
+    #game-navigation,
+    #time-controls,
+    .modal-overlay,
+    .loading-screen {
+        display: none !important;
+    }
+    
+    .studio-logo h1 {
+        color: black !important;
+    }
+}

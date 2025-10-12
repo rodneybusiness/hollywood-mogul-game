@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Test files (keep in repo but could exclude if needed)
+# browser-test.js
+# gameplay-test.js
+# test-*.js
+# test-*.html
+
+# Diagnostic/temporary files
+diagnose.html
+minimal-test.html
+simple-test.html
+test-standalone.js
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
