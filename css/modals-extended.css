@@ -364,3 +364,1510 @@
         width: 100%;
     }
 }
+
+/* ===== SAVE/LOAD SYSTEM STYLES ===== */
+
+/* Auto-Save Indicator */
+.autosave-indicator {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, rgba(184, 134, 11, 0.95) 0%, rgba(218, 165, 32, 0.95) 100%);
+    color: #0a0a0a;
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 2px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateX(100px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.autosave-indicator.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.autosave-icon {
+    font-size: 1.2rem;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Save/Load Modal */
+.save-load-modal {
+    max-width: 900px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.save-load-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.save-load-modal h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #d4af37;
+    margin: 0;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    color: #d4af37;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+/* Tab Navigation */
+.save-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #444;
+}
+
+.save-tab {
+    flex: 1;
+    padding: 12px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: #888;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.save-tab:hover {
+    color: #d4af37;
+}
+
+.save-tab.active {
+    color: #d4af37;
+    border-bottom-color: #d4af37;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Option Sections */
+.option-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid #444;
+    border-radius: 6px;
+}
+
+.option-section h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: #d4af37;
+    margin-bottom: 15px;
+}
+
+.option-description {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #b8b8b8;
+    margin-bottom: 15px;
+}
+
+/* Save Slots */
+.slots-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.save-slot {
+    background: rgba(0, 0, 0, 0.4);
+    border: 2px solid #444;
+    border-radius: 6px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.save-slot:hover {
+    border-color: #d4af37;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+    transform: translateY(-2px);
+}
+
+.save-slot.selected {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.save-slot.empty {
+    border-style: dashed;
+    border-color: #666;
+}
+
+.save-slot.empty:hover {
+    border-color: #888;
+}
+
+.slot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.slot-number {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.slot-delete {
+    background: transparent;
+    border: none;
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+
+.slot-delete:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.slot-name {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: #e8e8e8;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.slot-info {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #b8b8b8;
+    line-height: 1.5;
+}
+
+.slot-info div {
+    margin-bottom: 4px;
+}
+
+.slot-date {
+    font-size: 0.75rem;
+    color: #888;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+.empty-slot-text {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 20px 0;
+}
+
+/* Ironman Toggle */
+.ironman-toggle {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #444;
+    transition: 0.4s;
+    border-radius: 34px;
+    border: 2px solid #666;
+}
+
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #888;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .toggle-slider {
+    background-color: #d4af37;
+    border-color: #d4af37;
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(26px);
+    background-color: #fff;
+}
+
+.ironman-info h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #d4af37;
+    margin-bottom: 8px;
+}
+
+.ironman-info p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #b8b8b8;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.warning-text {
+    color: #ff9800 !important;
+    font-weight: 600;
+}
+
+/* Import/Export Controls */
+.import-export-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.export-section,
+.import-section {
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #444;
+    border-radius: 6px;
+}
+
+.slot-select {
+    width: 100%;
+    padding: 8px 12px;
+    margin: 10px 0;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid #d4af37;
+    border-radius: 4px;
+    color: #e8e8e8;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.slot-select:focus {
+    outline: none;
+    border-color: #fff;
+}
+
+/* Storage Info */
+.storage-info {
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #444;
+    border-radius: 6px;
+}
+
+.storage-bar {
+    width: 100%;
+    height: 20px;
+    background: rgba(68, 68, 68, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.storage-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4caf50 0%, #ff9800 70%, #f44336 90%);
+    transition: width 0.3s ease;
+}
+
+.storage-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #b8b8b8;
+    text-align: center;
+}
+
+/* Danger Zone */
+.danger-zone {
+    border-color: #f44336 !important;
+    background: rgba(244, 67, 54, 0.05) !important;
+}
+
+.action-btn.danger {
+    background: linear-gradient(135deg, #f44336 0%, #d32f2f 100%);
+    border-color: #f44336;
+    color: #fff;
+}
+
+.action-btn.danger:hover {
+    background: linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%);
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+}
+
+/* Modal Footer */
+.modal-footer {
+    border-top: 1px solid #444;
+    padding-top: 20px;
+    margin-top: 30px;
+}
+
+.keyboard-shortcuts {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+    margin: 0;
+}
+
+.keyboard-shortcuts strong {
+    color: #d4af37;
+}
+
+/* Confirm Modal */
+.confirm-modal {
+    max-width: 500px;
+}
+
+.confirm-message {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #e8e8e8;
+    text-align: center;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .save-load-modal {
+        max-width: 95vw;
+        padding: 15px;
+    }
+
+    .save-tabs {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .slots-container {
+        grid-template-columns: 1fr;
+    }
+
+    .import-export-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .ironman-toggle {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .autosave-indicator {
+        top: 10px;
+        right: 10px;
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+}
+
+/* Scrollbar Styling for Save/Load Modal */
+.save-load-modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.save-load-modal::-webkit-scrollbar-track {
+    background: rgba(26, 26, 26, 0.5);
+    border-radius: 4px;
+}
+
+.save-load-modal::-webkit-scrollbar-thumb {
+    background: #d4af37;
+    border-radius: 4px;
+}
+
+.save-load-modal::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+}
+
+/* Academy Awards Ceremony Modal */
+.oscar-ceremony-modal {
+    z-index: 10000;
+}
+
+.oscar-modal {
+    max-width: 900px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 3px solid #d4af37;
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.5);
+    animation: oscarsEnter 0.8s ease-out;
+}
+
+@keyframes oscarsEnter {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.oscar-header {
+    text-align: center;
+    padding: 30px 20px;
+    background: linear-gradient(135deg, #d4af37 0%, #a88734 100%);
+    border-bottom: 3px solid #c19b2c;
+    position: relative;
+    overflow: hidden;
+}
+
+.oscar-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    to {
+        left: 200%;
+    }
+}
+
+.oscar-statue {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    animation: trophySpin 3s ease-in-out infinite;
+}
+
+@keyframes trophySpin {
+    0%, 100% {
+        transform: rotateY(0deg);
+    }
+    50% {
+        transform: rotateY(360deg);
+    }
+}
+
+.oscar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #1a1a1a;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.oscar-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #2a2a2a;
+    margin: 8px 0 0 0;
+    letter-spacing: 2px;
+}
+
+.oscar-content {
+    padding: 30px;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.oscar-summary {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 8px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.summary-stat {
+    text-align: center;
+}
+
+.summary-stat .stat-label {
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.summary-stat .stat-value {
+    display: block;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #d4af37;
+}
+
+.summary-stat .stat-value.wins {
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.no-nominations {
+    text-align: center;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.no-nominations p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #b8b8b8;
+    margin: 10px 0;
+}
+
+.historical-note {
+    font-style: italic;
+    color: #888;
+    font-size: 0.95rem !important;
+}
+
+.oscar-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.oscar-category {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.oscar-category.player-win {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    animation: winGlow 2s ease-in-out infinite;
+}
+
+@keyframes winGlow {
+    0%, 100% {
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+    }
+    50% {
+        box-shadow: 0 8px 30px rgba(212, 175, 55, 0.6);
+    }
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #444;
+}
+
+.category-icon {
+    font-size: 1.8rem;
+}
+
+.category-name {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: #d4af37;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+.nominees-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nominee {
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid #333;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.nominee.winner {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+    border: 2px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+}
+
+.nominee.player-film {
+    border-color: #4caf50;
+    background: rgba(76, 175, 80, 0.05);
+}
+
+.nominee.winner.player-film {
+    border-color: #ffd700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+}
+
+.winner-badge {
+    background: linear-gradient(135deg, #d4af37 0%, #c19b2c 100%);
+    color: #000;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.film-title {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: #e8e8e8;
+    flex: 1;
+}
+
+.studio-badge {
+    background: #4caf50;
+    color: #000;
+    padding: 3px 10px;
+    border-radius: 15px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.win-celebration {
+    margin-top: 15px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%);
+    border-radius: 6px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.confetti {
+    font-size: 2rem;
+    animation: confettiFall 2s ease-out infinite;
+}
+
+@keyframes confettiFall {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20px) rotate(360deg);
+    }
+}
+
+.win-message {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #ffd700;
+    margin: 10px 0 0 0;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.historical-context {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 4px solid #d4af37;
+    border-radius: 4px;
+}
+
+.historical-context h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #d4af37;
+    margin: 0 0 12px 0;
+    letter-spacing: 1px;
+}
+
+.historical-context p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    color: #b8b8b8;
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+.close-oscar-btn {
+    padding: 15px 40px !important;
+    font-size: 1.1rem !important;
+    background: linear-gradient(135deg, #d4af37 0%, #c19b2c 100%) !important;
+    color: #1a1a1a !important;
+    font-family: 'Cinzel', serif !important;
+    letter-spacing: 2px !important;
+    font-weight: 700 !important;
+}
+
+.close-oscar-btn:hover {
+    background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%) !important;
+    box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5) !important;
+}
+
+/* Oscar Trophy Display in Cards */
+.oscar-trophies {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 0.9rem;
+    animation: trophyGlint 3s ease-in-out infinite;
+}
+
+@keyframes trophyGlint {
+    0%, 100% {
+        opacity: 1;
+        filter: brightness(1);
+    }
+    50% {
+        opacity: 0.8;
+        filter: brightness(1.3);
+    }
+}
+
+.oscar-winner {
+    position: relative;
+    border-color: #d4af37 !important;
+}
+
+.oscar-winner::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+    pointer-events: none;
+    animation: borderShine 3s linear infinite;
+    border-radius: inherit;
+    z-index: -1;
+}
+
+@keyframes borderShine {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.oscar-nominated-tag {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+}
+
+/* Oscar Stats Card */
+.oscar-card {
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%);
+    border: 2px solid #d4af37 !important;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.oscar-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.trophy-icon {
+    font-size: 2rem;
+    animation: trophyBounce 2s ease-in-out infinite;
+}
+
+@keyframes trophyBounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.oscar-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+}
+
+.oscar-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+    margin-top: 5px;
+}
+
+/* ===== SCANDAL & GOSSIP SYSTEM STYLES ===== */
+
+/* Scandal Modal */
+.scandal-modal {
+    max-width: 700px;
+    padding: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a1a1a 100%);
+    border: 3px solid #cc0000;
+    box-shadow: 0 0 40px rgba(204, 0, 0, 0.4);
+    animation: scandalShake 0.5s ease-out;
+}
+
+@keyframes scandalShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+.scandal-header {
+    background: linear-gradient(135deg, #cc0000 0%, #990000 100%);
+    padding: 25px 20px;
+    text-align: center;
+    border-bottom: 3px solid #aa0000;
+    position: relative;
+    overflow: hidden;
+}
+
+.scandal-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: scandalFlash 2s infinite;
+}
+
+@keyframes scandalFlash {
+    to {
+        left: 200%;
+    }
+}
+
+.scandal-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: scandalPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes scandalPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+.scandal-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: #fff;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+    font-weight: 900;
+}
+
+.scandal-content {
+    padding: 30px;
+}
+
+.scandal-content h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #cc0000;
+    margin: 0 0 15px 0;
+    letter-spacing: 1px;
+}
+
+.scandal-description {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #e8e8e8;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(204, 0, 0, 0.1);
+    border-left: 4px solid #cc0000;
+    border-radius: 4px;
+}
+
+.scandal-severity {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+}
+
+.scandal-severity.minor {
+    background: rgba(255, 152, 0, 0.2);
+    border: 2px solid #ff9800;
+    color: #ff9800;
+}
+
+.scandal-severity.moderate {
+    background: rgba(255, 87, 34, 0.2);
+    border: 2px solid #ff5722;
+    color: #ff5722;
+}
+
+.scandal-severity.major {
+    background: rgba(244, 67, 54, 0.2);
+    border: 2px solid #f44336;
+    color: #f44336;
+}
+
+.scandal-severity.career-ending {
+    background: rgba(136, 14, 79, 0.3);
+    border: 2px solid #c62828;
+    color: #ff1744;
+    animation: severityPulse 2s ease-in-out infinite;
+}
+
+@keyframes severityPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(198, 40, 40, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(198, 40, 40, 0.6);
+    }
+}
+
+.scandal-details {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 25px;
+}
+
+.scandal-details p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    color: #b8b8b8;
+    margin: 0;
+}
+
+.scandal-details strong {
+    color: #cc0000;
+}
+
+.scandal-choices {
+    margin-top: 25px;
+}
+
+.scandal-choices h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #d4af37;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.scandal-choice-option {
+    margin-bottom: 20px;
+}
+
+.scandal-choice-btn {
+    width: 100%;
+    text-align: left;
+    padding: 15px 20px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid #cc0000;
+    color: #e8e8e8;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scandal-choice-btn:hover {
+    background: linear-gradient(135deg, #cc0000 0%, #990000 100%);
+    color: #fff;
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.4);
+}
+
+.choice-cost {
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #ff9800;
+    margin-top: 5px;
+    padding-left: 20px;
+    font-weight: 600;
+}
+
+.gossip-preview {
+    margin-top: 25px;
+    padding: 20px;
+    background: rgba(212, 175, 55, 0.1);
+    border: 2px solid #d4af37;
+    border-radius: 6px;
+}
+
+.gossip-preview h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #d4af37;
+    margin: 0 0 12px 0;
+    letter-spacing: 1px;
+}
+
+.gossip-item {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #e8e8e8;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.gossip-item::before {
+    content: '"';
+    font-size: 2rem;
+    color: #d4af37;
+    opacity: 0.3;
+    margin-right: 5px;
+}
+
+.gossip-item::after {
+    content: '"';
+    font-size: 2rem;
+    color: #d4af37;
+    opacity: 0.3;
+    margin-left: 5px;
+}
+
+/* Gossip Column Display */
+.gossip-column {
+    background: rgba(212, 175, 55, 0.05);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 25px;
+    margin: 20px 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.gossip-column-header {
+    text-align: center;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.gossip-columnist {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: #d4af37;
+    margin: 0;
+    font-style: italic;
+}
+
+.gossip-intro {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #e8e8e8;
+    font-style: italic;
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.gossip-items {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.gossip-items li {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: #e8e8e8;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    position: relative;
+}
+
+.gossip-items li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: #d4af37;
+    font-size: 1.2rem;
+}
+
+.gossip-signoff {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #d4af37;
+    font-style: italic;
+    text-align: right;
+    margin: 20px 0 0 0;
+    padding-top: 15px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* Scandal Alert Badge */
+.scandal-alert {
+    background: linear-gradient(135deg, #cc0000 0%, #990000 100%);
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    animation: alertBlink 1.5s ease-in-out infinite;
+    box-shadow: 0 2px 10px rgba(204, 0, 0, 0.4);
+}
+
+@keyframes alertBlink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Scandal Impact Indicators */
+.scandal-impact {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+.impact-stat {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
+    border: 2px solid #444;
+    text-align: center;
+}
+
+.impact-stat.negative {
+    border-color: #f44336;
+    background: rgba(244, 67, 54, 0.1);
+}
+
+.impact-stat.positive {
+    border-color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.impact-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.impact-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #e8e8e8;
+}
+
+.impact-value.negative {
+    color: #f44336;
+}
+
+.impact-value.positive {
+    color: #4caf50;
+}
+
+/* Active Scandal Card (in Dashboard) */
+.active-scandal-card {
+    background: linear-gradient(135deg, rgba(204, 0, 0, 0.1) 0%, rgba(153, 0, 0, 0.05) 100%);
+    border: 2px solid #cc0000;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(204, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.active-scandal-card:hover {
+    box-shadow: 0 6px 20px rgba(204, 0, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.scandal-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.scandal-card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #cc0000;
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.scandal-card-duration {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #ff9800;
+    font-weight: 600;
+}
+
+.scandal-card-description {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #e8e8e8;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.scandal-card-effects {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.effect-chip {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.effect-chip.negative {
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid #f44336;
+    color: #f44336;
+}
+
+.effect-chip.positive {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid #4caf50;
+    color: #4caf50;
+}
+
+/* Scandal History Entry */
+.scandal-history-entry {
+    padding: 12px 15px;
+    border-left: 4px solid #cc0000;
+    background: rgba(204, 0, 0, 0.05);
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.scandal-history-entry:hover {
+    background: rgba(204, 0, 0, 0.1);
+}
+
+.scandal-history-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: #cc0000;
+    margin: 0 0 5px 0;
+}
+
+.scandal-history-details {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* Blacklist Warning */
+.blacklist-warning {
+    background: linear-gradient(135deg, #880e4f 0%, #4a0e2f 100%);
+    border: 2px solid #c62828;
+    padding: 15px 20px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+    box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+}
+
+.blacklist-icon {
+    font-size: 2rem;
+}
+
+.blacklist-text {
+    flex: 1;
+}
+
+.blacklist-text h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #ff1744;
+    margin: 0 0 5px 0;
+    letter-spacing: 1px;
+}
+
+.blacklist-text p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #e8e8e8;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Responsive Scandal Styles */
+@media (max-width: 768px) {
+    .scandal-modal {
+        max-width: 95vw;
+        padding: 0;
+    }
+
+    .scandal-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .scandal-content {
+        padding: 20px;
+    }
+
+    .scandal-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .scandal-choice-btn {
+        font-size: 0.9rem;
+        padding: 12px 15px;
+    }
+
+    .gossip-column {
+        padding: 15px;
+    }
+
+    .gossip-columnist {
+        font-size: 1.4rem;
+    }
+
+    .scandal-impact {
+        flex-direction: column;
+    }
+
+    .impact-stat {
+        min-width: 100%;
+    }
+}

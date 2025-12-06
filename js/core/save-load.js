@@ -5,13 +5,20 @@
 
 window.SaveLoadSystem = (function() {
     'use strict';
-    
+
     const STORAGE_KEY = 'hollywood-mogul-saves';
     const AUTO_SAVE_KEY = 'hollywood-mogul-autosave';
+    const BACKUP_KEY = 'hollywood-mogul-backup';
+    const IRONMAN_KEY = 'hollywood-mogul-ironman';
+    const SETTINGS_KEY = 'hollywood-mogul-save-settings';
     const MAX_SAVE_SLOTS = 5;
     const AUTO_SAVE_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
-    
+    const SAVE_VERSION = '2.0'; // Bumped version for enhanced features
+
     let autoSaveTimer = null;
+    let ironmanMode = false;
+    let lastQuickSaveSlot = 1;
+    let autoSaveInProgress = false;
     
     /**
      * Save game to specific slot
@@ -20,22 +27,35 @@ window.SaveLoadSystem = (function() {
         try {
             const saves = getAllSaves();
             const saveData = createSaveData(gameState, customName);
-            
+
             // Ensure slot number is within bounds
             if (slotNumber < 1 || slotNumber > MAX_SAVE_SLOTS) {
                 throw new Error('Invalid save slot number');
             }
-            
-            saves[`slot_${slotNumber}`] = saveData;
-            
+
+            // Create backup before overwriting
+            const slotKey = `slot_${slotNumber}`;
+            if (saves[slotKey]) {
+                createBackup(slotKey, JSON.stringify(saves[slotKey]));
+            }
+
+            saves[slotKey] = saveData;
+
             localStorage.setItem(STORAGE_KEY, JSON.stringify(saves));
-            
+
+            // Update last quick save slot
+            lastQuickSaveSlot = slotNumber;
+            saveSettings({ lastQuickSaveSlot: slotNumber });
+
+            // Show indicator
+            showAutoSaveIndicator(`Saved to Slot ${slotNumber}`);
+
             return {
                 success: true,
                 message: `Game saved to slot ${slotNumber}`,
                 saveData: saveData
             };
-            
+
         } catch (error) {
             console.error('Save failed:', error);
             return {
@@ -52,21 +72,32 @@ window.SaveLoadSystem = (function() {
         try {
             const saves = getAllSaves();
             const saveKey = `slot_${slotNumber}`;
-            
+
             if (!saves[saveKey]) {
                 return {
                     success: false,
                     message: 'No save found in this slot'
                 };
             }
-            
+
             const saveData = saves[saveKey];
+
+            // Verify save integrity
+            if (!verifySaveIntegrity(saveData)) {
+                return attemptRecovery(saveKey);
+            }
+
             const gameState = restoreGameState(saveData);
-            
+
+            // Update last quick save slot
+            lastQuickSaveSlot = slotNumber;
+            saveSettings({ lastQuickSaveSlot: slotNumber });
+
             return {
                 success: true,
                 message: `Game loaded from slot ${slotNumber}`,
                 gameState: gameState,
+                slot: slotNumber,
                 saveInfo: {
                     name: saveData.name,
                     date: saveData.saveDate,
@@ -75,7 +106,7 @@ window.SaveLoadSystem = (function() {
                     year: saveData.year
                 }
             };
-            
+
         } catch (error) {
             console.error('Load failed:', error);
             return {
@@ -89,15 +120,36 @@ window.SaveLoadSystem = (function() {
      * Auto-save game state
      */
     function autoSave(gameState) {
+        if (autoSaveInProgress) return false;
+
         try {
+            autoSaveInProgress = true;
+            showAutoSaveIndicator('Auto-Saving...');
+
+            // If Ironman mode, save to Ironman slot
+            if (ironmanMode) {
+                ironmanSave(gameState);
+                autoSaveInProgress = false;
+                return true;
+            }
+
+            // Create backup before overwriting
+            const existingAutoSave = localStorage.getItem(AUTO_SAVE_KEY);
+            if (existingAutoSave) {
+                createBackup(AUTO_SAVE_KEY, existingAutoSave);
+            }
+
             const saveData = createSaveData(gameState, 'Auto Save');
             localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(saveData));
-            
+
+            showAutoSaveIndicator('Game Saved');
             console.log('Auto-save completed');
+            autoSaveInProgress = false;
             return true;
-            
+
         } catch (error) {
             console.error('Auto-save failed:', error);
+            autoSaveInProgress = false;
             return false;
         }
     }
@@ -251,10 +303,10 @@ window.SaveLoadSystem = (function() {
      */
     function createSaveData(gameState, customName = null) {
         const saveDate = new Date();
-        
+
         // Create a clean save object with only essential data
         const saveData = {
-            version: '1.0',
+            version: SAVE_VERSION,
             name: customName || generateSaveName(gameState),
             saveDate: saveDate.toISOString(),
             
@@ -303,8 +355,10 @@ window.SaveLoadSystem = (function() {
      */
     function restoreGameState(saveData) {
         // Validate save data version compatibility
-        if (!saveData.version || saveData.version !== '1.0') {
-            console.warn('Save data version mismatch, attempting compatibility mode');
+        if (!saveData.version) {
+            console.warn('Save data missing version, attempting compatibility mode');
+        } else if (saveData.version !== SAVE_VERSION) {
+            console.warn(`Save data version mismatch (${saveData.version} vs ${SAVE_VERSION}), attempting compatibility mode`);
         }
         
         // Restore dates from ISO strings
@@ -512,18 +566,18 @@ window.SaveLoadSystem = (function() {
             const testKey = 'hollywood-mogul-test';
             localStorage.setItem(testKey, 'test');
             localStorage.removeItem(testKey);
-            
+
             // Estimate available space (rough calculation)
             const used = JSON.stringify(localStorage).length;
             const available = (5 * 1024 * 1024) - used; // Assume 5MB limit
-            
+
             return {
                 available: true,
                 usedSpace: used,
                 availableSpace: Math.max(0, available),
                 percentUsed: Math.round((used / (5 * 1024 * 1024)) * 100)
             };
-            
+
         } catch (error) {
             return {
                 available: false,
@@ -531,36 +585,473 @@ window.SaveLoadSystem = (function() {
             };
         }
     }
+
+    /**
+     * IRONMAN MODE
+     * Single save slot with auto-save on every action
+     */
+
+    /**
+     * Enable Ironman mode
+     */
+    function enableIronmanMode() {
+        ironmanMode = true;
+        saveSettings({ ironmanMode: true });
+        console.log('Ironman mode enabled - auto-save on every action');
+        return {
+            success: true,
+            message: 'Ironman mode enabled'
+        };
+    }
+
+    /**
+     * Disable Ironman mode
+     */
+    function disableIronmanMode() {
+        ironmanMode = false;
+        saveSettings({ ironmanMode: false });
+        console.log('Ironman mode disabled');
+        return {
+            success: true,
+            message: 'Ironman mode disabled'
+        };
+    }
+
+    /**
+     * Check if Ironman mode is active
+     */
+    function isIronmanMode() {
+        return ironmanMode;
+    }
+
+    /**
+     * Ironman save - saves to dedicated slot
+     */
+    function ironmanSave(gameState) {
+        if (!ironmanMode) {
+            return {
+                success: false,
+                message: 'Ironman mode not active'
+            };
+        }
+
+        try {
+            // Create backup before overwriting
+            const ironmanData = localStorage.getItem(IRONMAN_KEY);
+            if (ironmanData) {
+                createBackup(IRONMAN_KEY, ironmanData);
+            }
+
+            const saveData = createSaveData(gameState, 'Ironman Save');
+            saveData.ironman = true;
+
+            localStorage.setItem(IRONMAN_KEY, JSON.stringify(saveData));
+
+            return {
+                success: true,
+                message: 'Ironman save completed',
+                saveData: saveData
+            };
+
+        } catch (error) {
+            console.error('Ironman save failed:', error);
+            return {
+                success: false,
+                message: 'Ironman save failed: ' + error.message
+            };
+        }
+    }
+
+    /**
+     * Load Ironman save
+     */
+    function loadIronmanSave() {
+        try {
+            const ironmanData = localStorage.getItem(IRONMAN_KEY);
+
+            if (!ironmanData) {
+                return {
+                    success: false,
+                    message: 'No Ironman save found'
+                };
+            }
+
+            const saveData = JSON.parse(ironmanData);
+
+            // Verify save integrity
+            if (!verifySaveIntegrity(saveData)) {
+                return attemptRecovery(IRONMAN_KEY);
+            }
+
+            const gameState = restoreGameState(saveData);
+            ironmanMode = true;
+
+            return {
+                success: true,
+                message: 'Ironman save loaded',
+                gameState: gameState,
+                saveInfo: {
+                    name: saveData.name,
+                    date: saveData.saveDate,
+                    gameDate: saveData.gameDate,
+                    cash: saveData.cash,
+                    year: saveData.year
+                }
+            };
+
+        } catch (error) {
+            console.error('Ironman load failed:', error);
+            return attemptRecovery(IRONMAN_KEY);
+        }
+    }
+
+    /**
+     * BACKUP & VERSIONING SYSTEM
+     */
+
+    /**
+     * Create backup of save data
+     */
+    function createBackup(key, data) {
+        try {
+            const backups = getBackups();
+            const backupEntry = {
+                key: key,
+                data: data,
+                timestamp: new Date().toISOString(),
+                version: SAVE_VERSION
+            };
+
+            // Keep only last 3 backups per key
+            const keyBackups = backups[key] || [];
+            keyBackups.unshift(backupEntry);
+            backups[key] = keyBackups.slice(0, 3);
+
+            localStorage.setItem(BACKUP_KEY, JSON.stringify(backups));
+
+        } catch (error) {
+            console.error('Backup creation failed:', error);
+        }
+    }
+
+    /**
+     * Get all backups
+     */
+    function getBackups() {
+        try {
+            const backupsData = localStorage.getItem(BACKUP_KEY);
+            return backupsData ? JSON.parse(backupsData) : {};
+        } catch (error) {
+            console.error('Failed to load backups:', error);
+            return {};
+        }
+    }
+
+    /**
+     * Restore from backup
+     */
+    function restoreFromBackup(key, backupIndex = 0) {
+        try {
+            const backups = getBackups();
+            const keyBackups = backups[key];
+
+            if (!keyBackups || keyBackups.length === 0) {
+                return {
+                    success: false,
+                    message: 'No backups found for this save'
+                };
+            }
+
+            if (backupIndex >= keyBackups.length) {
+                return {
+                    success: false,
+                    message: 'Backup index out of range'
+                };
+            }
+
+            const backup = keyBackups[backupIndex];
+            localStorage.setItem(key, backup.data);
+
+            return {
+                success: true,
+                message: `Restored backup from ${new Date(backup.timestamp).toLocaleString()}`,
+                backupDate: backup.timestamp
+            };
+
+        } catch (error) {
+            console.error('Backup restore failed:', error);
+            return {
+                success: false,
+                message: 'Failed to restore backup: ' + error.message
+            };
+        }
+    }
+
+    /**
+     * CORRUPTION DETECTION & RECOVERY
+     */
+
+    /**
+     * Verify save data integrity
+     */
+    function verifySaveIntegrity(saveData) {
+        try {
+            // Check required fields
+            const requiredFields = [
+                'version', 'name', 'saveDate', 'currentDate',
+                'gameWeek', 'gameYear', 'cash', 'studioName'
+            ];
+
+            for (const field of requiredFields) {
+                if (saveData[field] === undefined || saveData[field] === null) {
+                    console.warn(`Save integrity check failed: missing field '${field}'`);
+                    return false;
+                }
+            }
+
+            // Check data types
+            if (typeof saveData.cash !== 'number') return false;
+            if (typeof saveData.gameYear !== 'number') return false;
+            if (typeof saveData.studioName !== 'string') return false;
+
+            // Check arrays
+            if (!Array.isArray(saveData.activeFilms)) return false;
+            if (!Array.isArray(saveData.completedFilms)) return false;
+
+            return true;
+
+        } catch (error) {
+            console.error('Integrity verification error:', error);
+            return false;
+        }
+    }
+
+    /**
+     * Attempt to recover corrupted save
+     */
+    function attemptRecovery(key) {
+        console.log(`Attempting to recover corrupted save: ${key}`);
+
+        // Try to restore from backup
+        const backupResult = restoreFromBackup(key, 0);
+
+        if (backupResult.success) {
+            try {
+                const restoredData = localStorage.getItem(key);
+                const saveData = JSON.parse(restoredData);
+
+                if (verifySaveIntegrity(saveData)) {
+                    const gameState = restoreGameState(saveData);
+
+                    return {
+                        success: true,
+                        message: 'Save recovered from backup',
+                        recovered: true,
+                        gameState: gameState,
+                        saveInfo: {
+                            name: saveData.name,
+                            date: saveData.saveDate,
+                            gameDate: saveData.gameDate,
+                            cash: saveData.cash,
+                            year: saveData.year
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error('Recovery attempt failed:', error);
+            }
+        }
+
+        return {
+            success: false,
+            message: 'Save data corrupted and recovery failed',
+            corrupted: true
+        };
+    }
+
+    /**
+     * QUICK SAVE/LOAD
+     */
+
+    /**
+     * Quick save to last used slot
+     */
+    function quickSave(gameState) {
+        const result = saveGame(lastQuickSaveSlot, gameState, null);
+
+        if (result.success) {
+            showAutoSaveIndicator('Quick Saved');
+        }
+
+        return result;
+    }
+
+    /**
+     * Quick load from last saved slot
+     */
+    function quickLoad() {
+        const result = loadGame(lastQuickSaveSlot);
+
+        if (result.success) {
+            lastQuickSaveSlot = result.slot || lastQuickSaveSlot;
+        }
+
+        return result;
+    }
+
+    /**
+     * Get last quick save slot
+     */
+    function getLastQuickSaveSlot() {
+        return lastQuickSaveSlot;
+    }
+
+    /**
+     * Set quick save slot
+     */
+    function setQuickSaveSlot(slotNumber) {
+        if (slotNumber >= 1 && slotNumber <= MAX_SAVE_SLOTS) {
+            lastQuickSaveSlot = slotNumber;
+            saveSettings({ lastQuickSaveSlot: slotNumber });
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * SETTINGS MANAGEMENT
+     */
+
+    /**
+     * Save settings
+     */
+    function saveSettings(settings) {
+        try {
+            const currentSettings = getSettings();
+            const updatedSettings = { ...currentSettings, ...settings };
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(updatedSettings));
+        } catch (error) {
+            console.error('Failed to save settings:', error);
+        }
+    }
+
+    /**
+     * Get settings
+     */
+    function getSettings() {
+        try {
+            const settingsData = localStorage.getItem(SETTINGS_KEY);
+            const settings = settingsData ? JSON.parse(settingsData) : {};
+
+            // Load settings into memory
+            if (settings.ironmanMode !== undefined) {
+                ironmanMode = settings.ironmanMode;
+            }
+            if (settings.lastQuickSaveSlot !== undefined) {
+                lastQuickSaveSlot = settings.lastQuickSaveSlot;
+            }
+
+            return settings;
+        } catch (error) {
+            console.error('Failed to load settings:', error);
+            return {};
+        }
+    }
+
+    /**
+     * AUTO-SAVE INDICATOR
+     */
+
+    /**
+     * Show auto-save indicator
+     */
+    function showAutoSaveIndicator(message = 'Auto-Saving...') {
+        const indicator = document.getElementById('autosave-indicator');
+        if (indicator) {
+            indicator.textContent = message;
+            indicator.classList.add('visible');
+
+            setTimeout(() => {
+                indicator.classList.remove('visible');
+            }, 2000);
+        }
+
+        // Also trigger a notification if available
+        if (window.DashboardUI && window.DashboardUI.showNotification) {
+            window.DashboardUI.showNotification('Game Saved', message, 'success');
+        }
+    }
     
+    /**
+     * Initialize save system
+     */
+    function init() {
+        // Load settings
+        getSettings();
+
+        console.log('Save/Load system initialized');
+        console.log(`Ironman mode: ${ironmanMode ? 'ENABLED' : 'disabled'}`);
+        console.log(`Quick save slot: ${lastQuickSaveSlot}`);
+    }
+
     /**
      * Public API
      */
     return {
+        // Initialization
+        init,
+
         // Save/Load functions
         saveGame,
         loadGame,
         autoSave,
         loadAutoSave,
-        
+
         // Save management
         getAllSaves,
         getSaveSlotInfo,
         deleteSave,
         clearAllSaves,
-        
+
         // Auto-save management
         startAutoSave,
         stopAutoSave,
-        
+
+        // Quick save/load
+        quickSave,
+        quickLoad,
+        getLastQuickSaveSlot,
+        setQuickSaveSlot,
+
+        // Ironman mode
+        enableIronmanMode,
+        disableIronmanMode,
+        isIronmanMode,
+        ironmanSave,
+        loadIronmanSave,
+
+        // Backup & Recovery
+        createBackup,
+        getBackups,
+        restoreFromBackup,
+        verifySaveIntegrity,
+        attemptRecovery,
+
         // Import/Export
         exportSave,
         importSave,
-        
+
+        // Settings
+        saveSettings,
+        getSettings,
+
         // Utility
         checkStorageAvailability,
-        
+        showAutoSaveIndicator,
+
         // Constants
         MAX_SAVE_SLOTS,
-        AUTO_SAVE_INTERVAL
+        AUTO_SAVE_INTERVAL,
+        SAVE_VERSION
     };
 })();

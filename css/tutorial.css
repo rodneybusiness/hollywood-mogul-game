@@ -1,9 +1,12 @@
 /**
- * HOLLYWOOD MOGUL - TUTORIAL SYSTEM CSS
- * Styles for tutorial overlay, boxes, and highlighting
+ * HOLLYWOOD MOGUL - ENHANCED TUTORIAL SYSTEM CSS
+ * Styles for tutorial overlay, spotlight, tooltips, missions, and highlighting
  */
 
-/* Tutorial Overlay */
+/* ========================================
+   TUTORIAL OVERLAY
+   ======================================== */
+
 .tutorial-overlay {
     position: fixed;
     top: 0;
@@ -23,7 +26,26 @@
     to { opacity: 1; }
 }
 
-/* Tutorial Box */
+/* ========================================
+   SPOTLIGHT OVERLAY (dims everything except highlighted element)
+   ======================================== */
+
+.tutorial-spotlight-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 9999;
+    display: none;
+    pointer-events: none;
+}
+
+/* ========================================
+   TUTORIAL BOX
+   ======================================== */
+
 .tutorial-box {
     background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
     border: 3px solid #d4af37;
@@ -33,20 +55,47 @@
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.4);
     position: relative;
     animation: slideIn 0.4s ease-out;
+    z-index: 10001;
 }
 
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-30px) scale(0.95);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
+}
+
+/* Tutorial Box Close Button */
+.tutorial-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #d4af37;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.tutorial-close:hover {
+    color: #fff;
+    transform: rotate(90deg);
 }
 
 /* Tutorial Box Positions */
@@ -71,22 +120,55 @@
     transform: translateX(-50%);
 }
 
-/* Tutorial Progress */
+/* ========================================
+   TUTORIAL PROGRESS
+   ======================================== */
+
 .tutorial-progress {
-    position: absolute;
-    top: 10px;
-    right: 20px;
+    margin-bottom: 20px;
+}
+
+.tutorial-progress-text {
     font-size: 0.85rem;
     color: #d4af37;
     font-family: 'Lato', sans-serif;
     font-weight: 300;
+    margin-bottom: 8px;
+    text-align: center;
 }
 
-/* Tutorial Content */
+.tutorial-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: rgba(212, 175, 55, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.tutorial-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #d4af37 0%, #e5c045 100%);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* ========================================
+   TUTORIAL CONTENT
+   ======================================== */
+
 .tutorial-content {
     color: #e8e8e8;
     font-family: 'Lato', sans-serif;
     line-height: 1.6;
+}
+
+.tutorial-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.8rem;
+    color: #d4af37;
+    margin: 0 0 15px 0;
+    text-align: center;
 }
 
 .tutorial-content h2 {
@@ -109,7 +191,8 @@
     font-size: 1rem;
 }
 
-.tutorial-content ul {
+.tutorial-content ul,
+.tutorial-content ol {
     margin: 15px 0;
     padding-left: 25px;
 }
@@ -129,6 +212,7 @@
     font-style: italic;
 }
 
+/* Tutorial Tips and Warnings */
 .tutorial-tip {
     background: rgba(212, 175, 55, 0.1);
     border-left: 3px solid #d4af37;
@@ -138,7 +222,50 @@
     font-size: 0.9rem;
 }
 
-/* Tutorial Actions */
+.tutorial-warning {
+    background: rgba(220, 53, 69, 0.1);
+    border-left: 3px solid #dc3545;
+    padding: 12px 15px;
+    margin: 15px 0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #ff6b6b;
+}
+
+.tutorial-action-required {
+    background: rgba(40, 167, 69, 0.1);
+    border: 2px solid #28a745;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(40, 167, 69, 0.6);
+    }
+}
+
+.tutorial-action-required .action-icon {
+    font-size: 1.5rem;
+}
+
+.tutorial-action-required .action-text {
+    color: #6edb8f;
+    font-weight: 600;
+}
+
+/* ========================================
+   TUTORIAL ACTIONS (BUTTONS)
+   ======================================== */
+
 .tutorial-actions {
     display: flex;
     gap: 15px;
@@ -167,8 +294,12 @@
 
 .tutorial-btn.primary:hover {
     background: linear-gradient(135deg, #e5c045 0%, #d4af37 100%);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
     transform: translateY(-2px);
+}
+
+.tutorial-btn.primary:active {
+    transform: translateY(0);
 }
 
 .tutorial-btn.secondary {
@@ -183,47 +314,357 @@
     color: #e5c045;
 }
 
-/* Tutorial Highlight */
-.tutorial-highlight {
-    position: relative;
-    z-index: 9999 !important;
-    box-shadow: 0 0 0 4px #d4af37, 0 0 20px rgba(212, 175, 55, 0.6) !important;
-    animation: pulse 2s infinite;
+/* ========================================
+   TUTORIAL TOOLTIP (for interactive steps)
+   ======================================== */
+
+.tutorial-tooltip {
+    position: fixed;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 3px solid #d4af37;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    z-index: 10002;
+    animation: tooltipSlideIn 0.3s ease-out;
 }
 
-@keyframes pulse {
+@keyframes tooltipSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.tutorial-tooltip-content {
+    color: #e8e8e8;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.5;
+}
+
+.tutorial-tooltip-content h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: #d4af37;
+    margin: 0 0 10px 0;
+}
+
+.tutorial-tooltip-content p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+}
+
+.tutorial-tooltip-content ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.tutorial-tooltip-content li {
+    margin: 6px 0;
+    font-size: 0.9rem;
+}
+
+.tutorial-tooltip-progress {
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+    font-size: 0.8rem;
+    color: #d4af37;
+    text-align: center;
+}
+
+/* Tooltip Arrow */
+.tutorial-tooltip-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.tutorial-tooltip-arrow.below {
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 0 12px 12px 12px;
+    border-color: transparent transparent #d4af37 transparent;
+}
+
+.tutorial-tooltip-arrow.above {
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 12px 12px 0 12px;
+    border-color: #d4af37 transparent transparent transparent;
+}
+
+.tutorial-tooltip-arrow.left {
+    right: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 12px 0 12px 12px;
+    border-color: transparent transparent transparent #d4af37;
+}
+
+.tutorial-tooltip-arrow.right {
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 12px 12px 12px 0;
+    border-color: transparent #d4af37 transparent transparent;
+}
+
+/* ========================================
+   TUTORIAL HIGHLIGHT
+   ======================================== */
+
+.tutorial-highlight {
+    position: relative !important;
+    z-index: 10001 !important;
+    box-shadow: 0 0 0 4px #d4af37, 0 0 30px rgba(212, 175, 55, 0.8) !important;
+    animation: tutorialPulse 2s infinite;
+}
+
+@keyframes tutorialPulse {
     0%, 100% {
-        box-shadow: 0 0 0 4px #d4af37, 0 0 20px rgba(212, 175, 55, 0.6);
+        box-shadow: 0 0 0 4px #d4af37, 0 0 30px rgba(212, 175, 55, 0.8);
     }
     50% {
-        box-shadow: 0 0 0 6px #d4af37, 0 0 30px rgba(212, 175, 55, 0.8);
+        box-shadow: 0 0 0 6px #e5c045, 0 0 40px rgba(229, 192, 69, 1);
     }
 }
 
-/* Scrollbar for Tutorial Box */
-.tutorial-box::-webkit-scrollbar {
+/* ========================================
+   TUTORIAL MISSIONS PANEL
+   ======================================== */
+
+.tutorial-missions-panel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    width: 350px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 9000;
+    transition: all 0.3s ease;
+}
+
+.tutorial-missions-panel.collapsed .missions-content {
+    display: none;
+}
+
+.tutorial-missions-panel.collapsed .missions-toggle {
+    transform: rotate(-90deg);
+}
+
+.missions-header {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 6px 6px 0 0;
+    transition: all 0.3s ease;
+}
+
+.missions-header:hover {
+    background: rgba(212, 175, 55, 0.2);
+}
+
+.missions-icon {
+    font-size: 1.5rem;
+}
+
+.missions-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #d4af37;
+    flex: 1;
+}
+
+.missions-toggle {
+    color: #d4af37;
+    transition: transform 0.3s ease;
+}
+
+.missions-content {
+    padding: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Mission Cards */
+.mission-card {
+    background: rgba(212, 175, 55, 0.05);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 6px;
+    padding: 12px;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.mission-card:hover {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+.mission-card.completed {
+    border-color: #28a745;
+    background: rgba(40, 167, 69, 0.1);
+    opacity: 0.7;
+}
+
+.mission-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.mission-icon {
+    font-size: 1.5rem;
+}
+
+.mission-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: #d4af37;
+    flex: 1;
+}
+
+.mission-completed-icon {
+    color: #28a745;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.mission-description {
+    color: #e8e8e8;
+    font-size: 0.9rem;
+    font-family: 'Lato', sans-serif;
+    margin-bottom: 6px;
+}
+
+.mission-reward {
+    color: #6edb8f;
+    font-size: 0.85rem;
+    font-family: 'Lato', sans-serif;
+    font-style: italic;
+}
+
+/* ========================================
+   MISSION COMPLETE NOTIFICATION
+   ======================================== */
+
+.mission-complete-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #28a745 0%, #20803b 100%);
+    border: 3px solid #6edb8f;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 350px;
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.5);
+    z-index: 10003;
+    transform: translateX(400px);
+    opacity: 0;
+    transition: all 0.5s ease;
+}
+
+.mission-complete-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.mission-complete-content {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.mission-complete-icon {
+    font-size: 3rem;
+    animation: bounce 0.6s ease;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-15px);
+    }
+    60% {
+        transform: translateY(-7px);
+    }
+}
+
+.mission-complete-text h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    color: #fff;
+    margin: 0 0 5px 0;
+}
+
+.mission-complete-text p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: #e8e8e8;
+    margin: 3px 0;
+}
+
+.mission-complete-reward {
+    font-size: 0.9rem !important;
+    color: #c4f0d0 !important;
+    font-style: italic;
+}
+
+/* ========================================
+   SCROLLBAR STYLING
+   ======================================== */
+
+.tutorial-box::-webkit-scrollbar,
+.missions-content::-webkit-scrollbar {
     width: 8px;
 }
 
-.tutorial-box::-webkit-scrollbar-track {
+.tutorial-box::-webkit-scrollbar-track,
+.missions-content::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.3);
     border-radius: 4px;
 }
 
-.tutorial-box::-webkit-scrollbar-thumb {
+.tutorial-box::-webkit-scrollbar-thumb,
+.missions-content::-webkit-scrollbar-thumb {
     background: #d4af37;
     border-radius: 4px;
 }
 
-.tutorial-box::-webkit-scrollbar-thumb:hover {
+.tutorial-box::-webkit-scrollbar-thumb:hover,
+.missions-content::-webkit-scrollbar-thumb:hover {
     background: #e5c045;
 }
 
-/* Responsive */
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
 @media (max-width: 768px) {
     .tutorial-box {
         padding: 20px;
         max-width: 95%;
+    }
+
+    .tutorial-title {
+        font-size: 1.4rem;
     }
 
     .tutorial-content h2 {
@@ -245,5 +686,72 @@
 
     .tutorial-btn {
         width: 100%;
+    }
+
+    .tutorial-tooltip {
+        max-width: 90vw;
+        padding: 15px;
+    }
+
+    .tutorial-missions-panel {
+        width: 90%;
+        right: 5%;
+        bottom: 10px;
+    }
+
+    .mission-complete-notification {
+        max-width: 90%;
+        right: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .tutorial-box {
+        padding: 15px;
+    }
+
+    .tutorial-close {
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+    }
+
+    .tutorial-content p,
+    .tutorial-content li {
+        font-size: 0.9rem;
+    }
+
+    .tutorial-tooltip {
+        padding: 12px;
+    }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+.tutorial-btn:focus,
+.tutorial-close:focus,
+.missions-header:focus {
+    outline: 2px solid #d4af37;
+    outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+    .tutorial-overlay,
+    .tutorial-box,
+    .tutorial-tooltip,
+    .mission-complete-notification {
+        animation: none;
+        transition: none;
+    }
+
+    .tutorial-highlight {
+        animation: none;
+    }
+
+    .tutorial-action-required {
+        animation: none;
     }
 }
