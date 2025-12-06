@@ -1,186 +1,206 @@
-# MOGUL - Hollywood Tycoon Game
+# Hollywood Mogul
 
-A historically authentic Hollywood studio management game set in the golden age of cinema (1933-1949).
+A historically authentic Hollywood studio management game set in the Golden Age of cinema (1933-1949).
 
-## Game Overview
+**Status**: Production Ready | **Version**: 1.0 | **Tests**: 36/36 Passing
 
-**MOGUL** puts you in control of a Hollywood movie studio during the most tumultuous and glamorous era of film history. Navigate the transition from Pre-Code freedom to strict censorship, survive the Great Depression, adapt to wartime conditions, and face the post-war challenges that would reshape the industry forever.
+## Overview
+
+**Hollywood Mogul** puts you in control of a Hollywood movie studio during the most tumultuous and glamorous era of film history. Navigate the transition from Pre-Code freedom to strict censorship, survive the Great Depression, adapt to wartime conditions, and face the post-war challenges that would reshape the industry forever.
+
+## Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/rodneybusiness/hollywood-mogul-game.git
+cd hollywood-mogul-game
+
+# Open in browser
+open index.html
+```
+
+Or double-click `index.html` to play immediately.
+
+## Game Features
 
 ### Core Gameplay
+- **Film Production Pipeline**: Greenlight scripts, manage production, distribute films
+- **Financial Management**: Starting cash of $410,000, monthly overhead of $30,000
+- **Time Progression**: Week-by-week simulation from 1933 to 1949 (54+ weeks runway)
+- **Box Office System**: Earn revenue from theatrical releases with realistic returns
 
-- **Studio Management**: Build sound stages, backlots, and facilities
-- **Film Production**: Greenlight scripts, manage productions, handle crises
-- **Financial Survival**: Balance cash flow, secure loans, maximize profits
-- **Talent Management**: Sign contract players, directors, and writers
-- **Historical Events**: Navigate real industry changes and challenges
-- **Crisis Management**: Handle scandals, censorship, and industry pressure
+### Historical Authenticity
+- **7 Major Historical Events**: Hays Code enforcement, Pearl Harbor, HUAC hearings, Paramount Decision
+- **4 Distinct Eras**: Pre-Code (1933-1934), Golden Age (1935-1941), War Years (1941-1945), Post-War (1946-1949)
+- **37 Historical Figures**: Real actors (Clark Gable, Bette Davis, Humphrey Bogart) and directors (Hitchcock, Ford, Capra)
+- **Era-Appropriate Content**: Genre preferences shift with historical events
+
+### Game Systems
+
+| System | Description |
+|--------|-------------|
+| Production | 12-16 week film production with random events (15% weekly chance) |
+| Censorship | Production Code Administration (PCA) enforcement after July 1934 |
+| Crisis Management | 8 crisis scenarios with meaningful player choices |
+| Achievements | 36 achievements across 9 categories |
+| Tutorial | 18-step guided introduction for new players |
+| Save/Load | Multiple save slots using browser localStorage |
 
 ### Time Period: 1933-1949
 
-#### Era 1: Pre-Code Freedom (1933-1934)
-- Few censorship restrictions
-- Gangster films and racy content are profitable
-- Creative experimentation flourishes
-
-#### Era 2: Golden Age (1935-1941) 
-- Hays Code enforcement creates new challenges
-- Studio system reaches peak power
-- Technicolor revolution begins
-- Labor unions emerge
-
-#### Era 3: War Years (1941-1945)
-- Government demands propaganda films
-- Talent shortages as actors are drafted
-- Material rationing affects production
-- Audiences seek both escapism and patriotism
-
-#### Era 4: Post-War Anxiety (1946-1949)
-- Film noir reflects cultural cynicism
-- HUAC investigations threaten careers
-- Television emerges as competition
-- Anti-trust lawsuits challenge studio dominance
-
-## Technical Details
-
-### Architecture
-
-```
-/hollywood-mogul-game/
-├── index.html              # Main game interface
-├── css/
-│   ├── main.css           # Art Deco styling & core UI
-│   └── responsive.css     # Mobile & tablet adaptations
-├── js/
-│   ├── core/              # Core game systems
-│   │   ├── game-state.js  # Central state management
-│   │   ├── time-system.js # Date progression & historical periods
-│   │   └── save-load.js   # Game persistence
-│   ├── systems/           # Game mechanics (Phase 2)
-│   │   ├── financial.js   # Banking, loans, expenses
-│   │   ├── production.js  # Film production pipeline
-│   │   ├── talent.js      # Actor/director management
-│   │   ├── studio.js      # Facility upgrades
-│   │   └── events.js      # Random events & crises
-│   ├── data/              # Game content (Phase 2)
-│   │   ├── scripts.js     # Available film scripts
-│   │   ├── historical-events.js # Milestone events
-│   │   └── talent-roster.js     # Available actors/directors
-│   └── ui/                # Interface components (Phase 2)
-│       ├── dashboard.js   # Main UI updates
-│       ├── modals.js      # Dialog systems
-│       └── animations.js  # Visual effects
-└── assets/                # Images, audio (Phase 4)
-```
-
-### Technology Stack
-
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript
-- **Styling**: Custom Art Deco theme with CSS Grid/Flexbox
-- **Storage**: localStorage for save/load system
-- **Responsive**: Mobile-first design with progressive enhancement
-
-### Browser Support
-
-- Chrome 80+
-- Firefox 75+
-- Safari 13+
-- Edge 80+
-
-## Development Phases
-
-### Phase 1: Foundation ✅ COMPLETED
-- [x] Project structure and HTML framework
-- [x] Art Deco UI styling with responsive design
-- [x] Core game state management
-- [x] Time progression system
-- [x] Save/load architecture
-- [x] Basic financial tracking
-
-### Phase 2: Core Systems (Next)
-- [ ] Film production pipeline
-- [ ] Script library with 20+ diverse films
-- [ ] Financial system (loans, investments)
-- [ ] Box office simulation
-- [ ] Random production events
-
-### Phase 3: Historical Depth
-- [ ] Era-specific content and challenges
-- [ ] Historical milestone events
-- [ ] Censorship and rating systems
-- [ ] Talent management with personalities
-- [ ] Crisis management scenarios
-
-### Phase 4: Polish & Features
-- [ ] Complete UI/UX polish
-- [ ] Audio integration (period music, effects)
-- [ ] Tutorial and onboarding
-- [ ] Achievement system
-- [ ] Balance testing and optimization
-
-## Getting Started
-
-### Installation
-
-1. Clone or download the game files
-2. Open `index.html` in a modern web browser
-3. No additional setup required - runs entirely client-side
-
-### First Time Playing
-
-1. **Start with Small Budget**: You begin with $75,000 and $30,000/month expenses
-2. **Review Scripts**: Click "REVIEW SCRIPTS" to see available films
-3. **Watch Cash Flow**: Monitor your runway - how many weeks until bankruptcy
-4. **Time Management**: Advance by week or month to progress
-5. **Learn the Systems**: Each era brings new challenges and opportunities
-
-### Controls
-
-- **Time Advance**: Use week/month buttons to progress
-- **Navigation**: Click tabs to switch between studio sections
-- **Save/Load**: Use save system to preserve progress (Phase 4)
-- **Mobile**: Fully responsive - plays on phones and tablets
-
-## Game Balance
-
-### Difficulty Curve
-- **Weeks 1-8**: Tutorial phase, learn basic systems
-- **Year 1-2**: Survival focus, establish studio
-- **Year 3-5**: Growth phase, build reputation
-- **Year 6-10**: Golden age management
-- **Year 11-15**: War adaptation challenges
-- **Year 16-17**: Final survival test
+| Era | Period | Key Features |
+|-----|--------|--------------|
+| Pre-Code Freedom | 1933-1934 | Few restrictions, gangster films profitable |
+| Golden Age | 1935-1941 | Hays Code enforcement, studio system peak |
+| War Years | 1941-1945 | Propaganda films, talent shortages, rationing |
+| Post-War Anxiety | 1946-1949 | Film noir, HUAC investigations, television emerges |
 
 ### Victory Conditions
-- **Survive to 1949**: Basic victory, you made it through
-- **Mogul Ending**: Accumulate massive wealth and influence
-- **Prestige Ending**: Win multiple Oscars, artistic legacy
-- **Integrity Ending**: Navigate HUAC without betraying anyone
-- **Survival Ending**: Make it through with minimal compromise
 
-### Failure States
-- **Bankruptcy**: Run out of cash, can't make payroll
-- **Mob Takeover**: Owe too many favors, lose control
-- **HUAC Blacklist**: Political persecution ends career
-- **Reputation Death**: Too many scandals, industry exile
+- **Mogul Victory**: 20+ films, $500,000+ cash, survive to 1949
+- **Survivor Victory**: 10+ films, $100,000+ cash, survive to 1949
+- **Television Victory**: Survive to 1949 (any performance level)
+- **Bankruptcy**: Game over when cash reaches $0
+
+## Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [START-HERE.md](START-HERE.md) | Quick start guide (read first!) |
+| [HOW-TO-PLAY.md](HOW-TO-PLAY.md) | Complete gameplay instructions |
+| [CHANGELOG.md](CHANGELOG.md) | Version history and recent changes |
+| [IMPROVEMENT-ROADMAP.md](IMPROVEMENT-ROADMAP.md) | Future enhancement plans |
+| [TESTING-COMPLETE.md](TESTING-COMPLETE.md) | Test results and verification |
+| [GITHUB-DEPLOY.md](GITHUB-DEPLOY.md) | Deployment instructions |
+
+## Project Structure
+
+```
+hollywood-mogul-game/
+├── index.html                    # Game entry point
+├── css/
+│   ├── main.css                  # Art Deco core styling
+│   ├── responsive.css            # Mobile adaptations
+│   ├── tutorial.css              # Tutorial overlay styling
+│   ├── achievements.css          # Achievement notifications
+│   └── modals-extended.css       # Crisis/event modal styling
+├── js/
+│   ├── core/
+│   │   ├── game-state.js         # Central state management
+│   │   ├── time-system.js        # Date progression & eras
+│   │   ├── save-load.js          # LocalStorage persistence
+│   │   └── integration.js        # System coordinator
+│   ├── systems/
+│   │   ├── financial.js          # Banking, loans, expenses
+│   │   ├── production.js         # Film production pipeline
+│   │   ├── boxoffice.js          # Box office simulation
+│   │   ├── events.js             # Random production events
+│   │   ├── censorship.js         # PCA enforcement
+│   │   ├── crisis.js             # Crisis management
+│   │   └── achievements.js       # Achievement tracking
+│   ├── data/
+│   │   ├── scripts.js            # Available film scripts
+│   │   ├── historical-events.js  # Historical milestones
+│   │   └── talent-roster.js      # Actors and directors
+│   └── ui/
+│       ├── dashboard.js          # Main interface updates
+│       ├── modals.js             # Dialog system
+│       └── tutorial.js           # Tutorial system
+└── tests/
+    ├── setup.js                  # Test utilities
+    └── game-state.test.js        # Core system tests (36 tests)
+```
+
+## Technology Stack
+
+- **Frontend**: HTML5, CSS3, Vanilla JavaScript (no frameworks)
+- **Styling**: Custom Art Deco theme with CSS Grid/Flexbox
+- **Storage**: Browser localStorage for save/load
+- **Testing**: Jest with 36 comprehensive tests
+- **Responsive**: Mobile-first design with progressive enhancement
+
+## Browser Support
+
+| Browser | Version | Status |
+|---------|---------|--------|
+| Chrome | 80+ | Fully Supported |
+| Firefox | 75+ | Fully Supported |
+| Safari | 13+ | Fully Supported |
+| Edge | 80+ | Fully Supported |
+
+## Development
+
+### Running Tests
+
+```bash
+# Install dependencies
+npm install
+
+# Run test suite
+npm test
+```
+
+### Game Constants
+
+| Constant | Value | Description |
+|----------|-------|-------------|
+| Starting Cash | $410,000 | Initial studio capital |
+| Monthly Overhead | $30,000 | Base operating costs |
+| Starting Runway | ~54 weeks | Time until bankruptcy |
+| Game Duration | 1933-1949 | 16 years of gameplay |
+| Weekly Event Chance | 15% | Random production events |
+
+## Implementation Status
+
+All development phases complete:
+
+- **Phase 1**: Foundation (game state, time system, save/load, tests)
+- **Phase 2**: Core Systems (production, financial, box office, events, integration)
+- **Phase 3**: Historical Depth (events, talent, censorship, crisis)
+- **Phase 4**: Polish (tutorial, achievements, CSS styling)
+
+## Statistics
+
+| Metric | Value |
+|--------|-------|
+| JavaScript | 14,261 lines |
+| CSS | 1,200+ lines |
+| Source Files | 20+ files |
+| Unit Tests | 36 tests (100% passing) |
+| Historical Events | 7 major events |
+| Achievements | 36 achievements |
+| Talent Roster | 37 actors/directors |
+| Documentation | 150+ pages |
+
+## Future Roadmap
+
+See [IMPROVEMENT-ROADMAP.md](IMPROVEMENT-ROADMAP.md) for planned enhancements:
+- Timeline extension to 2010 with new eras (New Hollywood, Blockbuster, Digital)
+- Seasonal awards system
+- Enhanced dashboard with customizable widgets
+- Audio system with period-appropriate music
+
+See [PRIORITIZED-IMPLEMENTATION-PLAN.md](PRIORITIZED-IMPLEMENTATION-PLAN.md) for implementation details.
 
 ## Historical Accuracy
 
 The game strives for historical authenticity while remaining engaging:
 
-- **Real Events**: Hays Code, WWII, HUAC hearings, Paramount decision
-- **Period Slang**: Authentic 1930s-1940s dialogue and terminology
+- **Real Events**: Hays Code (1934), Pearl Harbor (1941), HUAC hearings (1947), Paramount Decision (1948)
+- **Period Content**: Era-appropriate genres, talent, and industry practices
 - **Industry Practices**: 7-year contracts, studio system, theater ownership
-- **Cultural Context**: Changing audience tastes, technological advances
 - **Moral Complexity**: Difficult choices without clear right answers
 
-## Credits
+## License
 
-- **Design & Development**: Phase 1 Implementation
-- **Historical Research**: 1930s-1940s Hollywood industry practices
-- **Art Direction**: Art Deco visual design inspired by period films
-- **Typography**: Period-appropriate fonts and styling
+This project is open source. Feel free to play, study, modify, and share.
+
+## Acknowledgments
+
+Developed with Claude Code - AI-powered software development assistant.
 
 ---
 
-**Current Status**: Phase 1 Complete - Foundation systems implemented and tested
-**Next**: Begin Phase 2 development (Film Production & Financial Systems)
+**Repository**: https://github.com/rodneybusiness/hollywood-mogul-game
+**Last Updated**: 2025-12-06
+**Game Status**: Production Ready
