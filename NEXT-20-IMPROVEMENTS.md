@@ -1,8 +1,8 @@
 # Hollywood Mogul: Next 20 Improvements
 
-**Collaborative Roadmap by Three Experts**
+**Collaborative Roadmap by Four Experts**
 
-This document represents the unified vision of three experts working together to create compounding improvements where 1+1+1=100.
+This document represents the unified vision of four experts working together to create compounding improvements where 1+1+1+1=100.
 
 ---
 
@@ -13,6 +13,9 @@ This document represents the unified vision of three experts working together to
 | **Game Designer (GD)** | Player joy & engagement | "Does this make players feel something?" |
 | **Systems Architect (SA)** | Elegant implementation | "Does this create emergent depth?" |
 | **Playtest Analyst (PA)** | Reality & polish | "Does this actually work in practice?" |
+| **Frontend/UI Designer (UD)** | Visual excellence | "Does this look and feel extraordinary?" |
+
+> **UI Design Note**: See [UI-REDESIGN-SPEC.md](UI-REDESIGN-SPEC.md) for the complete visual design system, component library, and implementation plan. The Art Deco theme is preserved and enhanced.
 
 ---
 
@@ -366,7 +369,7 @@ Each chain reinforces the others:
 
 ## First Sprint Recommendation
 
-The three experts agree: Start with these 4 improvements to create immediate compounding value:
+The four experts agree: Start with these 4 improvements to create immediate compounding value:
 
 1. **#2 Awards Ceremony** (Chain A) - Adds major goal structure
 2. **#13 Financial Forecast** (Chain D) - Reduces frustration, enables planning
@@ -400,9 +403,13 @@ The three experts agree: Start with these 4 improvements to create immediate com
 
 > **Playtest Analyst**: "Clear test criteria for each feature. We'll know if it works before shipping. The priority matrix ensures we can course-correct."
 
+> **Frontend/UI Designer**: "Art Deco is this game's soul—we preserve it while modernizing the component architecture. Every screen should feel like stepping into a 1930s movie palace with perfect information design."
+
 ---
 
-**Document Version**: 1.0
+**Document Version**: 1.1
 **Created**: 2025-12-06
+**Updated**: 2025-12-06 (Added Frontend/UI Designer as 4th expert)
 **Status**: Ready for Implementation
 **First Sprint**: Improvements #2, #11, #13, #17
+**UI Spec**: See [UI-REDESIGN-SPEC.md](UI-REDESIGN-SPEC.md)
