@@ -2,15 +2,32 @@
 
 All notable changes to Hollywood Mogul are documented in this file.
 
-## [1.0.0] - 2025-12-06
+## [1.1.0] - 2025-12-06
 
 ### Current Release
 
-Production-ready release with all core systems complete.
+Production-ready release with comprehensive improvement roadmap.
 
 ---
 
 ## Recent Changes
+
+### [1.1.0] - 2025-12-06
+
+#### Added
+- **NEXT-20-IMPROVEMENTS.md**: Comprehensive improvement roadmap created by expert collaboration
+  - 20 compounding improvements organized into 5 synergistic chains
+  - Chain A: Feel the Stakes (emotional investment)
+  - Chain B: Master the Craft (strategic depth)
+  - Chain C: Live the Era (historical immersion)
+  - Chain D: See Your Empire (feedback & clarity)
+  - Chain E: Own the Experience (player agency)
+  - Priority matrix with implementation order
+  - Expert verdicts (Game Designer, Systems Architect, Playtest Analyst)
+
+#### Documentation
+- Updated README.md with new roadmap reference and chain summary
+- Updated IMPROVEMENT-ROADMAP.md to reference the new implementation plan
 
 ### [1.0.0] - 2025-12-06
 

@@ -1,5 +1,7 @@
 # Hollywood Mogul A++++ Upgrade Blueprint
 
+> **See Also**: [NEXT-20-IMPROVEMENTS.md](NEXT-20-IMPROVEMENTS.md) - Prioritized implementation plan with 20 compounding improvements organized by expert collaboration.
+
 ## Vision
 Transform Mogul into the definitive Golden Age Hollywood management sim by deepening its systemic gameplay, historical authenticity, and player feedback loops while polishing every layer of presentation.
 
