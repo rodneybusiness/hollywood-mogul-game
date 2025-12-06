@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements UI Test - Hollywood Mogul</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/achievements.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+        }
+        .test-result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .test-pass {
+            background: #006400;
+            color: white;
+        }
+        .test-fail {
+            background: #8B0000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏆 Achievements UI Test Suite</h1>
+
+    <div class="test-section">
+        <h2>Test 1: Achievement Notification</h2>
+        <button onclick="testNotification()">Test Achievement Notification</button>
+        <div id="test1-result" class="test-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Achievement Card Rendering</h2>
+        <div class="achievements-grid">
+            <div class="achievement-card unlocked">
+                <div class="achievement-card-header">
+                    <div class="achievement-card-icon">🎬</div>
+                    <div class="achievement-card-info">
+                        <h3>Lights, Camera, Action!</h3>
+                        <div class="achievement-card-category">Production Master</div>
+                    </div>
+                </div>
+                <div class="achievement-card-description">Greenlight your first film</div>
+                <div class="achievement-unlock-date">Unlocked: January 1933</div>
+                <div class="achievement-card-footer">
+                    <div class="achievement-card-points">✓ 10 points</div>
+                    <div class="achievement-card-status unlocked">UNLOCKED</div>
+                </div>
+            </div>
+
+            <div class="achievement-card locked">
+                <div class="achievement-card-header">
+                    <div class="achievement-card-icon">🏆</div>
+                    <div class="achievement-card-info">
+                        <h3>Hollywood Legend</h3>
+                        <div class="achievement-card-category">Production Master</div>
+                    </div>
+                </div>
+                <div class="achievement-card-description">Produce 25+ films</div>
+                <div class="achievement-card-footer">
+                    <div class="achievement-card-points">50 points</div>
+                    <div class="achievement-card-status">LOCKED</div>
+                </div>
+            </div>
+
+            <div class="achievement-card locked secret-locked">
+                <div class="achievement-card-header">
+                    <div class="achievement-card-icon">🔒</div>
+                    <div class="achievement-card-info">
+                        <h3>???
+                            <span class="achievement-secret">SECRET</span>
+                        </h3>
+                        <div class="achievement-card-category">Secret</div>
+                    </div>
+                </div>
+                <div class="achievement-card-description">Secret Achievement - Complete to reveal</div>
+                <div class="achievement-card-footer">
+                    <div class="achievement-card-points">35 points</div>
+                    <div class="achievement-card-status">LOCKED</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Achievement Progress Bar</h2>
+        <div class="achievement-progress">
+            <div class="achievement-progress-header">
+                <div class="achievement-progress-title">Overall Progress</div>
+                <div class="achievement-progress-stats">5 / 30 Achievements (16%)</div>
+            </div>
+            <div class="achievement-progress-bar">
+                <div class="achievement-progress-fill" style="width: 16%">16%</div>
+            </div>
+            <div class="achievement-points-display">
+                <div class="points-card">
+                    <div class="points-label">Achievement Points</div>
+                    <div class="points-value">85 / 1200</div>
+                </div>
+                <div class="points-card">
+                    <div class="points-label">Remaining</div>
+                    <div class="points-value">25 Achievements</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 4: Category Filters</h2>
+        <div class="achievement-categories">
+            <button class="category-btn active">ALL</button>
+            <button class="category-btn">PRODUCTION MASTER</button>
+            <button class="category-btn">FINANCIAL MOGUL</button>
+            <button class="category-btn">OSCAR ROYALTY</button>
+            <button class="category-btn">SECRET</button>
+        </div>
+    </div>
+
+    <script>
+        function testNotification() {
+            // Create a test achievement notification
+            const notification = document.createElement('div');
+            notification.className = 'achievement-notification';
+            notification.innerHTML = `
+                <div class="achievement-icon">🎬</div>
+                <div class="achievement-details">
+                    <div class="achievement-title">🏆 Achievement Unlocked!</div>
+                    <div class="achievement-name">Test Achievement</div>
+                    <div class="achievement-description">This is a test achievement notification</div>
+                    <div class="achievement-points">+10 points</div>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            // Animate in
+            setTimeout(() => notification.classList.add('show'), 100);
+
+            // Remove after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 500);
+            }, 5000);
+
+            // Show test result
+            const result = document.getElementById('test1-result');
+            result.className = 'test-result test-pass';
+            result.textContent = '✓ Notification created and displayed successfully!';
+        }
+
+        // Test category button interactivity
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        console.log('Achievements UI Test Suite Loaded');
+        console.log('Tests Available:');
+        console.log('1. Achievement Notification - Click button to test');
+        console.log('2. Achievement Card Rendering - Visual test');
+        console.log('3. Achievement Progress Bar - Visual test');
+        console.log('4. Category Filters - Click to test interactivity');
+    </script>
+</body>
+</html>
