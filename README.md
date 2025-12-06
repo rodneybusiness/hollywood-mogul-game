@@ -174,13 +174,19 @@ All development phases complete:
 
 ## Future Roadmap
 
-See [IMPROVEMENT-ROADMAP.md](IMPROVEMENT-ROADMAP.md) for planned enhancements:
-- Timeline extension to 2010 with new eras (New Hollywood, Blockbuster, Digital)
-- Seasonal awards system
-- Enhanced dashboard with customizable widgets
-- Audio system with period-appropriate music
+See [NEXT-20-IMPROVEMENTS.md](NEXT-20-IMPROVEMENTS.md) for the prioritized improvement plan with 20 compounding features organized into 5 chains:
 
-See [PRIORITIZED-IMPLEMENTATION-PLAN.md](PRIORITIZED-IMPLEMENTATION-PLAN.md) for implementation details.
+| Chain | Focus | Improvements |
+|-------|-------|--------------|
+| A | Feel the Stakes | Premieres, Awards, Talent Morale, Star Vehicles |
+| B | Master the Craft | Production Decisions, Test Screenings, Reshoots, Quality Breakdown |
+| C | Live the Era | Era Themes, Transitions, Genre Heat, Script Commissioning |
+| D | See Your Empire | Forecasts, Calendar, Dashboard, Achievement Showcase |
+| E | Own the Experience | Difficulty, Scenarios, Custom Setup, Import/Export |
+
+Additional planning documents:
+- [IMPROVEMENT-ROADMAP.md](IMPROVEMENT-ROADMAP.md) - A++++ upgrade vision
+- [PRIORITIZED-IMPLEMENTATION-PLAN.md](PRIORITIZED-IMPLEMENTATION-PLAN.md) - 2010 timeline extension
 
 ## Historical Accuracy
 
