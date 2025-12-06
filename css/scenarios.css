@@ -1,0 +1,435 @@
+/* ===== SCENARIO SELECTION STYLING ===== */
+
+/* Scenario Selection Container */
+.scenario-selection {
+    padding: var(--spacing-xl);
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.scenario-selection h2 {
+    font-family: var(--font-accent);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+    color: var(--secondary-gold);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 0.1em;
+}
+
+.selection-description {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--ivory);
+    margin-bottom: var(--spacing-xxl);
+    opacity: 0.9;
+}
+
+/* Scenarios Grid */
+.scenarios-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Scenario Card */
+.scenario-card {
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
+    border: 2px solid var(--primary-gold);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.scenario-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.scenario-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(184, 134, 11, 0.3);
+    border-color: var(--secondary-gold);
+}
+
+.scenario-card:hover::before {
+    opacity: 1;
+}
+
+/* Scenario Header */
+.scenario-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+.scenario-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--secondary-gold);
+    margin: 0;
+    letter-spacing: 0.05em;
+}
+
+/* Difficulty Badge */
+.difficulty-badge {
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid;
+}
+
+.difficulty-normal {
+    background: rgba(0, 100, 0, 0.2);
+    color: var(--success-green);
+    border-color: var(--success-green);
+}
+
+.difficulty-hard {
+    background: rgba(255, 140, 0, 0.2);
+    color: var(--warning-amber);
+    border-color: var(--warning-amber);
+}
+
+.difficulty-very-hard {
+    background: rgba(139, 0, 0, 0.2);
+    color: var(--danger-red);
+    border-color: var(--danger-red);
+}
+
+/* Scenario Content */
+.scenario-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.scenario-short-desc {
+    font-style: italic;
+    color: rgba(255, 255, 240, 0.8);
+    line-height: 1.5;
+    min-height: 3em;
+}
+
+/* Scenario Stats */
+.scenario-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(184, 134, 11, 0.2);
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-xs);
+}
+
+.stat-item.debt {
+    grid-column: 1 / -1;
+    border-top: 1px solid rgba(184, 134, 11, 0.2);
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-xs);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 240, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stat-value {
+    font-family: var(--font-heading);
+    font-weight: bold;
+    color: var(--secondary-gold);
+    font-size: 1rem;
+}
+
+.stat-value.negative {
+    color: var(--danger-red);
+}
+
+/* Scenario Buttons */
+.select-scenario-btn {
+    width: 100%;
+    margin-top: var(--spacing-sm);
+}
+
+.details-btn {
+    width: 100%;
+    background: rgba(184, 134, 11, 0.1);
+    border-color: var(--primary-gold);
+}
+
+.details-btn:hover {
+    background: rgba(184, 134, 11, 0.2);
+}
+
+/* ===== SCENARIO DETAILS VIEW ===== */
+
+.scenario-details {
+    padding: var(--spacing-xl);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 2px solid var(--primary-gold);
+}
+
+.details-header h2 {
+    font-family: var(--font-accent);
+    font-size: 2rem;
+    color: var(--secondary-gold);
+    margin: 0;
+    letter-spacing: 0.1em;
+}
+
+.flavor-text {
+    background: rgba(0, 0, 0, 0.3);
+    padding: var(--spacing-lg);
+    border-left: 4px solid var(--primary-gold);
+    margin-bottom: var(--spacing-xl);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 240, 0.9);
+    line-height: 1.6;
+}
+
+.long-description {
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.7;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 240, 0.9);
+}
+
+/* Details Sections */
+.starting-conditions,
+.special-rules,
+.victory-conditions,
+.scenario-tips {
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(184, 134, 11, 0.2);
+}
+
+.starting-conditions h3,
+.special-rules h3,
+.victory-conditions h3,
+.scenario-tips h3 {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--secondary-gold);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+.starting-conditions ul,
+.special-rules ul,
+.victory-conditions ul,
+.scenario-tips ul {
+    list-style: none;
+    padding: 0;
+}
+
+.starting-conditions li,
+.special-rules li,
+.victory-conditions li,
+.scenario-tips li {
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-lg);
+    position: relative;
+    line-height: 1.6;
+    color: rgba(255, 255, 240, 0.85);
+}
+
+.starting-conditions li::before,
+.special-rules li::before,
+.victory-conditions li::before,
+.scenario-tips li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--primary-gold);
+    font-weight: bold;
+}
+
+.victory-conditions p {
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
+    color: rgba(255, 255, 240, 0.9);
+}
+
+/* Details Actions */
+.details-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+.details-actions button {
+    flex: 1;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+    .scenarios-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .scenario-selection h2 {
+        font-size: 2rem;
+    }
+
+    .scenario-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-item.debt {
+        grid-column: 1;
+    }
+
+    .details-actions {
+        flex-direction: column;
+    }
+
+    .scenario-details {
+        padding: var(--spacing-md);
+    }
+}
+
+/* ===== SCENARIO VICTORY TRACKING ===== */
+
+.victory-progress-panel {
+    background: rgba(0, 0, 0, 0.3);
+    border: 2px solid var(--primary-gold);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.victory-progress-panel h3 {
+    font-family: var(--font-heading);
+    color: var(--secondary-gold);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.victory-criteria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+.criterion {
+    background: rgba(0, 0, 0, 0.3);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(184, 134, 11, 0.2);
+    text-align: center;
+}
+
+.criterion.met {
+    border-color: var(--success-green);
+    background: rgba(0, 100, 0, 0.1);
+}
+
+.criterion-label {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 240, 0.7);
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-xs);
+}
+
+.criterion-progress {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--secondary-gold);
+    margin-bottom: var(--spacing-xs);
+}
+
+.criterion.met .criterion-progress {
+    color: var(--success-green);
+}
+
+.criterion-status {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.criterion.met .criterion-status::before {
+    content: '✓ ';
+    color: var(--success-green);
+}
+
+/* ===== SCENARIO INDICATOR (IN-GAME) ===== */
+
+.scenario-indicator {
+    position: fixed;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    background: rgba(10, 10, 10, 0.9);
+    border: 2px solid var(--primary-gold);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    max-width: 250px;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.scenario-indicator:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(184, 134, 11, 0.4);
+}
+
+.scenario-name {
+    font-family: var(--font-heading);
+    color: var(--secondary-gold);
+    font-size: 1rem;
+    margin-bottom: var(--spacing-xs);
+}
+
+.scenario-difficulty {
+    font-size: 0.75rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.scenario-objective {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 240, 0.8);
+    line-height: 1.4;
+}
