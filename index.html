@@ -6,11 +6,16 @@
     <title>MOGUL - Hollywood Tycoon (1933-1949)</title>
     
     <!-- CSS Files -->
+    <link rel="stylesheet" href="css/tokens.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/tutorial.css">
     <link rel="stylesheet" href="css/achievements.css">
     <link rel="stylesheet" href="css/modals-extended.css">
+    <link rel="stylesheet" href="css/premiere.css">
+    <link rel="stylesheet" href="css/awards.css">
     
     <!-- Google Fonts for Art Deco Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
@@ -29,22 +34,31 @@
             </div>
         </header>
 
-        <!-- Financial Dashboard -->
-        <section id="financial-dashboard" class="dashboard-panel">
-            <div class="dashboard-grid">
-                <div class="finance-card cash-card">
-                    <div class="card-header">CASH ON HAND</div>
-                    <div class="card-value" id="current-cash">$410,000</div>
+        <!-- KPI Hero Row -->
+        <section id="kpi-hero" class="dashboard-panel">
+            <div class="kpi-row">
+                <div class="kpi-card" id="kpi-cash">
+                    <div class="kpi-card__label">CASH ON HAND</div>
+                    <div class="kpi-card__value" id="current-cash">$410,000</div>
+                    <div class="kpi-card__trend kpi-card__trend--up">▲ +$52,000 this month</div>
                 </div>
-                
-                <div class="finance-card burn-card">
-                    <div class="card-header">MONTHLY BURN</div>
-                    <div class="card-value negative" id="monthly-burn">-$30,000</div>
+
+                <div class="kpi-card" id="kpi-revenue">
+                    <div class="kpi-card__label">REVENUE</div>
+                    <div class="kpi-card__value" id="total-revenue">$610M</div>
+                    <div class="kpi-card__trend kpi-card__trend--up">▲ +$52M this quarter</div>
                 </div>
-                
-                <div class="finance-card runway-card">
-                    <div class="card-header">RUNWAY</div>
-                    <div class="card-value" id="cash-runway">54 weeks</div>
+
+                <div class="kpi-card" id="kpi-audience">
+                    <div class="kpi-card__label">AUDIENCE SCORE</div>
+                    <div class="kpi-card__value" id="audience-score">78</div>
+                    <div class="kpi-card__trend kpi-card__trend--up">▲ +5 pts</div>
+                </div>
+
+                <div class="kpi-card" id="kpi-reputation">
+                    <div class="kpi-card__label">REPUTATION</div>
+                    <div class="kpi-card__value" id="reputation-score">72/100</div>
+                    <div class="kpi-card__trend kpi-card__trend--neutral">─ steady</div>
                 </div>
             </div>
         </section>
@@ -53,41 +67,73 @@
         <main id="game-main">
             <!-- Dashboard Section (Default) -->
             <section id="dashboard-section" class="game-section active">
-                <!-- Active Productions Panel -->
-                <div class="game-panel">
-                    <h2 class="panel-title">FILMS IN PRODUCTION</h2>
-                    <div id="films-in-production" class="films-list">
-                        <div class="no-content">
-                            <p>No films currently in production</p>
-                            <button id="btn-new-script" class="action-btn primary">REVIEW SCRIPTS</button>
+                <!-- Next Big Decision Section -->
+                <div id="next-big-decision" class="decision-section">
+                    <div class="decision-section__header">NEXT BIG DECISION</div>
+                    <div class="decision-section__title" id="decision-title">Review Available Scripts</div>
+                    <div class="decision-section__content" id="decision-content">
+                        <p>Your studio has no films in production. Choose a script to greenlight and begin your journey to Hollywood glory.</p>
+                    </div>
+                    <button id="btn-new-script" class="btn-primary">REVIEW SCRIPTS</button>
+                </div>
+
+                <!-- Main Content Grid -->
+                <div class="content-grid">
+                    <!-- Left Column: Productions & Theater -->
+                    <div class="content-grid__left">
+                        <!-- Active Productions Panel -->
+                        <div class="glass-panel production-slate mb-6">
+                            <div class="production-slate__header">
+                                <h2 class="production-slate__title">FILMS IN PRODUCTION</h2>
+                                <span class="production-slate__count" id="production-count">(0)</span>
+                            </div>
+                            <div id="films-in-production" class="production-slate__container">
+                                <div class="no-content">
+                                    <p>No films currently in production</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Box Office Panel -->
+                        <div class="glass-panel mb-6">
+                            <h2 class="panel-title">IN THEATERS</h2>
+                            <div id="films-in-theaters" class="films-list">
+                                <div class="no-content">No films currently in theaters</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Box Office Panel -->
-                <div class="game-panel">
-                    <h2 class="panel-title">IN THEATERS</h2>
-                    <div id="films-in-theaters" class="films-list">
-                        <div class="no-content">No films currently in theaters</div>
-                    </div>
-                </div>
-
-                <!-- Alerts Panel -->
-                <div class="game-panel">
-                    <h2 class="panel-title">ALERTS</h2>
-                    <div id="alerts-section" class="alerts-list">
-                        <div class="alert-item tutorial">
-                            <div class="alert-icon">📋</div>
-                            <div class="alert-text">Welcome to Mogul Pictures! Review available scripts to begin production.</div>
+                    <!-- Right Column: Alerts & Events -->
+                    <div class="content-grid__right">
+                        <!-- Alerts Panel -->
+                        <div class="glass-panel mb-6">
+                            <h2 class="panel-title">ALERTS & EVENTS</h2>
+                            <div id="alerts-section" class="alerts-list stack stack--3">
+                                <div class="alert-item alert-item--info">
+                                    <div class="alert-item__icon">📋</div>
+                                    <div class="alert-item__content">
+                                        <div class="alert-item__title">Tutorial</div>
+                                        <div class="alert-item__text">Welcome to Mogul Pictures! Review available scripts to begin production.</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Recent Events Panel -->
-                <div class="game-panel">
-                    <h2 class="panel-title">RECENT EVENTS</h2>
-                    <div id="events-log" class="events-list">
-                        <div class="no-content">No recent events</div>
+                        <!-- Talent Snapshot Panel -->
+                        <div class="glass-panel mb-6">
+                            <h2 class="panel-title">TALENT SNAPSHOT</h2>
+                            <div id="talent-snapshot" class="talent-grid">
+                                <div class="no-content">No talent under contract</div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Events Panel -->
+                        <div class="glass-panel">
+                            <h2 class="panel-title">RECENT EVENTS</h2>
+                            <div id="events-log" class="events-list stack stack--3">
+                                <div class="no-content">No recent events</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -95,8 +141,8 @@
             <!-- Scripts Section -->
             <section id="scripts-section" class="game-section">
                 <div class="section-header">
-                    <h2>AVAILABLE SCRIPTS</h2>
-                    <p class="section-description">Select a script to greenlight and begin production</p>
+                    <h2 class="section-header__title">AVAILABLE SCRIPTS</h2>
+                    <p class="section-header__description">Select a script to greenlight and begin production</p>
                 </div>
                 <div id="available-scripts" class="scripts-grid">
                     <!-- Script cards will be dynamically generated -->
@@ -106,8 +152,8 @@
             <!-- Finances Section -->
             <section id="finances-section" class="game-section">
                 <div class="section-header">
-                    <h2>FINANCIAL MANAGEMENT</h2>
-                    <p class="section-description">Monitor cash flow, loans, and studio financial health</p>
+                    <h2 class="section-header__title">FINANCIAL MANAGEMENT</h2>
+                    <p class="section-header__description">Monitor cash flow, loans, and studio financial health</p>
                 </div>
                 <div id="financial-details" class="financial-overview">
                     <!-- Financial details will be dynamically generated -->
@@ -117,17 +163,39 @@
             <!-- Studio Section -->
             <section id="studio-section" class="game-section">
                 <div class="section-header">
-                    <h2>STUDIO LOT</h2>
-                    <p class="section-description">Manage your studio facilities and infrastructure</p>
+                    <h2 class="section-header__title">STUDIO LOT</h2>
+                    <p class="section-header__description">Manage your studio facilities and infrastructure</p>
                 </div>
                 <div id="studio-management" class="studio-grid">
                     <div class="no-content">Studio management coming soon...</div>
                 </div>
             </section>
+
+            <!-- Talent Section -->
+            <section id="talent-section" class="game-section">
+                <div class="section-header">
+                    <h2 class="section-header__title">TALENT & CREW</h2>
+                    <p class="section-header__description">Browse and hire actors, directors, and crew for your productions</p>
+                </div>
+                <div id="talent-roster" class="talent-grid">
+                    <div class="no-content">Talent roster coming soon...</div>
+                </div>
+            </section>
+
+            <!-- Market Section -->
+            <section id="market-section" class="game-section">
+                <div class="section-header">
+                    <h2 class="section-header__title">MARKET TRENDS</h2>
+                    <p class="section-header__description">Analyze box office trends, genre popularity, and audience sentiment</p>
+                </div>
+                <div id="market-trends" class="content-grid">
+                    <div class="no-content">Market trends coming soon...</div>
+                </div>
+            </section>
         </main>
 
         <!-- Navigation -->
-        <nav id="game-navigation">
+        <nav id="game-navigation" class="glass-panel">
             <button class="nav-button active" data-section="dashboard">
                 <span class="nav-icon">🏢</span>
                 <span class="nav-label">DASHBOARD</span>
@@ -143,6 +211,14 @@
             <button class="nav-button" data-section="finances">
                 <span class="nav-icon">💰</span>
                 <span class="nav-label">FINANCES</span>
+            </button>
+            <button class="nav-button" data-section="talent">
+                <span class="nav-icon">🎭</span>
+                <span class="nav-label">TALENT</span>
+            </button>
+            <button class="nav-button" data-section="market">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">MARKET</span>
             </button>
         </nav>
 
@@ -198,6 +274,8 @@
     <script src="js/systems/financial.js"></script>
     <script src="js/systems/production.js"></script>
     <script src="js/systems/boxoffice.js"></script>
+    <script src="js/systems/premiere.js"></script>
+    <script src="js/systems/awards.js"></script>
     <script src="js/systems/events.js"></script>
     <script src="js/systems/censorship.js"></script>
     <script src="js/systems/crisis.js"></script>

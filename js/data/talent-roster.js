@@ -23,7 +23,9 @@ window.TalentRoster = (function() {
             availableTo: 1949,
             draftRisk: true, // Served 1942-1944
             oscarWinner: true, // It Happened One Night (1934)
-            description: 'The King of Hollywood'
+            description: 'The King of Hollywood',
+            morale: 75,
+            loyalty: 50
         },
 
         bette_davis: {
@@ -36,7 +38,9 @@ window.TalentRoster = (function() {
             availableFrom: 1933,
             availableTo: 1949,
             oscarWinner: true, // Dangerous (1935), Jezebel (1938)
-            description: 'First lady of the screen'
+            description: 'First lady of the screen',
+            morale: 75,
+            loyalty: 50
         },
 
         humphrey_bogart: {
@@ -650,6 +654,201 @@ window.TalentRoster = (function() {
         return totalStarPower / actorIds.length / 100;
     }
 
+    /**
+     * Initialize morale and loyalty for all talent
+     */
+    function initializeTalentMorale() {
+        // Initialize actors
+        for (const actorId in ACTORS) {
+            const actor = ACTORS[actorId];
+            if (actor.morale === undefined) {
+                actor.morale = 70 + Math.floor(Math.random() * 20); // 70-90
+            }
+            if (actor.loyalty === undefined) {
+                actor.loyalty = 30 + Math.floor(Math.random() * 40); // 30-70
+            }
+        }
+
+        // Initialize directors
+        for (const directorId in DIRECTORS) {
+            const director = DIRECTORS[directorId];
+            if (director.morale === undefined) {
+                director.morale = 70 + Math.floor(Math.random() * 20); // 70-90
+            }
+            if (director.loyalty === undefined) {
+                director.loyalty = 30 + Math.floor(Math.random() * 40); // 30-70
+            }
+        }
+    }
+
+    /**
+     * Update talent morale after film completion
+     * Called when a film finishes its box office run
+     */
+    function updateTalentMorale(film, boxOfficeResults) {
+        if (!film.cast && !film.director) return;
+
+        const budget = film.actualBudget || film.currentBudget || film.originalBudget || 0;
+        const netProfit = boxOfficeResults.netRevenue || 0;
+        const isHit = netProfit > budget * 0.5; // 50% profit margin
+        const isFlop = netProfit < 0;
+
+        // Update cast morale
+        if (film.cast && Array.isArray(film.cast)) {
+            film.cast.forEach(castMember => {
+                const actorId = castMember.id;
+                const actor = ACTORS[actorId];
+                if (actor) {
+                    updateActorMorale(actor, film, isHit, isFlop, boxOfficeResults);
+                }
+            });
+        }
+
+        // Update director morale
+        if (film.director && film.director.id) {
+            const director = DIRECTORS[film.director.id];
+            if (director) {
+                updateDirectorMorale(director, film, isHit, isFlop, boxOfficeResults);
+            }
+        }
+    }
+
+    /**
+     * Update actor morale and loyalty
+     */
+    function updateActorMorale(actor, film, isHit, isFlop, boxOfficeResults) {
+        let moraleChange = 0;
+        let loyaltyChange = 0;
+
+        if (isHit) {
+            moraleChange += 15;
+            loyaltyChange += 10;
+        } else if (isFlop) {
+            moraleChange -= 10;
+            loyaltyChange -= 5;
+        }
+
+        // Quality bonus/penalty
+        const quality = film.finalQuality || film.scriptQuality || 50;
+        if (quality >= 80) {
+            moraleChange += 5;
+        } else if (quality < 50) {
+            moraleChange -= 5;
+        }
+
+        // Critical reception impact
+        if (boxOfficeResults.criticalReception) {
+            const reception = boxOfficeResults.criticalReception.type;
+            if (reception === 'rave') {
+                moraleChange += 10;
+                loyaltyChange += 5;
+            } else if (reception === 'savage') {
+                moraleChange -= 10;
+            }
+        }
+
+        // Production issues penalty
+        if (film.crisisCount > 3) {
+            moraleChange -= 5; // Overwork
+            loyaltyChange -= 3;
+        }
+
+        // Apply changes
+        actor.morale = Math.max(50, Math.min(100, actor.morale + moraleChange));
+        actor.loyalty = Math.max(0, Math.min(100, actor.loyalty + loyaltyChange));
+    }
+
+    /**
+     * Update director morale and loyalty
+     */
+    function updateDirectorMorale(director, film, isHit, isFlop, boxOfficeResults) {
+        let moraleChange = 0;
+        let loyaltyChange = 0;
+
+        if (isHit) {
+            moraleChange += 20;
+            loyaltyChange += 15;
+        } else if (isFlop) {
+            moraleChange -= 15;
+            loyaltyChange -= 8;
+        }
+
+        // Quality impact (directors care more about quality)
+        const quality = film.finalQuality || film.scriptQuality || 50;
+        if (quality >= 80) {
+            moraleChange += 10;
+            loyaltyChange += 5;
+        } else if (quality < 50) {
+            moraleChange -= 8;
+            loyaltyChange -= 5;
+        }
+
+        // Critical reception (directors care about this)
+        if (boxOfficeResults.criticalReception) {
+            const reception = boxOfficeResults.criticalReception.type;
+            if (reception === 'rave') {
+                moraleChange += 15;
+                loyaltyChange += 8;
+            } else if (reception === 'savage') {
+                moraleChange -= 15;
+                loyaltyChange -= 5;
+            }
+        }
+
+        // Budget overruns penalty
+        if (!film.onBudget) {
+            moraleChange -= 5;
+        }
+
+        // Apply changes
+        director.morale = Math.max(50, Math.min(100, director.morale + moraleChange));
+        director.loyalty = Math.max(0, Math.min(100, director.loyalty + loyaltyChange));
+    }
+
+    /**
+     * Update morale after awards
+     */
+    function updateMoraleAfterAwards(winners, gameState) {
+        // Boost morale for talent in winning films
+        Object.values(winners).forEach(winningFilm => {
+            if (winningFilm.cast) {
+                winningFilm.cast.forEach(castMember => {
+                    const actor = ACTORS[castMember.id];
+                    if (actor) {
+                        actor.morale = Math.min(100, actor.morale + 20);
+                        actor.loyalty = Math.min(100, actor.loyalty + 15);
+                    }
+                });
+            }
+
+            if (winningFilm.director) {
+                const director = DIRECTORS[winningFilm.director.id];
+                if (director) {
+                    director.morale = Math.min(100, director.morale + 25);
+                    director.loyalty = Math.min(100, director.loyalty + 20);
+                }
+            }
+        });
+    }
+
+    /**
+     * Get talent performance modifier based on morale
+     * Returns multiplier for quality (0.8 to 1.2)
+     */
+    function getTalentPerformanceModifier(talentId, isActor = true) {
+        const talent = isActor ? ACTORS[talentId] : DIRECTORS[talentId];
+        if (!talent) return 1.0;
+
+        const morale = talent.morale || 75;
+
+        // Morale affects performance quality
+        // 50 morale = 0.8x, 75 morale = 1.0x, 100 morale = 1.2x
+        return 0.8 + ((morale - 50) / 50) * 0.4;
+    }
+
+    // Initialize all talent morale on load
+    initializeTalentMorale();
+
     // Public API
     return {
         ACTORS,
@@ -661,6 +860,10 @@ window.TalentRoster = (function() {
         calculateCastCost,
         calculateDirectorCost,
         calculateTalentQualityBonus,
-        calculateCastAppeal
+        calculateCastAppeal,
+        updateTalentMorale,
+        updateMoraleAfterAwards,
+        getTalentPerformanceModifier,
+        initializeTalentMorale
     };
 })();

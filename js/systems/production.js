@@ -73,6 +73,20 @@ window.ProductionSystem = (function() {
             currentQuality: script.quality,
             castChemistry: 50, // Will be set during casting
             directorSkill: 60, // Will be set when director assigned
+
+            // Quality Components (for detailed breakdown)
+            qualityComponents: {
+                script: script.quality,
+                direction: 0,
+                performances: 0,
+                productionValue: 0,
+                editing: 0
+            },
+
+            // Reshoot tracking
+            reshootHistory: [],
+            hasTestScreening: false,
+            testScreeningResults: null
             
             // Crew & Cast
             director: null,
@@ -225,6 +239,9 @@ window.ProductionSystem = (function() {
             case 'PRINCIPAL_PHOTOGRAPHY':
                 // Main filming - most events happen here
                 updateShootingProgress(film, gameState);
+
+                // Check for production decision points
+                checkProductionDecisionPoints(film, gameState);
                 break;
                 
             case 'POST_PRODUCTION':
@@ -232,6 +249,11 @@ window.ProductionSystem = (function() {
                 if (Math.random() < 0.15) {
                     // Chance for quality improvements in editing
                     film.currentQuality = Math.min(100, film.currentQuality + 1);
+                }
+
+                // Trigger test screening at midpoint of post-production
+                if (film.weeksInCurrentPhase === 3 && !film.hasTestScreening) {
+                    triggerTestScreening(film, gameState);
                 }
                 break;
                 
@@ -693,6 +715,430 @@ window.ProductionSystem = (function() {
     }
     
     /**
+     * Check for production decision points during principal photography
+     */
+    function checkProductionDecisionPoints(film, gameState) {
+        // Decision points at weeks 2, 6, 10, 14 of principal photography
+        const week = film.weeksInCurrentPhase;
+        const decisionWeeks = [2, 6, 10, 14];
+
+        if (!decisionWeeks.includes(week)) return;
+
+        // Mark that we've shown this decision
+        if (!film.decisionPointsShown) {
+            film.decisionPointsShown = [];
+        }
+
+        if (film.decisionPointsShown.includes(week)) return;
+        film.decisionPointsShown.push(week);
+
+        // Show appropriate decision point
+        switch(week) {
+            case 2:
+                showCastingConfirmationDecision(film, gameState);
+                break;
+            case 6:
+                showFirstCutScreeningDecision(film, gameState);
+                break;
+            case 10:
+                showMarketingStrategyDecision(film, gameState);
+                break;
+            case 14:
+                showFinalCutDecision(film, gameState);
+                break;
+        }
+    }
+
+    /**
+     * Decision Point 1: Casting Confirmation (Week 2)
+     */
+    function showCastingConfirmationDecision(film, gameState) {
+        const leadActor = film.leadActors[0]?.name || 'Unknown Actor';
+
+        const modalContent = `
+            <div class="production-decision">
+                <h2>Casting Confirmation - "${film.title}"</h2>
+                <p class="decision-context">Week 2 of shooting. Early dailies show ${leadActor}'s performance.</p>
+
+                <div class="current-status">
+                    <p><strong>Lead Actor:</strong> ${leadActor}</p>
+                    <p><strong>Cast Chemistry:</strong> ${film.castChemistry}/100</p>
+                    <p><strong>Current Quality:</strong> ${film.currentQuality}/100</p>
+                </div>
+
+                <div class="decision-choices">
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'casting', 0)">
+                        <div class="choice-title">Keep Current Cast</div>
+                        <div class="choice-desc">Trust your initial instincts</div>
+                        <div class="choice-cost">No cost</div>
+                    </button>
+
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'casting', 1)">
+                        <div class="choice-title">Recast Supporting Roles</div>
+                        <div class="choice-desc">Try to improve chemistry with new supporting cast</div>
+                        <div class="choice-cost">Cost: $5,000 | +1 week delay</div>
+                    </button>
+
+                    <button class="choice-btn danger" onclick="ProductionSystem.resolveDecision(${film.id}, 'casting', 2)">
+                        <div class="choice-title">Replace Lead Actor</div>
+                        <div class="choice-desc">Risky move - restart shooting with new lead</div>
+                        <div class="choice-cost">Cost: $15,000 | +3 weeks delay</div>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        if (window.HollywoodMogul) {
+            window.HollywoodMogul.showModal(modalContent);
+        }
+    }
+
+    /**
+     * Decision Point 2: First Cut Screening (Week 6)
+     */
+    function showFirstCutScreeningDecision(film, gameState) {
+        const qualityPreview = film.currentQuality + Math.floor(Math.random() * 10 - 5);
+
+        const modalContent = `
+            <div class="production-decision">
+                <h2>First Cut Screening - "${film.title}"</h2>
+                <p class="decision-context">Internal screening of rough footage. The film is taking shape.</p>
+
+                <div class="quality-preview">
+                    <h3>Early Quality Estimate: ${qualityPreview}/100</h3>
+                    <div class="quality-bar">
+                        <div class="quality-fill" style="width: ${qualityPreview}%"></div>
+                    </div>
+                </div>
+
+                <div class="decision-choices">
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'firstcut', 0)">
+                        <div class="choice-title">Proceed As Planned</div>
+                        <div class="choice-desc">Footage looks good, stay on schedule</div>
+                        <div class="choice-cost">No cost</div>
+                    </button>
+
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'firstcut', 1)">
+                        <div class="choice-title">Add Polish Scenes</div>
+                        <div class="choice-desc">Shoot additional character moments</div>
+                        <div class="choice-cost">Cost: $8,000 | 60% chance +0.5 quality</div>
+                    </button>
+
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'firstcut', 2)">
+                        <div class="choice-title">Concerned - Add Safety Coverage</div>
+                        <div class="choice-desc">Shoot alternate takes and angles for editing options</div>
+                        <div class="choice-cost">Cost: $12,000 | +1 week | Better editing options later</div>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        if (window.HollywoodMogul) {
+            window.HollywoodMogul.showModal(modalContent);
+        }
+    }
+
+    /**
+     * Decision Point 3: Marketing Strategy (Week 10)
+     */
+    function showMarketingStrategyDecision(film, gameState) {
+        const modalContent = `
+            <div class="production-decision">
+                <h2>Marketing Strategy - "${film.title}"</h2>
+                <p class="decision-context">Shooting wraps soon. Time to plan your release strategy.</p>
+
+                <div class="current-status">
+                    <p><strong>Genre:</strong> ${film.genre}</p>
+                    <p><strong>Current Quality:</strong> ${film.currentQuality}/100</p>
+                    <p><strong>Budget Spent:</strong> $${film.spentToDate.toLocaleString()}</p>
+                </div>
+
+                <div class="decision-choices">
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'marketing', 0)">
+                        <div class="choice-title">Wide Release Strategy</div>
+                        <div class="choice-desc">500+ theaters, big marketing push</div>
+                        <div class="choice-cost">Reserve $25,000 for marketing</div>
+                    </button>
+
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'marketing', 1)">
+                        <div class="choice-title">Limited Release Strategy</div>
+                        <div class="choice-desc">100 select theaters, word-of-mouth</div>
+                        <div class="choice-cost">Reserve $8,000 for marketing</div>
+                    </button>
+
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'marketing', 2)">
+                        <div class="choice-title">Platform Release</div>
+                        <div class="choice-desc">Start small, expand if successful</div>
+                        <div class="choice-cost">Reserve $15,000 for marketing</div>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        if (window.HollywoodMogul) {
+            window.HollywoodMogul.showModal(modalContent);
+        }
+    }
+
+    /**
+     * Decision Point 4: Final Cut (Week 14)
+     */
+    function showFinalCutDecision(film, gameState) {
+        const canAffordReshoots = gameState.cash >= 20000;
+
+        const modalContent = `
+            <div class="production-decision">
+                <h2>Final Cut Decision - "${film.title}"</h2>
+                <p class="decision-context">Last chance to make changes before post-production.</p>
+
+                <div class="current-status">
+                    <p><strong>Current Quality:</strong> ${film.currentQuality}/100</p>
+                    <p><strong>Available Cash:</strong> $${gameState.cash.toLocaleString()}</p>
+                    <p><strong>Delay Tolerance:</strong> ${film.onSchedule ? 'On Schedule' : 'Behind Schedule'}</p>
+                </div>
+
+                <div class="decision-choices">
+                    <button class="choice-btn" onclick="ProductionSystem.resolveDecision(${film.id}, 'finalcut', 0)">
+                        <div class="choice-title">Accept Current Cut</div>
+                        <div class="choice-desc">Move to post-production as planned</div>
+                        <div class="choice-cost">No cost</div>
+                    </button>
+
+                    <button class="choice-btn ${!canAffordReshoots ? 'disabled' : ''}"
+                            onclick="ProductionSystem.resolveDecision(${film.id}, 'finalcut', 1)"
+                            ${!canAffordReshoots ? 'disabled' : ''}>
+                        <div class="choice-title">Minor Reshoots</div>
+                        <div class="choice-desc">Fix a few problematic scenes</div>
+                        <div class="choice-cost">Cost: $20,000 | +2 weeks | 60% chance +0.5 quality</div>
+                    </button>
+
+                    <button class="choice-btn ${gameState.cash < 50000 ? 'disabled' : ''}"
+                            onclick="ProductionSystem.resolveDecision(${film.id}, 'finalcut', 2)"
+                            ${gameState.cash < 50000 ? 'disabled' : ''}>
+                        <div class="choice-title">Major Reshoots</div>
+                        <div class="choice-desc">Re-film entire sequences</div>
+                        <div class="choice-cost">Cost: $50,000 | +4 weeks | 70% chance +1.0 quality</div>
+                    </button>
+                </div>
+            </div>
+        `;
+
+        if (window.HollywoodMogul) {
+            window.HollywoodMogul.showModal(modalContent);
+        }
+    }
+
+    /**
+     * Resolve production decision point
+     */
+    function resolveDecision(filmId, decisionType, choiceIndex) {
+        const film = window._currentProductionFilm ||
+                      window.HollywoodMogul.getGameState().activeFilms.find(f => f.id === filmId);
+        const gameState = window.HollywoodMogul.getGameState();
+
+        if (!film) return;
+
+        let message = '';
+
+        switch(decisionType) {
+            case 'casting':
+                message = resolveCastingDecision(film, gameState, choiceIndex);
+                break;
+            case 'firstcut':
+                message = resolveFirstCutDecision(film, gameState, choiceIndex);
+                break;
+            case 'marketing':
+                message = resolveMarketingDecision(film, gameState, choiceIndex);
+                break;
+            case 'finalcut':
+                message = resolveFinalCutDecision(film, gameState, choiceIndex);
+                break;
+        }
+
+        if (window.HollywoodMogul) {
+            window.HollywoodMogul.closeModal();
+            window.HollywoodMogul.addAlert({
+                type: 'production',
+                icon: '🎬',
+                message: message,
+                priority: 'medium'
+            });
+        }
+    }
+
+    function resolveCastingDecision(film, gameState, choice) {
+        switch(choice) {
+            case 0: // Keep current cast
+                return `"${film.title}": Cast confirmed. Moving forward.`;
+            case 1: // Recast supporting
+                gameState.cash -= 5000;
+                film.spentToDate += 5000;
+                film.delayWeeks += 1;
+                film.castChemistry = Math.min(100, film.castChemistry + 10);
+                return `"${film.title}": Supporting cast recast. Chemistry improved!`;
+            case 2: // Replace lead
+                gameState.cash -= 15000;
+                film.spentToDate += 15000;
+                film.delayWeeks += 3;
+                film.castChemistry = Math.floor(Math.random() * 30) + 60; // Random 60-90
+                return `"${film.title}": New lead actor. Major gamble taken!`;
+        }
+    }
+
+    function resolveFirstCutDecision(film, gameState, choice) {
+        switch(choice) {
+            case 0: // Proceed as planned
+                return `"${film.title}": Proceeding with current footage.`;
+            case 1: // Add polish scenes
+                gameState.cash -= 8000;
+                film.spentToDate += 8000;
+                if (Math.random() < 0.6) {
+                    film.currentQuality = Math.min(100, film.currentQuality + 5);
+                    return `"${film.title}": Polish scenes improved the film!`;
+                }
+                return `"${film.title}": Polish scenes added, minor improvement.`;
+            case 2: // Safety coverage
+                gameState.cash -= 12000;
+                film.spentToDate += 12000;
+                film.delayWeeks += 1;
+                film.qualityComponents.editing = Math.min(100, film.qualityComponents.editing + 15);
+                return `"${film.title}": Extra coverage will help in editing.`;
+        }
+    }
+
+    function resolveMarketingDecision(film, gameState, choice) {
+        switch(choice) {
+            case 0: // Wide release
+                film.plannedDistribution = 'wide';
+                return `"${film.title}": Planning wide release strategy.`;
+            case 1: // Limited release
+                film.plannedDistribution = 'limited';
+                return `"${film.title}": Planning limited release strategy.`;
+            case 2: // Platform release
+                film.plannedDistribution = 'platform';
+                return `"${film.title}": Planning platform release strategy.`;
+        }
+    }
+
+    function resolveFinalCutDecision(film, gameState, choice) {
+        switch(choice) {
+            case 0: // Accept
+                return `"${film.title}": Final cut approved. Moving to post-production.`;
+            case 1: // Minor reshoots
+                return orderReshoots(film.id, 'minor');
+            case 2: // Major reshoots
+                return orderReshoots(film.id, 'major');
+        }
+    }
+
+    /**
+     * Order reshoots for a film
+     */
+    function orderReshoots(filmId, scope) {
+        const film = window.HollywoodMogul.getGameState().activeFilms.find(f => f.id === filmId);
+        const gameState = window.HollywoodMogul.getGameState();
+
+        if (!film) return 'Film not found';
+
+        const reshoot = {
+            scope: scope,
+            timestamp: new Date(gameState.currentDate),
+            week: film.totalWeeks
+        };
+
+        if (scope === 'minor') {
+            gameState.cash -= 20000;
+            film.spentToDate += 20000;
+            film.delayWeeks += 2;
+
+            // 60% chance +0.5 quality
+            if (Math.random() < 0.6) {
+                film.currentQuality = Math.min(100, film.currentQuality + 5);
+                film.qualityComponents.performances = Math.min(100, film.qualityComponents.performances + 10);
+                reshoot.result = 'improved';
+            } else {
+                reshoot.result = 'no_change';
+            }
+        } else if (scope === 'major') {
+            gameState.cash -= 50000;
+            film.spentToDate += 50000;
+            film.delayWeeks += 4;
+
+            // 70% chance +1.0 quality, 30% chance +0.5
+            if (Math.random() < 0.7) {
+                film.currentQuality = Math.min(100, film.currentQuality + 10);
+                film.qualityComponents.performances = Math.min(100, film.qualityComponents.performances + 15);
+                reshoot.result = 'major_improvement';
+            } else {
+                film.currentQuality = Math.min(100, film.currentQuality + 5);
+                film.qualityComponents.performances = Math.min(100, film.qualityComponents.performances + 8);
+                reshoot.result = 'minor_improvement';
+            }
+        }
+
+        film.reshootHistory.push(reshoot);
+        updateBudgetStatus(film);
+
+        const resultMessages = {
+            'improved': `"${film.title}": Minor reshoots successful! Quality improved.`,
+            'no_change': `"${film.title}": Minor reshoots completed with minimal impact.`,
+            'major_improvement': `"${film.title}": Major reshoots dramatically improved the film!`,
+            'minor_improvement': `"${film.title}": Major reshoots helped, but less than hoped.`
+        };
+
+        return resultMessages[reshoot.result];
+    }
+
+    /**
+     * Rush editing to save time
+     */
+    function rushEdit(filmId) {
+        const film = window.HollywoodMogul.getGameState().activeFilms.find(f => f.id === filmId);
+
+        if (!film || film.phase !== 'POST_PRODUCTION') {
+            return { success: false, message: 'Film not in post-production' };
+        }
+
+        // Reduce post-production time by 2 weeks
+        film.weeksInCurrentPhase = Math.min(
+            film.weeksInCurrentPhase + 2,
+            PRODUCTION_PHASES.POST_PRODUCTION.duration
+        );
+
+        // 30% chance to lose quality
+        if (Math.random() < 0.3) {
+            film.currentQuality = Math.max(0, film.currentQuality - 5);
+            film.qualityComponents.editing = Math.max(0, film.qualityComponents.editing - 10);
+            return {
+                success: true,
+                message: `"${film.title}": Rush editing completed but quality suffered.`
+            };
+        }
+
+        return {
+            success: true,
+            message: `"${film.title}": Rush editing successful without quality loss!`
+        };
+    }
+
+    /**
+     * Trigger test screening
+     */
+    function triggerTestScreening(film, gameState) {
+        if (!window.TestScreeningSystem) {
+            film.hasTestScreening = true;
+            return;
+        }
+
+        const results = window.TestScreeningSystem.testScreening(film);
+        film.hasTestScreening = true;
+        film.testScreeningResults = results;
+
+        // Show test screening modal
+        window.TestScreeningSystem.showTestScreeningModal(film, results, gameState);
+    }
+
+    /**
      * HELPER FUNCTIONS
      */
     
@@ -745,16 +1191,77 @@ window.ProductionSystem = (function() {
     function doCasting(film, gameState) {
         // Placeholder casting - will be enhanced with talent system
         const actors = [
-            { name: 'Clark Gable', starPower: 95, chemistry: 80 },
-            { name: 'Greta Garbo', starPower: 90, chemistry: 85 },
-            { name: 'James Stewart', starPower: 80, chemistry: 90 },
-            { name: 'Katharine Hepburn', starPower: 88, chemistry: 75 }
+            { id: 'clark_gable', name: 'Clark Gable', starPower: 95, chemistry: 80, loyalty: 50 },
+            { id: 'bette_davis', name: 'Bette Davis', starPower: 90, chemistry: 85, loyalty: 50 },
+            { id: 'james_stewart', name: 'James Stewart', starPower: 88, chemistry: 90, loyalty: 50 },
+            { id: 'katharine_hepburn', name: 'Katharine Hepburn', starPower: 90, chemistry: 75, loyalty: 50 }
         ];
-        
+
         // Assign random lead actor for now
         const leadActor = actors[Math.floor(Math.random() * actors.length)];
         film.leadActors.push(leadActor);
         film.castChemistry = leadActor.chemistry;
+
+        // If using real talent system, get actual loyalty
+        if (window.TalentRoster && window.TalentRoster.getActorById) {
+            const actualActor = window.TalentRoster.getActorById(leadActor.id);
+            if (actualActor) {
+                film.leadActors[0].loyalty = actualActor.loyalty || 50;
+            }
+        }
+
+        // Check for star vehicle condition after casting
+        checkStarVehicle(film);
+    }
+
+    /**
+     * Check if film qualifies as a star vehicle
+     * Requires: A-list talent (starPower >= 80) with loyalty >= 70
+     */
+    function checkStarVehicle(film) {
+        film.starVehicle = false;
+
+        // Check lead actors
+        if (film.leadActors && film.leadActors.length > 0) {
+            film.leadActors.forEach(actor => {
+                if (actor.starPower >= 80 && actor.loyalty >= 70) {
+                    film.starVehicle = true;
+                    film.starVehicleActor = actor.name;
+                }
+            });
+        }
+
+        // Check director (if they have star power equivalent)
+        if (film.director && film.director.talent >= 90) {
+            // Get director loyalty if using talent system
+            if (window.TalentRoster && window.TalentRoster.getDirectorById) {
+                const actualDirector = window.TalentRoster.getDirectorById(film.director.id);
+                if (actualDirector && actualDirector.loyalty >= 70) {
+                    film.starVehicle = true;
+                    film.starVehicleDirector = film.director.name;
+                }
+            }
+        }
+
+        // Apply star vehicle bonuses
+        if (film.starVehicle) {
+            film.starVehicleBonus = {
+                boxOfficeBonus: 0.15, // +15% box office
+                awardBonus: 0.10 // +10% award consideration
+            };
+
+            // Add notification
+            if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+                window.HollywoodMogul.addEvent({
+                    type: 'production',
+                    title: 'Star Vehicle Detected!',
+                    message: `"${film.title}" is being crafted as a star vehicle for ${film.starVehicleActor || film.starVehicleDirector}!`,
+                    severity: 'success'
+                });
+            }
+        }
+
+        return film.starVehicle;
     }
     
     function hasRelevantBacklot(genre, gameState) {
@@ -811,41 +1318,84 @@ window.ProductionSystem = (function() {
     }
     
     function calculateFinalQuality(film) {
-        let quality = film.scriptQuality;
-        
-        // Director skill impact
-        quality += (film.directorSkill - 70) * 0.2;
-        
-        // Cast chemistry impact
-        quality += (film.castChemistry - 70) * 0.1;
-        
-        // Production issues impact
-        quality -= film.crisisCount * 3;
-        
-        // Crew efficiency impact
-        quality += (film.crewEfficiency - 70) * 0.1;
-        
-        // Budget issues impact
-        if (!film.onBudget) {
-            quality -= 5;
+        // Initialize quality components if not set
+        if (!film.qualityComponents) {
+            film.qualityComponents = {
+                script: film.scriptQuality,
+                direction: 0,
+                performances: 0,
+                productionValue: 0,
+                editing: 0
+            };
         }
-        
-        if (!film.onSchedule) {
-            quality -= 3;
+
+        // Calculate each component
+        // 1. Script (base quality)
+        film.qualityComponents.script = film.scriptQuality;
+
+        // 2. Direction (based on director skill)
+        film.qualityComponents.direction = Math.max(0, Math.min(100,
+            film.directorSkill + (film.onSchedule ? 5 : -10)
+        ));
+
+        // 3. Performances (based on cast chemistry)
+        film.qualityComponents.performances = Math.max(0, Math.min(100,
+            film.castChemistry - (film.crisisCount * 5)
+        ));
+
+        // 4. Production Value (based on budget and efficiency)
+        const budgetQuality = Math.min(100, (film.originalBudget / 50000) * 40 + 40);
+        film.qualityComponents.productionValue = Math.max(0, Math.min(100,
+            budgetQuality * (film.crewEfficiency / 100) - (film.onBudget ? 0 : 15)
+        ));
+
+        // 5. Editing (default 60, modified by decisions and reshoots)
+        if (film.qualityComponents.editing === 0) {
+            film.qualityComponents.editing = 60;
         }
-        
-        return Math.max(10, Math.min(100, Math.floor(quality)));
+
+        // Calculate weighted average
+        // Script: 30%, Direction: 25%, Performances: 25%, Production: 10%, Editing: 10%
+        let finalQuality = (
+            film.qualityComponents.script * 0.30 +
+            film.qualityComponents.direction * 0.25 +
+            film.qualityComponents.performances * 0.25 +
+            film.qualityComponents.productionValue * 0.10 +
+            film.qualityComponents.editing * 0.10
+        );
+
+        // Star vehicle bonus (+10% award consideration translates to quality boost)
+        if (film.starVehicle && film.starVehicleBonus) {
+            finalQuality += finalQuality * film.starVehicleBonus.awardBonus;
+        }
+
+        // Talent morale impact (if talent system available)
+        if (window.TalentRoster && window.TalentRoster.getTalentPerformanceModifier) {
+            if (film.leadActors && film.leadActors.length > 0) {
+                const actorModifier = window.TalentRoster.getTalentPerformanceModifier(film.leadActors[0].id, true);
+                finalQuality *= actorModifier;
+            }
+            if (film.director && film.director.id) {
+                const directorModifier = window.TalentRoster.getTalentPerformanceModifier(film.director.id, false);
+                finalQuality *= directorModifier;
+            }
+        }
+
+        return Math.max(10, Math.min(100, Math.floor(finalQuality)));
     }
     
     function calculateProjectedEarnings(film, gameState) {
         const baseEarnings = film.originalBudget * 1.5; // Conservative 1.5x budget
         const qualityMultiplier = film.finalQuality / 70; // 70 is baseline
         const genreMultiplier = film.genreHeat / 100;
-        
-        const wide = Math.floor(baseEarnings * qualityMultiplier * genreMultiplier * 1.5);
-        const limited = Math.floor(baseEarnings * qualityMultiplier * genreMultiplier * 0.8);
+
+        // Star vehicle box office bonus (+15%)
+        const starVehicleMultiplier = film.starVehicle ? 1.15 : 1.0;
+
+        const wide = Math.floor(baseEarnings * qualityMultiplier * genreMultiplier * 1.5 * starVehicleMultiplier);
+        const limited = Math.floor(baseEarnings * qualityMultiplier * genreMultiplier * 0.8 * starVehicleMultiplier);
         const sellRights = Math.floor(film.originalBudget * 0.6); // 60% of budget
-        
+
         return { wide, limited, sellRights };
     }
     
@@ -873,12 +1423,18 @@ window.ProductionSystem = (function() {
         processWeeklyProduction,
         resolveEvent,
         chooseDistribution,
-        
+        checkStarVehicle,
+
+        // Decision system
+        resolveDecision,
+        orderReshoots,
+        rushEdit,
+
         // Helper functions for external systems
         calculateWeeklyBurn,
         calculateShootingDays,
         getGenreHeat,
-        
+
         // Constants for other systems
         PRODUCTION_PHASES,
         EVENT_PROBABILITIES

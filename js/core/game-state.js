@@ -355,6 +355,11 @@ window.HollywoodMogul = (function() {
             window.HistoricalEvents.checkForEvents(gameState);
         }
 
+        // Awards events (nominations in January, ceremony in February)
+        if (window.AwardsSystem && window.AwardsSystem.checkAwardsEvents) {
+            window.AwardsSystem.checkAwardsEvents(gameState);
+        }
+
         // Update stats - calculate years survived based on current date
         const startDate = new Date(1933, 0, 1); // January 1, 1933
         const daysSurvived = Math.floor((gameState.currentDate - startDate) / (1000 * 60 * 60 * 24));

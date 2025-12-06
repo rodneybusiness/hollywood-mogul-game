@@ -1,0 +1,416 @@
+/**
+ * HOLLYWOOD MOGUL - CHAIN C HISTORICAL IMMERSION STYLES
+ * Styles for genre heat display and script commissioning
+ */
+
+/* ===== GENRE HEAT DISPLAY ===== */
+
+.market-trends-panel {
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid var(--era-secondary-gold, #DAA520);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.panel-subtitle {
+    font-family: var(--font-accent, 'Cinzel', serif);
+    font-size: 1.125rem;
+    color: var(--era-primary-gold, #B8860B);
+    margin-bottom: 1rem;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.genre-heat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.genre-heat-card {
+    background: rgba(10, 10, 10, 0.6);
+    border: 2px solid rgba(184, 134, 11, 0.3);
+    border-radius: 4px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    cursor: help;
+}
+
+.genre-heat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+    border-color: var(--era-primary-gold, #B8860B);
+}
+
+.genre-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.genre-name {
+    font-family: var(--font-accent, 'Cinzel', serif);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--era-ivory, #FFFFF0);
+    letter-spacing: 0.05em;
+}
+
+.trend-arrow {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.trend-up {
+    color: #4CAF50;
+}
+
+.trend-down {
+    color: #F44336;
+}
+
+.trend-stable {
+    color: #FFA726;
+}
+
+.heat-bar-container {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    height: 24px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.heat-bar {
+    height: 100%;
+    transition: width 0.5s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.heat-bar.heat-hot {
+    background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+}
+
+.heat-bar.heat-warm {
+    background: linear-gradient(90deg, #FFA726 0%, #FF9800 100%);
+}
+
+.heat-bar.heat-cool {
+    background: linear-gradient(90deg, #9E9E9E 0%, #757575 100%);
+}
+
+.heat-bar.heat-cold {
+    background: linear-gradient(90deg, #607D8B 0%, #455A64 100%);
+}
+
+.heat-value {
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--primary-black, #0A0A0A);
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+    position: relative;
+    z-index: 1;
+}
+
+.heat-label {
+    font-family: var(--font-accent, 'Cinzel', serif);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+.heat-label.heat-hot {
+    color: #FFD700;
+}
+
+.heat-label.heat-warm {
+    color: #FFA726;
+}
+
+.heat-label.heat-cool {
+    color: #9E9E9E;
+}
+
+.heat-label.heat-cold {
+    color: #607D8B;
+}
+
+/* ===== SCRIPT COMMISSIONING MODAL ===== */
+
+.commission-modal {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.commission-modal h2 {
+    font-family: var(--font-accent, 'Cinzel', serif);
+    font-size: 2rem;
+    color: var(--era-primary-gold, #B8860B);
+    margin-bottom: 0.5rem;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+.commission-subtitle {
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 1rem;
+    color: var(--era-secondary-gold, #DAA520);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+.commission-form {
+    background: rgba(10, 10, 10, 0.4);
+    border: 1px solid rgba(184, 134, 11, 0.3);
+    border-radius: 4px;
+    padding: 2rem;
+}
+
+.form-section {
+    margin-bottom: 1.5rem;
+}
+
+.form-section label {
+    font-family: var(--font-accent, 'Cinzel', serif);
+    font-size: 0.875rem;
+    color: var(--era-primary-gold, #B8860B);
+    display: block;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.form-section small {
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 240, 0.6);
+    display: block;
+    margin-top: 0.25rem;
+    font-style: italic;
+}
+
+.commission-select,
+.commission-input {
+    font-family: var(--font-body, 'Lato', sans-serif);
+    width: 100%;
+    padding: 0.75rem;
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid var(--era-secondary-gold, #DAA520);
+    border-radius: 4px;
+    color: var(--era-ivory, #FFFFF0);
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.commission-select:focus,
+.commission-input:focus {
+    outline: none;
+    border-color: var(--era-primary-gold, #B8860B);
+    box-shadow: 0 0 8px rgba(184, 134, 11, 0.4);
+}
+
+.commission-select option {
+    background: var(--secondary-black, #1A1A1A);
+    color: var(--era-ivory, #FFFFF0);
+}
+
+.commission-info {
+    background: rgba(184, 134, 11, 0.1);
+    border: 1px solid rgba(184, 134, 11, 0.3);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.commission-info p {
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 0.875rem;
+    color: var(--era-ivory, #FFFFF0);
+    margin-bottom: 0.5rem;
+}
+
+.commission-info p:last-child {
+    margin-bottom: 0;
+}
+
+.commission-info strong {
+    color: var(--era-primary-gold, #B8860B);
+}
+
+.commission-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.commission-actions .action-btn {
+    flex: 1;
+    max-width: 200px;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+    .genre-heat-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .genre-heat-card {
+        padding: 0.75rem;
+    }
+
+    .genre-name {
+        font-size: 0.75rem;
+    }
+
+    .trend-arrow {
+        font-size: 1rem;
+    }
+
+    .heat-bar-container {
+        height: 20px;
+    }
+
+    .heat-value {
+        font-size: 0.625rem;
+    }
+
+    .commission-modal {
+        padding: 1rem;
+    }
+
+    .commission-form {
+        padding: 1rem;
+    }
+
+    .commission-actions {
+        flex-direction: column;
+    }
+
+    .commission-actions .action-btn {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .genre-heat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== COMMISSIONED SCRIPTS STATUS ===== */
+
+.commissioned-scripts-panel {
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid var(--era-accent, #DAA520);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.commissioned-script-item {
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid rgba(184, 134, 11, 0.3);
+    border-radius: 4px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.commissioned-script-item:last-child {
+    margin-bottom: 0;
+}
+
+.commissioned-script-info {
+    flex-grow: 1;
+}
+
+.commissioned-script-title {
+    font-family: var(--font-heading, 'Playfair Display', serif);
+    font-size: 1rem;
+    color: var(--era-ivory, #FFFFF0);
+    margin-bottom: 0.25rem;
+}
+
+.commissioned-script-meta {
+    font-family: var(--font-body, 'Lato', sans-serif);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 240, 0.6);
+}
+
+.commissioned-script-status {
+    font-family: var(--font-accent, 'Cinzel', serif);
+    font-size: 0.75rem;
+    color: var(--era-secondary-gold, #DAA520);
+    padding: 0.5rem 1rem;
+    background: rgba(218, 165, 32, 0.1);
+    border: 1px solid var(--era-secondary-gold, #DAA520);
+    border-radius: 4px;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ===== ANIMATIONS ===== */
+
+@keyframes genreHeatPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.genre-heat-card.heat-hot {
+    animation: genreHeatPulse 2s ease-in-out infinite;
+}
+
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.market-trends-panel {
+    animation: slideInFromTop 0.5s ease-out;
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+@media (prefers-reduced-motion: reduce) {
+    .genre-heat-card,
+    .heat-bar,
+    .commission-select,
+    .commission-input {
+        transition: none;
+    }
+
+    .genre-heat-card.heat-hot {
+        animation: none;
+    }
+
+    .market-trends-panel {
+        animation: none;
+    }
+}

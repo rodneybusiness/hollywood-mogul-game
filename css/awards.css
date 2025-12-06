@@ -1,0 +1,373 @@
+/* ===== AWARDS CEREMONY STYLING ===== */
+
+.awards-overlay {
+    background: rgba(10, 10, 10, 0.96);
+    backdrop-filter: blur(10px);
+}
+
+.awards-modal {
+    background: linear-gradient(135deg, #1A1A1A 0%, #0A0A0A 100%);
+    border: 3px solid #B8860B;
+    border-radius: 8px;
+    max-width: 900px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 60px rgba(184, 134, 11, 0.4);
+}
+
+.awards-header {
+    background: linear-gradient(90deg, #B8860B 0%, #DAA520 50%, #B8860B 100%);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    border-bottom: 3px solid #DAA520;
+}
+
+.nominations-header {
+    background: linear-gradient(90deg, #4A4A4A 0%, #5A5A5A 50%, #4A4A4A 100%);
+    border-bottom: 3px solid #B8860B;
+}
+
+.ceremony-header {
+    background: linear-gradient(90deg, #B8860B 0%, #FFD700 50%, #B8860B 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.awards-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #0A0A0A;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.awards-year {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    color: #0A0A0A;
+    margin-top: 0.5rem;
+    letter-spacing: 0.15em;
+    opacity: 0.9;
+}
+
+.ceremony-tagline {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #0A0A0A;
+    margin-top: 0.5rem;
+    letter-spacing: 0.1em;
+    font-style: italic;
+}
+
+.awards-content {
+    padding: 2rem;
+}
+
+/* Nominations Section */
+.nominations-intro {
+    text-align: center;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #DAA520;
+    margin-bottom: 2.5rem;
+    padding: 1rem;
+    border: 1px solid #B8860B;
+    border-radius: 4px;
+    background: rgba(184, 134, 11, 0.05);
+}
+
+.award-category {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(26, 26, 26, 0.6);
+    border: 1px solid #B8860B;
+    border-radius: 4px;
+}
+
+.category-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #B8860B;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.category-icon {
+    font-size: 1.8rem;
+}
+
+.nominees-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.nominee-item {
+    padding: 0.75rem 1rem;
+    background: rgba(184, 134, 11, 0.08);
+    border-left: 3px solid #5A5A5A;
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    color: #FFFFF0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.nominee-item:hover {
+    background: rgba(184, 134, 11, 0.15);
+    transform: translateX(5px);
+}
+
+.nominee-item.player-nominee {
+    background: rgba(184, 134, 11, 0.2);
+    border-left-color: #B8860B;
+    border-left-width: 4px;
+}
+
+.nominee-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+}
+
+.player-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #B8860B;
+    background: rgba(184, 134, 11, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    border: 1px solid #B8860B;
+    letter-spacing: 0.1em;
+}
+
+/* Ceremony Section */
+.ceremony-intro {
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: #FFFFF0;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 2px solid #B8860B;
+    border-radius: 4px;
+    background: rgba(184, 134, 11, 0.1);
+}
+
+.ceremony-intro.triumph {
+    border-color: #FFD700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(184, 134, 11, 0.1) 100%);
+    color: #FFD700;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.winners-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.award-winner {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(10, 10, 10, 0.8) 100%);
+    border: 2px solid #5A5A5A;
+    border-radius: 4px;
+    transition: all 0.4s ease;
+}
+
+.award-winner:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.2);
+}
+
+.award-winner.player-winner {
+    border-color: #FFD700;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(26, 26, 26, 0.8) 100%);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+.winner-category {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #DAA520;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.winner-film {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.winner-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #FFFFF0;
+}
+
+.player-winner .winner-title {
+    color: #FFD700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+}
+
+.winner-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #FFD700;
+    background: rgba(255, 215, 0, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 2px solid #FFD700;
+    letter-spacing: 0.1em;
+    animation: winnerGlow 2s infinite;
+}
+
+@keyframes winnerGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+    }
+}
+
+.winner-studio {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #DAA520;
+    font-style: italic;
+}
+
+/* Player Wins Summary */
+.player-wins-summary {
+    text-align: center;
+    padding: 2rem;
+    margin: 2rem 0;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(184, 134, 11, 0.1) 100%);
+    border: 3px solid #FFD700;
+    border-radius: 8px;
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.wins-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    font-weight: 900;
+    color: #FFD700;
+    text-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.wins-label {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #DAA520;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1rem;
+}
+
+.wins-impact {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    color: #FFFFF0;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #B8860B;
+}
+
+/* Awards Actions */
+.awards-actions {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #B8860B;
+}
+
+.awards-btn {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 1rem 3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.awards-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(184, 134, 11, 0.4);
+}
+
+/* Confetti Effect */
+.ceremony-modal.confetti-active {
+    position: relative;
+    overflow: hidden;
+}
+
+.confetti-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    opacity: 0.8;
+    animation: confettiFall 5s linear infinite;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .awards-title {
+        font-size: 1.8rem;
+    }
+
+    .category-title {
+        font-size: 1.2rem;
+    }
+
+    .winner-film {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .wins-count {
+        font-size: 4rem;
+    }
+
+    .wins-label {
+        font-size: 1.2rem;
+    }
+}

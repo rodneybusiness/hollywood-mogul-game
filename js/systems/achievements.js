@@ -629,6 +629,124 @@ window.AchievementSystem = (function() {
     }
 
     /**
+     * Get achievement progress for trackable achievements
+     * Chain D Feature #16 - FEEDBACK & CLARITY
+     */
+    function getAchievementProgress(achievementId, gameState) {
+        const achievement = ACHIEVEMENTS[achievementId];
+        if (!achievement) return null;
+
+        // Calculate progress based on achievement type
+        let current = 0;
+        let target = 1;
+        let percentage = 0;
+
+        switch (achievementId) {
+            case 'prolific_producer':
+                current = gameState.stats.filmsProduced || 0;
+                target = 10;
+                break;
+            case 'hollywood_legend':
+                current = gameState.stats.filmsProduced || 0;
+                target = 25;
+                break;
+            case 'quality_over_quantity':
+                current = (gameState.completedFilms || []).filter(f => f.quality >= 90).length;
+                target = 1;
+                break;
+            case 'deep_pockets':
+                current = gameState.cash;
+                target = 250000;
+                break;
+            case 'movie_mogul':
+                current = gameState.cash;
+                target = 500000;
+                break;
+            case 'box_office_king':
+                current = gameState.stats.boxOfficeTotal || 0;
+                target = 1000000;
+                break;
+            case 'survived_depression':
+                current = gameState.gameYear || 1933;
+                target = 1940;
+                break;
+            case 'oscar_nominated':
+                current = gameState.stats.oscarNominations || 0;
+                target = 1;
+                break;
+            case 'oscar_winner':
+                current = gameState.stats.oscarsWon || 0;
+                target = 1;
+                break;
+            case 'oscar_dynasty':
+                current = gameState.stats.oscarsWon || 0;
+                target = 5;
+                break;
+            case 'renaissance_studio':
+                const genres = new Set((gameState.completedFilms || []).map(f => f.genre));
+                current = genres.size;
+                target = 8;
+                break;
+            default:
+                // For achievements without progress tracking
+                return null;
+        }
+
+        percentage = Math.min(100, Math.floor((current / target) * 100));
+
+        return {
+            current,
+            target,
+            percentage,
+            description: `${current}/${target}`
+        };
+    }
+
+    /**
+     * Get closest achievements to completion
+     */
+    function getClosestAchievements(gameState, count = 3) {
+        const closest = [];
+
+        for (const achievementId in ACHIEVEMENTS) {
+            // Skip unlocked achievements
+            if (unlockedAchievements.has(achievementId)) continue;
+
+            const achievement = ACHIEVEMENTS[achievementId];
+            const progress = getAchievementProgress(achievementId, gameState);
+
+            if (progress && progress.percentage > 0) {
+                closest.push({
+                    id: achievementId,
+                    achievement,
+                    progress
+                });
+            }
+        }
+
+        // Sort by percentage descending
+        closest.sort((a, b) => b.progress.percentage - a.progress.percentage);
+
+        return closest.slice(0, count);
+    }
+
+    /**
+     * Get most recent unlocked achievements
+     */
+    function getRecentAchievements(gameState, count = 3) {
+        if (!gameState.achievementsUnlocked) return [];
+
+        return gameState.achievementsUnlocked
+            .slice(-count)
+            .reverse()
+            .map(record => ({
+                ...ACHIEVEMENTS[record.id],
+                unlockedAt: record.unlockedAt,
+                gameWeek: record.gameWeek
+            }));
+    }
+
+    /**
      * Reset achievements (for new game)
      */
     function reset() {
@@ -659,6 +777,10 @@ window.AchievementSystem = (function() {
         getTotalPoints,
         reset,
         loadFromGameState,
-        ACHIEVEMENTS
+        ACHIEVEMENTS,
+        // Chain D Feature #16
+        getAchievementProgress,
+        getClosestAchievements,
+        getRecentAchievements
     };
 })();

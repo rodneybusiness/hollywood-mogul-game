@@ -5,7 +5,10 @@
 
 window.TimeSystem = (function() {
     'use strict';
-    
+
+    // Track current era for transition detection
+    let currentEraKey = null;
+
     // Historical Periods
     const HISTORICAL_PERIODS = {
         PRE_CODE: { start: 1933, end: 1934, name: "Pre-Code Era" },
@@ -324,7 +327,83 @@ window.TimeSystem = (function() {
     function getDaysInMonth(year, month) {
         return new Date(year, month + 1, 0).getDate();
     }
-    
+
+    /**
+     * Apply era-specific theme to the UI
+     */
+    function applyEraTheme(eraKey) {
+        if (typeof document === 'undefined') return;
+
+        const body = document.body;
+
+        // Remove all era classes
+        body.classList.remove('era-pre-code', 'era-golden-age', 'era-war-years', 'era-post-war');
+
+        // Add new era class
+        const eraClassMap = {
+            'PRE_CODE': 'era-pre-code',
+            'GOLDEN_AGE': 'era-golden-age',
+            'WAR_YEARS': 'era-war-years',
+            'POST_WAR': 'era-post-war'
+        };
+
+        const eraClass = eraClassMap[eraKey];
+        if (eraClass) {
+            body.classList.add(eraClass);
+            console.log(`Applied theme for ${eraKey}`);
+        }
+    }
+
+    /**
+     * Check for era transition and trigger event if changed
+     */
+    function checkEraTransition(year) {
+        const period = getCurrentPeriod(year);
+        if (!period) return null;
+
+        const newEraKey = period.key;
+
+        // Check if era has changed
+        if (currentEraKey !== null && currentEraKey !== newEraKey) {
+            const transition = {
+                fromEra: currentEraKey,
+                toEra: newEraKey,
+                year: year,
+                period: period
+            };
+
+            // Apply new theme
+            applyEraTheme(newEraKey);
+
+            // Trigger era transition event if system exists
+            if (window.EraTransitions && typeof window.EraTransitions.showTransition === 'function') {
+                window.EraTransitions.showTransition(currentEraKey, newEraKey, year);
+            }
+
+            currentEraKey = newEraKey;
+            return transition;
+        }
+
+        // Initialize era on first check
+        if (currentEraKey === null) {
+            currentEraKey = newEraKey;
+            applyEraTheme(newEraKey);
+        }
+
+        return null;
+    }
+
+    /**
+     * Initialize era theme on game load
+     */
+    function initializeEraTheme(year) {
+        const period = getCurrentPeriod(year);
+        if (period) {
+            currentEraKey = period.key;
+            applyEraTheme(currentEraKey);
+        }
+    }
+
     /**
      * Public API
      */
@@ -334,14 +413,14 @@ window.TimeSystem = (function() {
         getCurrentSeason,
         getCurrentHoliday,
         getTimePeriodDescription,
-        
+
         // Modifier functions
         getTimeBasedBoxOfficeModifier,
         getEraGenreModifiers,
-        
+
         // Historical functions
         checkForHistoricalMilestones,
-        
+
         // Date utility functions
         formatDate,
         daysBetween,
@@ -351,7 +430,12 @@ window.TimeSystem = (function() {
         getWeekOfYear,
         isLeapYear,
         getDaysInMonth,
-        
+
+        // Era theme functions
+        applyEraTheme,
+        checkEraTransition,
+        initializeEraTheme,
+
         // Constants
         PERIODS: HISTORICAL_PERIODS,
         SEASONS,

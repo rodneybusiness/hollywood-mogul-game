@@ -1,0 +1,722 @@
+/**
+ * HOLLYWOOD MOGUL - PLAYER AGENCY STYLES
+ * Styles for difficulty settings, scenarios, and custom game setup
+ */
+
+/* ===== NEW GAME MODAL ===== */
+.new-game-modal {
+    width: 90vw;
+    max-width: 1200px;
+    height: 85vh;
+    max-height: 800px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: 2px solid #d4af37;
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+}
+
+.new-game-modal .modal-header {
+    background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%);
+    color: #1a1a1a;
+    padding: 20px;
+    border-bottom: 2px solid #b8960f;
+}
+
+.new-game-modal .modal-header h2 {
+    margin: 0;
+    font-size: 2em;
+    letter-spacing: 3px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.new-game-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    height: calc(100% - 80px);
+    padding: 20px;
+    overflow: hidden;
+}
+
+/* ===== SCENARIO SECTION ===== */
+.scenario-section {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: rgba(0,0,0,0.3);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.scenario-section h3 {
+    color: #d4af37;
+    margin: 0 0 15px 0;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.scenario-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.scenario-tab {
+    flex: 1;
+    padding: 10px 15px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #d4af37;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.scenario-tab:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #d4af37;
+}
+
+.scenario-tab.active {
+    background: #d4af37;
+    color: #1a1a1a;
+    border-color: #d4af37;
+}
+
+.scenario-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 10px;
+}
+
+.scenario-card {
+    background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(30,30,30,0.6) 100%);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    padding: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.scenario-card:hover {
+    border-color: #d4af37;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+}
+
+.scenario-card.selected {
+    border-color: #d4af37;
+    background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(30,30,30,0.6) 100%);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.scenario-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.scenario-name {
+    color: #d4af37;
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.custom-badge {
+    background: #4CAF50;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.scenario-summary {
+    color: #ccc;
+    margin: 10px 0;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.scenario-meta {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.scenario-year {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+.scenario-difficulty {
+    padding: 3px 10px;
+    border-radius: 3px;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.difficulty-mogul {
+    background: #4CAF50;
+    color: white;
+}
+
+.difficulty-golden-age {
+    background: #FFC107;
+    color: #1a1a1a;
+}
+
+.difficulty-depression-era {
+    background: #F44336;
+    color: white;
+}
+
+.no-scenarios {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}
+
+.import-scenario-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: #d4af37;
+    color: #1a1a1a;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.import-scenario-btn:hover {
+    background: #f4d03f;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+/* ===== CONFIG SECTION ===== */
+.config-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.scenario-preview {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.scenario-preview h3 {
+    color: #d4af37;
+    margin: 0 0 15px 0;
+    font-size: 1.4em;
+    text-transform: uppercase;
+}
+
+.scenario-description {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.scenario-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.stat-label {
+    color: #999;
+}
+
+.stat-value {
+    color: #d4af37;
+    font-weight: bold;
+}
+
+.special-rules,
+.victory-conditions {
+    margin-top: 20px;
+}
+
+.special-rules h4,
+.victory-conditions h4 {
+    color: #d4af37;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.special-rules ul,
+.victory-conditions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.special-rules li,
+.victory-conditions li {
+    color: #ccc;
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.special-rules li:before,
+.victory-conditions li:before {
+    content: "▸";
+    color: #d4af37;
+    position: absolute;
+    left: 0;
+}
+
+.scenario-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.export-scenario-btn,
+.delete-scenario-btn {
+    padding: 8px 16px;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    background: rgba(0,0,0,0.5);
+    color: #d4af37;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 1px;
+}
+
+.export-scenario-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #d4af37;
+}
+
+.delete-scenario-btn {
+    border-color: rgba(244, 67, 54, 0.5);
+    color: #F44336;
+}
+
+.delete-scenario-btn:hover {
+    background: rgba(244, 67, 54, 0.2);
+    border-color: #F44336;
+}
+
+/* ===== DIFFICULTY SECTION ===== */
+.difficulty-section {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.difficulty-section h3 {
+    color: #d4af37;
+    margin: 0 0 15px 0;
+    font-size: 1.3em;
+    text-transform: uppercase;
+}
+
+.difficulty-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.difficulty-option {
+    padding: 15px;
+    background: rgba(0,0,0,0.3);
+    border: 2px solid rgba(212, 175, 55, 0.2);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.difficulty-option:hover {
+    border-color: rgba(212, 175, 55, 0.5);
+    transform: translateX(3px);
+}
+
+.difficulty-option.selected {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.difficulty-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.difficulty-name {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.difficulty-description {
+    color: #ccc;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.difficulty-modifiers {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.difficulty-modifiers small {
+    color: #999;
+    font-size: 0.85em;
+}
+
+/* ===== CUSTOMIZATION SECTION ===== */
+.customization-section {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.customize-btn {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.customize-btn:hover {
+    background: rgba(212, 175, 55, 0.2);
+}
+
+.custom-options {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.custom-options.hidden {
+    display: none;
+}
+
+.custom-option {
+    margin-bottom: 20px;
+}
+
+.custom-option label {
+    display: block;
+    color: #d4af37;
+    margin-bottom: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+}
+
+.custom-option input[type="range"] {
+    width: calc(100% - 80px);
+    margin-right: 10px;
+}
+
+.custom-option input[type="number"],
+.custom-option input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: #fff;
+    font-size: 1em;
+}
+
+.custom-option input[type="text"]::placeholder {
+    color: #666;
+}
+
+.range-value {
+    display: inline-block;
+    min-width: 70px;
+    color: #d4af37;
+    font-weight: bold;
+}
+
+.event-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.event-toggles label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ccc;
+    font-weight: normal;
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+}
+
+.event-toggles input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.custom-actions {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.save-scenario-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.save-scenario-btn:hover {
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    transform: translateY(-2px);
+}
+
+/* ===== START GAME SECTION ===== */
+.start-game-section {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.start-game-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(90deg, #d4af37 0%, #f4d03f 100%);
+    color: #1a1a1a;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.start-game-btn:hover {
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+    transform: translateY(-2px);
+}
+
+/* ===== IMPORT MODAL ===== */
+.import-modal {
+    width: 600px;
+    max-width: 90vw;
+}
+
+.import-options {
+    margin: 20px 0;
+}
+
+#import-json {
+    width: 100%;
+    padding: 12px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    color: #fff;
+    font-family: monospace;
+    font-size: 0.9em;
+    resize: vertical;
+}
+
+.file-upload {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.file-upload input[type="file"] {
+    display: none;
+}
+
+.file-upload label {
+    display: inline-block;
+    padding: 10px 20px;
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.file-upload label:hover {
+    background: rgba(212, 175, 55, 0.3);
+}
+
+/* ===== DIFFICULTY & SCENARIO INDICATORS ===== */
+.difficulty-indicator,
+.scenario-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 4px;
+    margin-left: 15px;
+}
+
+.difficulty-label,
+.scenario-label {
+    color: #999;
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.difficulty-name,
+.scenario-name {
+    font-weight: bold;
+    font-size: 0.95em;
+}
+
+.difficulty-locked {
+    font-size: 0.9em;
+}
+
+/* ===== VICTORY MODAL ===== */
+.victory-modal {
+    width: 600px;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.victory-modal .modal-header {
+    background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+    color: #1a1a1a;
+    font-size: 2em;
+    padding: 30px;
+}
+
+.victory-conditions {
+    text-align: left;
+    margin: 20px 0;
+}
+
+.victory-conditions ul {
+    list-style: none;
+    padding: 0;
+}
+
+.victory-conditions li {
+    padding: 10px;
+    margin: 5px 0;
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.victory-conditions li.achieved {
+    color: #4CAF50;
+    border-left: 3px solid #4CAF50;
+}
+
+.victory-conditions li.not-achieved {
+    color: #999;
+    border-left: 3px solid #999;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .new-game-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .scenario-section {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .new-game-modal {
+        width: 95vw;
+        height: 95vh;
+    }
+
+    .scenario-tabs {
+        flex-direction: column;
+    }
+
+    .difficulty-options {
+        flex-direction: column;
+    }
+
+    .scenario-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+.scenario-list::-webkit-scrollbar,
+.config-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scenario-list::-webkit-scrollbar-track,
+.config-section::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.scenario-list::-webkit-scrollbar-thumb,
+.config-section::-webkit-scrollbar-thumb {
+    background: rgba(212, 175, 55, 0.5);
+    border-radius: 4px;
+}
+
+.scenario-list::-webkit-scrollbar-thumb:hover,
+.config-section::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.7);
+}

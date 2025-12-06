@@ -942,6 +942,363 @@ window.ScriptLibrary = (function() {
     }
     
     /**
+     * Commission a custom script
+     */
+    function commissionScript(genre, targetTalent = null, budgetTier = 'medium', themes = []) {
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState) return { success: false, message: 'Game state not available' };
+
+        const currentYear = gameState.currentDate?.year || gameState.gameYear || 1933;
+
+        // Determine base cost based on budget tier
+        const baseCosts = {
+            'low': 50000,
+            'medium': 100000,
+            'high': 175000
+        };
+
+        const baseBudget = baseCosts[budgetTier] || baseCosts['medium'];
+        const commissionCost = Math.floor(baseBudget * 1.5); // 150% of browsing cost
+
+        // Check if player can afford
+        if (gameState.cash < commissionCost) {
+            return {
+                success: false,
+                message: `Cannot afford commission cost of $${commissionCost.toLocaleString()}`
+            };
+        }
+
+        // Deduct commission fee
+        if (window.FinancialSystem && typeof window.FinancialSystem.addTransaction === 'function') {
+            window.FinancialSystem.addTransaction(-commissionCost, `Script commission fee (${genre})`);
+        }
+
+        // Create commissioned script with variance
+        const qualityBase = budgetTier === 'high' ? 80 : budgetTier === 'medium' ? 70 : 60;
+        const qualityVariance = -10 + (Math.random() * 20);
+        const quality = Math.max(40, Math.min(95, qualityBase + qualityVariance));
+
+        const budgetVariance = 0.9 + (Math.random() * 0.2);
+        const budget = Math.floor(baseBudget * budgetVariance);
+
+        const commissionedScript = {
+            id: generateScriptId(),
+            title: generateCommissionedTitle(genre),
+            genre: genre,
+            year: currentYear,
+            budget: budget,
+            quality: quality,
+            description: generateCommissionedDescription(genre, themes),
+            censorRisk: adjustCensorRiskForEra(50, currentYear),
+            shootingDays: Math.floor(budget / 5000),
+            themes: themes.length > 0 ? themes : getDefaultThemes(genre),
+            castRequirements: getDefaultCastRequirements(genre),
+            locationNeeds: getDefaultLocations(genre),
+            commissioned: true,
+            commissionedDate: { ...gameState.currentDate },
+            availableDate: calculateAvailableDate(gameState.currentDate, 4), // 4 weeks delay
+            commissionCost: commissionCost
+        };
+
+        // Add to commissioned scripts queue
+        if (!gameState.commissionedScripts) {
+            gameState.commissionedScripts = [];
+        }
+        gameState.commissionedScripts.push(commissionedScript);
+
+        if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+            window.HollywoodMogul.addEvent({
+                type: 'production',
+                title: 'Script Commissioned',
+                message: `Commissioned "${commissionedScript.title}" (${genre}) for $${commissionCost.toLocaleString()}. Ready in 4 weeks.`,
+                severity: 'info'
+            });
+        }
+
+        return {
+            success: true,
+            script: commissionedScript,
+            cost: commissionCost
+        };
+    }
+
+    /**
+     * Check for commissioned scripts that are now available
+     */
+    function processCommissionedScripts(gameState) {
+        if (!gameState.commissionedScripts || gameState.commissionedScripts.length === 0) return;
+
+        const currentDate = gameState.currentDate;
+        const newlyAvailableScripts = [];
+
+        gameState.commissionedScripts = gameState.commissionedScripts.filter(script => {
+            if (isDateReached(currentDate, script.availableDate)) {
+                // Script is ready
+                const readyScript = addScriptMetadata(script);
+                readyScript.available = true;
+
+                if (!gameState.availableScripts) {
+                    gameState.availableScripts = [];
+                }
+                gameState.availableScripts.push(readyScript);
+                newlyAvailableScripts.push(readyScript);
+
+                if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+                    window.HollywoodMogul.addEvent({
+                        type: 'production',
+                        title: 'Commissioned Script Ready',
+                        message: `"${readyScript.title}" is now available for production`,
+                        severity: 'success'
+                    });
+                }
+
+                return false; // Remove from commissioned queue
+            }
+            return true; // Keep in queue
+        });
+
+        return newlyAvailableScripts;
+    }
+
+    /**
+     * Show commission script modal
+     */
+    function showCommissionModal() {
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState) return;
+
+        const currentYear = gameState.currentDate?.year || gameState.gameYear || 1933;
+        const availableGenres = getAvailableGenres(currentYear);
+
+        const modalContent = `
+            <div class="commission-modal">
+                <h2>Commission Custom Script</h2>
+                <p class="commission-subtitle">Hire a writer to create a script tailored to your specifications</p>
+
+                <div class="commission-form">
+                    <div class="form-section">
+                        <label for="commission-genre">Genre (Required)</label>
+                        <select id="commission-genre" class="commission-select">
+                            <option value="">Select Genre...</option>
+                            ${availableGenres.map(genre => `<option value="${genre}">${capitalizeGenre(genre)}</option>`).join('')}
+                        </select>
+                    </div>
+
+                    <div class="form-section">
+                        <label for="commission-budget">Budget Tier</label>
+                        <select id="commission-budget" class="commission-select">
+                            <option value="low">Low Budget ($75,000 - Cost: $75,000)</option>
+                            <option value="medium" selected>Medium Budget ($100,000 - Cost: $150,000)</option>
+                            <option value="high">High Budget ($175,000 - Cost: $262,500)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-section">
+                        <label>Target Talent (Optional)</label>
+                        <input type="text" id="commission-talent" class="commission-input" placeholder="e.g., Clark Gable">
+                        <small>Writer will craft role suitable for this actor</small>
+                    </div>
+
+                    <div class="form-section">
+                        <label>Themes (Optional)</label>
+                        <input type="text" id="commission-themes" class="commission-input" placeholder="e.g., redemption, betrayal">
+                        <small>Comma-separated themes to include</small>
+                    </div>
+
+                    <div class="commission-info">
+                        <p><strong>Delivery Time:</strong> 4 weeks</p>
+                        <p><strong>Quality:</strong> Based on budget tier with variance</p>
+                        <p><strong>Cost:</strong> 150% of browsing equivalent script</p>
+                    </div>
+
+                    <div class="commission-actions">
+                        <button onclick="ScriptLibrary.submitCommission()" class="action-btn primary">Commission Script</button>
+                        <button onclick="HollywoodMogul.closeModal()" class="action-btn secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (window.HollywoodMogul && typeof window.HollywoodMogul.showModal === 'function') {
+            window.HollywoodMogul.showModal(modalContent);
+        }
+    }
+
+    /**
+     * Submit commission from modal
+     */
+    function submitCommission() {
+        const genre = document.getElementById('commission-genre')?.value;
+        const budgetTier = document.getElementById('commission-budget')?.value || 'medium';
+        const talentInput = document.getElementById('commission-talent')?.value;
+        const themesInput = document.getElementById('commission-themes')?.value;
+
+        if (!genre) {
+            alert('Please select a genre');
+            return;
+        }
+
+        const targetTalent = talentInput ? talentInput.trim() : null;
+        const themes = themesInput ? themesInput.split(',').map(t => t.trim()).filter(t => t) : [];
+
+        const result = commissionScript(genre, targetTalent, budgetTier, themes);
+
+        if (result.success) {
+            if (window.HollywoodMogul && typeof window.HollywoodMogul.closeModal === 'function') {
+                window.HollywoodMogul.closeModal();
+            }
+
+            if (window.DashboardUI && typeof window.DashboardUI.showNotification === 'function') {
+                window.DashboardUI.showNotification(
+                    'Script Commissioned',
+                    `"${result.script.title}" will be ready in 4 weeks`,
+                    'success'
+                );
+            }
+        } else {
+            alert(result.message);
+        }
+    }
+
+    /**
+     * Helper functions
+     */
+
+    function calculateAvailableDate(currentDate, weeksDelay) {
+        if (!currentDate || !currentDate.year || !currentDate.month) {
+            return { year: 1933, month: 1, week: 1 };
+        }
+
+        let year = currentDate.year;
+        let month = currentDate.month;
+        let week = (currentDate.week || 1) + weeksDelay;
+
+        // Approximate: 4 weeks per month
+        while (week > 4) {
+            week -= 4;
+            month++;
+            if (month > 12) {
+                month = 1;
+                year++;
+            }
+        }
+
+        return { year, month, week };
+    }
+
+    function isDateReached(currentDate, targetDate) {
+        if (!currentDate || !targetDate) return false;
+
+        if (currentDate.year > targetDate.year) return true;
+        if (currentDate.year < targetDate.year) return false;
+
+        if (currentDate.month > targetDate.month) return true;
+        if (currentDate.month < targetDate.month) return false;
+
+        return (currentDate.week || 1) >= (targetDate.week || 1);
+    }
+
+    function getAvailableGenres(year) {
+        const allGenres = ['drama', 'comedy', 'romance', 'western', 'musical', 'crime', 'horror'];
+
+        if (year >= 1941 && year <= 1945) {
+            allGenres.push('war');
+        }
+
+        if (year >= 1946) {
+            allGenres.push('noir');
+        }
+
+        return allGenres;
+    }
+
+    function generateCommissionedTitle(genre) {
+        const titlePrefixes = {
+            drama: ['The', 'A', 'My'],
+            comedy: ['The', 'A', 'Crazy'],
+            romance: ['Love', 'A', 'The'],
+            western: ['The', 'A', 'Guns'],
+            musical: ['The', 'Song', 'Dancing'],
+            crime: ['The', 'A', 'Dark'],
+            war: ['The', 'Battle', 'Victory'],
+            noir: ['The', 'Dark', 'Shadow'],
+            horror: ['The', 'Terror', 'Night']
+        };
+
+        const prefix = (titlePrefixes[genre] || titlePrefixes.drama)[Math.floor(Math.random() * 3)];
+        const suffix = ['Story', 'Tale', 'Journey', 'Adventure', 'Legacy'][Math.floor(Math.random() * 5)];
+
+        return `${prefix} ${capitalizeGenre(genre)} ${suffix}`;
+    }
+
+    function generateCommissionedDescription(genre, themes) {
+        const descriptions = {
+            drama: 'A compelling dramatic story',
+            comedy: 'A hilarious comedy',
+            romance: 'A sweeping romantic tale',
+            western: 'An action-packed western',
+            musical: 'A spectacular musical production',
+            crime: 'A gripping crime thriller',
+            war: 'An epic war story',
+            noir: 'A dark and atmospheric noir',
+            horror: 'A terrifying horror film'
+        };
+
+        let desc = descriptions[genre] || 'A compelling story';
+
+        if (themes.length > 0) {
+            desc += ` exploring themes of ${themes.join(', ')}`;
+        }
+
+        return desc + '.';
+    }
+
+    function getDefaultThemes(genre) {
+        const themeMap = {
+            drama: ['family', 'struggle', 'redemption'],
+            comedy: ['misunderstanding', 'romance', 'wit'],
+            romance: ['love', 'class_differences', 'destiny'],
+            western: ['justice', 'frontier', 'honor'],
+            musical: ['showbusiness', 'dreams', 'spectacle'],
+            crime: ['corruption', 'justice', 'loyalty'],
+            war: ['patriotism', 'sacrifice', 'brotherhood'],
+            noir: ['betrayal', 'corruption', 'fate'],
+            horror: ['fear', 'supernatural', 'survival']
+        };
+
+        return themeMap[genre] || ['drama', 'conflict', 'resolution'];
+    }
+
+    function getDefaultCastRequirements(genre) {
+        return {
+            male_lead: genre === 'romance' ? 1 : 1,
+            female_lead: 1,
+            supporting: genre === 'musical' ? 8 : 4
+        };
+    }
+
+    function getDefaultLocations(genre) {
+        const locationMap = {
+            drama: ['home', 'city_street', 'office'],
+            comedy: ['mansion', 'office', 'nightclub'],
+            romance: ['mansion', 'garden', 'city_street'],
+            western: ['western_town', 'desert', 'ranch'],
+            musical: ['theater', 'rehearsal_hall', 'nightclub'],
+            crime: ['police_station', 'dark_alley', 'nightclub'],
+            war: ['military_base', 'battlefield', 'command_post'],
+            noir: ['dark_alley', 'police_station', 'nightclub'],
+            horror: ['mansion', 'cemetery', 'laboratory']
+        };
+
+        return locationMap[genre] || ['studio', 'city_street', 'interior'];
+    }
+
+    function capitalizeGenre(genre) {
+        if (genre === 'noir') return 'Film Noir';
+        return genre.charAt(0).toUpperCase() + genre.slice(1);
+    }
+
+    /**
      * Public API
      */
     return {
@@ -949,7 +1306,11 @@ window.ScriptLibrary = (function() {
         generateMonthlyScripts,
         showScriptSelection,
         greenlightScript,
-        
+        commissionScript,
+        showCommissionModal,
+        submitCommission,
+        processCommissionedScripts,
+
         // For external systems
         getScriptDatabase: () => SCRIPT_DATABASE,
         getEraParameters: (year) => getEraParameters(year)

@@ -1,0 +1,257 @@
+/**
+ * HOLLYWOOD MOGUL - ERA-SPECIFIC UI THEMES
+ * Dynamic theming for different historical periods
+ */
+
+/* ===== BASE THEME (Golden Age - Default) ===== */
+:root {
+    /* Golden Age Theme (1935-1941) - Default */
+    --era-primary-gold: #B8860B;
+    --era-secondary-gold: #DAA520;
+    --era-primary-black: #0A0A0A;
+    --era-secondary-black: #1A1A1A;
+    --era-ivory: #FFFFF0;
+    --era-accent: #DAA520;
+    --era-danger: #8B0000;
+    --era-success: #006400;
+
+    /* Transition duration */
+    --theme-transition-duration: 1.5s;
+}
+
+/* ===== PRE-CODE ERA (1933-1934) ===== */
+body.era-pre-code {
+    --era-primary-gold: #D4AF37; /* Brighter, more vibrant gold */
+    --era-secondary-gold: #FFD700; /* Even brighter secondary */
+    --era-primary-black: #0D0D0D; /* Slightly lighter black for more contrast */
+    --era-secondary-black: #1E1E1E;
+    --era-ivory: #FFFEF0;
+    --era-accent: #FFD700; /* Bright accent for the wild pre-code era */
+    --era-danger: #B22222; /* Brighter red for pre-code drama */
+    --era-success: #228B22;
+}
+
+body.era-pre-code {
+    background: linear-gradient(135deg, #0D0D0D 0%, #1E1E1E 100%);
+}
+
+body.era-pre-code .finance-card,
+body.era-pre-code .game-panel {
+    border-color: var(--era-primary-gold);
+    box-shadow: 0 2px 12px rgba(212, 175, 55, 0.2);
+}
+
+body.era-pre-code .panel-title,
+body.era-pre-code .studio-logo h1 {
+    color: var(--era-primary-gold);
+    text-shadow: 2px 2px 6px rgba(212, 175, 55, 0.4);
+}
+
+/* ===== GOLDEN AGE (1935-1941) ===== */
+body.era-golden-age {
+    --era-primary-gold: #B8860B; /* Classic gold */
+    --era-secondary-gold: #DAA520;
+    --era-primary-black: #0A0A0A;
+    --era-secondary-black: #1A1A1A;
+    --era-ivory: #FFFFF0;
+    --era-accent: #DAA520;
+    --era-danger: #8B0000;
+    --era-success: #006400;
+}
+
+body.era-golden-age {
+    background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+}
+
+/* ===== WAR YEARS (1941-1945) ===== */
+body.era-war-years {
+    --era-primary-gold: #9B8658; /* Muted, tarnished gold */
+    --era-secondary-gold: #B8964D;
+    --era-primary-black: #0A0A0A;
+    --era-secondary-black: #1C1C1C;
+    --era-ivory: #F5F5DC; /* Beige/khaki tint */
+    --era-accent: #556B2F; /* Military olive green */
+    --era-danger: #8B0000;
+    --era-success: #556B2F; /* Military green for success */
+}
+
+body.era-war-years {
+    background: linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 100%);
+}
+
+body.era-war-years::before {
+    background-image:
+        linear-gradient(0deg, rgba(85, 107, 47, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(85, 107, 47, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+body.era-war-years .finance-card,
+body.era-war-years .game-panel {
+    border-color: var(--era-accent);
+    background: linear-gradient(135deg, rgba(85, 107, 47, 0.08) 0%, rgba(28, 28, 28, 0.9) 100%);
+}
+
+body.era-war-years .panel-title,
+body.era-war-years .studio-logo h1 {
+    color: var(--era-primary-gold);
+    text-shadow: 1px 1px 4px rgba(155, 134, 88, 0.6);
+}
+
+body.era-war-years .action-btn {
+    border-color: var(--era-accent);
+    background: linear-gradient(135deg, var(--era-accent) 0%, #6B8E23 100%);
+}
+
+body.era-war-years .action-btn:hover {
+    background: linear-gradient(135deg, #6B8E23 0%, var(--era-accent) 100%);
+}
+
+/* ===== POST-WAR / FILM NOIR (1946-1949) ===== */
+body.era-post-war {
+    --era-primary-gold: #A89968; /* Subdued, darker gold */
+    --era-secondary-gold: #C0B283;
+    --era-primary-black: #050505; /* Deeper blacks for noir feel */
+    --era-secondary-black: #0F0F0F;
+    --era-ivory: #E8E8E8; /* Cooler, grayer ivory */
+    --era-accent: #4682B4; /* Steel blue accent */
+    --era-danger: #8B0000;
+    --era-success: #2F4F4F; /* Dark slate gray */
+}
+
+body.era-post-war {
+    background: linear-gradient(135deg, #050505 0%, #0F0F0F 50%, #1A1A2E 100%);
+}
+
+body.era-post-war::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(ellipse at top left, rgba(70, 130, 180, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom right, rgba(70, 130, 180, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+body.era-post-war .finance-card,
+body.era-post-war .game-panel {
+    border-color: var(--era-accent);
+    background: linear-gradient(135deg, rgba(70, 130, 180, 0.1) 0%, rgba(15, 15, 15, 0.9) 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 40px rgba(70, 130, 180, 0.1);
+}
+
+body.era-post-war .panel-title,
+body.era-post-war .studio-logo h1 {
+    color: var(--era-accent);
+    text-shadow: 2px 2px 8px rgba(70, 130, 180, 0.6), 0 0 20px rgba(70, 130, 180, 0.3);
+}
+
+body.era-post-war .action-btn {
+    border-color: var(--era-accent);
+    background: linear-gradient(135deg, var(--era-accent) 0%, #5F9EA0 100%);
+    color: var(--era-ivory);
+}
+
+body.era-post-war .action-btn:hover {
+    background: linear-gradient(135deg, #5F9EA0 0%, var(--era-accent) 100%);
+    box-shadow: 0 4px 16px rgba(70, 130, 180, 0.4);
+}
+
+body.era-post-war #game-header {
+    border-bottom-color: var(--era-accent);
+}
+
+body.era-post-war #game-header::after {
+    background: linear-gradient(90deg, transparent 0%, var(--era-accent) 50%, transparent 100%);
+}
+
+/* ===== SMOOTH TRANSITIONS ===== */
+body {
+    transition:
+        background var(--theme-transition-duration) ease-in-out,
+        color var(--theme-transition-duration) ease-in-out;
+}
+
+.finance-card,
+.game-panel,
+.action-btn,
+.panel-title,
+.studio-logo h1,
+#game-header {
+    transition:
+        background var(--theme-transition-duration) ease-in-out,
+        border-color var(--theme-transition-duration) ease-in-out,
+        color var(--theme-transition-duration) ease-in-out,
+        box-shadow var(--theme-transition-duration) ease-in-out,
+        text-shadow var(--theme-transition-duration) ease-in-out;
+}
+
+/* ===== ERA INDICATOR BADGE ===== */
+.era-indicator {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-family: var(--font-accent);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 2px solid;
+    transition: all var(--theme-transition-duration) ease-in-out;
+}
+
+.era-indicator.era-pre-code,
+.era-indicator.era-PRE_CODE {
+    background: rgba(212, 175, 55, 0.2);
+    border-color: #D4AF37;
+    color: #FFD700;
+}
+
+.era-indicator.era-golden-age,
+.era-indicator.era-GOLDEN_AGE {
+    background: rgba(184, 134, 11, 0.2);
+    border-color: #B8860B;
+    color: #DAA520;
+}
+
+.era-indicator.era-war-years,
+.era-indicator.era-WAR_YEARS {
+    background: rgba(85, 107, 47, 0.2);
+    border-color: #556B2F;
+    color: #9ACD32;
+}
+
+.era-indicator.era-post-war,
+.era-indicator.era-POST_WAR {
+    background: rgba(70, 130, 180, 0.2);
+    border-color: #4682B4;
+    color: #87CEEB;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+    :root {
+        --theme-transition-duration: 1s;
+    }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --theme-transition-duration: 0.1s;
+    }
+
+    body,
+    .finance-card,
+    .game-panel,
+    .action-btn,
+    .panel-title,
+    .studio-logo h1,
+    #game-header {
+        transition-duration: 0.1s;
+    }
+}

@@ -345,14 +345,19 @@ window.BoxOfficeSystem = (function() {
             marketingCost: marketingCost
         };
 
-        // Add initial event
-        if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
-            window.HollywoodMogul.addEvent({
-                type: 'production',
-                title: 'Film Released!',
-                message: `"${film.title}" opens in theaters with ${DISTRIBUTION_STRATEGIES[strategy].name}`,
-                severity: 'success'
-            });
+        // Show premiere modal if PremiereSystem is available
+        if (window.PremiereSystem && window.PremiereSystem.startTheatricalRun) {
+            window.PremiereSystem.startTheatricalRun(film, boxOfficeResults);
+        } else {
+            // Fallback to basic event
+            if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
+                window.HollywoodMogul.addEvent({
+                    type: 'production',
+                    title: 'Film Released!',
+                    message: `"${film.title}" opens in theaters with ${DISTRIBUTION_STRATEGIES[strategy].name}`,
+                    severity: 'success'
+                });
+            }
         }
 
         // Add critical reception event
