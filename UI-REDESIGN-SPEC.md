@@ -11,6 +11,56 @@
 
 ---
 
+## Reference Images
+
+Two reference images in `assets/images/` establish the target information architecture:
+
+### Image 1 Analysis
+```
+┌─────────────────────────┬─────────────────────────┐
+│ DASHBOARD               │ PROJECT PLANNER         │
+│ • KPI row (Revenue,     │ • Slate timeline view   │
+│   Audience, Awards)     │ • Budget slider         │
+│ • Next Big Decision     │ • Genre targeting       │
+│   card with GREENLIGHT  │ • Age range selector    │
+│ • Talent Snapshot       │ • Risk vs Reward dial   │
+│ • Upcoming Milestones   │                         │
+├─────────────────────────┼─────────────────────────┤
+│ MARKET TRENDS           │ PREMIERE NIGHT          │
+│ • Box office chart      │ • Golden trophy hero    │
+│ • Streaming vs Theater  │ • "7 Awards Won"        │
+│ • Audience Interests    │ • Celebration moment    │
+│ • Upcoming Awards       │ • Accessibility panel   │
+└─────────────────────────┴─────────────────────────┘
+```
+
+### Image 2 Analysis
+```
+┌─────────────────────────┬─────────────────────────┐
+│ DASHBOARD               │ PROJECT PLANNER         │
+│ • $207k cash KPI        │ • Timeline slate        │
+│ • Audience score 78     │ • Project bars          │
+│ • Next Big Decision     │                         │
+│ • Greenlight CTA        │                         │
+├─────────────────────────┼─────────────────────────┤
+│ TALENT & CREW           │ MARKET TRENDS           │
+│ • Photo grid            │ • Film poster hero      │
+│ • Actor headshots       │ • Trend metrics         │
+│ • Ratings & status      │ • Genre heat            │
+└─────────────────────────┴─────────────────────────┘
+```
+
+### Key Patterns to Adopt
+1. **KPI Hero Row** - Large numbers at top, immediately scannable
+2. **Next Big Decision** - Prominent CTA card that drives action
+3. **Timeline/Slate View** - Horizontal project scheduling
+4. **Sliders for Targeting** - Budget, quality, audience dials
+5. **Talent Photo Grid** - Faces make talent feel real
+6. **Award Celebration** - Trophy moments for wins
+7. **Dense but Scannable** - Lots of info, clear hierarchy
+
+---
+
 ## Design Philosophy
 
 ### Core Principle: Art Deco Modernized
@@ -293,87 +343,271 @@ Vertical side navigation (collapsed by default on mobile).
 
 ### Dashboard (Studio HQ)
 
+Based on reference images - KPI hero row + Next Big Decision as focal point:
+
 ```
-┌────────────────────────────────────────────────────────────────┐
-│  MOGUL PICTURES                            January 1933        │
-│  Est. 1933                                 Pre-Code Era        │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  ┌─────────┬─────────┬─────────┬─────────┐                    │
-│  │  CASH   │  BURN   │ RUNWAY  │  REP    │  ← KPI Hero Row    │
-│  │ $410k   │ -$30k   │ 54 wks  │  72     │                    │
-│  └─────────┴─────────┴─────────┴─────────┘                    │
-│                                                                │
-│  ┌────────────────────────────┬───────────────────────────┐   │
-│  │ FILMS IN PRODUCTION        │ NEXT BIG DECISION         │   │
-│  │ ┌─────┐ ┌─────┐ ┌─────┐   │                           │   │
-│  │ │Film1│ │Film2│ │Film3│   │ "The Lost Weekend" is     │   │
-│  │ └─────┘ └─────┘ └─────┘   │ ready for distribution.   │   │
-│  │                            │                           │   │
-│  │ [REVIEW SCRIPTS]           │ [DISTRIBUTE NOW]          │   │
-│  └────────────────────────────┴───────────────────────────┘   │
-│                                                                │
-│  ┌────────────────────────────┬───────────────────────────┐   │
-│  │ IN THEATERS                │ ALERTS                    │   │
-│  │ "Casablanca"   Week 3/10   │ ⚠️ Runway warning         │   │
-│  │  $245,000 gross            │ 📋 New scripts available  │   │
-│  │                            │ 🏆 Achievement unlocked   │   │
-│  └────────────────────────────┴───────────────────────────┘   │
-│                                                                │
-├────────────────────────────────────────────────────────────────┤
-│  [ADVANCE WEEK]  [ADVANCE MONTH]           [SAVE]  [LOAD]     │
-└────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│  HOLLYWOOD MOGUL                                      January 1933     │
+│  ══════════════                                       Pre-Code Era     │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌──────────────┬──────────────┬──────────────┬──────────────┐        │
+│  │   REVENUE    │   AUDIENCE   │    AWARDS    │   SEASONAL   │        │
+│  │              │              │              │              │        │
+│  │   $610M      │     78       │     13       │    ★★★☆☆    │        │
+│  │   ▲ +$52M    │   ▲ +5 pts   │   ─ steady   │   SUMMER     │        │
+│  │   ══════     │   ══════     │   ══════     │   ══════     │        │
+│  └──────────────┴──────────────┴──────────────┴──────────────┘        │
+│                                                                        │
+│  ┌────────────────────────────────┬───────────────────────────────┐   │
+│  │                                │                               │   │
+│  │   NEXT BIG DECISION            │   FILMS IN PRODUCTION         │   │
+│  │   ════════════════             │   ═══════════════════         │   │
+│  │                                │                               │   │
+│  │   ┌─────────┐                  │   ┌───────┐ ┌───────┐        │   │
+│  │   │ [POSTER]│  "Crimson        │   │ 45%   │ │ 78%   │        │   │
+│  │   │         │   Reception"     │   │ Film1 │ │ Film2 │ → more │   │
+│  │   │  DRAMA  │                  │   └───────┘ └───────┘        │   │
+│  │   └─────────┘  Action/Friday   │                               │   │
+│  │                World War       │   Upcoming Milestones:        │   │
+│  │                                │   • Film 1 wraps in 4 wks     │   │
+│  │   ┌────────────────────────┐   │   • Hays Code: Jul 1934       │   │
+│  │   │      GREENLIGHT        │   │   • Awards Season: Feb        │   │
+│  │   └────────────────────────┘   │                               │   │
+│  │                                │   [REVIEW ALL SCRIPTS]        │   │
+│  └────────────────────────────────┴───────────────────────────────┘   │
+│                                                                        │
+│  ┌────────────────────────────────┬───────────────────────────────┐   │
+│  │   TALENT SNAPSHOT              │   ALERTS & EVENTS             │   │
+│  │   ══════════════               │   ═══════════════             │   │
+│  │                                │                               │   │
+│  │   ┌────┐ ┌────┐ ┌────┐ ┌────┐ │   ⚠️ Runway: 12 weeks         │   │
+│  │   │ 👤 │ │ 👤 │ │ 👤 │ │ 👤 │ │   📋 3 new scripts available  │   │
+│  │   │Gable│ │Davis│ │Bogie│ │+12│ │   🏆 "First Film" unlocked   │   │
+│  │   └────┘ └────┘ └────┘ └────┘ │   📰 Union talks heating up   │   │
+│  │                                │                               │   │
+│  │   [VIEW ALL TALENT]            │   [VIEW ALL ALERTS]           │   │
+│  └────────────────────────────────┴───────────────────────────────┘   │
+│                                                                        │
+├────────────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐ ┌─────────────────┐        ┌──────┐ ┌──────┐    │
+│  │  ADVANCE WEEK   │ │  ADVANCE MONTH  │        │ SAVE │ │ LOAD │    │
+│  └─────────────────┘ └─────────────────┘        └──────┘ └──────┘    │
+└────────────────────────────────────────────────────────────────────────┘
 ```
+
+**Key Changes from Reference:**
+- KPI row with 4 metrics (Revenue, Audience, Awards, Seasonal rating)
+- "Next Big Decision" is the primary CTA - what should player do NOW
+- Talent Snapshot with actor faces (like Image 2)
+- Milestones preview (upcoming events)
+- Dense but scannable layout
 
 ### Project Planner (New Screen)
 
+Based on reference images - Timeline slate + targeting sliders:
+
 ```
-┌────────────────────────────────────────────────────────────────┐
-│  PROJECT PLANNER                                               │
-├────────────────────────────────────────────────────────────────┤
-│  FILTERS: [All] [In Production] [Completed] [In Theaters]     │
-│                                                                │
-│  TIMELINE VIEW                                                 │
-│  ────────────────────────────────────────────────────────────  │
-│  Jan 1933 ─────────────────────────────────── Dec 1933        │
-│                                                                │
-│  ██████████████░░░░░░░░░░░░  "The Big Sleep"   Feb-Jun        │
-│       ████████████████░░░░░  "Casablanca"      Mar-Aug        │
-│            ██████████████████████  "Maltese"   Apr-Oct        │
-│                    ░░░░░░░░░░░░░░░░░░░░░░░░░   (available)    │
-│                                                                │
-│  CONTROLS                                                      │
-│  ┌────────────────┬────────────────┬────────────────┐         │
-│  │ BUDGET SLIDER  │ QUALITY TARGET │ RELEASE DATE   │         │
-│  │ $50k ───●── $2M│ ░░░●░░░░░░ 7.5 │ [Summer '33]   │         │
-│  └────────────────┴────────────────┴────────────────┘         │
-└────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│  PROJECT PLANNER                                              1933     │
+│  ═══════════════                                                       │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  SLATE REPORT                                                          │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │ ○ Sailor Be    ████████████████████████░░░░░░░░░░░░░░  WRAPPED   │ │
+│  │ ○ Oiled Legend ██████████████████░░░░░░░░░░░░░░░░░░░░  78%       │ │
+│  │ ○ New Thing    ████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░  32%       │ │
+│  │   ─────────────────────────────────────────────────────────────  │ │
+│  │   Jan    Feb    Mar    Apr    May    Jun    Jul    Aug    Sep    │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│  ┌─────────────────────────────┬──────────────────────────────────┐   │
+│  │  BUDGET ALLOCATION          │  GENRE TARGETING                 │   │
+│  │  ═══════════════            │  ════════════════                │   │
+│  │                             │                                  │   │
+│  │  Slate Budget               │  Drama      ████████░░  HIGH     │   │
+│  │  ───────●─────────  $200M   │  Comedy     ██████░░░░  MED      │   │
+│  │                             │  Horror     ████░░░░░░  LOW      │   │
+│  │  Per-Film Average           │  Musical    ████████░░  HIGH     │   │
+│  │  $25k ────●────── $500k     │  Western    ██░░░░░░░░  LOW      │   │
+│  │                             │                                  │   │
+│  └─────────────────────────────┴──────────────────────────────────┘   │
+│                                                                        │
+│  ┌─────────────────────────────┬──────────────────────────────────┐   │
+│  │  AUDIENCE TARGETING         │  RISK VS REWARD                  │   │
+│  │  ══════════════════         │  ═══════════════                 │   │
+│  │                             │                                  │   │
+│  │  Age Range                  │           HIGH REWARD            │   │
+│  │  18-24  ████████████░░░░    │               ●                  │   │
+│  │  25-34  ██████████████░░    │              /                   │   │
+│  │  35-44  ████████░░░░░░░░    │    LOW ────●────── HIGH          │   │
+│  │  45+    ████░░░░░░░░░░░░    │    RISK    \      RISK           │   │
+│  │                             │             ●                    │   │
+│  │  Audience: POPULAR          │           LOW REWARD             │   │
+│  │                             │                                  │   │
+│  └─────────────────────────────┴──────────────────────────────────┘   │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
 ```
+
+**Key Features from Reference:**
+- Horizontal slate/timeline showing all projects
+- Budget slider with per-film breakdown
+- Genre targeting bars (which genres to focus on)
+- Age range audience targeting
+- Risk vs Reward quadrant positioning
 
 ### Market Trends (New Screen)
 
+Based on reference images - Genre heat + upcoming events:
+
 ```
-┌────────────────────────────────────────────────────────────────┐
-│  MARKET TRENDS                                                 │
-├────────────────────────────────────────────────────────────────┤
-│                                                                │
-│  GENRE HEAT MAP                          AUDIENCE SENTIMENT    │
-│  ┌────────────────────────────┐         ┌──────────────────┐  │
-│  │ Drama     ████████████ HOT │         │                  │  │
-│  │ Comedy    ██████████░░     │         │    ◐  72%       │  │
-│  │ Horror    ████░░░░░░░░     │         │   OPTIMISTIC    │  │
-│  │ Musical   ███████████░ ↑   │         │                  │  │
-│  │ Western   █████░░░░░░░ ↓   │         └──────────────────┘  │
-│  │ Noir      ░░░░░░░░░░░░ N/A │                               │
-│  └────────────────────────────┘                               │
-│                                                                │
-│  UPCOMING EVENTS                                               │
-│  ┌────────────────────────────────────────────────────────┐   │
-│  │ Jul 1934 │ HAYS CODE ENFORCEMENT │ Censorship tightens │   │
-│  │ Dec 1941 │ PEARL HARBOR          │ War production      │   │
-│  └────────────────────────────────────────────────────────┘   │
-└────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────┐
+│  MARKET TRENDS                                                1933     │
+│  ═════════════                                                         │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌────────────────────────────────┬───────────────────────────────┐   │
+│  │  BOX OFFICE TRENDS             │  LIVE LEADERBOARD             │   │
+│  │  ════════════════              │  ════════════════             │   │
+│  │                                │                               │   │
+│  │  Weekly Gross ($M)             │  1. "Casablanca"    $2.4M     │   │
+│  │  ┌─────────────────────────┐   │  2. "Gone Wind"     $1.8M     │   │
+│  │  │     ╱╲    ╱╲            │   │  3. "Maltese"       $1.2M     │   │
+│  │  │    ╱  ╲  ╱  ╲   ╱       │   │  4. "Dark Victory"  $0.9M     │   │
+│  │  │   ╱    ╲╱    ╲ ╱        │   │  5. YOUR FILM       $0.7M     │   │
+│  │  │  ╱           ╲╱         │   │                               │   │
+│  │  └─────────────────────────┘   │  [VIEW ALL]                   │   │
+│  │   W1  W2  W3  W4  W5  W6       │                               │   │
+│  └────────────────────────────────┴───────────────────────────────┘   │
+│                                                                        │
+│  ┌────────────────────────────────┬───────────────────────────────┐   │
+│  │  GENRE HEAT                    │  AUDIENCE SENTIMENT           │   │
+│  │  ══════════                    │  ══════════════════           │   │
+│  │                                │                               │   │
+│  │  Drama    ████████████ HOT  ↑  │         ┌─────────┐           │   │
+│  │  Comedy   ██████████░░ WARM    │         │         │           │   │
+│  │  Horror   ████░░░░░░░░ COOL ↓  │         │  ◐ 72%  │           │   │
+│  │  Musical  ███████████░ HOT  ↑  │         │         │           │   │
+│  │  Western  █████░░░░░░░ COOL    │         └─────────┘           │   │
+│  │  Noir     ░░░░░░░░░░░░ N/A     │        OPTIMISTIC             │   │
+│  │                                │     "Audiences eager          │   │
+│  │  [COMMISSION SCRIPT]           │      for escapism"            │   │
+│  └────────────────────────────────┴───────────────────────────────┘   │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │  UPCOMING AWARDS                                                  │ │
+│  │  ═══════════════                                                  │ │
+│  │                                                                   │ │
+│  │  🏆 OSCARS         Feb 1934    Your eligible: 2 films            │ │
+│  │  🎭 CANNES         May 1934    International prestige            │ │
+│  │  🎬 SAG AWARDS     Jan 1934    Talent recognition                │ │
+│  │                                                                   │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
 ```
+
+### Premiere Night (Celebration Screen)
+
+Based on reference images - Trophy hero for award wins:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                                                                        │
+│                                                                        │
+│                              🏆                                        │
+│                           ╱─────╲                                      │
+│                          │       │                                     │
+│                          │       │                                     │
+│                         ╱─────────╲                                    │
+│                        ╱───────────╲                                   │
+│                       │─────────────│                                  │
+│                                                                        │
+│                       ═══════════════                                  │
+│                                                                        │
+│                         HOLLYWOOD                                      │
+│                          MOGUL                                         │
+│                                                                        │
+│                            7                                           │
+│                       AWARDS WON                                       │
+│                                                                        │
+│                       ═══════════════                                  │
+│                                                                        │
+│                    "The Lost Weekend"                                  │
+│                     BEST PICTURE 1934                                  │
+│                                                                        │
+│                 ┌───────────────────────┐                              │
+│                 │    PREMIERE NIGHT     │                              │
+│                 └───────────────────────┘                              │
+│                                                                        │
+│  ┌──────────────────────────────────────────────────────────────────┐ │
+│  │                                                                   │ │
+│  │   Also Won:  🏆 Best Director  🏆 Best Actor  🏆 Best Screenplay  │ │
+│  │                                                                   │ │
+│  └──────────────────────────────────────────────────────────────────┘ │
+│                                                                        │
+│                        [CONTINUE]                                      │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+**Key Features from Reference:**
+- Giant golden trophy as hero element
+- Large "Awards Won" number
+- Film title and award name prominently displayed
+- Supporting awards listed below
+- Celebration moment that pauses gameplay
+
+### Talent & Crew (New Screen)
+
+Based on reference Image 2 - Photo grid with actor cards:
+
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│  TALENT & CREW                                                         │
+│  ═════════════                                                         │
+├────────────────────────────────────────────────────────────────────────┤
+│  FILTERS: [All] [Actors] [Directors] [Available] [Under Contract]     │
+│                                                                        │
+│  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐          │
+│  │   ┌────┐   │ │   ┌────┐   │ │   ┌────┐   │ │   ┌────┐   │          │
+│  │   │ 👤 │   │ │   │ 👤 │   │ │   │ 👤 │   │ │   │ 👤 │   │          │
+│  │   └────┘   │ │   └────┘   │ │   └────┘   │ │   └────┘   │          │
+│  │            │ │            │ │            │ │            │          │
+│  │ CLARK GABLE│ │BETTE DAVIS │ │ H. BOGART  │ │JOAN CRAWFORD│         │
+│  │ ★★★★★      │ │ ★★★★★      │ │ ★★★★☆      │ │ ★★★★☆      │          │
+│  │            │ │            │ │            │ │            │          │
+│  │ Drama Lead │ │ Drama Lead │ │ Noir Lead  │ │ Drama Lead │          │
+│  │ $15k/film  │ │ $12k/film  │ │ $10k/film  │ │ $11k/film  │          │
+│  │            │ │            │ │            │ │            │          │
+│  │ ● AVAILABLE│ │ ● SHOOTING │ │ ● AVAILABLE│ │ ○ RESTING  │          │
+│  │            │ │            │ │            │ │            │          │
+│  │  [CAST]    │ │  [DETAILS] │ │  [CAST]    │ │  [DETAILS] │          │
+│  └────────────┘ └────────────┘ └────────────┘ └────────────┘          │
+│                                                                        │
+│  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐          │
+│  │   ┌────┐   │ │   ┌────┐   │ │   ┌────┐   │ │            │          │
+│  │   │ 🎬 │   │ │   │ 🎬 │   │ │   │ 🎬 │   │ │            │          │
+│  │   └────┘   │ │   └────┘   │ │   └────┘   │ │    +12     │          │
+│  │            │ │            │ │            │ │   MORE     │          │
+│  │ J. FORD    │ │ HITCHCOCK  │ │ B. WILDER  │ │  TALENT    │          │
+│  │ ★★★★★      │ │ ★★★★★      │ │ ★★★★☆      │ │            │          │
+│  │ Director   │ │ Director   │ │ Director   │ │  [VIEW     │          │
+│  │ $20k/film  │ │ $25k/film  │ │ $15k/film  │ │   ALL]     │          │
+│  └────────────┘ └────────────┘ └────────────┘ └────────────┘          │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+```
+
+**Key Features from Reference:**
+- Photo/avatar for each talent
+- Star rating prominently displayed
+- Specialty and salary visible
+- Availability status with color coding
+- Quick "Cast" action button
+- Grid layout with "+N more" overflow
 
 ---
 
