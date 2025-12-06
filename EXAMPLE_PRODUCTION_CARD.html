@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Production Card Example</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: var(--primary-gold);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .demo-note {
+            background: rgba(184, 134, 11, 0.1);
+            border: 1px solid var(--primary-gold);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enhanced Production Card Example</h1>
+
+    <div class="demo-note">
+        <p><strong>This demonstrates the new visual enhancements for production cards.</strong></p>
+        <p>Features shown:</p>
+        <ul>
+            <li>Animated progress bar with glow</li>
+            <li>Phase icons (completed, current, upcoming)</li>
+            <li>Status badges (budget/schedule indicators)</li>
+            <li>Weekly burn rate display</li>
+            <li>Director and lead actor information</li>
+        </ul>
+    </div>
+
+    <div class="film-card production-card">
+        <div class="film-header">
+            <h4 class="film-title">Casablanca</h4>
+            <span class="film-budget">$75,000</span>
+        </div>
+        <div class="film-info">
+            <span class="genre-tag">Drama</span>
+            <span class="phase-indicator">Principal Photography</span>
+        </div>
+
+        <!-- Animated Progress Bar -->
+        <div class="production-progress-container">
+            <div class="production-progress-bar">
+                <div class="production-progress-fill" style="width: 60%"></div>
+            </div>
+        </div>
+
+        <!-- Phase Icons -->
+        <div class="phase-indicators">
+            <div class="phase-icon completed">
+                <div class="phase-icon-symbol">📝</div>
+                <div class="phase-icon-label">Dev</div>
+            </div>
+            <div class="phase-icon completed">
+                <div class="phase-icon-symbol">🎭</div>
+                <div class="phase-icon-label">Prep</div>
+            </div>
+            <div class="phase-icon current">
+                <div class="phase-icon-symbol">🎬</div>
+                <div class="phase-icon-label">Shoot</div>
+            </div>
+            <div class="phase-icon">
+                <div class="phase-icon-symbol">✂️</div>
+                <div class="phase-icon-label">Post</div>
+            </div>
+            <div class="phase-icon">
+                <div class="phase-icon-symbol">🎞️</div>
+                <div class="phase-icon-label">Ready</div>
+            </div>
+        </div>
+
+        <!-- Status Badges -->
+        <div class="production-status-badges">
+            <span class="status-badge on-track">✓ ON TRACK</span>
+        </div>
+
+        <!-- Weekly Cost Burn -->
+        <div class="weekly-burn-display">
+            <span class="burn-label">WEEKLY BURN RATE</span>
+            <span class="burn-amount">-$3,750</span>
+        </div>
+
+        <!-- Talent Information -->
+        <div class="production-talent">
+            <div class="talent-row">
+                <span class="talent-role">Director:</span>
+                <span class="talent-name">Michael Curtiz</span>
+            </div>
+            <div class="talent-row">
+                <span class="talent-role">Lead:</span>
+                <span class="talent-name">Humphrey Bogart</span>
+            </div>
+        </div>
+
+        <div class="film-details">
+            <div class="phase-details">Day 12 of 25</div>
+        </div>
+    </div>
+
+    <div class="demo-note" style="margin-top: 30px;">
+        <p><strong>Try hovering over elements and watching the animations!</strong></p>
+        <p>The shimmer effect, progress bar glow, and phase icon pulses are all animated.</p>
+    </div>
+</body>
+</html>

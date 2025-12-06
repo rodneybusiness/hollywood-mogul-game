@@ -1,0 +1,381 @@
+/**
+ * STUDIO LOT MANAGEMENT - CSS STYLING
+ * Styles for the studio facilities purchase and management interface
+ */
+
+/* Studio Container */
+.studio-lot-container {
+    padding: 20px;
+}
+
+/* Studio Overview Card */
+.studio-overview {
+    margin-bottom: 30px;
+}
+
+.overview-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.overview-card h4 {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: 1px solid #d4af37;
+    padding-bottom: 10px;
+}
+
+.capacity-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.capacity-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 5px;
+}
+
+.capacity-stat .stat-label {
+    color: #ccc;
+    font-weight: 500;
+}
+
+.capacity-stat .stat-value {
+    color: #d4af37;
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
+.capacity-stat .stat-value.negative {
+    color: #ff6b6b;
+}
+
+/* Owned Facilities Section */
+.owned-facilities {
+    margin-bottom: 40px;
+}
+
+.owned-facilities h3 {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 10px;
+}
+
+.owned-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.owned-facility-card {
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.owned-facility-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.facility-icon {
+    font-size: 2em;
+    min-width: 50px;
+    text-align: center;
+}
+
+.facility-info h4 {
+    color: #fff;
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+}
+
+.maintenance-cost {
+    color: #ff6b6b;
+    font-size: 0.9em;
+    margin: 0;
+}
+
+/* Available Facilities Section */
+.available-facilities {
+    margin-bottom: 40px;
+}
+
+.available-facilities h3 {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    font-size: 2em;
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 2px solid #d4af37;
+    padding-bottom: 15px;
+}
+
+.facility-category {
+    margin-bottom: 40px;
+}
+
+.facility-category h4 {
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 4px solid #d4af37;
+}
+
+.facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* Facility Purchase Cards */
+.facility-card {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.facility-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.facility-card.unavailable {
+    opacity: 0.6;
+    border-color: #666;
+}
+
+.facility-card.unavailable:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.facility-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d4af37;
+}
+
+.facility-header h4 {
+    color: #d4af37;
+    font-family: 'Cinzel', serif;
+    font-size: 1.3em;
+    margin: 0;
+    flex: 1;
+}
+
+.facility-cost {
+    color: #fff;
+    font-size: 1.2em;
+    font-weight: 700;
+    background: rgba(212, 175, 55, 0.2);
+    padding: 5px 12px;
+    border-radius: 5px;
+    white-space: nowrap;
+}
+
+.facility-description {
+    color: #ccc;
+    font-size: 0.95em;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.facility-benefits {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+.facility-benefits li {
+    color: #4ade80;
+    font-size: 0.9em;
+    padding: 5px 0;
+    padding-left: 20px;
+    position: relative;
+}
+
+.facility-benefits li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #d4af37;
+    font-weight: bold;
+}
+
+.facility-maintenance {
+    color: #ff6b6b;
+    font-size: 0.9em;
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(255, 107, 107, 0.1);
+    border-left: 3px solid #ff6b6b;
+    border-radius: 3px;
+}
+
+.requirement-warning {
+    background: rgba(255, 165, 0, 0.2);
+    border: 1px solid #ffa500;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    color: #ffa500;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+.purchase-facility-btn {
+    margin-top: auto;
+    padding: 12px 20px;
+    font-size: 1em;
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.purchase-facility-btn.cta-button {
+    background: linear-gradient(135deg, #d4af37 0%, #f4d03f 100%);
+    color: #1a1a1a;
+}
+
+.purchase-facility-btn.cta-button:hover {
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 100%);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5);
+}
+
+.purchase-facility-btn.disabled-button {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
+}
+
+/* Purchase Confirmation Modal */
+.purchase-confirmation-modal .modal-content {
+    max-width: 500px;
+}
+
+.purchase-summary {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid #d4af37;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.purchase-summary p {
+    margin: 8px 0;
+    display: flex;
+    justify-content: space-between;
+    color: #ccc;
+}
+
+.purchase-summary strong {
+    color: #d4af37;
+}
+
+.confirmation-message {
+    color: #fff;
+    font-size: 1.1em;
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    flex: 1;
+    padding: 12px 20px;
+    font-size: 1em;
+    font-weight: 700;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Cinzel', serif;
+    text-transform: uppercase;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .facilities-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .owned-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .capacity-info {
+        grid-template-columns: 1fr;
+    }
+
+    .facility-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .facility-cost {
+        align-self: flex-start;
+    }
+}
+
+/* No Content Message */
+.owned-facilities .no-content,
+.available-facilities .no-content {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+    font-size: 1.1em;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    border: 2px dashed #444;
+}
+
+.owned-facilities .no-content p,
+.available-facilities .no-content p {
+    margin: 0;
+    color: #ccc;
+}

@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MOGUL - Hollywood Tycoon (1933-1949)</title>
     
-    <!-- CSS Files -->
+    <!-- CSS Files - Design System -->
+    <link rel="stylesheet" href="css/design-tokens.css">
+    <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/scenarios.css">
     <link rel="stylesheet" href="css/tutorial.css">
+    <link rel="stylesheet" href="css/help.css">
     <link rel="stylesheet" href="css/achievements.css">
     <link rel="stylesheet" href="css/modals-extended.css">
+    <link rel="stylesheet" href="css/talent.css">
+    <link rel="stylesheet" href="css/timeline.css">
+    <link rel="stylesheet" href="css/studio-lot.css">
+    <link rel="stylesheet" href="css/newspaper.css">
+    <link rel="stylesheet" href="css/screens.css">
     
     <!-- Google Fonts for Art Deco Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
@@ -26,6 +36,31 @@
             <div class="game-date">
                 <span id="current-date">January 1933</span>
                 <span id="current-era" class="era-indicator">Pre-Code Era</span>
+            </div>
+            <div class="audio-controls">
+                <button id="audio-mute-toggle" class="audio-btn" title="Mute/Unmute Audio">
+                    🔊
+                </button>
+                <div class="audio-settings-panel hidden" id="audio-settings">
+                    <div class="volume-control">
+                        <label for="audio-master-volume">Master</label>
+                        <input type="range" id="audio-master-volume" min="0" max="100" value="70">
+                        <span class="volume-value" id="master-volume-display">70%</span>
+                    </div>
+                    <div class="volume-control">
+                        <label for="audio-music-volume">Music</label>
+                        <input type="range" id="audio-music-volume" min="0" max="100" value="50">
+                        <span class="volume-value" id="music-volume-display">50%</span>
+                    </div>
+                    <div class="volume-control">
+                        <label for="audio-sfx-volume">Sound FX</label>
+                        <input type="range" id="audio-sfx-volume" min="0" max="100" value="80">
+                        <span class="volume-value" id="sfx-volume-display">80%</span>
+                    </div>
+                </div>
+                <button id="audio-settings-toggle" class="audio-btn" title="Audio Settings">
+                    ⚙️
+                </button>
             </div>
         </header>
 
@@ -90,6 +125,30 @@
                         <div class="no-content">No recent events</div>
                     </div>
                 </div>
+
+                <!-- Industry News Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title">INDUSTRY NEWS</h2>
+                    <div id="industry-news" class="news-list">
+                        <div class="no-content">No industry news yet</div>
+                    </div>
+                </div>
+
+                <!-- Market Share Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title">MARKET SHARE</h2>
+                    <div id="market-share" class="market-share-display">
+                        <div class="no-content">Market data loading...</div>
+                    </div>
+                </div>
+
+                <!-- Rival Activity Panel -->
+                <div class="game-panel">
+                    <h2 class="panel-title">RIVAL STUDIOS</h2>
+                    <div id="rival-activity" class="rival-activity-display">
+                        <div class="no-content">Tracking rival studios...</div>
+                    </div>
+                </div>
             </section>
 
             <!-- Scripts Section -->
@@ -99,6 +158,40 @@
                     <p class="section-description">Select a script to greenlight and begin production</p>
                 </div>
                 <div id="available-scripts" class="scripts-grid">
+            <!-- Talent Section -->
+            <section id="talent-section" class="game-section">
+                <div class="section-header">
+                    <h2>TALENT ROSTER</h2>
+                    <p class="section-description">Manage actors and directors under contract</p>
+                </div>
+
+                <!-- Contract Players -->
+                <div class="game-panel">
+                    <h3 class="panel-title">PLAYERS UNDER CONTRACT</h3>
+                    <div id="contract-players" class="talent-grid">
+                        <div class="no-content">No talent currently under contract</div>
+                    </div>
+                </div>
+
+                <!-- Available Talent -->
+                <div class="game-panel">
+                    <h3 class="panel-title">AVAILABLE TALENT</h3>
+                    <div class="talent-filters">
+                        <button class="filter-btn active" data-filter="all">ALL</button>
+                        <button class="filter-btn" data-filter="actor">ACTORS</button>
+                        <button class="filter-btn" data-filter="director">DIRECTORS</button>
+                        <button class="filter-btn" data-filter="a-list">A-LIST ONLY</button>
+            <button class="nav-button" data-section="talent">
+                <span class="nav-icon">⭐</span>
+                <span class="nav-label">TALENT</span>
+            </button>
+                    </div>
+                    <div id="available-talent" class="talent-grid">
+                        <!-- Talent cards will be dynamically generated -->
+                    </div>
+                </div>
+            </section>
+
                     <!-- Script cards will be dynamically generated -->
                 </div>
             </section>
@@ -124,6 +217,49 @@
                     <div class="no-content">Studio management coming soon...</div>
                 </div>
             </section>
+
+            <!-- Timeline Section -->
+            <section id="timeline-section" class="game-section">
+                <div class="section-header">
+                    <h2>HOLLYWOOD HISTORY TIMELINE</h2>
+                    <p class="section-description">Track your journey through the Golden Age of Hollywood (1933-1949)</p>
+                </div>
+                <div id="timeline-visualization" class="timeline-container">
+                    <!-- Timeline will be dynamically generated -->
+                </div>
+            </section>
+
+            <!-- Achievements Section -->
+            <section id="achievements-section" class="game-section">
+                <div class="section-header">
+                    <h2>TROPHY CASE</h2>
+                    <p class="section-description">Track your achievements and milestones as a Hollywood mogul</p>
+                </div>
+
+                <!-- Achievement Progress Overview -->
+                <div id="achievements-progress" class="achievement-progress">
+                    <!-- Progress will be dynamically generated -->
+                </div>
+
+                <!-- Category Filters -->
+                <div id="achievement-categories" class="achievement-categories">
+                    <button class="category-btn active" data-category="all">ALL</button>
+                    <button class="category-btn" data-category="production">PRODUCTION MASTER</button>
+                    <button class="category-btn" data-category="financial">FINANCIAL MOGUL</button>
+                    <button class="category-btn" data-category="oscars">OSCAR ROYALTY</button>
+                    <button class="category-btn" data-category="survival">HISTORICAL SURVIVOR</button>
+                    <button class="category-btn" data-category="reputation">INDUSTRY TITAN</button>
+                    <button class="category-btn" data-category="genre">GENRE SPECIALIST</button>
+                    <button class="category-btn" data-category="challenge">RISK TAKER</button>
+                    <button class="category-btn" data-category="secret">SECRET</button>
+                    <button class="category-btn" data-category="historical">HISTORICAL</button>
+                </div>
+
+                <!-- Achievements Grid -->
+                <div id="achievements-grid" class="achievements-grid">
+                    <!-- Achievement cards will be dynamically generated -->
+                </div>
+            </section>
         </main>
 
         <!-- Navigation -->
@@ -144,6 +280,14 @@
                 <span class="nav-icon">💰</span>
                 <span class="nav-label">FINANCES</span>
             </button>
+            <button class="nav-button" data-section="timeline">
+                <span class="nav-icon">📅</span>
+                <span class="nav-label">TIMELINE</span>
+            </button>
+            <button class="nav-button" data-section="achievements">
+                <span class="nav-icon">🏆</span>
+                <span class="nav-label">ACHIEVEMENTS</span>
+            </button>
         </nav>
 
         <!-- Time Controls -->
@@ -159,6 +303,158 @@
     <div id="notifications" class="notifications-container"></div>
 
     <!-- Modal Overlay -->
+<!-- Auto-Save Indicator -->
+<div id="autosave-indicator" class="autosave-indicator">
+    <span class="autosave-icon">💾</span>
+    <span class="autosave-text">Saving...</span>
+</div>
+
+<!-- Save/Load Modal -->
+<div id="save-load-modal" class="modal-overlay hidden">
+    <div class="modal-content save-load-modal">
+        <div class="modal-header">
+            <h2 id="save-load-title">SAVE GAME</h2>
+            <button class="modal-close" id="close-save-modal">×</button>
+        </div>
+        <div class="modal-body">
+            <!-- Tab Navigation -->
+            <div class="save-tabs">
+                <button class="save-tab active" data-tab="save">SAVE</button>
+                <button class="save-tab" data-tab="load">LOAD</button>
+                <button class="save-tab" data-tab="manage">MANAGE</button>
+            </div>
+
+            <!-- Save Tab Content -->
+            <div id="save-tab-content" class="tab-content active">
+                <div class="save-options">
+                    <div class="option-section">
+                        <h3>Quick Save</h3>
+                        <p class="option-description">Save to your most recent slot (Ctrl+S)</p>
+                        <button id="btn-quick-save" class="action-btn primary">QUICK SAVE</button>
+                    </div>
+                    <div class="option-section">
+                        <h3>Save to Slot</h3>
+                        <div id="save-slots-container" class="slots-container">
+                            <!-- Save slots will be dynamically generated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Load Tab Content -->
+            <div id="load-tab-content" class="tab-content">
+                <div class="load-options">
+                    <div class="option-section">
+                        <h3>Quick Load</h3>
+                        <p class="option-description">Load your most recent save (Ctrl+L)</p>
+                        <button id="btn-quick-load" class="action-btn primary">QUICK LOAD</button>
+                    </div>
+                    <div class="option-section">
+                        <h3>Load from Slot</h3>
+                        <div id="load-slots-container" class="slots-container">
+                            <!-- Load slots will be dynamically generated -->
+                        </div>
+                    </div>
+                    <div class="option-section">
+                        <h3>Auto Save</h3>
+                        <div id="autosave-slot" class="save-slot">
+                            <!-- Auto save slot will be dynamically generated -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Manage Tab Content -->
+            <div id="manage-tab-content" class="tab-content">
+                <div class="manage-options">
+                    <div class="option-section">
+                        <h3>Game Mode</h3>
+                        <div class="ironman-toggle">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="ironman-mode-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <div class="ironman-info">
+                                <h4>Ironman Mode</h4>
+                                <p>Single save slot with auto-save on every major action. No manual saves. For hardcore players only!</p>
+                                <p class="warning-text">Warning: Cannot be disabled once enabled for a save</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="option-section">
+                        <h3>Import / Export</h3>
+                        <div class="import-export-controls">
+                            <div class="export-section">
+                                <p class="option-description">Export save to file for backup or sharing</p>
+                                <label for="export-slot-select">Select Slot:</label>
+                                <select id="export-slot-select" class="slot-select">
+                                    <option value="1">Slot 1</option>
+                                    <option value="2">Slot 2</option>
+                                    <option value="3">Slot 3</option>
+                                    <option value="4">Slot 4</option>
+                                    <option value="5">Slot 5</option>
+                                </select>
+                                <button id="btn-export-save" class="action-btn secondary">EXPORT SAVE</button>
+                            </div>
+                            <div class="import-section">
+                                <p class="option-description">Import save from file</p>
+                                <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                                <label for="import-slot-select">Import to Slot:</label>
+                                <select id="import-slot-select" class="slot-select">
+                                    <option value="1">Slot 1</option>
+                                    <option value="2">Slot 2</option>
+                                    <option value="3">Slot 3</option>
+                                    <option value="4">Slot 4</option>
+                                    <option value="5">Slot 5</option>
+                                </select>
+                                <button id="btn-import-save" class="action-btn secondary">IMPORT SAVE</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="option-section">
+                        <h3>Storage Info</h3>
+                        <div id="storage-info" class="storage-info">
+                            <div class="storage-bar">
+                                <div class="storage-fill" style="width: 0%"></div>
+                            </div>
+                            <p class="storage-text">Loading...</p>
+                        </div>
+                    </div>
+
+                    <div class="option-section danger-zone">
+                        <h3>Danger Zone</h3>
+                        <p class="option-description">Permanently delete all save data</p>
+                        <button id="btn-clear-all-saves" class="action-btn danger">CLEAR ALL SAVES</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <p class="keyboard-shortcuts">
+                <strong>Keyboard Shortcuts:</strong> Ctrl+S (Quick Save) | Ctrl+L (Quick Load) | ESC (Close)
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="delete-confirm-modal" class="modal-overlay hidden">
+    <div class="modal-content confirm-modal">
+        <div class="modal-header">
+            <h2>CONFIRM DELETE</h2>
+        </div>
+        <div class="modal-body">
+            <p id="delete-confirm-message" class="confirm-message"></p>
+        </div>
+        <div class="modal-actions">
+            <button id="btn-confirm-delete" class="action-btn danger">DELETE</button>
+            <button id="btn-cancel-delete" class="action-btn secondary">CANCEL</button>
+        </div>
+    </div>
+</div>
     <div id="modal-overlay" class="modal-overlay hidden">
         <div id="modal-content" class="modal-content">
             <!-- Dynamic modal content will be inserted here -->
@@ -172,6 +468,7 @@
             <div id="game-over-message"></div>
             <div id="final-stats"></div>
             <button id="btn-restart" class="action-btn primary">START NEW STUDIO</button>
+    <script src="js/systems/audio-integration.js"></script>
         </div>
     </div>
 
@@ -179,6 +476,7 @@
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
             <div class="studio-logo large">
+    <script src="js/ui/dashboard-visuals.js"></script>
                 <h1>MOGUL</h1>
                 <div class="tagline">Golden Age Hollywood Tycoon</div>
             </div>
@@ -193,8 +491,12 @@
     <script src="js/core/game-state.js"></script>
     <script src="js/core/time-system.js"></script>
     <script src="js/core/save-load.js"></script>
+    <script src="js/core/visual-event-triggers.js"></script>
     
     <!-- Game Systems -->
+    <script src="js/systems/scenarios.js"></script>
+    <script src="js/systems/audio.js"></script>
+    <script src="js/systems/audio-integration.js"></script>
     <script src="js/systems/financial.js"></script>
     <script src="js/systems/production.js"></script>
     <script src="js/systems/boxoffice.js"></script>
@@ -202,6 +504,11 @@
     <script src="js/systems/censorship.js"></script>
     <script src="js/systems/crisis.js"></script>
     <script src="js/systems/achievements.js"></script>
+    <script src="js/systems/awards.js"></script>
+    <script src="js/systems/studio-lot.js"></script>
+    <script src="js/systems/talent-management.js"></script>
+    <script src="js/systems/rival-studios.js"></script>
+    <script src="js/systems/newspaper.js"></script>
 
     <!-- Data Files -->
     <script src="js/data/scripts.js"></script>
@@ -209,10 +516,19 @@
     <script src="js/data/talent-roster.js"></script>
 
     <!-- UI Components -->
+    <script src="js/ui/keyboard-shortcuts.js"></script>
+    <script src="js/ui/save-load-ui.js"></script>
+    <script src="js/ui/scenario-ui.js"></script>
     <script src="js/ui/dashboard.js"></script>
+    <script src="js/ui/dashboard-rival-extensions.js"></script>
     <script src="js/ui/modals.js"></script>
     <script src="js/ui/tutorial.js"></script>
+    <script src="js/ui/help.js"></script>
+    <script src="js/ui/tutorial-integration.js"></script>
+    <script src="js/ui/timeline.js"></script>
+    <script src="js/ui/studio-ui-helpers.js"></script>
 
+    <script src="js/ui/visual-enhancements-integration.js"></script>
     <!-- Integration (must load last) -->
     <script src="js/core/integration.js"></script>
 

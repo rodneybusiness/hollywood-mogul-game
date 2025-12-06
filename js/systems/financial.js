@@ -141,9 +141,10 @@ window.FinancialSystem = (function() {
             fbiAttention: 0,
             monthlyIncome: 0,
             monthlyExpenses: gameState.monthlyBurn,
-            cashFlowHistory: []
+            cashFlowHistory: [],
+            transactions: [] // Track all financial transactions
         };
-        
+
         updateCreditRating(gameState);
     }
     
@@ -1076,7 +1077,97 @@ window.FinancialSystem = (function() {
     function generateInvestmentId() {
         return 'investment_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
     }
-    
+
+    /**
+     * Get available loans based on player's current standing
+     */
+    function getAvailableLoans() {
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState) return [];
+
+        if (!gameState.finances) {
+            initializeFinancialSystem(gameState);
+        }
+
+        const availableLoans = [];
+
+        Object.entries(LOAN_TYPES).forEach(([key, loanType]) => {
+            if (meetsLoanRequirements(loanType, gameState)) {
+                availableLoans.push({
+                    type: key,
+                    name: loanType.name,
+                    maxAmount: loanType.maxAmount,
+                    terms: `${(loanType.baseInterestRate * 100).toFixed(1)}% monthly interest`,
+                    riskLevel: loanType.riskLevel
+                });
+            }
+        });
+
+        return availableLoans;
+    }
+
+    /**
+     * Check if player can afford a given amount
+     */
+    function canAfford(amount) {
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState) return false;
+
+        return gameState.cash >= amount;
+    }
+
+    /**
+     * Get recent transactions
+     */
+    function getRecentTransactions(limit = 10) {
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState || !gameState.finances) return [];
+
+        if (!gameState.finances.transactions) {
+            gameState.finances.transactions = [];
+        }
+
+        // Return most recent transactions
+        return gameState.finances.transactions
+            .slice(-limit)
+            .reverse();
+    }
+
+    /**
+     * Add a transaction to the history
+     */
+    function addTransaction(amount, description) {
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState) return;
+
+        if (!gameState.finances) {
+            initializeFinancialSystem(gameState);
+        }
+
+        if (!gameState.finances.transactions) {
+            gameState.finances.transactions = [];
+        }
+
+        const transaction = {
+            id: generateTransactionId(),
+            amount: amount,
+            description: description,
+            date: new Date(gameState.currentDate),
+            balance: gameState.cash
+        };
+
+        gameState.finances.transactions.push(transaction);
+
+        // Keep only last 100 transactions to prevent memory bloat
+        if (gameState.finances.transactions.length > 100) {
+            gameState.finances.transactions = gameState.finances.transactions.slice(-100);
+        }
+    }
+
+    function generateTransactionId() {
+        return 'txn_' + Date.now() + '_' + Math.floor(Math.random() * 10000);
+    }
+
     /**
      * Public API
      */
@@ -1084,7 +1175,7 @@ window.FinancialSystem = (function() {
         // Core functions
         initializeFinancialSystem,
         processMonthlyFinances,
-        
+
         // UI functions
         showLoanOptions,
         showLoanApplication,
@@ -1092,17 +1183,23 @@ window.FinancialSystem = (function() {
         submitLoanApplication,
         showInvestmentOptions,
         makeInvestment,
-        
+
         // Mob favor functions
         checkMobFavorEvent,
         triggerMobFavor,
         acceptMobFavor,
         refuseMobFavor,
-        
+
         // Utility functions
         calculateTotalMonthlyPayments,
         updateCreditRating,
-        
+
+        // Dashboard API functions
+        getAvailableLoans,
+        canAfford,
+        getRecentTransactions,
+        addTransaction,
+
         // Constants for other systems
         LOAN_TYPES,
         MOB_FAVORS,

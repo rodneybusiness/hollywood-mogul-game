@@ -1,0 +1,391 @@
+/**
+ * TALENT ROSTER UI STYLING
+ * Art Deco styled talent management interface
+ */
+
+/* Talent Grid Layout */
+.talent-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+/* Talent Card */
+.talent-card {
+    background: linear-gradient(135deg, var(--secondary-black) 0%, var(--primary-black) 100%);
+    border: 2px solid var(--primary-gold);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: var(--shadow-prominent);
+    transition: all 0.3s ease;
+}
+
+.talent-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(184, 134, 11, 0.3);
+    border-color: var(--secondary-gold);
+}
+
+/* Talent Header */
+.talent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+.talent-name {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--secondary-gold);
+    margin: 0;
+}
+
+.talent-type {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* Talent Description */
+.talent-description {
+    font-size: 0.9rem;
+    color: var(--ivory);
+    opacity: 0.8;
+    margin-bottom: var(--spacing-md);
+    font-style: italic;
+}
+
+/* Talent Stats */
+.talent-stats {
+    margin: var(--spacing-md) 0;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-xs) 0;
+    font-size: 0.9rem;
+}
+
+.stat-label {
+    color: var(--ivory);
+    opacity: 0.7;
+}
+
+.stat-value {
+    color: var(--secondary-gold);
+    font-weight: 600;
+}
+
+.stat-value.good {
+    color: var(--success-green);
+}
+
+.stat-value.medium {
+    color: var(--warning-amber);
+}
+
+.stat-value.poor {
+    color: var(--danger-red);
+}
+
+.stat-value.risk-high {
+    color: var(--danger-red);
+}
+
+.stat-value.risk-low {
+    color: var(--success-green);
+}
+
+.oscar-badge {
+    color: var(--secondary-gold);
+    font-weight: 700;
+}
+
+/* Talent Genres */
+.talent-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin: var(--spacing-md) 0;
+}
+
+.genre-badge {
+    background: rgba(184, 134, 11, 0.2);
+    border: 1px solid var(--primary-gold);
+    color: var(--secondary-gold);
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Contract Options */
+.contract-options {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-md);
+}
+
+.contract-btn {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* Contract Card Specific */
+.contract-card {
+    border-color: var(--success-green);
+}
+
+.contract-card:hover {
+    border-color: var(--secondary-gold);
+}
+
+/* Available Card Specific */
+.available-card.a-list {
+    border-color: #FFD700;
+}
+
+.available-card.a-list:hover {
+    box-shadow: 0 8px 24px rgba(255, 215, 0, 0.4);
+}
+
+.available-card.b-list {
+    border-color: #C0C0C0;
+}
+
+.available-card.supporting {
+    border-color: #CD7F32;
+}
+
+/* Talent Filters */
+.talent-filters {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: rgba(184, 134, 11, 0.1);
+    border-radius: var(--border-radius);
+}
+
+.filter-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: transparent;
+    border: 1px solid var(--primary-gold);
+    color: var(--ivory);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.filter-btn:hover {
+    background: rgba(184, 134, 11, 0.2);
+    border-color: var(--secondary-gold);
+}
+
+.filter-btn.active {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+}
+
+/* Talent Selection Modal */
+.talent-selection-modal {
+    max-width: 1200px;
+    padding: var(--spacing-xl);
+}
+
+.talent-selection-modal h2 {
+    font-family: var(--font-heading);
+    color: var(--secondary-gold);
+    margin-bottom: var(--spacing-md);
+}
+
+.modal-description {
+    color: var(--ivory);
+    opacity: 0.8;
+    margin-bottom: var(--spacing-xl);
+}
+
+.selection-section {
+    margin-bottom: var(--spacing-xl);
+}
+
+.selection-section h3 {
+    font-family: var(--font-heading);
+    color: var(--primary-gold);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+.talent-selection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+}
+
+/* Talent Selection Card */
+.talent-select-card {
+    background: var(--secondary-black);
+    border: 2px solid rgba(184, 134, 11, 0.3);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.talent-select-card:hover {
+    border-color: var(--primary-gold);
+    transform: translateY(-2px);
+}
+
+.talent-select-card.selected {
+    border-color: var(--secondary-gold);
+    background: linear-gradient(135deg, rgba(184, 134, 11, 0.2) 0%, rgba(184, 134, 11, 0.1) 100%);
+    box-shadow: 0 0 20px rgba(184, 134, 11, 0.4);
+}
+
+.select-header {
+    margin-bottom: var(--spacing-sm);
+}
+
+.select-header h4 {
+    font-size: 1rem;
+    color: var(--ivory);
+    margin: 0 0 var(--spacing-xs) 0;
+}
+
+.contract-badge {
+    background: var(--success-green);
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.select-stats {
+    font-size: 0.8rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.select-stats div {
+    padding: 2px 0;
+    color: var(--ivory);
+    opacity: 0.8;
+}
+
+.compat-high {
+    color: var(--success-green);
+    font-weight: 700;
+}
+
+.compat-medium {
+    color: var(--warning-amber);
+}
+
+.compat-low {
+    color: var(--danger-red);
+}
+
+.select-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.mini-badge {
+    background: rgba(184, 134, 11, 0.3);
+    color: var(--secondary-gold);
+    padding: 2px 5px;
+    border-radius: 2px;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+}
+
+.select-btn {
+    width: 100%;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: transparent;
+    border: 1px solid var(--primary-gold);
+    color: var(--ivory);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.select-btn:hover {
+    background: var(--primary-gold);
+    color: var(--primary-black);
+}
+
+.talent-select-card.selected .select-btn {
+    background: var(--secondary-gold);
+    color: var(--primary-black);
+    border-color: var(--secondary-gold);
+}
+
+/* Modal Actions */
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid rgba(184, 134, 11, 0.3);
+}
+
+/* Release Button */
+.release-btn {
+    width: 100%;
+    margin-top: var(--spacing-md);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .talent-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .talent-selection-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+
+    .contract-options {
+        flex-direction: column;
+    }
+
+    .talent-filters {
+        flex-wrap: wrap;
+    }
+}
+
+/* Loading State */
+.talent-grid.loading::after {
+    content: 'Loading talent...';
+    display: block;
+    text-align: center;
+    padding: var(--spacing-xl);
+    color: var(--ivory);
+    opacity: 0.5;
+    font-style: italic;
+}

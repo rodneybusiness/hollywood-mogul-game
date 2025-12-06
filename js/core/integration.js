@@ -67,12 +67,73 @@ window.Integration = (function() {
             }
         }
 
+        // Initialize timeline UI (optional module)
+        if (window.TimelineUI && typeof window.TimelineUI.init === 'function') {
+            try {
+                window.TimelineUI.init();
+                console.log('Timeline UI initialized');
+            } catch (error) {
+                console.error('Timeline UI failed to initialize', error);
+            }
+        }
+
         // Initialize core game state if available
         if (window.HollywoodMogul && typeof window.HollywoodMogul.init === 'function') {
             try {
                 window.HollywoodMogul.init();
             } catch (error) {
                 console.error('Failed to initialize Hollywood Mogul core systems', error);
+            }
+        }
+
+        // Initialize rival studios system
+        if (window.RivalStudios && typeof window.RivalStudios.init === 'function') {
+            try {
+                const gameState = window.HollywoodMogul.getGameState();
+                window.RivalStudios.init(gameState);
+                console.log('Rival Studios system initialized');
+            } catch (error) {
+                console.error('Failed to initialize Rival Studios system', error);
+            }
+        }
+
+        // Initialize dashboard rival extensions
+        if (window.DashboardRivalExtensions && typeof window.DashboardRivalExtensions.init === 'function') {
+            try {
+                window.DashboardRivalExtensions.init();
+                console.log('Dashboard Rival Extensions initialized');
+            } catch (error) {
+                console.error('Failed to initialize Dashboard Rival Extensions', error);
+            }
+        }
+
+        // Initialize Save/Load UI
+        if (window.SaveLoadUI && typeof window.SaveLoadUI.init === 'function') {
+            try {
+                window.SaveLoadUI.init();
+                console.log('Save/Load UI initialized');
+            } catch (error) {
+                console.error('Failed to initialize Save/Load UI', error);
+            }
+        }
+
+        // Initialize Keyboard Shortcuts
+        if (window.KeyboardShortcuts && typeof window.KeyboardShortcuts.init === 'function') {
+            try {
+                window.KeyboardShortcuts.init();
+                console.log('Keyboard Shortcuts initialized');
+            } catch (error) {
+                console.error('Failed to initialize Keyboard Shortcuts', error);
+            }
+        }
+
+        // Initialize Scenario UI
+        if (window.ScenarioUI && typeof window.ScenarioUI.init === 'function') {
+            try {
+                window.ScenarioUI.init();
+                console.log('Scenario UI initialized');
+            } catch (error) {
+                console.error('Failed to initialize Scenario UI', error);
             }
         }
     }
@@ -235,6 +296,11 @@ window.Integration = (function() {
         // Sync to UI
         syncAllToUI();
 
+        // Ironman mode auto-save on every action
+        if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode()) {
+            window.SaveLoadSystem.ironmanSave(gameState);
+        }
+
         // Check for game end conditions
         window.HollywoodMogul.checkGameEndConditions();
     }
@@ -257,12 +323,30 @@ window.Integration = (function() {
         if (window.EventSystem && window.EventSystem.processWeeklyEventCheck) {
             window.EventSystem.processWeeklyEventCheck(gameState);
         }
+
+        // Process rival studios
+        if (window.RivalStudios && window.RivalStudios.processWeeklyRivalUpdates) {
+            window.RivalStudios.processWeeklyRivalUpdates(gameState);
+        }
+
+        // Check for achievement unlocks
+        if (window.AchievementSystem && window.AchievementSystem.checkAchievements) {
+            window.AchievementSystem.checkAchievements(gameState);
+        }
     }
 
     /**
      * Process monthly game updates
      */
     function processMonthlyUpdates(gameState) {
+        // Show newspaper at start of each month
+        if (window.NewspaperSystem && window.NewspaperSystem.showNewspaper) {
+            // Delay newspaper slightly to allow other updates to process
+            setTimeout(() => {
+                window.NewspaperSystem.showNewspaper(gameState);
+            }, 300);
+        }
+
         // Generate new scripts
         if (window.ScriptLibrary && window.ScriptLibrary.generateMonthlyScripts) {
             const newScripts = window.ScriptLibrary.generateMonthlyScripts(gameState);
@@ -285,6 +369,16 @@ window.Integration = (function() {
         // Process loans
         if (window.FinancialSystem && window.FinancialSystem.processMonthlyLoans) {
             window.FinancialSystem.processMonthlyLoans(gameState);
+        }
+
+        // Check for achievement unlocks
+        if (window.AchievementSystem && window.AchievementSystem.checkAchievements) {
+            window.AchievementSystem.checkAchievements(gameState);
+        }
+
+        // Check scenario victory conditions
+        if (window.ScenarioUI && window.ScenarioUI.checkVictoryConditions) {
+            window.ScenarioUI.checkVictoryConditions(gameState);
         }
     }
 
@@ -343,6 +437,11 @@ window.Integration = (function() {
 
             window.HollywoodMogul.closeModal();
             syncAllToUI();
+
+            // Ironman mode auto-save on every action
+            if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode()) {
+                window.SaveLoadSystem.ironmanSave(gameState);
+            }
         } else {
             console.error('ProductionSystem not available');
         }

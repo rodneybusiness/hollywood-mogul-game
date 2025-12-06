@@ -268,6 +268,270 @@
     margin-left: 8px;
 }
 
+/* Achievement Points Display */
+.achievement-points-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.points-card {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+}
+
+.points-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.points-value {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #d4af37;
+    font-weight: 600;
+}
+
+/* Achievement Unlock Date */
+.achievement-unlock-date {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8rem;
+    color: #4caf50;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #444;
+}
+
+/* Secret Achievement Styles */
+.achievement-card.secret-locked {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border-color: #8b4513;
+}
+
+.achievement-card.secret-locked:hover {
+    border-color: #b8860b;
+    cursor: help;
+}
+
+/* Achievement Details Modal */
+.achievement-detail-modal {
+    max-width: 600px;
+    background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+    border: 2px solid #d4af37;
+}
+
+.achievement-modal-icon {
+    font-size: 3rem;
+    margin-right: 15px;
+}
+
+.achievement-modal-title h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #d4af37;
+    margin: 0;
+}
+
+.achievement-category-tag {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+.achievement-description-full {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: #b8b8b8;
+    line-height: 1.6;
+    margin: 20px 0;
+}
+
+.achievement-unlock-info {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid #4caf50;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.unlock-badge {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #4caf50;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.unlock-date {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #b8b8b8;
+}
+
+.achievement-rewards {
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid #d4af37;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 20px 0;
+}
+
+.reward-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Lato', sans-serif;
+}
+
+.reward-label {
+    font-size: 0.9rem;
+    color: #b8b8b8;
+}
+
+.reward-value {
+    font-size: 1.1rem;
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.secret-badge-large {
+    background: linear-gradient(135deg, #8b4513 0%, #654321 100%);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 15px;
+}
+
+/* Achievement Card Hover Effects */
+.achievement-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.achievement-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.achievement-card.unlocked:hover::before {
+    left: 100%;
+}
+
+/* Achievement Card Click Animation */
+.achievement-card:active {
+    transform: scale(0.98);
+}
+
+/* No Content Styling for Achievements */
+.achievements-grid .no-content {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: #888;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.1rem;
+}
+
+/* Locked Achievement Shine Effect */
+.achievement-card.locked {
+    position: relative;
+}
+
+.achievement-card.locked::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%);
+    pointer-events: none;
+}
+
+/* Trophy Case Header Enhancement */
+.section-header {
+    margin-bottom: 30px;
+}
+
+/* Achievement Grid Entrance Animation */
+@keyframes achievementFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.achievement-card {
+    animation: achievementFadeIn 0.4s ease-out;
+    animation-fill-mode: both;
+}
+
+.achievement-card:nth-child(1) { animation-delay: 0.05s; }
+.achievement-card:nth-child(2) { animation-delay: 0.1s; }
+.achievement-card:nth-child(3) { animation-delay: 0.15s; }
+.achievement-card:nth-child(4) { animation-delay: 0.2s; }
+.achievement-card:nth-child(5) { animation-delay: 0.25s; }
+.achievement-card:nth-child(6) { animation-delay: 0.3s; }
+
+/* Modal Header Flexbox */
+.achievement-detail-modal .modal-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #444;
+}
+
+.achievement-detail-modal .modal-content {
+    padding: 20px;
+}
+
+/* Category Button Enhancements */
+.category-btn {
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-btn:not(.active):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+}
+
+/* Progress Bar Animation */
+.achievement-progress-fill {
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .achievement-notification {
@@ -286,5 +550,23 @@
 
     .achievement-card {
         padding: 15px;
+    }
+
+    .achievement-modal-icon {
+        font-size: 2rem;
+        margin-right: 10px;
+    }
+
+    .achievement-modal-title h3 {
+        font-size: 1.2rem;
+    }
+
+    .achievement-categories {
+        gap: 5px;
+    }
+
+    .category-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
     }
 }

@@ -35,13 +35,13 @@ window.DashboardUI = (function() {
                 showSection(section);
             }
             
-            // Time progression buttons  
-            if (e.target.matches('#advance-week')) {
+            // Time progression buttons
+            if (e.target.matches('#btn-advance-week')) {
                 window.TimeSystem.advanceWeek();
                 updateDashboard();
             }
-            
-            if (e.target.matches('#advance-month')) {
+
+            if (e.target.matches('#btn-advance-month')) {
                 window.TimeSystem.advanceMonth();
                 updateDashboard();
             }
@@ -98,6 +98,30 @@ window.DashboardUI = (function() {
         updateAlerts();
         updateTimeDisplay();
         updateEventsLog();
+        if (window.TalentManagement && typeof updateTalentSection === 'function') {
+            updateTalentSection();
+        }
+    }
+
+    function updateDashboard_OLD() {
+        updateFinancialSummary();
+        updateFilmsInProduction();
+        updateFilmsInTheaters();
+        updateAlerts();
+        updateTimeDisplay();
+        updateEventsLog();
+        if (window.TalentManagement) {
+            updateTalentSection();
+        }
+    }
+
+    function updateDashboard_OLD() {
+        updateFinancialSummary();
+        updateFilmsInProduction();
+        updateFilmsInTheaters();
+        updateAlerts();
+        updateTimeDisplay();
+        updateEventsLog();
     }
 
     /**
@@ -124,6 +148,46 @@ window.DashboardUI = (function() {
             const runwayWeeks = Math.floor(runway);
             runwayElement.textContent = `${runwayWeeks} weeks`;
             runwayElement.className = `runway-indicator ${getRunwayStatusClass(runwayWeeks)}`;
+        }
+
+        // Update Oscar stats if available
+        updateOscarStats(gameState);
+    }
+
+    /**
+     * Update Oscar statistics display
+     */
+    function updateOscarStats(gameState) {
+        if (!window.AwardsSystem) return;
+
+        const oscarStats = window.AwardsSystem.getStudioOscarStats(gameState);
+
+        // Try to find or create Oscar stats display
+        let oscarDisplay = document.getElementById('oscar-stats');
+
+        if (!oscarDisplay) {
+            // Create Oscar stats element if it doesn't exist
+            const dashboard = document.getElementById('financial-dashboard');
+            if (dashboard && oscarStats.totalWins > 0) {
+                const grid = dashboard.querySelector('.dashboard-grid');
+                if (grid) {
+                    oscarDisplay = document.createElement('div');
+                    oscarDisplay.id = 'oscar-stats';
+                    oscarDisplay.className = 'finance-card oscar-card';
+                    grid.appendChild(oscarDisplay);
+                }
+            }
+        }
+
+        if (oscarDisplay && oscarStats.totalWins > 0) {
+            oscarDisplay.innerHTML = `
+                <div class="card-header">OSCARS WON</div>
+                <div class="card-value oscar-count">
+                    <span class="trophy-icon">🏆</span>
+                    <span class="oscar-number">${oscarStats.totalWins}</span>
+                </div>
+                <div class="oscar-subtitle">${oscarStats.totalNominations} nominations</div>
+            `;
         }
     }
 
@@ -177,11 +241,15 @@ window.DashboardUI = (function() {
         const statusColor = getProductionStatusColor(film.phase);
         const normalizedPhase = normalizePhase(film.phase);
         const budget = film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0;
+        const oscarInfo = getFilmOscarInfo(film);
 
         return `
-            <div class="film-card production-card">
+            <div class="film-card production-card ${oscarInfo.hasOscars ? 'oscar-winner' : ''}">
                 <div class="film-header">
-                    <h4 class="film-title">${film.title}</h4>
+                    <h4 class="film-title">
+                        ${film.title}
+                        ${oscarInfo.display}
+                    </h4>
                     <span class="film-budget">$${budget.toLocaleString()}</span>
                 </div>
                 <div class="film-info">
@@ -208,21 +276,26 @@ window.DashboardUI = (function() {
         const distribution = film.distribution;
         const currentWeek = distribution.currentWeek;
         const weekData = distribution.boxOfficeResults.weeks[currentWeek - 1];
-        
+
         if (!weekData) return '';
-        
+
         const totalGross = distribution.boxOfficeResults.weeks
             .slice(0, currentWeek)
             .reduce((sum, week) => sum + week.grossRevenue, 0);
-            
+
         const totalStudioRevenue = distribution.boxOfficeResults.weeks
             .slice(0, currentWeek)
             .reduce((sum, week) => sum + week.studioRevenue, 0);
-            
+
+        const oscarInfo = getFilmOscarInfo(film);
+
         return `
-            <div class="film-card box-office-card">
+            <div class="film-card box-office-card ${oscarInfo.hasOscars ? 'oscar-winner' : ''}">
                 <div class="film-header">
-                    <h4 class="film-title">${film.title}</h4>
+                    <h4 class="film-title">
+                        ${film.title}
+                        ${oscarInfo.display}
+                    </h4>
                     <span class="week-indicator">Week ${currentWeek}</span>
                 </div>
                 <div class="box-office-stats">
@@ -242,6 +315,7 @@ window.DashboardUI = (function() {
                 </div>
                 <div class="film-info">
                     <span class="strategy-tag">${formatDistributionStrategy(distribution.strategy)}</span>
+                    ${oscarInfo.nominated ? '<span class="oscar-nominated-tag">Oscar Nominated</span>' : ''}
                 </div>
             </div>
         `;
@@ -254,12 +328,12 @@ window.DashboardUI = (function() {
         // Hide all sections
         const sections = document.querySelectorAll('.game-section');
         sections.forEach(section => section.style.display = 'none');
-        
+
         // Show requested section
         const targetSection = document.getElementById(`${sectionName}-section`);
         if (targetSection) {
             targetSection.style.display = 'block';
-            
+
             // Update section content
             switch(sectionName) {
                 case 'scripts':
@@ -271,9 +345,18 @@ window.DashboardUI = (function() {
                 case 'studio':
                     updateStudioSection();
                     break;
+                case 'talent':
+                    updateTalentSection();
+                    break;
+                case 'timeline':
+                    updateTimelineSection();
+                    break;
+                case 'achievements':
+                    updateAchievementsSection();
+                    break;
             }
         }
-        
+
         // Update navigation active state
         document.querySelectorAll('.nav-button').forEach(btn => {
             btn.classList.remove('active');
@@ -342,9 +425,27 @@ window.DashboardUI = (function() {
     function updateFinancesSection() {
         const gameState = window.HollywoodMogul.getGameState();
         const runway = window.HollywoodMogul.calculateRunwayWeeks();
+
+        // Calculate monthly revenue from various sources
+        let monthlyRevenue = 0;
+
+        // Add investment income
+        if (gameState.finances && gameState.finances.investments) {
+            monthlyRevenue += gameState.finances.investments.reduce((total, inv) => {
+                return total + (inv.monthlyReturn || 0);
+            }, 0);
+        }
+
+        // Add box office income (if tracked in finances)
+        if (gameState.finances && gameState.finances.monthlyIncome) {
+            monthlyRevenue += gameState.finances.monthlyIncome;
+        }
+
         const financial = {
             monthlyBurn: gameState.monthlyBurn,
-            runway: runway
+            runway: runway,
+            monthlyRevenue: monthlyRevenue,
+            netFlow: monthlyRevenue - gameState.monthlyBurn
         };
         const container = document.getElementById('financial-details');
 
@@ -795,84 +896,27 @@ window.DashboardUI = (function() {
         return names[strategy] || strategy;
     }
 
-    function normalizePhase(phase) {
-        if (!phase) return '';
-        const mapping = {
-            'DEVELOPMENT': 'greenlit',
-            'PRE_PRODUCTION': 'pre_production',
-            'PRINCIPAL_PHOTOGRAPHY': 'shooting',
-            'POST_PRODUCTION': 'post_production',
-            'DISTRIBUTION_PREP': 'post_production_complete',
-            'COMPLETED': 'post_production_complete'
-        };
-        const normalized = mapping[phase] || phase;
-        return typeof normalized === 'string' ? normalized.toLowerCase() : '';
-    }
+    function getFilmOscarInfo(film) {
+        const wins = film.oscarWins || 0;
+        const nominations = film.oscarNominations || 0;
+        const hasOscars = wins > 0;
+        const nominated = nominations > 0;
 
-    function getAllFilms(gameState) {
-        const collections = [];
-        if (Array.isArray(gameState.films) && gameState.films.length > 0) {
-            collections.push(...gameState.films);
-        }
-        if (Array.isArray(gameState.activeFilms)) {
-            collections.push(...gameState.activeFilms);
-        }
-        if (Array.isArray(gameState.completedFilms)) {
-            collections.push(...gameState.completedFilms);
+        let display = '';
+        if (wins > 0) {
+            const trophies = '🏆'.repeat(Math.min(wins, 5)); // Max 5 trophies shown
+            display = `<span class="oscar-trophies" title="${wins} Oscar${wins > 1 ? 's' : ''}">${trophies}</span>`;
         }
 
-        const uniqueFilms = new Map();
-        collections.forEach(film => {
-            if (film && film.id && !uniqueFilms.has(film.id)) {
-                uniqueFilms.set(film.id, film);
-            }
-        });
-
-        return Array.from(uniqueFilms.values());
-    }
-
-    function findFilmById(gameState, filmId) {
-        return getAllFilms(gameState).find(film => film.id === filmId);
-    }
-
-    function getEventIcon(eventType) {
-        const icons = {
-            'financial': '💰',
-            'production': '🎬', 
-            'market': '📊',
-            'historical': '📰',
-            'crisis': '⚠️'
-        };
-        return icons[eventType] || '📋';
-    }
-
-    function formatDate(date) {
-        if (!date) return '—';
-
-        if (date instanceof Date) {
-            return `${getMonthName(date.getMonth() + 1)} ${date.getFullYear()}`;
-        }
-
-        if (typeof date === 'object' && typeof date.month === 'number' && typeof date.year === 'number') {
-            return `${getMonthName(date.month)} ${date.year}`;
-        }
-
-        return String(date);
-    }
-
-    function getMonthName(monthNum) {
-        const months = [
-            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-        ];
-        return months[(monthNum || 0) - 1] || months[monthNum] || 'Unknown';
-    }
-
-    // Public API
-    return {
+        return {
         init: init,
         updateDashboard: updateDashboard,
         showSection: showSection,
-        showNotification: showNotification
+        showNotification: showNotification,
+        updateAchievementsSection: updateAchievementsSection,
+        showAchievementDetails: showAchievementDetails,
+        updateTalentSection: updateTalentSection,
+        signTalent: signTalent,
+        releaseContract: releaseContract
     };
 })();

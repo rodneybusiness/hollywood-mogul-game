@@ -854,7 +854,7 @@ window.ProductionSystem = (function() {
         film.inTheaters = true;
         film.theaterWeek = 1;
         film.projectedGross = projectedGross;
-        
+
         if (window.HollywoodMogul) {
             window.HollywoodMogul.addAlert({
                 type: 'release',
@@ -864,7 +864,67 @@ window.ProductionSystem = (function() {
             });
         }
     }
-    
+
+    /**
+     * Greenlight a script and start production
+     * Called from UI when player selects a script
+     */
+    function greenlightScript(scriptId) {
+        // Get game state
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState) {
+            return {
+                success: false,
+                message: 'Game state not available'
+            };
+        }
+
+        // Get script from library
+        const script = window.ScriptLibrary ? window.ScriptLibrary.getScriptById(scriptId) : null;
+        if (!script) {
+            return {
+                success: false,
+                message: 'Script not found'
+            };
+        }
+
+        // Check if player can afford the budget
+        if (gameState.cash < script.budget) {
+            return {
+                success: false,
+                message: `Insufficient funds. Need $${script.budget.toLocaleString()}, have $${gameState.cash.toLocaleString()}`
+            };
+        }
+
+        // Deduct budget from cash
+        gameState.cash -= script.budget;
+
+        // Start production
+        const film = startProduction(script, gameState);
+
+        // Add film to active films
+        if (!gameState.activeFilms) {
+            gameState.activeFilms = [];
+        }
+        gameState.activeFilms.push(film);
+
+        // Track transaction
+        if (window.FinancialSystem && typeof window.FinancialSystem.addTransaction === 'function') {
+            window.FinancialSystem.addTransaction(-script.budget, `Greenlit "${script.title}"`);
+        }
+
+        // Remove script from available scripts
+        if (window.ScriptLibrary && typeof window.ScriptLibrary.removeScript === 'function') {
+            window.ScriptLibrary.removeScript(scriptId);
+        }
+
+        return {
+            success: true,
+            film: film,
+            message: `Production begins on "${film.title}"`
+        };
+    }
+
     /**
      * Public API
      */
@@ -873,12 +933,13 @@ window.ProductionSystem = (function() {
         processWeeklyProduction,
         resolveEvent,
         chooseDistribution,
-        
+        greenlightScript,
+
         // Helper functions for external systems
         calculateWeeklyBurn,
         calculateShootingDays,
         getGenreHeat,
-        
+
         // Constants for other systems
         PRODUCTION_PHASES,
         EVENT_PROBABILITIES

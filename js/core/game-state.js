@@ -173,7 +173,23 @@ window.HollywoodMogul = (function() {
      * Start a new game
      */
     function startNewGame() {
-        // Reset game state
+        // Show scenario selection if ScenarioSystem is available
+        if (window.ScenarioSystem && window.ScenarioSystem.showScenarioSelection) {
+            window.ScenarioSystem.showScenarioSelection();
+            return;
+        }
+
+        // Fallback to classic start if scenarios not available
+        startNewGameWithScenario('classic_start');
+    }
+
+    /**
+     * Start a new game with a specific scenario
+     */
+    function startNewGameWithScenario(scenarioId) {
+        scenarioId = scenarioId || 'classic_start';
+
+        // Reset game state with default values
         gameState = {
             currentDate: new Date(1933, 0, 1),
             gameWeek: 1,
@@ -204,27 +220,40 @@ window.HollywoodMogul = (function() {
                 boxOfficeTotal: 0,
                 scandalsHandled: 0,
                 yearsSurvived: 0
-            }
+            },
+            scenario: null // Will be set by scenario system
         };
-        
-        // Initialize available scripts
-        if (window.ScriptLibrary && window.ScriptLibrary.generateInitialScripts) {
-            gameState.availableScripts = window.ScriptLibrary.generateInitialScripts();
+
+        // Apply scenario-specific changes
+        if (window.ScenarioSystem && window.ScenarioSystem.applyScenario) {
+            window.ScenarioSystem.applyScenario(scenarioId, gameState);
+        } else {
+            // Fallback: generate default scripts
+            if (window.ScriptLibrary && window.ScriptLibrary.generateInitialScripts) {
+                gameState.availableScripts = window.ScriptLibrary.generateInitialScripts();
+            }
         }
-        
-        // Add welcome alert
-        addAlert({
-            type: 'tutorial',
-            icon: '🎬',
-            message: 'Welcome to Mogul Pictures! Review available scripts to begin your Hollywood empire.',
-            priority: 'high'
-        });
-        
+
+        // Initialize studio lot management system
+        if (window.StudioLotSystem && window.StudioLotSystem.initializeStudioLot) {
+            window.StudioLotSystem.initializeStudioLot(gameState);
+        }
+
+        // Add welcome alert (scenario will have already added its own)
+        if (!gameState.scenario) {
+            addAlert({
+                type: 'tutorial',
+                icon: '🎬',
+                message: 'Welcome to Mogul Pictures! Review available scripts to begin your Hollywood empire.',
+                priority: 'high'
+            });
+        }
+
         // Update UI
         initializeUI();
         switchSection('dashboard');
-        
-        console.log('New game started!', gameState);
+
+        console.log('New game started with scenario:', scenarioId, gameState);
     }
     
     /**
@@ -310,12 +339,17 @@ window.HollywoodMogul = (function() {
         let burn = GAME_CONSTANTS.SOUND_STAGE_COST * gameState.soundStages;
         burn += GAME_CONSTANTS.OVERHEAD_COST;
         burn += GAME_CONSTANTS.CONTRACT_PLAYERS_COST; // Base contract costs
-        
+
         // Add contract player specific costs
         gameState.contractPlayers.forEach(player => {
             burn += player.monthlySalary || 0;
         });
-        
+
+        // Add studio lot maintenance costs
+        if (gameState.studioLot && gameState.studioLot.totalMaintenanceCost) {
+            burn += gameState.studioLot.totalMaintenanceCost;
+        }
+
         gameState.monthlyBurn = burn;
         return burn;
     }
@@ -353,6 +387,13 @@ window.HollywoodMogul = (function() {
         // Historical events
         if (window.HistoricalEvents && window.HistoricalEvents.checkForEvents) {
             window.HistoricalEvents.checkForEvents(gameState);
+        }
+
+        // Academy Awards ceremony (March each year, starting 1934)
+        if (window.AwardsSystem && window.AwardsSystem.shouldTriggerOscars) {
+            if (window.AwardsSystem.shouldTriggerOscars(gameState)) {
+                window.AwardsSystem.triggerOscarCeremony(gameState);
+            }
         }
 
         // Update stats - calculate years survived based on current date
@@ -456,12 +497,12 @@ window.HollywoodMogul = (function() {
         // Core functions
         init,
         getGameState: () => gameState,
-        
+
         // Time functions
         advanceTime,
         getCurrentDate: () => gameState.currentDate,
         formatDate: (date) => formatDate(date || gameState.currentDate),
-        
+
         // Financial functions
         getCash: () => gameState.cash,
         addCash: (amount) => {
@@ -475,17 +516,18 @@ window.HollywoodMogul = (function() {
             updateFinancialDisplay();
         },
         calculateRunwayWeeks,
-        
+
         // Game state functions
         addAlert,
         endGame,
         startNewGame,
-        
+        startNewGameWithScenario,
+
         // UI functions
         showModal: (content) => showModal(content),
         closeModal,
         switchSection,
-        
+
         // Utility functions
         CONSTANTS: GAME_CONSTANTS
     };
