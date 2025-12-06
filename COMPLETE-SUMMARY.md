@@ -250,7 +250,7 @@ open index.html
 1. Game loads with tutorial overlay
 2. Follow 18-step tutorial (or skip)
 3. Tutorial explains all mechanics
-4. After tutorial, you're at January 1933 with $75,000
+4. After tutorial, you're at January 1933 with $410,000
 
 ### Basic Gameplay Loop
 1. **Review Scripts** → Browse available films
