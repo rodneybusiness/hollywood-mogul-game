@@ -47,7 +47,7 @@ describe('HollywoodMogul Game State', () => {
             const gameState = window.HollywoodMogul.getGameState();
 
             expect(gameState.gameYear).toBe(1933);
-            expect(gameState.cash).toBe(75000);
+            expect(gameState.cash).toBe(410000);
             expect(gameState.monthlyBurn).toBe(30000);
             expect(gameState.studioName).toBe('Mogul Pictures');
             expect(gameState.reputation).toBe(50);
@@ -59,7 +59,7 @@ describe('HollywoodMogul Game State', () => {
         test('should have correct game constants', () => {
             const constants = window.HollywoodMogul.CONSTANTS;
 
-            expect(constants.STARTING_CASH).toBe(75000);
+            expect(constants.STARTING_CASH).toBe(410000);
             expect(constants.BASE_MONTHLY_BURN).toBe(30000);
             expect(constants.GAME_END_YEAR).toBe(1949);
             expect(constants.WEEKS_PER_MONTH).toBe(4);
@@ -85,12 +85,12 @@ describe('HollywoodMogul Game State', () => {
 
         test('should correctly get current cash', () => {
             const cash = window.HollywoodMogul.getCash();
-            expect(cash).toBe(75000);
+            expect(cash).toBe(410000);
         });
 
         test('should add cash correctly', () => {
             window.HollywoodMogul.addCash(25000);
-            expect(window.HollywoodMogul.getCash()).toBe(100000);
+            expect(window.HollywoodMogul.getCash()).toBe(435000);
 
             const gameState = window.HollywoodMogul.getGameState();
             expect(gameState.totalRevenue).toBe(25000);
@@ -98,7 +98,7 @@ describe('HollywoodMogul Game State', () => {
 
         test('should not add negative amounts to total revenue', () => {
             window.HollywoodMogul.addCash(-10000);
-            expect(window.HollywoodMogul.getCash()).toBe(65000);
+            expect(window.HollywoodMogul.getCash()).toBe(400000);
 
             const gameState = window.HollywoodMogul.getGameState();
             expect(gameState.totalRevenue).toBe(0);
@@ -106,7 +106,7 @@ describe('HollywoodMogul Game State', () => {
 
         test('should spend cash correctly', () => {
             window.HollywoodMogul.spendCash(15000);
-            expect(window.HollywoodMogul.getCash()).toBe(60000);
+            expect(window.HollywoodMogul.getCash()).toBe(395000);
 
             const gameState = window.HollywoodMogul.getGameState();
             expect(gameState.totalExpenses).toBe(15000);
@@ -114,15 +114,15 @@ describe('HollywoodMogul Game State', () => {
 
         test('should calculate runway weeks correctly with positive cash', () => {
             const runway = window.HollywoodMogul.calculateRunwayWeeks();
-            // 75000 / (30000/4) = 10 weeks
-            expect(runway).toBe(10);
+            // 410000 / (30000/4) = 54 weeks
+            expect(runway).toBe(54);
         });
 
         test('should calculate runway weeks after spending', () => {
             window.HollywoodMogul.spendCash(15000);
             const runway = window.HollywoodMogul.calculateRunwayWeeks();
-            // 60000 / (30000/4) = 8 weeks
-            expect(runway).toBe(8);
+            // 395000 / (30000/4) = 52 weeks
+            expect(runway).toBe(52);
         });
 
         test('should return 999 weeks when monthly burn is zero', () => {
@@ -134,7 +134,7 @@ describe('HollywoodMogul Game State', () => {
         });
 
         test('should handle negative cash runway', () => {
-            window.HollywoodMogul.spendCash(80000);
+            window.HollywoodMogul.spendCash(420000); // Spend more than starting cash
             const runway = window.HollywoodMogul.calculateRunwayWeeks();
             expect(runway).toBeLessThan(0);
         });
@@ -320,17 +320,17 @@ describe('HollywoodMogul Game State', () => {
 
         test('should update cash display', () => {
             const cashElement = document.getElementById('cash-display');
-            expect(cashElement.textContent).toBe('$75,000');
+            expect(cashElement.textContent).toBe('$410,000');
         });
 
         test('should update cash display after adding money', () => {
             window.HollywoodMogul.addCash(25000);
             const cashElement = document.getElementById('cash-display');
-            expect(cashElement.textContent).toBe('$100,000');
+            expect(cashElement.textContent).toBe('$435,000');
         });
 
         test('should show negative cash with appropriate class', () => {
-            window.HollywoodMogul.spendCash(80000);
+            window.HollywoodMogul.spendCash(420000); // Spend more than starting cash
             const cashElement = document.getElementById('cash-display');
             expect(cashElement.className).toContain('negative');
         });
@@ -341,8 +341,9 @@ describe('HollywoodMogul Game State', () => {
         });
 
         test('should show danger status when runway is low', () => {
-            // Spend enough to get runway below 8 weeks
-            window.HollywoodMogul.spendCash(60000);
+            // Spend enough to get runway below 8 weeks (need cash < 60000)
+            // 410000 - 360000 = 50000, which gives ~6 weeks runway
+            window.HollywoodMogul.spendCash(360000);
 
             const runwayStatusElement = document.getElementById('runway-status');
             expect(runwayStatusElement.textContent).toBe('DANGER');
@@ -383,8 +384,8 @@ describe('HollywoodMogul Game State', () => {
         test('should handle complete game flow from start to bankruptcy', () => {
             window.HollywoodMogul.startNewGame();
 
-            // Spend all money
-            window.HollywoodMogul.spendCash(80000);
+            // Spend all money (more than 410000 to go negative)
+            window.HollywoodMogul.spendCash(420000);
 
             // Try to advance time (should trigger bankruptcy)
             window.HollywoodMogul.advanceTime('week');
@@ -417,10 +418,10 @@ describe('HollywoodMogul Game State', () => {
             window.HollywoodMogul.startNewGame();
 
             window.HollywoodMogul.addCash(50000);
-            expect(window.HollywoodMogul.getCash()).toBe(125000);
+            expect(window.HollywoodMogul.getCash()).toBe(460000);
 
             window.HollywoodMogul.spendCash(25000);
-            expect(window.HollywoodMogul.getCash()).toBe(100000);
+            expect(window.HollywoodMogul.getCash()).toBe(435000);
 
             const gameState = window.HollywoodMogul.getGameState();
             expect(gameState.totalRevenue).toBe(50000);

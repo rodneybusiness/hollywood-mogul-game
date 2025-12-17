@@ -506,16 +506,16 @@ window.SaveLoadSystem = (function() {
             reader.onload = function(e) {
                 try {
                     const importData = JSON.parse(e.target.result);
-                    
-                    // Validate import data
+
+                    // Validate import file structure
                     if (!importData.game || importData.game !== 'Hollywood Mogul') {
                         resolve({
                             success: false,
-                            message: 'Invalid save file format'
+                            message: 'Invalid save file format: not a Hollywood Mogul save'
                         });
                         return;
                     }
-                    
+
                     if (!importData.saveData) {
                         resolve({
                             success: false,
@@ -523,12 +523,31 @@ window.SaveLoadSystem = (function() {
                         });
                         return;
                     }
-                    
+
+                    // Perform comprehensive schema validation on save data
+                    const validation = validateSaveSchema(importData.saveData);
+
+                    if (!validation.valid) {
+                        const errorSummary = validation.errors.slice(0, 3).join('; ');
+                        resolve({
+                            success: false,
+                            message: `Save file validation failed: ${errorSummary}`,
+                            errors: validation.errors,
+                            warnings: validation.warnings
+                        });
+                        return;
+                    }
+
+                    // Log warnings but allow import to proceed
+                    if (validation.warnings.length > 0) {
+                        console.warn('Save import warnings:', validation.warnings);
+                    }
+
                     // Import to specified slot
                     const saves = getAllSaves();
                     saves[`slot_${targetSlot}`] = importData.saveData;
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(saves));
-                    
+
                     resolve({
                         success: true,
                         message: `Save imported to slot ${targetSlot}`,
@@ -536,9 +555,10 @@ window.SaveLoadSystem = (function() {
                             name: importData.saveData.name,
                             date: new Date(importData.saveData.saveDate),
                             gameDate: importData.saveData.gameDate
-                        }
+                        },
+                        warnings: validation.warnings
                     });
-                    
+
                 } catch (error) {
                     resolve({
                         success: false,
@@ -792,33 +812,200 @@ window.SaveLoadSystem = (function() {
      */
 
     /**
-     * Verify save data integrity
+     * JSON Schema for save data validation
+     * Provides comprehensive validation of imported save files
+     */
+    const SAVE_SCHEMA = {
+        requiredFields: [
+            'version', 'name', 'saveDate', 'currentDate',
+            'gameWeek', 'gameYear', 'cash', 'studioName'
+        ],
+        typeValidation: {
+            version: 'string',
+            name: 'string',
+            saveDate: 'string',
+            currentDate: 'string',
+            gameWeek: 'number',
+            gameYear: 'number',
+            cash: 'number',
+            monthlyBurn: 'number',
+            totalRevenue: 'number',
+            totalExpenses: 'number',
+            studioName: 'string',
+            reputation: 'number',
+            soundStages: 'number',
+            gameStarted: 'boolean',
+            gameEnded: 'boolean'
+        },
+        arrayFields: [
+            'activeFilms', 'completedFilms', 'contractPlayers',
+            'availableScripts', 'currentEvents'
+        ],
+        objectFields: ['backlots', 'stats'],
+        numberRanges: {
+            gameYear: { min: 1933, max: 1960 },
+            gameWeek: { min: 1, max: 10000 },
+            reputation: { min: 0, max: 100 },
+            soundStages: { min: 0, max: 20 }
+        }
+    };
+
+    /**
+     * Validate a value against expected type
+     */
+    function validateType(value, expectedType, fieldName) {
+        if (value === undefined || value === null) {
+            return { valid: false, error: `${fieldName} is missing or null` };
+        }
+
+        const actualType = typeof value;
+        if (actualType !== expectedType) {
+            return {
+                valid: false,
+                error: `${fieldName} should be ${expectedType}, got ${actualType}`
+            };
+        }
+        return { valid: true };
+    }
+
+    /**
+     * Validate number is within acceptable range
+     */
+    function validateNumberRange(value, fieldName, range) {
+        if (typeof value !== 'number') return { valid: true }; // Skip if not a number
+
+        if (range.min !== undefined && value < range.min) {
+            return {
+                valid: false,
+                error: `${fieldName} (${value}) is below minimum (${range.min})`
+            };
+        }
+        if (range.max !== undefined && value > range.max) {
+            return {
+                valid: false,
+                error: `${fieldName} (${value}) is above maximum (${range.max})`
+            };
+        }
+        return { valid: true };
+    }
+
+    /**
+     * Validate ISO date string format
+     */
+    function validateDateString(value, fieldName) {
+        if (typeof value !== 'string') {
+            return { valid: false, error: `${fieldName} should be a date string` };
+        }
+
+        const date = new Date(value);
+        if (isNaN(date.getTime())) {
+            return { valid: false, error: `${fieldName} is not a valid date: ${value}` };
+        }
+        return { valid: true };
+    }
+
+    /**
+     * Comprehensive save data schema validation
+     * Returns detailed validation results
+     */
+    function validateSaveSchema(saveData) {
+        const errors = [];
+        const warnings = [];
+
+        // 1. Check required fields exist
+        for (const field of SAVE_SCHEMA.requiredFields) {
+            if (saveData[field] === undefined || saveData[field] === null) {
+                errors.push(`Missing required field: ${field}`);
+            }
+        }
+
+        // 2. Validate field types
+        for (const [field, expectedType] of Object.entries(SAVE_SCHEMA.typeValidation)) {
+            if (saveData[field] !== undefined) {
+                const result = validateType(saveData[field], expectedType, field);
+                if (!result.valid) {
+                    errors.push(result.error);
+                }
+            }
+        }
+
+        // 3. Validate arrays
+        for (const field of SAVE_SCHEMA.arrayFields) {
+            if (saveData[field] !== undefined && !Array.isArray(saveData[field])) {
+                errors.push(`${field} should be an array`);
+            }
+        }
+
+        // 4. Validate objects
+        for (const field of SAVE_SCHEMA.objectFields) {
+            if (saveData[field] !== undefined &&
+                (typeof saveData[field] !== 'object' || Array.isArray(saveData[field]))) {
+                errors.push(`${field} should be an object`);
+            }
+        }
+
+        // 5. Validate number ranges
+        for (const [field, range] of Object.entries(SAVE_SCHEMA.numberRanges)) {
+            if (saveData[field] !== undefined) {
+                const result = validateNumberRange(saveData[field], field, range);
+                if (!result.valid) {
+                    warnings.push(result.error); // Range issues are warnings, not errors
+                }
+            }
+        }
+
+        // 6. Validate date fields
+        if (saveData.saveDate) {
+            const result = validateDateString(saveData.saveDate, 'saveDate');
+            if (!result.valid) errors.push(result.error);
+        }
+        if (saveData.currentDate) {
+            const result = validateDateString(saveData.currentDate, 'currentDate');
+            if (!result.valid) errors.push(result.error);
+        }
+
+        // 7. Validate stats object structure if present
+        if (saveData.stats && typeof saveData.stats === 'object') {
+            const expectedStats = ['filmsProduced', 'oscarsWon', 'boxOfficeTotal', 'scandalsHandled', 'yearsSurvived'];
+            for (const stat of expectedStats) {
+                if (saveData.stats[stat] !== undefined && typeof saveData.stats[stat] !== 'number') {
+                    warnings.push(`stats.${stat} should be a number`);
+                }
+            }
+        }
+
+        // 8. Version compatibility check
+        if (saveData.version && saveData.version !== SAVE_VERSION) {
+            warnings.push(`Save version mismatch: ${saveData.version} vs current ${SAVE_VERSION}`);
+        }
+
+        return {
+            valid: errors.length === 0,
+            errors: errors,
+            warnings: warnings,
+            errorCount: errors.length,
+            warningCount: warnings.length
+        };
+    }
+
+    /**
+     * Verify save data integrity (enhanced with schema validation)
      */
     function verifySaveIntegrity(saveData) {
         try {
-            // Check required fields
-            const requiredFields = [
-                'version', 'name', 'saveDate', 'currentDate',
-                'gameWeek', 'gameYear', 'cash', 'studioName'
-            ];
+            const validation = validateSaveSchema(saveData);
 
-            for (const field of requiredFields) {
-                if (saveData[field] === undefined || saveData[field] === null) {
-                    console.warn(`Save integrity check failed: missing field '${field}'`);
-                    return false;
-                }
+            if (!validation.valid) {
+                console.warn('Save integrity check failed:');
+                validation.errors.forEach(err => console.warn('  ERROR:', err));
             }
 
-            // Check data types
-            if (typeof saveData.cash !== 'number') return false;
-            if (typeof saveData.gameYear !== 'number') return false;
-            if (typeof saveData.studioName !== 'string') return false;
+            if (validation.warnings.length > 0) {
+                console.warn('Save validation warnings:');
+                validation.warnings.forEach(warn => console.warn('  WARNING:', warn));
+            }
 
-            // Check arrays
-            if (!Array.isArray(saveData.activeFilms)) return false;
-            if (!Array.isArray(saveData.completedFilms)) return false;
-
-            return true;
+            return validation.valid;
 
         } catch (error) {
             console.error('Integrity verification error:', error);
@@ -1035,6 +1222,7 @@ window.SaveLoadSystem = (function() {
         getBackups,
         restoreFromBackup,
         verifySaveIntegrity,
+        validateSaveSchema,
         attemptRecovery,
 
         // Import/Export

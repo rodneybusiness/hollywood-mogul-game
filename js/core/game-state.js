@@ -588,75 +588,131 @@ window.HollywoodMogul = (function() {
     function updateActiveProductions() {
         const productionsElement = document.getElementById('active-productions');
         if (!productionsElement) return;
-        
+
+        // Clear existing content safely
+        productionsElement.innerHTML = '';
+
         if (gameState.activeFilms.length === 0) {
-            productionsElement.innerHTML = `
-                <div class="no-productions">
-                    <p>No films currently in production</p>
-                    <button id="btn-new-script" class="action-btn primary">REVIEW SCRIPTS</button>
-                </div>
-            `;
+            const noProductions = document.createElement('div');
+            noProductions.className = 'no-productions';
+
+            const p = document.createElement('p');
+            p.textContent = 'No films currently in production';
+            noProductions.appendChild(p);
+
+            const btn = document.createElement('button');
+            btn.id = 'btn-new-script';
+            btn.className = 'action-btn primary';
+            btn.textContent = 'REVIEW SCRIPTS';
+            btn.addEventListener('click', () => showScriptLibrary());
+            noProductions.appendChild(btn);
+
+            productionsElement.appendChild(noProductions);
         } else {
-            productionsElement.innerHTML = gameState.activeFilms.map(film => `
-                <div class="production-item">
-                    <h3>${film.title}</h3>
-                    <p>Status: ${film.status}</p>
-                    <p>Budget: $${film.budget.toLocaleString()}</p>
-                </div>
-            `).join('');
-        }
-        
-        // Re-attach event listener for new script button
-        const newScriptBtn = document.getElementById('btn-new-script');
-        if (newScriptBtn) {
-            newScriptBtn.addEventListener('click', () => showScriptLibrary());
+            gameState.activeFilms.forEach(film => {
+                const item = document.createElement('div');
+                item.className = 'production-item';
+
+                const title = document.createElement('h3');
+                title.textContent = film.title;
+                item.appendChild(title);
+
+                const status = document.createElement('p');
+                status.textContent = `Status: ${film.status}`;
+                item.appendChild(status);
+
+                const budget = document.createElement('p');
+                budget.textContent = `Budget: $${(film.budget || 0).toLocaleString()}`;
+                item.appendChild(budget);
+
+                productionsElement.appendChild(item);
+            });
         }
     }
     
     function updateTheaterFilms() {
         const theaterElement = document.getElementById('theater-films');
         if (!theaterElement) return;
-        
+
+        // Clear existing content safely
+        theaterElement.innerHTML = '';
+
         const theaterFilms = gameState.completedFilms.filter(film => film.inTheaters);
-        
+
         if (theaterFilms.length === 0) {
-            theaterElement.innerHTML = `
-                <div class="no-films">
-                    <p>No films currently in theaters</p>
-                </div>
-            `;
+            const noFilms = document.createElement('div');
+            noFilms.className = 'no-films';
+
+            const p = document.createElement('p');
+            p.textContent = 'No films currently in theaters';
+            noFilms.appendChild(p);
+
+            theaterElement.appendChild(noFilms);
         } else {
-            theaterElement.innerHTML = theaterFilms.map(film => `
-                <div class="theater-item">
-                    <h3>${film.title}</h3>
-                    <p>Week ${film.theaterWeek} in theaters</p>
-                    <p>This week: $${film.weeklyRevenue?.toLocaleString() || 0}</p>
-                </div>
-            `).join('');
+            theaterFilms.forEach(film => {
+                const item = document.createElement('div');
+                item.className = 'theater-item';
+
+                const title = document.createElement('h3');
+                title.textContent = film.title;
+                item.appendChild(title);
+
+                const week = document.createElement('p');
+                week.textContent = `Week ${film.theaterWeek || 1} in theaters`;
+                item.appendChild(week);
+
+                const revenue = document.createElement('p');
+                revenue.textContent = `This week: $${(film.weeklyRevenue || 0).toLocaleString()}`;
+                item.appendChild(revenue);
+
+                theaterElement.appendChild(item);
+            });
         }
     }
     
     function updateAlerts() {
         const alertsElement = document.getElementById('game-alerts');
         if (!alertsElement) return;
-        
+
+        // Clear existing content safely
+        alertsElement.innerHTML = '';
+
         if (gameState.currentEvents.length === 0) {
-            alertsElement.innerHTML = `
-                <div class="alert-item">
-                    <div class="alert-icon">✅</div>
-                    <div class="alert-text">No urgent matters require attention.</div>
-                </div>
-            `;
+            const item = document.createElement('div');
+            item.className = 'alert-item';
+
+            const icon = document.createElement('div');
+            icon.className = 'alert-icon';
+            icon.textContent = '\u2705'; // checkmark emoji
+            item.appendChild(icon);
+
+            const text = document.createElement('div');
+            text.className = 'alert-text';
+            text.textContent = 'No urgent matters require attention.';
+            item.appendChild(text);
+
+            alertsElement.appendChild(item);
         } else {
-            alertsElement.innerHTML = gameState.currentEvents
+            const sortedAlerts = gameState.currentEvents
                 .sort((a, b) => getPriorityValue(b.priority) - getPriorityValue(a.priority))
-                .slice(0, 5) // Show only top 5 alerts
-                .map(alert => `
-                    <div class="alert-item ${alert.type}">
-                        <div class="alert-icon">${alert.icon}</div>
-                        <div class="alert-text">${alert.message}</div>
-                    </div>
-                `).join('');
+                .slice(0, 5); // Show only top 5 alerts
+
+            sortedAlerts.forEach(alert => {
+                const item = document.createElement('div');
+                item.className = `alert-item ${alert.type || ''}`;
+
+                const icon = document.createElement('div');
+                icon.className = 'alert-icon';
+                icon.textContent = alert.icon || '!';
+                item.appendChild(icon);
+
+                const text = document.createElement('div');
+                text.className = 'alert-text';
+                text.textContent = alert.message || '';
+                item.appendChild(text);
+
+                alertsElement.appendChild(item);
+            });
         }
     }
     
@@ -721,13 +777,25 @@ window.HollywoodMogul = (function() {
         if (messageElement) messageElement.textContent = message;
         
         if (statsElement) {
-            statsElement.innerHTML = `
-                <h3>Final Statistics</h3>
-                <p>Years Survived: ${gameState.stats.yearsSurvived.toFixed(1)}</p>
-                <p>Films Produced: ${gameState.stats.filmsProduced}</p>
-                <p>Total Box Office: $${gameState.stats.boxOfficeTotal.toLocaleString()}</p>
-                <p>Final Cash: $${gameState.cash.toLocaleString()}</p>
-            `;
+            // Clear and rebuild stats safely
+            statsElement.innerHTML = '';
+
+            const header = document.createElement('h3');
+            header.textContent = 'Final Statistics';
+            statsElement.appendChild(header);
+
+            const stats = [
+                { label: 'Years Survived', value: gameState.stats.yearsSurvived.toFixed(1) },
+                { label: 'Films Produced', value: gameState.stats.filmsProduced },
+                { label: 'Total Box Office', value: `$${gameState.stats.boxOfficeTotal.toLocaleString()}` },
+                { label: 'Final Cash', value: `$${gameState.cash.toLocaleString()}` }
+            ];
+
+            stats.forEach(stat => {
+                const p = document.createElement('p');
+                p.textContent = `${stat.label}: ${stat.value}`;
+                statsElement.appendChild(p);
+            });
         }
         
         gameOverScreen.classList.remove('hidden');
@@ -776,20 +844,42 @@ window.HollywoodMogul = (function() {
         if (window.ScriptLibrary && window.ScriptLibrary.showScriptSelection) {
             window.ScriptLibrary.showScriptSelection(gameState);
         } else {
-            showModal(`
-                <h2>Script Library</h2>
-                <p>Script selection system will be available in Phase 2.</p>
-                <button onclick="HollywoodMogul.closeModal()" class="action-btn primary">Close</button>
-            `);
+            showModalSafe('Script Library', 'Script selection system will be available in Phase 2.');
         }
     }
-    
+
     function showLoadDialog() {
-        showModal(`
-            <h2>Load Game</h2>
-            <p>Save/Load system will be implemented in Phase 4.</p>
-            <button onclick="HollywoodMogul.closeModal()" class="action-btn primary">Close</button>
-        `);
+        showModalSafe('Load Game', 'Save/Load system will be implemented in Phase 4.');
+    }
+
+    /**
+     * Display a simple modal with safe text content
+     * @param {string} title - Modal title
+     * @param {string} message - Modal message text
+     */
+    function showModalSafe(title, message) {
+        const modalOverlay = document.getElementById('modal-overlay');
+        const modalContent = document.getElementById('modal-content');
+
+        if (modalOverlay && modalContent) {
+            modalContent.innerHTML = '';
+
+            const h2 = document.createElement('h2');
+            h2.textContent = title;
+            modalContent.appendChild(h2);
+
+            const p = document.createElement('p');
+            p.textContent = message;
+            modalContent.appendChild(p);
+
+            const btn = document.createElement('button');
+            btn.className = 'action-btn primary';
+            btn.textContent = 'Close';
+            btn.addEventListener('click', closeModal);
+            modalContent.appendChild(btn);
+
+            modalOverlay.classList.remove('hidden');
+        }
     }
     
     function saveGame() {
