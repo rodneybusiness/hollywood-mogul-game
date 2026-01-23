@@ -913,7 +913,10 @@ window.DashboardUI = (function() {
             display = `<span class="oscar-trophies" title="${wins} Oscar${wins > 1 ? 's' : ''}">${trophies}</span>`;
         }
 
-        return {
+        return { hasOscars, nominated, wins, nominations, display };
+    }
+
+    return {
         init: init,
         updateDashboard: updateDashboard,
         showSection: showSection,
