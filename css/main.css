@@ -7,8 +7,8 @@
     --primary-black: #0A0A0A;
     --secondary-black: #1A1A1A;
     --ivory: #FFFFF0;
-    --danger-red: #8B0000;
-    --success-green: #006400;
+    --danger-red: #DC3545;
+    --success-green: #28A745;
     --warning-amber: #FF8C00;
     
     /* Typography */
@@ -306,9 +306,9 @@ h1, h2, h3 {
     letter-spacing: 0.05em;
 }
 
-.no-productions, .no-films {
+.no-productions, .no-films, .no-content {
     text-align: center;
-    color: rgba(255, 255, 240, 0.6);
+    color: rgba(255, 255, 240, 0.7);
     padding: var(--spacing-xl);
     font-style: italic;
 }
@@ -545,7 +545,7 @@ h1, h2, h3 {
 }
 
 .alert-item.danger {
-    background: rgba(139, 0, 0, 0.1);
+    background: rgba(220, 53, 69, 0.1);
     border-color: var(--danger-red);
     animation: slideInLeft 0.5s ease-out backwards, failureFlash 1s ease-out 0.5s;
 }
@@ -1239,14 +1239,14 @@ h1, h2, h3 {
 
 .phase-icon-symbol {
     font-size: 1.5rem;
-    opacity: 0.3;
+    opacity: 0.5;
     transition: all 0.4s ease;
     filter: grayscale(100%);
 }
 
 .phase-icon-label {
     font-size: 0.65rem;
-    color: rgba(255, 255, 240, 0.4);
+    color: rgba(255, 255, 240, 0.6);
     letter-spacing: 0.05em;
     text-align: center;
     transition: all 0.3s ease;
@@ -1318,21 +1318,21 @@ h1, h2, h3 {
 }
 
 .status-badge.budget-overrun {
-    background: rgba(139, 0, 0, 0.2);
+    background: rgba(220, 53, 69, 0.15);
     border: 1px solid var(--danger-red);
     color: var(--danger-red);
     animation: badgePulse 2s ease-in-out infinite;
 }
 
 .status-badge.behind-schedule {
-    background: rgba(255, 140, 0, 0.2);
+    background: rgba(255, 140, 0, 0.15);
     border: 1px solid var(--warning-amber);
     color: var(--warning-amber);
     animation: badgePulse 2s ease-in-out infinite;
 }
 
 .status-badge.on-track {
-    background: rgba(0, 100, 0, 0.2);
+    background: rgba(40, 167, 69, 0.15);
     border: 1px solid var(--success-green);
     color: var(--success-green);
 }
@@ -1342,14 +1342,54 @@ h1, h2, h3 {
     50% { opacity: 0.7; }
 }
 
+/* Film Phase Status Colors */
+.phase-greenlit { color: #28A745; }
+.phase-prep { color: var(--warning-amber); }
+.phase-shooting { color: #FF6B35; }
+.phase-post { color: #9B59B6; }
+.phase-complete { color: var(--secondary-gold); }
+.phase-theaters { color: #00CED1; font-weight: 600; }
+.phase-completed { color: rgba(255, 255, 240, 0.7); }
+.phase-unknown { color: rgba(255, 255, 240, 0.5); }
+
+/* Studio Status Panel */
+.studio-status-display {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-xs) 0;
+    border-bottom: 1px solid rgba(184, 134, 11, 0.15);
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    color: rgba(255, 255, 240, 0.8);
+    font-size: 0.875rem;
+}
+
+.status-item span:last-child {
+    color: var(--secondary-gold);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
 /* Weekly Cost Burn Display */
 .weekly-burn-display {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-sm);
-    background: rgba(139, 0, 0, 0.1);
-    border: 1px solid rgba(139, 0, 0, 0.3);
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.3);
     border-radius: var(--border-radius);
     margin: var(--spacing-sm) 0;
 }
@@ -1478,14 +1518,16 @@ h1, h2, h3 {
     border-radius: var(--border-radius);
 }
 
-.event-choices-container {
+.event-choices-container,
+.event-choices {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
     margin: var(--spacing-xl) 0;
 }
 
-.event-choice-btn {
+.event-choice-btn,
+.choice-btn {
     font-family: var(--font-body);
     padding: var(--spacing-lg);
     background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(10, 10, 10, 0.9) 100%);
@@ -1510,31 +1552,36 @@ h1, h2, h3 {
     transition: left 0.5s ease;
 }
 
-.event-choice-btn:hover::before {
+.event-choice-btn:hover::before,
+.choice-btn:hover::before {
     left: 100%;
 }
 
-.event-choice-btn:hover {
+.event-choice-btn:hover,
+.choice-btn:hover {
     border-color: var(--primary-gold);
     transform: translateX(5px);
     box-shadow: 0 4px 20px rgba(184, 134, 11, 0.4);
 }
 
-.event-choice-text {
+.event-choice-text,
+.choice-text {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
     color: var(--secondary-gold);
 }
 
-.event-choice-cost {
+.event-choice-cost,
+.choice-cost {
     font-family: var(--font-heading);
     font-size: 1.1rem;
     color: var(--danger-red);
     margin-bottom: var(--spacing-xs);
 }
 
-.event-choice-effects {
+.event-choice-effects,
+.choice-effect {
     font-size: 0.85rem;
     color: rgba(255, 255, 240, 0.7);
     line-height: 1.4;

@@ -14,8 +14,8 @@ window.HollywoodMogul = (function() {
         gameYear: 1933,
         
         // Financial State
-        cash: 410000,
-        monthlyBurn: 30000,
+        cash: 600000,
+        monthlyBurn: 20000,
         totalRevenue: 0,
         totalExpenses: 0,
         
@@ -55,11 +55,11 @@ window.HollywoodMogul = (function() {
     
     // Game Constants
     const GAME_CONSTANTS = {
-        STARTING_CASH: 410000,
-        BASE_MONTHLY_BURN: 30000,
-        SOUND_STAGE_COST: 15000,
-        OVERHEAD_COST: 5000,
-        CONTRACT_PLAYERS_COST: 10000,
+        STARTING_CASH: 600000,
+        BASE_MONTHLY_BURN: 20000,
+        SOUND_STAGE_COST: 10000,
+        OVERHEAD_COST: 3000,
+        CONTRACT_PLAYERS_COST: 7000,
         
         // Time
         WEEKS_PER_MONTH: 4,
@@ -167,6 +167,7 @@ window.HollywoodMogul = (function() {
         updateActiveProductions();
         updateTheaterFilms();
         updateAlerts();
+        updateStudioStatus();
     }
     
     /**
@@ -221,6 +222,7 @@ window.HollywoodMogul = (function() {
                 scandalsHandled: 0,
                 yearsSurvived: 0
             },
+            events: [],
             scenario: null // Will be set by scenario system
         };
 
@@ -271,6 +273,7 @@ window.HollywoodMogul = (function() {
         // Update UI
         updateDateDisplay();
         updateFinancialDisplay();
+        updateStudioStatus();
         checkGameEndConditions();
     }
     
@@ -478,7 +481,7 @@ window.HollywoodMogul = (function() {
      */
     function addAlert(alert) {
         alert.id = Date.now() + Math.random();
-        alert.timestamp = new Date();
+        alert.timestamp = new Date(gameState.currentDate);
         
         gameState.currentEvents.push(alert);
         
@@ -490,6 +493,23 @@ window.HollywoodMogul = (function() {
         updateAlerts();
     }
     
+    /**
+     * Add a game event to the events log (displayed in Recent Events panel)
+     */
+    function addEvent(event) {
+        if (!gameState.events) {
+            gameState.events = [];
+        }
+        event.date = new Date(gameState.currentDate);
+        event.id = Date.now() + Math.random();
+        gameState.events.push(event);
+
+        // Keep only last 20 events
+        if (gameState.events.length > 20) {
+            gameState.events = gameState.events.slice(-20);
+        }
+    }
+
     /**
      * Public API
      */
@@ -519,6 +539,7 @@ window.HollywoodMogul = (function() {
 
         // Game state functions
         addAlert,
+        addEvent,
         endGame,
         startNewGame,
         startNewGameWithScenario,
@@ -716,6 +737,20 @@ window.HollywoodMogul = (function() {
         }
     }
     
+    function updateStudioStatus() {
+        const gameState = getGameState();
+        const repEl = document.getElementById('reputation-display');
+        const filmsEl = document.getElementById('films-produced-display');
+        const boxOfficeEl = document.getElementById('total-box-office-display');
+
+        if (repEl) repEl.textContent = gameState.reputation || 50;
+        if (filmsEl) filmsEl.textContent = (gameState.completedFilms || []).length;
+        if (boxOfficeEl) {
+            const total = gameState.stats ? (gameState.stats.boxOfficeTotal || 0) : 0;
+            boxOfficeEl.textContent = '$' + total.toLocaleString();
+        }
+    }
+
     function getPriorityValue(priority) {
         const priorities = { critical: 4, high: 3, medium: 2, low: 1 };
         return priorities[priority] || 1;
@@ -826,18 +861,108 @@ window.HollywoodMogul = (function() {
     }
     
     function switchSection(section) {
-        // Update navigation
-        document.querySelectorAll('.nav-btn').forEach(btn => {
+        // Update navigation buttons (handle both .nav-btn and .nav-button classes)
+        document.querySelectorAll('.nav-btn, .nav-button').forEach(btn => {
             btn.classList.remove('active');
         });
-        
+
         const activeBtn = document.querySelector(`[data-section="${section}"]`);
         if (activeBtn) {
             activeBtn.classList.add('active');
         }
-        
-        // Show appropriate content
-        console.log(`Switched to section: ${section}`);
+
+        // Hide all sections, show the selected one
+        document.querySelectorAll('.game-section').forEach(sec => {
+            sec.classList.remove('active');
+            sec.style.display = 'none';
+        });
+
+        const targetSection = document.getElementById(`${section}-section`);
+        if (targetSection) {
+            targetSection.classList.add('active');
+            targetSection.style.display = 'block';
+        }
+
+        // Populate scripts tab on navigation
+        if (section === 'scripts') {
+            populateScriptsSection();
+        }
+    }
+
+    function populateScriptsSection() {
+        const scriptsGrid = document.getElementById('available-scripts');
+        if (!scriptsGrid) return;
+
+        scriptsGrid.innerHTML = '';
+
+        if (!gameState.availableScripts || gameState.availableScripts.length === 0) {
+            const noContent = document.createElement('div');
+            noContent.className = 'no-content';
+            noContent.textContent = 'No scripts currently available. New scripts arrive monthly.';
+            scriptsGrid.appendChild(noContent);
+            return;
+        }
+
+        gameState.availableScripts.forEach((script, index) => {
+            const card = document.createElement('div');
+            card.className = 'script-card';
+
+            const riskClass = (script.censorRisk || 50) > 80 ? 'high-risk' :
+                              (script.censorRisk || 50) > 50 ? 'medium-risk' : 'low-risk';
+
+            card.innerHTML = `
+                <div class="script-header">
+                    <h3 class="script-title">${escapeHtml(script.title)}</h3>
+                    <span class="script-genre">${escapeHtml(script.genre || 'Drama')}</span>
+                </div>
+                <p class="script-description">${escapeHtml(script.description || '')}</p>
+                <div class="script-stats">
+                    <div class="stat"><span class="stat-label">Budget:</span> $${(script.budget || 0).toLocaleString()}</div>
+                    <div class="stat"><span class="stat-label">Quality:</span> ${script.quality || '?'}/100</div>
+                    <div class="stat"><span class="stat-label">Shooting Days:</span> ${script.shootingDays || '?'}</div>
+                    <div class="stat ${riskClass}"><span class="stat-label">Censor Risk:</span> ${script.censorRisk || '?'}%</div>
+                </div>
+                ${script.historicalNotes ? `<p class="script-notes">${escapeHtml(script.historicalNotes)}</p>` : ''}
+                <button class="action-btn primary greenlight-btn" data-script-index="${index}">GREENLIGHT</button>
+            `;
+
+            // Bind greenlight button
+            const btn = card.querySelector('.greenlight-btn');
+            btn.addEventListener('click', () => {
+                if (window.ProductionSystem && window.ProductionSystem.greenlightScript) {
+                    const result = window.ProductionSystem.greenlightScript(script.id || index);
+                    if (result.success) {
+                        addAlert({
+                            type: 'success',
+                            icon: '🎬',
+                            message: result.message,
+                            priority: 'high'
+                        });
+                        populateScriptsSection(); // Refresh
+                        updateFinancialDisplay();
+                        updateActiveProductions();
+                    } else {
+                        addAlert({
+                            type: 'warning',
+                            icon: '⚠️',
+                            message: result.message,
+                            priority: 'high'
+                        });
+                    }
+                } else {
+                    // Fallback: use ScriptLibrary modal
+                    showScriptLibrary();
+                }
+            });
+
+            scriptsGrid.appendChild(card);
+        });
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                  .replace(/"/g, '&quot;').replace(/'/g, '&#039;');
     }
     
     function showScriptLibrary() {

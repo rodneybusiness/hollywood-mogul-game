@@ -69,17 +69,17 @@
             <div class="dashboard-grid">
                 <div class="finance-card cash-card">
                     <div class="card-header">CASH ON HAND</div>
-                    <div class="card-value" id="current-cash">$410,000</div>
+                    <div class="card-value" id="current-cash">$600,000</div>
                 </div>
-                
+
                 <div class="finance-card burn-card">
                     <div class="card-header">MONTHLY BURN</div>
-                    <div class="card-value negative" id="monthly-burn">-$30,000</div>
+                    <div class="card-value negative" id="monthly-burn">-$20,000</div>
                 </div>
-                
+
                 <div class="finance-card runway-card">
                     <div class="card-header">RUNWAY</div>
-                    <div class="card-value" id="cash-runway">54 weeks</div>
+                    <div class="card-value" id="cash-runway">120 weeks</div>
                 </div>
             </div>
         </section>
@@ -134,19 +134,13 @@
                     </div>
                 </div>
 
-                <!-- Market Share Panel -->
+                <!-- Studio Status Panel -->
                 <div class="game-panel">
-                    <h2 class="panel-title">MARKET SHARE</h2>
-                    <div id="market-share" class="market-share-display">
-                        <div class="no-content">Market data loading...</div>
-                    </div>
-                </div>
-
-                <!-- Rival Activity Panel -->
-                <div class="game-panel">
-                    <h2 class="panel-title">RIVAL STUDIOS</h2>
-                    <div id="rival-activity" class="rival-activity-display">
-                        <div class="no-content">Tracking rival studios...</div>
+                    <h2 class="panel-title">STUDIO STATUS</h2>
+                    <div id="studio-status" class="studio-status-display">
+                        <div class="status-item"><span class="status-label">Reputation:</span> <span id="reputation-display">50</span>/100</div>
+                        <div class="status-item"><span class="status-label">Films Produced:</span> <span id="films-produced-display">0</span></div>
+                        <div class="status-item"><span class="status-label">Total Box Office:</span> <span id="total-box-office-display">$0</span></div>
                     </div>
                 </div>
             </section>
@@ -158,6 +152,10 @@
                     <p class="section-description">Select a script to greenlight and begin production</p>
                 </div>
                 <div id="available-scripts" class="scripts-grid">
+                    <!-- Script cards will be dynamically generated -->
+                </div>
+            </section>
+
             <!-- Talent Section -->
             <section id="talent-section" class="game-section">
                 <div class="section-header">
@@ -181,18 +179,10 @@
                         <button class="filter-btn" data-filter="actor">ACTORS</button>
                         <button class="filter-btn" data-filter="director">DIRECTORS</button>
                         <button class="filter-btn" data-filter="a-list">A-LIST ONLY</button>
-            <button class="nav-button" data-section="talent">
-                <span class="nav-icon">⭐</span>
-                <span class="nav-label">TALENT</span>
-            </button>
                     </div>
                     <div id="available-talent" class="talent-grid">
                         <!-- Talent cards will be dynamically generated -->
                     </div>
-                </div>
-            </section>
-
-                    <!-- Script cards will be dynamically generated -->
                 </div>
             </section>
 
@@ -271,6 +261,10 @@
             <button class="nav-button" data-section="scripts">
                 <span class="nav-icon">📜</span>
                 <span class="nav-label">SCRIPTS</span>
+            </button>
+            <button class="nav-button" data-section="talent">
+                <span class="nav-icon">⭐</span>
+                <span class="nav-label">TALENT</span>
             </button>
             <button class="nav-button" data-section="studio">
                 <span class="nav-icon">🎬</span>

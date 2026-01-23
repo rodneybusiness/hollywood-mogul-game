@@ -111,11 +111,10 @@ window.ProductionSystem = (function() {
         
         // Add to active films
         gameState.activeFilms.push(film);
-        
-        // Spend initial development costs
-        const developmentCost = Math.floor(film.originalBudget * 0.1);
-        gameState.cash -= developmentCost;
-        film.spentToDate += developmentCost;
+
+        // Deduct full production budget upfront
+        gameState.cash -= film.originalBudget;
+        film.spentToDate += Math.floor(film.originalBudget * 0.1); // Track 10% as initial dev spend
         
         // Add alert
         if (window.HollywoodMogul) {
@@ -136,15 +135,20 @@ window.ProductionSystem = (function() {
     function processWeeklyProduction(gameState) {
         gameState.activeFilms.forEach(film => {
             if (film.phase === 'COMPLETED') return;
-            
+
             // Advance time in current phase
             film.weeksInCurrentPhase += 1;
             film.totalWeeks += 1;
-            
-            // Calculate weekly costs
+
+            // Track weekly costs against pre-paid budget (budget already deducted at greenlight)
             const weeklyCost = calculateWeeklyCost(film, gameState);
-            gameState.cash -= weeklyCost;
             film.spentToDate += weeklyCost;
+
+            // Only deduct from cash if film goes over budget
+            if (film.spentToDate > film.originalBudget) {
+                const overage = Math.min(weeklyCost, film.spentToDate - film.originalBudget);
+                gameState.cash -= overage;
+            }
             
             // Check for budget status
             updateBudgetStatus(film);
@@ -418,39 +422,83 @@ window.ProductionSystem = (function() {
      * Show production event modal to player
      */
     function showProductionEvent(event, film, gameState) {
-        let modalContent = `
-            <div class="production-event">
-                <h2 class="event-title">${event.title}</h2>
-                <p class="event-description">${event.description}</p>
-                
-                <div class="event-choices">
-                    ${event.choices.map((choice, index) => `
-                        <button class="choice-btn" onclick="ProductionSystem.resolveEvent(${film.id}, ${index}, '${event.title}')" 
-                                data-cost="${choice.cost}">
-                            <div class="choice-text">${choice.text}</div>
-                            <div class="choice-cost">Cost: $${choice.cost.toLocaleString()}</div>
-                        </button>
-                    `).join('')}
-                </div>
-                
-                <div class="current-status">
-                    <p><strong>Current Budget:</strong> $${film.spentToDate.toLocaleString()} / $${film.currentBudget.toLocaleString()}</p>
-                    <p><strong>Weeks in Production:</strong> ${film.totalWeeks}</p>
-                    <p><strong>Current Phase:</strong> ${film.phase.replace('_', ' ')}</p>
-                </div>
-            </div>
-        `;
-        
-        if (window.HollywoodMogul) {
-            window.HollywoodMogul.showModal(modalContent);
-        }
-        
-        // Store event for resolution
+        // Store event for resolution BEFORE building modal
         window._currentProductionEvent = {
             event: event,
             film: film,
             gameState: gameState
         };
+
+        const modalDiv = document.createElement('div');
+        modalDiv.className = 'production-event';
+
+        const title = document.createElement('h2');
+        title.className = 'event-title';
+        title.textContent = event.title;
+        modalDiv.appendChild(title);
+
+        const desc = document.createElement('p');
+        desc.className = 'event-description';
+        desc.textContent = event.description;
+        modalDiv.appendChild(desc);
+
+        const choicesDiv = document.createElement('div');
+        choicesDiv.className = 'event-choices';
+
+        event.choices.forEach((choice, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.dataset.choiceIndex = index;
+
+            const choiceText = document.createElement('div');
+            choiceText.className = 'choice-text';
+            choiceText.textContent = choice.text;
+            btn.appendChild(choiceText);
+
+            const choiceCost = document.createElement('div');
+            choiceCost.className = 'choice-cost';
+            choiceCost.textContent = `Cost: $${choice.cost.toLocaleString()}`;
+            btn.appendChild(choiceCost);
+
+            if (choice.effect) {
+                const choiceEffect = document.createElement('div');
+                choiceEffect.className = 'choice-effect';
+                const effects = [];
+                if (choice.effect.quality) effects.push(`Quality: ${choice.effect.quality > 0 ? '+' : ''}${choice.effect.quality}`);
+                if (choice.effect.delayWeeks) effects.push(`Delay: ${choice.effect.delayWeeks} weeks`);
+                if (effects.length > 0) {
+                    choiceEffect.textContent = effects.join(' | ');
+                    btn.appendChild(choiceEffect);
+                }
+            }
+
+            btn.addEventListener('click', () => {
+                resolveEvent(film.id, index, event.title);
+            });
+
+            choicesDiv.appendChild(btn);
+        });
+
+        modalDiv.appendChild(choicesDiv);
+
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'current-status';
+        statusDiv.innerHTML = `
+            <p><strong>Current Budget:</strong> $${film.spentToDate.toLocaleString()} / $${(film.currentBudget || film.originalBudget).toLocaleString()}</p>
+            <p><strong>Weeks in Production:</strong> ${film.totalWeeks}</p>
+            <p><strong>Current Phase:</strong> ${(film.phase || '').replace('_', ' ')}</p>
+        `;
+        modalDiv.appendChild(statusDiv);
+
+        if (window.HollywoodMogul) {
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalContent = document.getElementById('modal-content');
+            if (modalOverlay && modalContent) {
+                modalContent.innerHTML = '';
+                modalContent.appendChild(modalDiv);
+                modalOverlay.classList.remove('hidden');
+            }
+        }
     }
     
     /**
@@ -850,10 +898,27 @@ window.ProductionSystem = (function() {
     }
     
     function scheduleBoxOfficeRun(film, gameState, projectedGross) {
-        // This will be handled by BoxOfficeSystem in a future update
         film.inTheaters = true;
         film.theaterWeek = 1;
         film.projectedGross = projectedGross;
+
+        // Set phase so BoxOfficeSystem can find this film
+        film.phase = 'in_theaters';
+
+        // Set up distribution data for BoxOfficeSystem.processWeeklyBoxOffice
+        const strategy = film.distributionStrategy === 'limited' ? 'limited' : 'wide';
+        if (window.BoxOfficeSystem) {
+            const boxOfficeResults = window.BoxOfficeSystem.simulateWeeklyBoxOffice(
+                film, strategy, projectedGross
+            );
+            film.distribution = {
+                strategy: strategy,
+                boxOfficeResults: boxOfficeResults,
+                currentWeek: 0,
+                releaseDate: new Date(gameState.currentDate),
+                marketingCost: film.marketingBudget || 0
+            };
+        }
 
         if (window.HollywoodMogul) {
             window.HollywoodMogul.addAlert({
@@ -896,17 +961,11 @@ window.ProductionSystem = (function() {
             };
         }
 
-        // Deduct budget from cash
-        gameState.cash -= script.budget;
-
-        // Start production
-        const film = startProduction(script, gameState);
-
-        // Add film to active films
+        // Start production (handles budget deduction and adding to activeFilms)
         if (!gameState.activeFilms) {
             gameState.activeFilms = [];
         }
-        gameState.activeFilms.push(film);
+        const film = startProduction(script, gameState);
 
         // Track transaction
         if (window.FinancialSystem && typeof window.FinancialSystem.addTransaction === 'function') {

@@ -547,6 +547,82 @@ body::after {
     transform: scaleX(1);
 }
 
+.script-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-3);
+}
+
+.script-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--color-gold, #d4af37);
+    margin: 0;
+}
+
+.script-genre {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 4px;
+    color: var(--color-gold, #d4af37);
+    white-space: nowrap;
+}
+
+.script-description {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: var(--space-3);
+    line-height: 1.4;
+}
+
+.script-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+    font-size: 0.8rem;
+}
+
+.script-stats .stat {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.script-stats .stat-label {
+    color: rgba(255, 255, 255, 0.5);
+    margin-right: 4px;
+}
+
+.script-stats .high-risk {
+    color: #ff6b6b;
+}
+
+.script-stats .medium-risk {
+    color: #ffa94d;
+}
+
+.script-stats .low-risk {
+    color: #69db7c;
+}
+
+.script-notes {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: var(--space-3);
+    border-left: 2px solid rgba(212, 175, 55, 0.3);
+    padding-left: var(--space-2);
+}
+
+.script-card .greenlight-btn {
+    width: 100%;
+    margin-top: var(--space-2);
+}
+
 /* ================================================================
    TALENT SECTION
    ================================================================ */

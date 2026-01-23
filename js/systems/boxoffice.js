@@ -52,26 +52,27 @@ window.BoxOfficeSystem = (function() {
         wide: {
             name: "Wide Release",
             theaters: 500,
-            marketingCost: 25000,
-            theaterCut: 0.50,
-            potential: { min: 200000, max: 500000 },
-            description: "500 theaters nationwide - Maximum exposure, high risk"
+            marketingCost: 20000,
+            theaterCut: 0.45,
+            potential: { min: 150000, max: 600000 },
+            description: "500 theaters nationwide - Maximum exposure, high risk/reward"
         },
         limited: {
-            name: "Limited Release", 
+            name: "Limited Release",
             theaters: 100,
-            marketingCost: 8000,
-            theaterCut: 0.40,
-            potential: { min: 75000, max: 200000 },
-            description: "100 select theaters - Moderate investment, safer bet"
+            marketingCost: 5000,
+            theaterCut: 0.30,
+            prestigeBonus: 10,
+            potential: { min: 80000, max: 250000 },
+            description: "100 select theaters - Lower cost, builds prestige and Oscar buzz"
         },
         states_rights: {
             name: "States' Rights Sale",
             theaters: 0,
             marketingCost: 0,
             theaterCut: 0,
-            potential: { min: 50000, max: 80000 },
-            description: "Sell regional rights immediately - Guaranteed cash now"
+            potential: { min: 80000, max: 150000 },
+            description: "Sell regional rights immediately - Guaranteed profit, no risk"
         }
     };
 
@@ -145,9 +146,11 @@ window.BoxOfficeSystem = (function() {
         // Apply distribution strategy multiplier
         const strategyData = DISTRIBUTION_STRATEGIES[strategy];
         if (strategy === 'wide') {
-            baseGross *= 1.8; // Wide release potential
+            baseGross *= 1.8; // Wide release - maximum audience potential
         } else if (strategy === 'limited') {
-            baseGross *= 1.2; // Limited release is more focused
+            baseGross *= 1.5; // Limited release - focused audience, better per-screen
+        } else if (strategy === 'states_rights') {
+            baseGross *= 1.0; // States' rights - flat guaranteed sale
         }
 
         return Math.floor(baseGross);
@@ -302,7 +305,9 @@ window.BoxOfficeSystem = (function() {
         // For states' rights, immediate payment
         if (strategy === 'states_rights') {
             const payment = calculateBaseBoxOffice(film, strategy);
-            window.FinancialSystem.addTransaction(-payment, `States' Rights sale: ${film.title}`);
+            gameState.cash += payment;
+            gameState.totalRevenue += payment;
+            window.FinancialSystem.addTransaction(payment, `States' Rights sale: ${film.title}`);
 
             film.phase = 'completed';
             film.distribution = {
@@ -333,7 +338,8 @@ window.BoxOfficeSystem = (function() {
         if (!window.FinancialSystem.canAfford(marketingCost)) {
             return { success: false, message: `Cannot afford $${marketingCost.toLocaleString()} marketing cost` };
         }
-        
+
+        gameState.cash -= marketingCost;
         window.FinancialSystem.addTransaction(-marketingCost, `Marketing: ${film.title}`);
         
         film.phase = 'in_theaters';
@@ -344,6 +350,19 @@ window.BoxOfficeSystem = (function() {
             releaseDate: window.TimeSystem.getCurrentDate(),
             marketingCost: marketingCost
         };
+
+        // Limited release builds prestige and Oscar buzz
+        if (strategy === 'limited' && DISTRIBUTION_STRATEGIES.limited.prestigeBonus) {
+            gameState.reputation = Math.min(100, gameState.reputation + DISTRIBUTION_STRATEGIES.limited.prestigeBonus);
+            if (window.HollywoodMogul) {
+                window.HollywoodMogul.addAlert({
+                    type: 'success',
+                    icon: '🎭',
+                    message: `Limited release of "${film.title}" builds critical prestige! (+${DISTRIBUTION_STRATEGIES.limited.prestigeBonus} reputation)`,
+                    priority: 'medium'
+                });
+            }
+        }
 
         // Add initial event
         if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
@@ -393,8 +412,10 @@ window.BoxOfficeSystem = (function() {
             
             if (currentWeek < distribution.boxOfficeResults.weeks.length) {
                 const weekData = distribution.boxOfficeResults.weeks[currentWeek];
-                
+
                 // Add studio revenue to cash
+                gameState.cash += weekData.studioRevenue;
+                gameState.totalRevenue += weekData.studioRevenue;
                 window.FinancialSystem.addTransaction(
                     weekData.studioRevenue,
                     `Box office: ${film.title} (Week ${weekData.week})`
@@ -416,9 +437,16 @@ window.BoxOfficeSystem = (function() {
                 // Check if film run is complete
                 if (distribution.currentWeek >= distribution.boxOfficeResults.weeks.length) {
                     film.phase = 'completed';
+                    film.inTheaters = false;
                     const totalRevenue = distribution.boxOfficeResults.totalStudioRevenue;
+                    const totalGross = distribution.boxOfficeResults.totalGross;
                     const budget = film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0;
                     const netProfit = totalRevenue - budget - distribution.marketingCost;
+
+                    // Update film and game stats
+                    film.totalGross = totalGross;
+                    film.studioRevenue = totalRevenue;
+                    gameState.stats.boxOfficeTotal += totalGross;
 
                     film.distribution.totalRevenue = totalRevenue;
                     film.distribution.netProfit = netProfit;

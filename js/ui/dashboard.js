@@ -614,16 +614,21 @@ window.DashboardUI = (function() {
             return;
         }
         
-        container.innerHTML = recentEvents.map(event => `
-            <div class="event-item ${event.type}">
-                <div class="event-icon">${getEventIcon(event.type)}</div>
-                <div class="event-content">
-                    <h4 class="event-title">${event.title}</h4>
-                    <p class="event-message">${event.message}</p>
-                    <span class="event-date">${formatDate(event.date)}</span>
+        container.innerHTML = recentEvents.map(event => {
+            const dateStr = event.date instanceof Date ?
+                window.TimeSystem.formatDate(event.date, 'short') :
+                (event.date || '');
+            return `
+                <div class="event-item ${event.type || ''}">
+                    <div class="event-icon">${getEventIcon(event.type)}</div>
+                    <div class="event-content">
+                        <h4 class="event-title">${event.title || ''}</h4>
+                        <p class="event-message">${event.message || ''}</p>
+                        <span class="event-date">${dateStr}</span>
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     /**
