@@ -107,10 +107,10 @@ window.HollywoodMogul = (function() {
         addEventListener('btn-advance-month', 'click', () => advanceTime('month'));
         
         // Navigation buttons
-        const navButtons = document.querySelectorAll('.nav-btn');
+        const navButtons = document.querySelectorAll('.nav-button');
         navButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                switchSection(e.target.closest('.nav-btn').dataset.section);
+                switchSection(e.target.closest('.nav-button').dataset.section);
             });
         });
         
@@ -738,7 +738,6 @@ window.HollywoodMogul = (function() {
     }
     
     function updateStudioStatus() {
-        const gameState = getGameState();
         const repEl = document.getElementById('reputation-display');
         const filmsEl = document.getElementById('films-produced-display');
         const boxOfficeEl = document.getElementById('total-box-office-display');
@@ -929,26 +928,11 @@ window.HollywoodMogul = (function() {
             // Bind greenlight button
             const btn = card.querySelector('.greenlight-btn');
             btn.addEventListener('click', () => {
-                if (window.ProductionSystem && window.ProductionSystem.greenlightScript) {
-                    const result = window.ProductionSystem.greenlightScript(script.id || index);
-                    if (result.success) {
-                        addAlert({
-                            type: 'success',
-                            icon: '🎬',
-                            message: result.message,
-                            priority: 'high'
-                        });
-                        populateScriptsSection(); // Refresh
-                        updateFinancialDisplay();
-                        updateActiveProductions();
-                    } else {
-                        addAlert({
-                            type: 'warning',
-                            icon: '⚠️',
-                            message: result.message,
-                            priority: 'high'
-                        });
-                    }
+                if (window.ScriptLibrary && window.ScriptLibrary.greenlightScript) {
+                    window.ScriptLibrary.greenlightScript(script.id);
+                    populateScriptsSection();
+                    updateFinancialDisplay();
+                    updateActiveProductions();
                 } else {
                     // Fallback: use ScriptLibrary modal
                     showScriptLibrary();

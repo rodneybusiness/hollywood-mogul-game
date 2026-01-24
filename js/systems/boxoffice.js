@@ -450,7 +450,7 @@ window.BoxOfficeSystem = (function() {
 
                     film.distribution.totalRevenue = totalRevenue;
                     film.distribution.netProfit = netProfit;
-                    film.distribution.completedDate = window.TimeSystem.getCurrentDate();
+                    film.distribution.completedDate = new Date(gameState.currentDate);
 
                     if (window.HollywoodMogul && typeof window.HollywoodMogul.addEvent === 'function') {
                         window.HollywoodMogul.addEvent({
@@ -530,6 +530,7 @@ window.BoxOfficeSystem = (function() {
         getDistributionStrategies: getDistributionStrategies,
         getCurrentBoxOfficeData: getCurrentBoxOfficeData,
         calculateBaseBoxOffice: calculateBaseBoxOffice,
-        simulateWeeklyBoxOffice: simulateWeeklyBoxOffice
+        simulateWeeklyBoxOffice: simulateWeeklyBoxOffice,
+        processWeeklyBoxOffice: processWeeklyBoxOffice
     };
 })();

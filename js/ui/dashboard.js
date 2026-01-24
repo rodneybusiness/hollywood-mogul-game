@@ -916,6 +916,12 @@ window.DashboardUI = (function() {
         return { hasOscars, nominated, wins, nominations, display };
     }
 
+    function updateAchievementsSection() {}
+    function showAchievementDetails() {}
+    function updateTalentSection() {}
+    function signTalent() {}
+    function releaseContract() {}
+
     return {
         init: init,
         updateDashboard: updateDashboard,
