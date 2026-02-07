@@ -255,6 +255,33 @@ window.BoxOfficeSystem = (function() {
             baseGross *= film.audienceMultiplier;
         }
 
+        // Apply TV competition penalty (1950s-1960s primarily)
+        if (window.TVCompetitionSystem && window.TVCompetitionSystem.getBoxOfficePenalty) {
+            var gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            var tvMult = window.TVCompetitionSystem.getBoxOfficePenalty(yearRef, gameState);
+            baseGross *= tvMult;
+        }
+
+        // Apply technology revenue bonuses
+        if (window.TechnologySystem && window.HollywoodMogul) {
+            var gs = window.HollywoodMogul.getGameState();
+            var techRevenueMult = window.TechnologySystem.getTotalRevenueMultiplier(gs);
+            baseGross *= techRevenueMult;
+
+            // Genre-specific technology bonuses
+            var genreTechBonus = window.TechnologySystem.getGenreBonus(film.genre, gs);
+            if (genreTechBonus > 0) {
+                baseGross *= (1 + genreTechBonus);
+            }
+        }
+
+        // Apply franchise/sequel audience bonus
+        if (film.isSequel && window.FranchiseSystem && window.HollywoodMogul) {
+            var fgs = window.HollywoodMogul.getGameState();
+            var franchiseMult = window.FranchiseSystem.getFranchiseBoxOfficeMultiplier(film, fgs);
+            baseGross *= franchiseMult;
+        }
+
         return Math.floor(baseGross);
     }
 
@@ -570,6 +597,11 @@ window.BoxOfficeSystem = (function() {
 
                     // Calculate and apply ancillary revenue (home video, syndication, etc.)
                     applyAncillaryRevenue(film, gameState);
+
+                    // Check if film qualifies for franchise/sequel
+                    if (window.FranchiseSystem && window.FranchiseSystem.checkAndOfferSequel) {
+                        window.FranchiseSystem.checkAndOfferSequel(film, gameState);
+                    }
                 }
             }
         });

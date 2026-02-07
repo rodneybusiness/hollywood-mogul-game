@@ -862,28 +862,36 @@ window.ProductionSystem = (function() {
     
     function calculateFinalQuality(film) {
         let quality = film.scriptQuality;
-        
+
         // Director skill impact
         quality += (film.directorSkill - 70) * 0.2;
-        
+
         // Cast chemistry impact
         quality += (film.castChemistry - 70) * 0.1;
-        
+
         // Production issues impact
         quality -= film.crisisCount * 3;
-        
+
         // Crew efficiency impact
         quality += (film.crewEfficiency - 70) * 0.1;
-        
+
         // Budget issues impact
         if (!film.onBudget) {
             quality -= 5;
         }
-        
+
         if (!film.onSchedule) {
             quality -= 3;
         }
-        
+
+        // Technology quality bonus
+        if (window.TechnologySystem && window.TechnologySystem.getTotalQualityBonus) {
+            var gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            if (gameState) {
+                quality += window.TechnologySystem.getTotalQualityBonus(gameState);
+            }
+        }
+
         return Math.max(10, Math.min(100, Math.floor(quality)));
     }
     

@@ -230,6 +230,19 @@ window.GameController = (function() {
             window.AchievementSystem.checkAchievements(gameState);
         }
 
+        // TV competition events (1950-1970)
+        if (window.TVCompetitionSystem && window.TVCompetitionSystem.checkForTvEvents) {
+            var tvEvent = window.TVCompetitionSystem.checkForTvEvents(gameState);
+            if (tvEvent && window.HollywoodMogul) {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning',
+                    icon: '\uD83D\uDCFA',
+                    message: tvEvent.message,
+                    priority: 'medium'
+                });
+            }
+        }
+
         // Scenario victory conditions
         if (window.ScenarioUI && window.ScenarioUI.checkVictoryConditions) {
             window.ScenarioUI.checkVictoryConditions(gameState);
