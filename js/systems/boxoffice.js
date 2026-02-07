@@ -13,7 +13,7 @@ window.BoxOfficeSystem = (function() {
         1936: { western: 1.1, crime: 0.8, musical: 1.2, drama: 1.0, comedy: 1.1, horror: 0.9, romance: 1.1, war: 0.5 },
         1937: { western: 1.2, crime: 0.7, musical: 1.4, drama: 1.1, comedy: 1.0, horror: 0.8, romance: 1.2, war: 0.6 },
         1938: { western: 1.1, crime: 0.8, musical: 1.3, drama: 1.2, comedy: 1.1, horror: 0.9, romance: 1.1, war: 0.7 },
-        1939: { western: 1.0, crime: 0.9, musical: 1.2, drama: 1.3, drama: 1.4, comedy: 1.0, horror: 0.8, romance: 1.0, war: 0.8 },
+        1939: { western: 1.0, crime: 0.9, musical: 1.2, drama: 1.4, comedy: 1.0, horror: 0.8, romance: 1.0, war: 0.8 },
         1940: { western: 0.9, crime: 1.0, musical: 1.1, drama: 1.3, comedy: 1.0, horror: 0.9, romance: 1.0, war: 1.0 },
         1941: { western: 0.8, crime: 1.0, musical: 1.0, drama: 1.2, comedy: 0.9, horror: 0.8, romance: 0.9, war: 1.4 },
         1942: { western: 0.7, crime: 0.9, musical: 1.1, drama: 1.1, comedy: 1.0, horror: 0.7, romance: 1.0, war: 1.6 },
@@ -23,7 +23,96 @@ window.BoxOfficeSystem = (function() {
         1946: { western: 1.1, crime: 1.1, musical: 0.9, drama: 1.3, comedy: 1.0, horror: 0.9, romance: 1.1, noir: 1.4, war: 0.7 },
         1947: { western: 1.2, crime: 1.2, musical: 0.8, drama: 1.2, comedy: 0.9, horror: 1.0, romance: 1.0, noir: 1.6, war: 0.5 },
         1948: { western: 1.3, crime: 1.1, musical: 0.9, drama: 1.1, comedy: 1.0, horror: 1.1, romance: 0.9, noir: 1.5, war: 0.4 },
-        1949: { western: 1.2, crime: 1.0, musical: 1.0, drama: 1.0, comedy: 1.1, horror: 1.0, romance: 1.0, noir: 1.3, war: 0.3 }
+        1949: { western: 1.2, crime: 1.0, musical: 1.0, drama: 1.0, comedy: 1.1, horror: 1.0, romance: 1.0, noir: 1.3, war: 0.3 },
+
+        // ============================================================
+        // 1950s: TELEVISION THREAT — CinemaScope spectacles, westerns peak, sci-fi emerges
+        // ============================================================
+        1950: { western: 1.3, crime: 1.1, musical: 1.1, drama: 1.0, comedy: 1.0, horror: 0.8, romance: 0.9, war: 1.2, noir: 1.3, sci_fi: 0.8 },
+        1951: { western: 1.4, crime: 1.0, musical: 1.1, drama: 1.0, comedy: 1.0, horror: 0.8, romance: 0.9, war: 1.3, noir: 1.3, sci_fi: 0.9 },
+        1952: { western: 1.5, crime: 1.0, musical: 1.2, drama: 1.0, comedy: 1.0, horror: 0.8, romance: 0.9, war: 1.2, noir: 1.2, sci_fi: 0.9 },
+        1953: { western: 1.5, crime: 0.9, musical: 1.1, drama: 1.1, comedy: 1.0, horror: 0.8, romance: 0.9, war: 1.1, noir: 1.2, sci_fi: 1.0 },
+        1954: { western: 1.6, crime: 0.9, musical: 1.0, drama: 1.1, comedy: 1.0, horror: 0.9, romance: 0.9, war: 0.9, noir: 1.1, sci_fi: 1.1 },
+        1955: { western: 1.5, crime: 0.9, musical: 1.0, drama: 1.2, comedy: 1.1, horror: 0.9, romance: 0.9, war: 0.8, noir: 1.0, sci_fi: 1.1 },
+        1956: { western: 1.5, crime: 0.8, musical: 1.1, drama: 1.1, comedy: 1.1, horror: 0.9, romance: 1.0, war: 0.7, noir: 0.9, sci_fi: 1.2 },
+        1957: { western: 1.4, crime: 0.9, musical: 1.0, drama: 1.1, comedy: 1.0, horror: 0.9, romance: 1.0, war: 0.7, noir: 0.8, sci_fi: 1.1 },
+        1958: { western: 1.3, crime: 0.9, musical: 0.9, drama: 1.1, comedy: 1.0, horror: 0.9, romance: 1.0, war: 0.6, noir: 0.7, sci_fi: 1.0 },
+        1959: { western: 1.3, crime: 0.9, musical: 0.9, drama: 1.2, comedy: 1.0, horror: 0.8, romance: 1.0, war: 0.6, noir: 0.6, sci_fi: 0.9 },
+
+        // ============================================================
+        // 1960s: NEW WAVE — Hitchcock thrillers, Hays Code crumbles, musicals peak then crash
+        // ============================================================
+        1960: { western: 1.2, crime: 0.9, musical: 0.9, drama: 1.2, comedy: 1.0, horror: 1.0, romance: 1.0, war: 0.7, sci_fi: 0.7, thriller: 1.1 },
+        1961: { western: 1.1, crime: 0.9, musical: 1.0, drama: 1.1, comedy: 1.0, horror: 0.9, romance: 1.0, war: 0.7, sci_fi: 0.7, thriller: 1.0 },
+        1962: { western: 1.1, crime: 0.9, musical: 0.9, drama: 1.1, comedy: 1.0, horror: 0.8, romance: 1.0, war: 0.8, sci_fi: 0.7, thriller: 1.1 },
+        1963: { western: 1.0, crime: 0.9, musical: 0.8, drama: 1.2, comedy: 1.1, horror: 0.9, romance: 1.0, war: 0.7, sci_fi: 0.6, thriller: 1.1 },
+        1964: { western: 1.1, crime: 0.9, musical: 0.9, drama: 1.1, comedy: 1.1, horror: 0.8, romance: 1.0, war: 0.7, sci_fi: 0.6, thriller: 1.2 },
+        1965: { western: 1.0, crime: 0.8, musical: 1.3, drama: 1.1, comedy: 1.0, horror: 0.8, romance: 1.1, war: 0.7, sci_fi: 0.7, thriller: 1.1 },
+        1966: { western: 1.1, crime: 0.9, musical: 1.0, drama: 1.1, comedy: 1.0, horror: 0.8, romance: 1.0, war: 0.6, sci_fi: 0.7, thriller: 1.1 },
+        1967: { western: 1.0, crime: 1.0, musical: 0.8, drama: 1.2, comedy: 1.0, horror: 0.9, romance: 0.9, war: 0.7, sci_fi: 0.7, thriller: 1.2 },
+        1968: { western: 0.9, crime: 1.0, musical: 0.6, drama: 1.3, comedy: 1.0, horror: 1.0, romance: 0.9, war: 0.7, sci_fi: 0.8, thriller: 1.2 },
+        1969: { western: 0.9, crime: 1.0, musical: 0.5, drama: 1.3, comedy: 1.0, horror: 0.9, romance: 0.9, war: 0.6, sci_fi: 0.7, thriller: 1.1 },
+
+        // ============================================================
+        // 1970s: NEW HOLLYWOOD — Auteurs, blockbusters born, action emerges, horror golden age
+        // ============================================================
+        1970: { western: 0.8, crime: 1.1, musical: 0.4, drama: 1.2, comedy: 1.0, horror: 1.0, romance: 0.9, war: 0.8, sci_fi: 0.7, thriller: 1.2, action: 0.5 },
+        1971: { western: 0.8, crime: 1.1, musical: 0.4, drama: 1.2, comedy: 1.0, horror: 1.0, romance: 0.9, war: 0.7, sci_fi: 0.7, thriller: 1.3, action: 0.5 },
+        1972: { western: 0.7, crime: 1.3, musical: 0.4, drama: 1.2, comedy: 1.0, horror: 1.0, romance: 0.9, war: 0.7, sci_fi: 0.7, thriller: 1.3, action: 0.6 },
+        1973: { western: 0.7, crime: 1.2, musical: 0.3, drama: 1.2, comedy: 1.0, horror: 1.3, romance: 0.9, war: 0.7, sci_fi: 0.8, thriller: 1.4, action: 0.7 },
+        1974: { western: 0.7, crime: 1.1, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 1.2, romance: 0.9, war: 0.6, sci_fi: 0.8, thriller: 1.4, action: 0.7 },
+        1975: { western: 0.6, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.0, horror: 1.2, romance: 0.9, war: 0.6, sci_fi: 0.9, thriller: 1.3, action: 0.8 },
+        1976: { western: 0.6, crime: 1.0, musical: 0.3, drama: 1.2, comedy: 1.0, horror: 1.1, romance: 1.0, war: 0.6, sci_fi: 0.9, thriller: 1.2, action: 0.8 },
+        1977: { western: 0.5, crime: 0.9, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 1.1, romance: 0.9, war: 0.6, sci_fi: 1.6, thriller: 1.1, action: 0.9 },
+        1978: { western: 0.5, crime: 0.9, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 1.3, romance: 0.9, war: 0.7, sci_fi: 1.5, thriller: 1.1, action: 0.9 },
+        1979: { western: 0.4, crime: 0.9, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 1.2, romance: 0.9, war: 0.8, sci_fi: 1.4, thriller: 1.1, action: 1.0 },
+
+        // ============================================================
+        // 1980s: BLOCKBUSTER AGE — Action peak, sci-fi huge, teen comedies, slasher horror
+        // ============================================================
+        1980: { western: 0.4, crime: 0.9, musical: 0.3, drama: 1.0, comedy: 1.2, horror: 1.2, romance: 0.9, war: 0.6, sci_fi: 1.4, thriller: 1.1, action: 1.2 },
+        1981: { western: 0.4, crime: 0.9, musical: 0.3, drama: 1.0, comedy: 1.1, horror: 1.2, romance: 0.9, war: 0.5, sci_fi: 1.3, thriller: 1.1, action: 1.3 },
+        1982: { western: 0.3, crime: 0.9, musical: 0.3, drama: 1.0, comedy: 1.2, horror: 1.1, romance: 0.9, war: 0.5, sci_fi: 1.5, thriller: 1.1, action: 1.4 },
+        1983: { western: 0.3, crime: 0.8, musical: 0.3, drama: 1.0, comedy: 1.2, horror: 1.0, romance: 0.9, war: 0.5, sci_fi: 1.4, thriller: 1.1, action: 1.5 },
+        1984: { western: 0.3, crime: 0.8, musical: 0.2, drama: 1.0, comedy: 1.3, horror: 1.0, romance: 0.9, war: 0.5, sci_fi: 1.4, thriller: 1.1, action: 1.6 },
+        1985: { western: 0.3, crime: 0.8, musical: 0.2, drama: 1.0, comedy: 1.3, horror: 0.9, romance: 1.0, war: 0.5, sci_fi: 1.3, thriller: 1.0, action: 1.7 },
+        1986: { western: 0.3, crime: 0.9, musical: 0.2, drama: 1.0, comedy: 1.2, horror: 0.9, romance: 1.0, war: 0.6, sci_fi: 1.3, thriller: 1.1, action: 1.8 },
+        1987: { western: 0.3, crime: 0.9, musical: 0.2, drama: 1.0, comedy: 1.2, horror: 0.9, romance: 1.0, war: 0.5, sci_fi: 1.2, thriller: 1.2, action: 1.7 },
+        1988: { western: 0.3, crime: 0.9, musical: 0.2, drama: 1.0, comedy: 1.2, horror: 0.8, romance: 1.0, war: 0.5, sci_fi: 1.2, thriller: 1.2, action: 1.7 },
+        1989: { western: 0.3, crime: 0.9, musical: 0.2, drama: 1.0, comedy: 1.1, horror: 0.8, romance: 1.0, war: 0.5, sci_fi: 1.2, thriller: 1.2, action: 1.6, animated: 0.8, superhero: 0.5 },
+
+        // ============================================================
+        // 1990s: INDIE BOOM — Disney Renaissance, Tarantino, CGI revolution, rom-com peak
+        // ============================================================
+        1990: { western: 0.4, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 0.8, romance: 1.1, war: 0.5, sci_fi: 1.2, thriller: 1.2, action: 1.5, animated: 0.9, superhero: 0.4 },
+        1991: { western: 0.4, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 0.9, romance: 1.1, war: 0.5, sci_fi: 1.3, thriller: 1.3, action: 1.5, animated: 1.0, superhero: 0.3 },
+        1992: { western: 0.6, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 0.8, romance: 1.1, war: 0.5, sci_fi: 1.2, thriller: 1.2, action: 1.4, animated: 1.1, superhero: 0.4 },
+        1993: { western: 0.4, crime: 1.0, musical: 0.3, drama: 1.2, comedy: 1.1, horror: 0.8, romance: 1.1, war: 0.5, sci_fi: 1.4, thriller: 1.2, action: 1.4, animated: 1.0, superhero: 0.3 },
+        1994: { western: 0.4, crime: 1.2, musical: 0.3, drama: 1.2, comedy: 1.1, horror: 0.8, romance: 1.1, war: 0.5, sci_fi: 1.2, thriller: 1.2, action: 1.4, animated: 1.2, superhero: 0.3 },
+        1995: { western: 0.3, crime: 1.1, musical: 0.3, drama: 1.2, comedy: 1.1, horror: 0.8, romance: 1.2, war: 0.5, sci_fi: 1.2, thriller: 1.2, action: 1.4, animated: 1.3, superhero: 0.4 },
+        1996: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.2, horror: 1.1, romance: 1.2, war: 0.5, sci_fi: 1.3, thriller: 1.1, action: 1.3, animated: 1.1, superhero: 0.3 },
+
+        // ============================================================
+        // 1997-2004: DIGITAL DAWN — DVD boom, franchise era, internet, CGI standard
+        // ============================================================
+        1997: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.2, comedy: 1.1, horror: 0.9, romance: 1.2, war: 0.6, sci_fi: 1.2, thriller: 1.1, action: 1.3, animated: 1.1, superhero: 0.4 },
+        1998: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 0.9, romance: 1.2, war: 1.1, sci_fi: 1.2, thriller: 1.1, action: 1.3, animated: 1.2, superhero: 0.4 },
+        1999: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 1.0, romance: 1.1, war: 0.7, sci_fi: 1.3, thriller: 1.1, action: 1.3, animated: 1.2, superhero: 0.4 },
+        2000: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 0.9, romance: 1.1, war: 0.6, sci_fi: 1.2, thriller: 1.1, action: 1.3, animated: 1.2, superhero: 0.6 },
+        2001: { western: 0.3, crime: 1.0, musical: 0.4, drama: 1.1, comedy: 1.0, horror: 0.9, romance: 1.0, war: 0.7, sci_fi: 1.1, thriller: 1.0, action: 1.2, animated: 1.3, superhero: 0.7 },
+        2002: { western: 0.3, crime: 1.0, musical: 0.4, drama: 1.1, comedy: 1.1, horror: 0.9, romance: 1.0, war: 0.8, sci_fi: 1.2, thriller: 1.1, action: 1.2, animated: 1.3, superhero: 0.9 },
+        2003: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.0, comedy: 1.1, horror: 0.9, romance: 1.0, war: 0.7, sci_fi: 1.2, thriller: 1.1, action: 1.2, animated: 1.3, superhero: 1.0 },
+        2004: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.1, comedy: 1.1, horror: 0.9, romance: 1.0, war: 0.6, sci_fi: 1.1, thriller: 1.1, action: 1.3, animated: 1.4, superhero: 1.1 },
+
+        // ============================================================
+        // 2005-2010: CONVERGENCE — Superhero dominance, streaming disrupts, 3D revival
+        // ============================================================
+        2005: { western: 0.3, crime: 0.9, musical: 0.4, drama: 1.0, comedy: 1.1, horror: 0.9, romance: 0.9, war: 0.6, sci_fi: 1.2, thriller: 1.0, action: 1.3, animated: 1.3, superhero: 1.2 },
+        2006: { western: 0.3, crime: 1.0, musical: 0.4, drama: 1.1, comedy: 1.1, horror: 0.9, romance: 0.9, war: 0.6, sci_fi: 1.1, thriller: 1.1, action: 1.3, animated: 1.3, superhero: 1.2 },
+        2007: { western: 0.4, crime: 1.0, musical: 0.4, drama: 1.1, comedy: 1.0, horror: 0.9, romance: 0.9, war: 0.6, sci_fi: 1.2, thriller: 1.0, action: 1.3, animated: 1.3, superhero: 1.3 },
+        2008: { western: 0.3, crime: 1.0, musical: 0.3, drama: 1.0, comedy: 1.0, horror: 0.9, romance: 0.8, war: 0.6, sci_fi: 1.2, thriller: 1.0, action: 1.3, animated: 1.4, superhero: 1.5 },
+        2009: { western: 0.3, crime: 0.9, musical: 0.3, drama: 1.0, comedy: 1.0, horror: 0.9, romance: 0.8, war: 0.7, sci_fi: 1.3, thriller: 1.0, action: 1.3, animated: 1.4, superhero: 1.5 },
+        2010: { western: 0.3, crime: 0.9, musical: 0.3, drama: 1.0, comedy: 1.0, horror: 0.9, romance: 0.8, war: 0.6, sci_fi: 1.2, thriller: 1.0, action: 1.3, animated: 1.4, superhero: 1.6 }
     };
 
     // Critical reception impact (random but influenced by quality)
@@ -524,6 +613,17 @@ window.BoxOfficeSystem = (function() {
     }
 
     // Public API
+    /**
+     * Get genre heat multipliers for a specific year.
+     * This is the single source of truth for per-year genre popularity.
+     * TimeSystem.getEraGenreModifiers delegates here when available.
+     * @param {number} year
+     * @returns {Object} genre -> multiplier map
+     */
+    function getGenreHeatForYear(year) {
+        return GENRE_HEAT[year] || GENRE_HEAT[2010] || {};
+    }
+
     return {
         init: init,
         releaseFilm: releaseFilm,
@@ -531,6 +631,8 @@ window.BoxOfficeSystem = (function() {
         getCurrentBoxOfficeData: getCurrentBoxOfficeData,
         calculateBaseBoxOffice: calculateBaseBoxOffice,
         simulateWeeklyBoxOffice: simulateWeeklyBoxOffice,
-        processWeeklyBoxOffice: processWeeklyBoxOffice
+        processWeeklyBoxOffice: processWeeklyBoxOffice,
+        getGenreHeatForYear: getGenreHeatForYear,
+        GENRE_HEAT: GENRE_HEAT
     };
 })();

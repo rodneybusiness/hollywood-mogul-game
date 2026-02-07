@@ -71,29 +71,31 @@ window.CensorshipSystem = (function() {
         const violations = [];
 
         // Check script description and themes for violations
-        const textToCheck = (script.description + ' ' + script.synopsis + ' ' + (script.themes || []).join(' ')).toLowerCase();
+        const textToCheck = (script.description + ' ' + (script.synopsis || '') + ' ' + (script.themes || []).join(' ')).toLowerCase();
 
         for (const violationType in CONTENT_VIOLATIONS) {
             const violation = CONTENT_VIOLATIONS[violationType];
 
-            // Check for keywords
-            for (const keyword of violation.keywords) {
-                if (textToCheck.includes(keyword)) {
-                    violations.push({
-                        type: violationType,
-                        severity: violation.severity,
-                        description: violation.description,
-                        penalty: violation.penalty
-                    });
-                    break; // Only add each violation type once
-                }
+            // Check for keywords using word boundary matching to avoid false positives
+            // (e.g., "incorruptible" should not match "corrupt")
+            const pattern = new RegExp(
+                violation.keywords.map(k => '\\b' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b').join('|'),
+                'i'
+            );
+            if (pattern.test(textToCheck)) {
+                violations.push({
+                    type: violationType,
+                    severity: violation.severity,
+                    description: violation.description,
+                    penalty: violation.penalty
+                });
             }
         }
 
         // Check genre-specific risks
         if (script.genre === 'noir' || script.genre === 'crime') {
-            // Noir films almost always have some issues
-            if (Math.random() < 0.6 && !violations.some(v => v.type === 'crime')) {
+            // Noir/crime films often have crime content concerns
+            if (Math.random() < 0.35 && !violations.some(v => v.type === 'crime')) {
                 violations.push({
                     type: 'crime',
                     severity: 'medium',

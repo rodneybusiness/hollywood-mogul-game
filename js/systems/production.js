@@ -112,7 +112,9 @@ window.ProductionSystem = (function() {
         // Add to active films
         gameState.activeFilms.push(film);
 
-        // Deduct full production budget upfront
+        // Commit full production budget upfront (prepaid model).
+        // Weekly costs are tracked in spentToDate but NOT re-deducted from cash.
+        // Only cost overruns beyond originalBudget trigger additional cash deductions.
         gameState.cash -= film.originalBudget;
         film.spentToDate += Math.floor(film.originalBudget * 0.1); // Track 10% as initial dev spend
         

@@ -2,6 +2,20 @@
 /* Glassmorphic Component System v2.0 */
 
 /* ================================================================
+   ACCESSIBILITY - Focus Indicators
+   ================================================================ */
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--color-gold-400, #F7C96B);
+    outline-offset: 2px;
+}
+
+/* ================================================================
    ATOMS - Basic Building Blocks
    ================================================================ */
 

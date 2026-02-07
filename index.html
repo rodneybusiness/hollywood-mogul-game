@@ -34,11 +34,11 @@
                 <div class="studio-tagline">Est. 1933</div>
             </div>
             <div class="game-date">
-                <span id="current-date">January 1933</span>
+                <time id="current-date" datetime="1933-01-01">January 1933</time>
                 <span id="current-era" class="era-indicator">Pre-Code Era</span>
             </div>
             <div class="audio-controls">
-                <button id="audio-mute-toggle" class="audio-btn" title="Mute/Unmute Audio">
+                <button id="audio-mute-toggle" class="audio-btn" title="Mute/Unmute Audio" aria-label="Mute or unmute audio">
                     🔊
                 </button>
                 <div class="audio-settings-panel hidden" id="audio-settings">
@@ -58,7 +58,7 @@
                         <span class="volume-value" id="sfx-volume-display">80%</span>
                     </div>
                 </div>
-                <button id="audio-settings-toggle" class="audio-btn" title="Audio Settings">
+                <button id="audio-settings-toggle" class="audio-btn" title="Audio Settings" aria-label="Open audio settings">
                     ⚙️
                 </button>
             </div>
@@ -294,7 +294,7 @@
     </div>
 
     <!-- Notifications Container -->
-    <div id="notifications" class="notifications-container"></div>
+    <div id="notifications" class="notifications-container" aria-live="polite" role="status"></div>
 
     <!-- Modal Overlay -->
 <!-- Auto-Save Indicator -->
@@ -304,7 +304,7 @@
 </div>
 
 <!-- Save/Load Modal -->
-<div id="save-load-modal" class="modal-overlay hidden">
+<div id="save-load-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="save-load-title">
     <div class="modal-content save-load-modal">
         <div class="modal-header">
             <h2 id="save-load-title">SAVE GAME</h2>
@@ -435,7 +435,7 @@
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div id="delete-confirm-modal" class="modal-overlay hidden">
+<div id="delete-confirm-modal" class="modal-overlay hidden" role="alertdialog" aria-modal="true">
     <div class="modal-content confirm-modal">
         <div class="modal-header">
             <h2>CONFIRM DELETE</h2>
@@ -449,7 +449,7 @@
         </div>
     </div>
 </div>
-    <div id="modal-overlay" class="modal-overlay hidden">
+    <div id="modal-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true">
         <div id="modal-content" class="modal-content">
             <!-- Dynamic modal content will be inserted here -->
         </div>
@@ -462,7 +462,6 @@
             <div id="game-over-message"></div>
             <div id="final-stats"></div>
             <button id="btn-restart" class="action-btn primary">START NEW STUDIO</button>
-    <script src="js/systems/audio-integration.js"></script>
         </div>
     </div>
 
@@ -470,8 +469,7 @@
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
             <div class="studio-logo large">
-    <script src="js/ui/dashboard-visuals.js"></script>
-                <h1>MOGUL</h1>
+                <h2>MOGUL</h2>
                 <div class="tagline">Golden Age Hollywood Tycoon</div>
             </div>
             <div class="loading-bar">
@@ -482,8 +480,11 @@
     </div>
 
     <!-- JavaScript Files -->
+    <script src="js/core/event-bus.js"></script>
+    <script src="js/core/constants.js"></script>
     <script src="js/core/dom-utils.js"></script>
     <script src="js/core/game-state.js"></script>
+    <script src="js/core/game-controller.js"></script>
     <script src="js/core/time-system.js"></script>
     <script src="js/core/save-load.js"></script>
     <script src="js/core/visual-event-triggers.js"></script>
@@ -509,13 +510,16 @@
     <script src="js/data/scripts.js"></script>
     <script src="js/data/historical-events.js"></script>
     <script src="js/data/talent-roster.js"></script>
+    <script src="js/data/era-financial-scaling.js"></script>
 
     <!-- UI Components -->
     <script src="js/ui/keyboard-shortcuts.js"></script>
     <script src="js/ui/save-load-ui.js"></script>
     <script src="js/ui/scenario-ui.js"></script>
     <script src="js/ui/dashboard.js"></script>
+    <script src="js/ui/dashboard-visuals.js"></script>
     <script src="js/ui/dashboard-rival-extensions.js"></script>
+    <script src="js/ui/dashboard-talent-addon.js"></script>
     <script src="js/ui/modals.js"></script>
     <script src="js/ui/tutorial.js"></script>
     <script src="js/ui/help.js"></script>

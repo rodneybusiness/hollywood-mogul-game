@@ -6,12 +6,32 @@
 window.TimeSystem = (function() {
     'use strict';
     
-    // Historical Periods
+    // Historical Periods — 12 eras covering 1933-2010
     const HISTORICAL_PERIODS = {
-        PRE_CODE: { start: 1933, end: 1934, name: "Pre-Code Era" },
-        GOLDEN_AGE: { start: 1935, end: 1941, name: "Golden Age" },
-        WAR_YEARS: { start: 1941, end: 1945, name: "War Years" },
-        POST_WAR: { start: 1946, end: 1949, name: "Post-War Era" }
+        PRE_CODE:        { start: 1933, end: 1934, name: "Pre-Code Era",
+            description: "Before strict Hays Code enforcement. Gangster films and risqué content flourish." },
+        GOLDEN_AGE:      { start: 1935, end: 1941, name: "Golden Age",
+            description: "The studio system at its peak. Lavish musicals, screwball comedies, and prestige epics." },
+        WAR_YEARS:       { start: 1942, end: 1945, name: "War Years",
+            description: "Hollywood mobilizes for WWII. Propaganda films, material rationing, male stars drafted." },
+        POST_WAR:        { start: 1946, end: 1949, name: "Post-War Era",
+            description: "Film noir emerges. Peak attendance year 1946. HUAC hearings and Paramount decree shake the industry." },
+        TV_THREAT:       { start: 1950, end: 1959, name: "Television Threat",
+            description: "TV steals audiences. Studios fight back with CinemaScope, Technicolor spectacles, and drive-ins." },
+        NEW_WAVE:        { start: 1960, end: 1966, name: "New Wave",
+            description: "Old Hollywood crumbles. European art film influences American cinema. The Hays Code weakens." },
+        RATINGS_ERA:     { start: 1967, end: 1972, name: "Ratings Era",
+            description: "MPAA ratings replace the Hays Code. Counterculture cinema breaks all the rules." },
+        NEW_HOLLYWOOD:   { start: 1973, end: 1979, name: "New Hollywood",
+            description: "Director-driven auteur cinema. Jaws and Star Wars invent the modern blockbuster." },
+        BLOCKBUSTER_AGE: { start: 1980, end: 1989, name: "Blockbuster Age",
+            description: "High-concept films, sequels, and VHS revolution. Star salaries explode. Action dominates." },
+        INDIE_BOOM:      { start: 1990, end: 1996, name: "Indie Boom",
+            description: "Sundance launches careers. Miramax model. CGI dawn with Jurassic Park and Toy Story." },
+        DIGITAL_DAWN:    { start: 1997, end: 2004, name: "Digital Dawn",
+            description: "DVD revenue surpasses theatrical. Internet transforms marketing. Franchise era begins." },
+        CONVERGENCE:     { start: 2005, end: 2010, name: "Convergence Era",
+            description: "Streaming disrupts everything. Superhero franchises dominate. Social media marketing. 3D revival." }
     };
     
     // Season definitions (affects box office)
@@ -92,11 +112,22 @@ window.TimeSystem = (function() {
     }
     
     /**
-     * Get era-specific genre preferences
+     * Get era-specific genre preferences.
+     * Delegates to BoxOfficeSystem for per-year precision when available.
+     * Falls back to era-level averages otherwise.
      */
     function getEraGenreModifiers(year) {
+        // Prefer BoxOfficeSystem's per-year data (single source of truth)
+        if (window.BoxOfficeSystem && window.BoxOfficeSystem.getGenreHeatForYear) {
+            var yearData = window.BoxOfficeSystem.getGenreHeatForYear(year);
+            if (yearData && Object.keys(yearData).length > 0) {
+                return yearData;
+            }
+        }
+
+        // Fallback: era-level averages
         const period = getCurrentPeriod(year);
-        
+
         switch (period?.key) {
             case 'PRE_CODE':
                 return {
@@ -136,27 +167,73 @@ window.TimeSystem = (function() {
                 
             case 'POST_WAR':
                 return {
-                    noir: 1.4, // Film noir emerges
-                    drama: 1.2,
-                    crime: 1.1,
-                    western: 1.0,
-                    comedy: 0.9, // Darker times
-                    musical: 0.8,
-                    romance: 1.0,
-                    horror: 0.8
+                    noir: 1.4, drama: 1.2, crime: 1.1, western: 1.0,
+                    comedy: 0.9, musical: 0.8, romance: 1.0, horror: 0.8
                 };
-                
+
+            case 'TV_THREAT':
+                return {
+                    western: 1.4, drama: 1.1, musical: 1.0, sci_fi: 0.9,
+                    comedy: 1.0, noir: 1.1, crime: 0.9, horror: 0.8,
+                    romance: 0.9, war: 0.8
+                };
+
+            case 'NEW_WAVE':
+                return {
+                    drama: 1.2, thriller: 1.1, western: 1.0, comedy: 1.0,
+                    crime: 0.9, musical: 0.7, sci_fi: 0.7, horror: 0.9,
+                    romance: 1.0, war: 0.7
+                };
+
+            case 'RATINGS_ERA':
+                return {
+                    drama: 1.3, crime: 1.1, thriller: 1.2, horror: 1.1,
+                    comedy: 1.0, western: 0.8, sci_fi: 0.8, musical: 0.4,
+                    romance: 0.9, war: 0.7, action: 0.6
+                };
+
+            case 'NEW_HOLLYWOOD':
+                return {
+                    drama: 1.2, sci_fi: 1.4, thriller: 1.2, horror: 1.2,
+                    comedy: 1.0, action: 0.8, crime: 1.0, western: 0.6,
+                    musical: 0.3, romance: 0.9, war: 0.7
+                };
+
+            case 'BLOCKBUSTER_AGE':
+                return {
+                    action: 1.6, sci_fi: 1.4, comedy: 1.2, horror: 1.0,
+                    drama: 1.0, thriller: 1.1, romance: 1.0, crime: 0.9,
+                    western: 0.4, musical: 0.3, war: 0.6
+                };
+
+            case 'INDIE_BOOM':
+                return {
+                    drama: 1.2, action: 1.4, thriller: 1.2, comedy: 1.1,
+                    sci_fi: 1.2, horror: 0.9, crime: 1.1, romance: 1.1,
+                    animated: 1.0, western: 0.3, musical: 0.3, war: 0.5
+                };
+
+            case 'DIGITAL_DAWN':
+                return {
+                    action: 1.4, sci_fi: 1.3, drama: 1.1, comedy: 1.1,
+                    thriller: 1.1, animated: 1.2, horror: 0.9, crime: 1.0,
+                    romance: 1.0, superhero: 0.9, fantasy: 1.2,
+                    western: 0.3, musical: 0.3, war: 0.7
+                };
+
+            case 'CONVERGENCE':
+                return {
+                    superhero: 1.6, action: 1.3, animated: 1.3, sci_fi: 1.2,
+                    comedy: 1.0, drama: 1.0, thriller: 1.0, horror: 0.9,
+                    crime: 0.9, romance: 0.8, fantasy: 1.1,
+                    western: 0.3, musical: 0.4, war: 0.6
+                };
+
             default:
                 return {
-                    drama: 1.0,
-                    comedy: 1.0,
-                    romance: 1.0,
-                    western: 1.0,
-                    musical: 1.0,
-                    gangster: 1.0,
-                    crime: 1.0,
-                    noir: 1.0,
-                    horror: 1.0
+                    drama: 1.0, comedy: 1.0, romance: 1.0, western: 1.0,
+                    musical: 1.0, crime: 1.0, horror: 1.0, action: 1.0,
+                    sci_fi: 1.0, thriller: 1.0, animated: 1.0, superhero: 1.0
                 };
         }
     }

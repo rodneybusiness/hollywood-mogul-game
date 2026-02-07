@@ -922,8 +922,20 @@ window.DashboardUI = (function() {
     function signTalent() {}
     function releaseContract() {}
 
+    /**
+     * Clean up dashboard resources
+     */
+    function destroy() {
+        if (updateInterval) {
+            clearInterval(updateInterval);
+            updateInterval = null;
+        }
+        isInitialized = false;
+    }
+
     return {
         init: init,
+        destroy: destroy,
         updateDashboard: updateDashboard,
         showSection: showSection,
         showNotification: showNotification,
