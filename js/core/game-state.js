@@ -305,6 +305,13 @@ window.HollywoodMogul = (function() {
             burn += gameState.studioLot.totalMaintenanceCost;
         }
 
+        // Apply era financial scaling (costs rise with inflation over decades)
+        var C = getC();
+        if (C.getEraScalingForYear) {
+            var scaling = C.getEraScalingForYear(gameState.gameYear);
+            burn = Math.floor(burn * scaling.monthlyBurnMult);
+        }
+
         gameState.monthlyBurn = burn;
         return burn;
     }

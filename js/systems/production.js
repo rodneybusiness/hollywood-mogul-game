@@ -55,8 +55,8 @@ window.ProductionSystem = (function() {
             id: generateFilmId(),
             title: script.title,
             genre: script.genre,
-            
-            // Budget & Financial
+
+            // Budget & Financial (script budget already era-appropriate)
             originalBudget: script.budget,
             currentBudget: script.budget,
             spentToDate: 0,

@@ -209,15 +209,23 @@ window.BoxOfficeSystem = (function() {
      * Calculate base box office potential based on film quality factors
      */
     function calculateBaseBoxOffice(film, strategy) {
+        // Get era inflation multiplier for revenue scaling
+        var eraInflation = 1.0;
+        if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
+            var currentYear = window.TimeSystem ? window.TimeSystem.getCurrentDate().year : 1933;
+            var scaling = window.GameConstants.getEraScalingForYear(currentYear);
+            eraInflation = scaling.inflationMult || 1.0;
+        }
+
         if (strategy === 'states_rights') {
             // States rights is based on film quality, not box office simulation
             const qualityMultiplier = Math.max(0.5, film.scriptQuality / 100);
-            const baseValue = 50000;
-            return Math.floor(baseValue + (30000 * qualityMultiplier) + (Math.random() * 10000));
+            const baseValue = 50000 * eraInflation;
+            return Math.floor(baseValue + (30000 * eraInflation * qualityMultiplier) + (Math.random() * 10000 * eraInflation));
         }
 
-        // Base calculation starts with script quality
-        let baseGross = film.scriptQuality * 2000; // $2000 per quality point
+        // Base calculation starts with script quality, scaled by era inflation
+        let baseGross = film.scriptQuality * 2000 * eraInflation;
 
         // Apply star power (total cast influence)
         if (film.cast && film.cast.length > 0) {
@@ -227,8 +235,8 @@ window.BoxOfficeSystem = (function() {
         }
 
         // Apply genre heat for current year
-        const currentYear = window.TimeSystem.getCurrentDate().year;
-        const yearHeat = GENRE_HEAT[currentYear] || GENRE_HEAT[1949];
+        const yearRef = window.TimeSystem ? window.TimeSystem.getCurrentDate().year : 1933;
+        const yearHeat = GENRE_HEAT[yearRef] || GENRE_HEAT[2010];
         const genreMultiplier = yearHeat[film.genre.toLowerCase()] || 1.0;
         baseGross *= genreMultiplier;
 
@@ -240,6 +248,11 @@ window.BoxOfficeSystem = (function() {
             baseGross *= 1.5; // Limited release - focused audience, better per-screen
         } else if (strategy === 'states_rights') {
             baseGross *= 1.0; // States' rights - flat guaranteed sale
+        }
+
+        // Apply MPAA audience multiplier (post-1968)
+        if (film.audienceMultiplier) {
+            baseGross *= film.audienceMultiplier;
         }
 
         return Math.floor(baseGross);
@@ -422,8 +435,13 @@ window.BoxOfficeSystem = (function() {
         const projectedGross = calculateBaseBoxOffice(film, strategy);
         const boxOfficeResults = simulateWeeklyBoxOffice(film, strategy, projectedGross);
         
-        // Pay marketing costs upfront
-        const marketingCost = DISTRIBUTION_STRATEGIES[strategy].marketingCost;
+        // Pay marketing costs upfront (scaled by era)
+        var marketingMult = 1.0;
+        if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
+            var yearNow = window.TimeSystem ? window.TimeSystem.getCurrentDate().year : 1933;
+            marketingMult = window.GameConstants.getEraScalingForYear(yearNow).marketingMult || 1.0;
+        }
+        const marketingCost = Math.floor(DISTRIBUTION_STRATEGIES[strategy].marketingCost * marketingMult);
         if (!window.FinancialSystem.canAfford(marketingCost)) {
             return { success: false, message: `Cannot afford $${marketingCost.toLocaleString()} marketing cost` };
         }
@@ -549,6 +567,9 @@ window.BoxOfficeSystem = (function() {
                             severity: netProfit >= 0 ? 'success' : 'warning'
                         });
                     }
+
+                    // Calculate and apply ancillary revenue (home video, syndication, etc.)
+                    applyAncillaryRevenue(film, gameState);
                 }
             }
         });
@@ -562,8 +583,16 @@ window.BoxOfficeSystem = (function() {
         const gameState = window.HollywoodMogul.getGameState();
         const budget = film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? film.budget ?? 0;
 
+        // Scale marketing costs by era
+        var mktMult = 1.0;
+        if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
+            var yr = window.TimeSystem ? window.TimeSystem.getCurrentDate().year : 1933;
+            mktMult = window.GameConstants.getEraScalingForYear(yr).marketingMult || 1.0;
+        }
+
         Object.keys(DISTRIBUTION_STRATEGIES).forEach(key => {
             const strategy = { ...DISTRIBUTION_STRATEGIES[key] };
+            strategy.marketingCost = Math.floor(strategy.marketingCost * mktMult);
 
             // Calculate projected returns for this film
             if (key !== 'states_rights') {
@@ -575,10 +604,10 @@ window.BoxOfficeSystem = (function() {
                 strategy.guaranteedPayment = calculateBaseBoxOffice(film, key);
                 strategy.projectedProfit = strategy.guaranteedPayment - budget;
             }
-            
+
             // Check affordability
             strategy.canAfford = strategy.marketingCost === 0 || window.FinancialSystem.canAfford(strategy.marketingCost);
-            
+
             strategies[key] = strategy;
         });
         
@@ -602,6 +631,139 @@ window.BoxOfficeSystem = (function() {
                 distribution: film.distribution,
                 actualBudget: film.actualBudget ?? film.currentBudget ?? film.originalBudget ?? 0
             }));
+    }
+
+    // ================================================================
+    // ANCILLARY REVENUE — Home video, TV syndication, international, streaming
+    // Revenue streams that unlock as the game progresses through eras.
+    // Calculated as % of domestic theatrical gross, paid as lump sum
+    // when theatrical run completes.
+    // ================================================================
+
+    const ANCILLARY_STREAMS = {
+        tv_syndication: {
+            name: 'TV Syndication',
+            startYear: 1955,
+            // Revenue as fraction of domestic theatrical gross, by era
+            revenueByEra: {
+                TV_THREAT: 0.10,
+                NEW_WAVE: 0.15,
+                RATINGS_ERA: 0.20,
+                NEW_HOLLYWOOD: 0.25,
+                BLOCKBUSTER_AGE: 0.30,
+                INDIE_BOOM: 0.25,
+                DIGITAL_DAWN: 0.20,
+                CONVERGENCE: 0.15
+            }
+        },
+        home_video: {
+            name: 'Home Video (VHS/DVD/Blu-ray)',
+            startYear: 1980,
+            revenueByEra: {
+                BLOCKBUSTER_AGE: 0.40,
+                INDIE_BOOM: 0.55,
+                DIGITAL_DAWN: 0.85,
+                CONVERGENCE: 0.60
+            }
+        },
+        international: {
+            name: 'International Markets',
+            startYear: 1945,
+            revenueByEra: {
+                POST_WAR: 0.15,
+                TV_THREAT: 0.20,
+                NEW_WAVE: 0.25,
+                RATINGS_ERA: 0.30,
+                NEW_HOLLYWOOD: 0.40,
+                BLOCKBUSTER_AGE: 0.55,
+                INDIE_BOOM: 0.65,
+                DIGITAL_DAWN: 0.75,
+                CONVERGENCE: 0.85
+            }
+        },
+        streaming: {
+            name: 'Digital/Streaming',
+            startYear: 2005,
+            revenueByEra: {
+                CONVERGENCE: 0.15
+            }
+        }
+    };
+
+    /**
+     * Calculate ancillary revenue for a completed film.
+     * Returns breakdown by stream and total.
+     */
+    function calculateAncillaryRevenue(film, gameYear) {
+        var eraKey = null;
+        if (window.GameConstants && window.GameConstants.getEraKeyForYear) {
+            eraKey = window.GameConstants.getEraKeyForYear(gameYear);
+        }
+        if (!eraKey) return { streams: [], total: 0 };
+
+        var domesticGross = film.totalGross || 0;
+        if (domesticGross <= 0) return { streams: [], total: 0 };
+
+        var streams = [];
+        var total = 0;
+
+        for (var key in ANCILLARY_STREAMS) {
+            var stream = ANCILLARY_STREAMS[key];
+            if (gameYear < stream.startYear) continue;
+
+            var pct = stream.revenueByEra[eraKey] || 0;
+            if (pct <= 0) continue;
+
+            var revenue = Math.floor(domesticGross * pct);
+            streams.push({
+                name: stream.name,
+                key: key,
+                percentage: Math.round(pct * 100),
+                revenue: revenue
+            });
+            total += revenue;
+        }
+
+        return { streams: streams, total: total };
+    }
+
+    /**
+     * Apply ancillary revenue to game state when theatrical run completes
+     */
+    function applyAncillaryRevenue(film, gameState) {
+        var gameYear = gameState.gameYear || 1933;
+        var result = calculateAncillaryRevenue(film, gameYear);
+
+        if (result.total <= 0) return null;
+
+        // Add revenue
+        gameState.cash += result.total;
+        gameState.totalRevenue += result.total;
+
+        if (window.FinancialSystem && window.FinancialSystem.addTransaction) {
+            window.FinancialSystem.addTransaction(result.total, 'Ancillary revenue: ' + film.title);
+        }
+
+        // Store on film for reporting
+        film.ancillaryRevenue = result;
+
+        // Generate alert with breakdown
+        var breakdownParts = [];
+        for (var i = 0; i < result.streams.length; i++) {
+            breakdownParts.push(result.streams[i].name + ': $' + result.streams[i].revenue.toLocaleString());
+        }
+
+        if (window.HollywoodMogul) {
+            window.HollywoodMogul.addAlert({
+                type: 'financial',
+                icon: '&#x1F4C0;',
+                message: '"' + film.title + '" ancillary revenue: $' + result.total.toLocaleString() +
+                    ' (' + breakdownParts.join(', ') + ')',
+                priority: 'medium'
+            });
+        }
+
+        return result;
     }
 
     // Initialize system
@@ -633,6 +795,9 @@ window.BoxOfficeSystem = (function() {
         simulateWeeklyBoxOffice: simulateWeeklyBoxOffice,
         processWeeklyBoxOffice: processWeeklyBoxOffice,
         getGenreHeatForYear: getGenreHeatForYear,
-        GENRE_HEAT: GENRE_HEAT
+        calculateAncillaryRevenue: calculateAncillaryRevenue,
+        applyAncillaryRevenue: applyAncillaryRevenue,
+        GENRE_HEAT: GENRE_HEAT,
+        ANCILLARY_STREAMS: ANCILLARY_STREAMS
     };
 })();

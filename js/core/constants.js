@@ -208,6 +208,34 @@ window.GameConstants = (function() {
         CONVERGENCE:     { inflationMult: 16.0, budgetRange: [30000000, 250000000],monthlyBurnMult: 12.0, marketingMult: 25.0 }
     };
 
+    // ================================================================
+    // ERA UTILITY
+    // ================================================================
+    function getEraKeyForYear(year) {
+        if (year <= 1934) return 'PRE_CODE';
+        if (year <= 1941) return 'GOLDEN_AGE';
+        if (year <= 1945) return 'WAR_YEARS';
+        if (year <= 1949) return 'POST_WAR';
+        if (year <= 1959) return 'TV_THREAT';
+        if (year <= 1966) return 'NEW_WAVE';
+        if (year <= 1972) return 'RATINGS_ERA';
+        if (year <= 1979) return 'NEW_HOLLYWOOD';
+        if (year <= 1989) return 'BLOCKBUSTER_AGE';
+        if (year <= 1996) return 'INDIE_BOOM';
+        if (year <= 2004) return 'DIGITAL_DAWN';
+        return 'CONVERGENCE';
+    }
+
+    function getEraScalingForYear(year) {
+        var key = getEraKeyForYear(year);
+        return ERA_SCALING[key] || ERA_SCALING.PRE_CODE;
+    }
+
+    function getContentRegulationForYear(year) {
+        var key = getEraKeyForYear(year);
+        return CENSORSHIP.CONTENT_REGULATION[key] || 'hays_code';
+    }
+
     return {
         FINANCIAL,
         TIME,
@@ -217,6 +245,9 @@ window.GameConstants = (function() {
         PRODUCTION,
         TALENT,
         UI,
-        ERA_SCALING
+        ERA_SCALING,
+        getEraKeyForYear,
+        getEraScalingForYear,
+        getContentRegulationForYear
     };
 })();

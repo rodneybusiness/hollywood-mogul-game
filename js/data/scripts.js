@@ -2077,13 +2077,159 @@ window.ScriptLibrary = (function() {
                 budgetCategory: "B-movie",
                 historicalNotes: "Low budget noir used night shooting to hide cheap sets"
             }
+        ],
+
+        // ============================================================
+        // TV THREAT (1950-1959) — CinemaScope epics, peak westerns, sci-fi, teen rebels
+        // ============================================================
+        tvThreat: [
+            { title: "The Searchers of Mesa Verde", genre: "western", year: 1956, budget: 2500000, quality: 86, description: "A Civil War veteran obsessively searches for his niece kidnapped by raiders across the vast American frontier.", censorRisk: 20, shootingDays: 35, themes: ["obsession", "frontier", "redemption"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 8 }, locationNeeds: ["desert", "canyon", "frontier_fort"], historicalNotes: "Widescreen Westerns became prestige cinema in the CinemaScope era" },
+            { title: "The Ten Plagues", genre: "drama", year: 1956, budget: 13000000, quality: 82, description: "A biblical epic following Moses from Egyptian prince to deliverer of his people, filmed in stunning VistaVision.", censorRisk: 10, shootingDays: 90, themes: ["religion", "freedom", "spectacle"], castRequirements: { male_lead: 2, female_lead: 2, supporting: 20 }, locationNeeds: ["egypt_sets", "desert", "red_sea"], historicalNotes: "Biblical epics were Hollywood's weapon against television" },
+            { title: "Creature from the Black Depths", genre: "horror", year: 1954, budget: 500000, quality: 68, description: "A scientific expedition discovers a prehistoric gill-man lurking in the Amazon, with terrifying underwater photography.", censorRisk: 25, shootingDays: 20, themes: ["science", "nature", "horror"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 5 }, locationNeeds: ["lagoon", "jungle", "underwater"], historicalNotes: "Monster movies thrived as drive-in double features" },
+            { title: "Invasion of the Body Thieves", genre: "sci_fi", year: 1956, budget: 400000, quality: 78, description: "A small-town doctor discovers that his neighbors are being replaced by emotionless alien duplicates grown in giant seed pods.", censorRisk: 15, shootingDays: 18, themes: ["paranoia", "cold_war", "conformity"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["small_town", "greenhouse", "hospital"], historicalNotes: "1950s sci-fi reflected Cold War paranoia about communist infiltration" },
+            { title: "Rebel on the Highway", genre: "drama", year: 1955, budget: 1500000, quality: 80, description: "A troubled teenager from a dysfunctional family struggles to fit in at his new school, finding solace in forbidden drag racing.", censorRisk: 35, shootingDays: 24, themes: ["rebellion", "youth", "alienation"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["high_school", "chickie_run", "planetarium"], historicalNotes: "Teen rebellion films tapped the emerging youth market" },
+            { title: "Singin' in the Spotlight", genre: "musical", year: 1952, budget: 2500000, quality: 90, description: "A silent-film star and a chorus girl navigate the chaotic transition to talkies in this joyous Technicolor musical.", censorRisk: 5, shootingDays: 40, themes: ["showbusiness", "innovation", "romance"], castRequirements: { male_lead: 2, female_lead: 1, dancers: 15 }, locationNeeds: ["sound_stage", "theater", "hollywood_street"], historicalNotes: "MGM musicals represented the peak of studio craftsmanship" },
+            { title: "High Noon at Hadleyville", genre: "western", year: 1952, budget: 800000, quality: 88, description: "A marshal who has just hung up his guns must face a gang of killers alone when the entire town refuses to help him.", censorRisk: 15, shootingDays: 25, themes: ["courage", "cowardice", "duty"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 8 }, locationNeeds: ["western_town", "saloon", "train_station"], historicalNotes: "An allegory for the Hollywood blacklist era" },
+            { title: "Vertigo Heights", genre: "thriller", year: 1958, budget: 2000000, quality: 85, description: "A retired detective with a crippling fear of heights becomes obsessed with a mysterious woman who seems possessed by the dead.", censorRisk: 30, shootingDays: 28, themes: ["obsession", "deception", "identity"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 }, locationNeeds: ["san_francisco", "bell_tower", "apartment"], historicalNotes: "Psychological thrillers pushed boundaries of what studios would finance" },
+            { title: "Around the Globe in 80 Days", genre: "adventure", year: 1956, budget: 6000000, quality: 75, description: "An eccentric Victorian gentleman wagers he can circumnavigate the globe in just 80 days, encountering spectacular adventures.", censorRisk: 5, shootingDays: 60, themes: ["adventure", "spectacle", "wager"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 30 }, locationNeeds: ["london", "india", "american_west"], historicalNotes: "Globe-trotting spectacles with all-star cameos fought TV with sheer scale" },
+            { title: "The Bridge on the River Kwae", genre: "war", year: 1957, budget: 3000000, quality: 89, description: "British POWs build a strategic bridge for their Japanese captors while Allied commandos plan to destroy it.", censorRisk: 20, shootingDays: 40, themes: ["duty", "madness", "war"], castRequirements: { male_lead: 3, female_lead: 0, supporting: 10 }, locationNeeds: ["jungle", "prison_camp", "river_bridge"], historicalNotes: "Prestige war epics combined spectacle with serious themes" },
+            { title: "Attack of the 50-Foot Woman", genre: "sci_fi", year: 1958, budget: 200000, quality: 45, description: "After an alien encounter, a wealthy socialite grows to enormous size and terrorizes her unfaithful husband and his mistress.", censorRisk: 30, shootingDays: 12, themes: ["revenge", "aliens", "infidelity"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 }, locationNeeds: ["desert", "mansion", "town"], historicalNotes: "Cheap sci-fi exploitation films packed drive-in theaters" },
+            { title: "The Apartment on Park Avenue", genre: "comedy", year: 1959, budget: 1800000, quality: 87, description: "A lonely office worker loans his apartment to executives for their affairs, until he falls for his boss's mistress.", censorRisk: 40, shootingDays: 28, themes: ["loneliness", "corruption", "romance"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["office_building", "apartment", "chinese_restaurant"], historicalNotes: "Sophisticated comedies pushed boundaries as the Code weakened" }
+        ],
+
+        // ============================================================
+        // NEW WAVE (1960-1966) — Hitchcock, spy films, spectacle epics, Code crumbles
+        // ============================================================
+        newWave: [
+            { title: "The Birds of Bodega Bay", genre: "horror", year: 1963, budget: 3000000, quality: 82, description: "Unexplained mass bird attacks terrorize a small coastal town, turning nature itself into a weapon of destruction.", censorRisk: 35, shootingDays: 40, themes: ["nature", "terror", "isolation"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["coastal_town", "schoolhouse", "farmhouse"], historicalNotes: "Hitchcock pioneered special effects horror with no musical score" },
+            { title: "Doctor Strange Love", genre: "comedy", year: 1964, budget: 1800000, quality: 90, description: "A deranged general launches a nuclear attack on the Soviets, and the War Room scrambles to prevent Armageddon in this savage satire.", censorRisk: 50, shootingDays: 30, themes: ["cold_war", "satire", "nuclear"], castRequirements: { male_lead: 3, female_lead: 0, supporting: 8 }, locationNeeds: ["war_room", "bomber_cockpit", "air_base"], historicalNotes: "Black comedies about nuclear war shocked 1960s audiences" },
+            { title: "Cleopatra's Throne", genre: "drama", year: 1963, budget: 44000000, quality: 65, description: "The legendary Egyptian queen seduces Caesar and Antony in this lavish four-hour epic that nearly bankrupts the studio.", censorRisk: 40, shootingDays: 120, themes: ["power", "seduction", "empire"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 25 }, locationNeeds: ["rome", "egypt_palace", "battle_sea"], historicalNotes: "Colossal budget overruns nearly destroyed 20th Century Fox" },
+            { title: "Agent 008: Goldeneye", genre: "thriller", year: 1964, budget: 3000000, quality: 77, description: "A suave British secret agent battles a gold-obsessed villain planning to irradiate Fort Knox.", censorRisk: 25, shootingDays: 35, themes: ["espionage", "glamour", "cold_war"], castRequirements: { male_lead: 1, female_lead: 2, supporting: 6 }, locationNeeds: ["casino", "villain_lair", "exotic_locale"], historicalNotes: "Spy films became a global phenomenon in the 1960s" },
+            { title: "The Melody of Music", genre: "musical", year: 1965, budget: 8000000, quality: 83, description: "A young Austrian governess brings music and joy to a strict widower's seven children as the Nazis close in.", censorRisk: 5, shootingDays: 50, themes: ["music", "family", "resistance"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 10 }, locationNeeds: ["austrian_alps", "mansion", "abbey"], historicalNotes: "The last great studio musical smash before the genre collapsed" },
+            { title: "To Kill a Songbird", genre: "drama", year: 1962, budget: 2000000, quality: 91, description: "A principled Southern lawyer defends a Black man falsely accused of assaulting a white woman, as seen through his daughter's eyes.", censorRisk: 45, shootingDays: 30, themes: ["justice", "racism", "innocence"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 8 }, locationNeeds: ["courthouse", "southern_town", "porch"], historicalNotes: "Social justice dramas gained prominence during the Civil Rights era" },
+            { title: "Lawrence of the Desert", genre: "adventure", year: 1962, budget: 15000000, quality: 92, description: "A brilliant but tortured British officer leads an Arab revolt against the Ottoman Empire across endless desert landscapes.", censorRisk: 15, shootingDays: 70, themes: ["identity", "colonialism", "spectacle"], castRequirements: { male_lead: 2, female_lead: 0, supporting: 12 }, locationNeeds: ["desert", "damascus", "cairo"], historicalNotes: "70mm roadshow epics defined prestige cinema in the early 1960s" },
+            { title: "Psycho Ward", genre: "horror", year: 1960, budget: 800000, quality: 88, description: "A woman on the run checks into a remote motel run by a dangerously disturbed young man and his overbearing mother.", censorRisk: 60, shootingDays: 22, themes: ["madness", "murder", "deception"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 }, locationNeeds: ["motel", "old_house", "office"], historicalNotes: "Low-budget horror could outgross expensive epics" },
+            { title: "The Great Escape Route", genre: "war", year: 1963, budget: 4000000, quality: 80, description: "Allied POWs plan the most ambitious mass escape from an \"escape-proof\" German prison camp.", censorRisk: 15, shootingDays: 40, themes: ["ingenuity", "camaraderie", "freedom"], castRequirements: { male_lead: 4, female_lead: 0, supporting: 10 }, locationNeeds: ["prison_camp", "tunnel", "countryside"], historicalNotes: "All-star ensemble casts became a major selling point" },
+            { title: "Beach Blanket Bash", genre: "comedy", year: 1965, budget: 600000, quality: 50, description: "Surf-crazy teens throw the ultimate beach party while dealing with bumbling bikers and a scheming real estate developer.", censorRisk: 15, shootingDays: 14, themes: ["youth", "surf", "romance"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 8 }, locationNeeds: ["beach", "surf_shack", "boardwalk"], historicalNotes: "Beach party films were cheap, profitable, and targeted teenagers" },
+            { title: "West Side Rumble", genre: "musical", year: 1961, budget: 6000000, quality: 86, description: "Romeo and Juliet retold as rival street gangs in 1950s New York, with electrifying dance sequences and soaring music.", censorRisk: 30, shootingDays: 45, themes: ["gang_violence", "forbidden_love", "prejudice"], castRequirements: { male_lead: 2, female_lead: 1, dancers: 20 }, locationNeeds: ["new_york_streets", "playground", "dance_hall"], historicalNotes: "Location shooting in actual New York streets was revolutionary" },
+            { title: "The Manchurian Candidate's Return", genre: "thriller", year: 1962, budget: 2200000, quality: 84, description: "A Korean War hero is secretly brainwashed into becoming a political assassin, controlled by communist handlers.", censorRisk: 55, shootingDays: 30, themes: ["brainwashing", "conspiracy", "politics"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 6 }, locationNeeds: ["political_rally", "apartment", "garden_party"], historicalNotes: "Political thrillers reflected Cold War anxieties about hidden enemies" }
+        ],
+
+        // ============================================================
+        // RATINGS ERA (1967-1972) — Counterculture, MPAA replaces Code, low-budget revolution
+        // ============================================================
+        ratingsEra: [
+            { title: "Easy Highways", genre: "drama", year: 1969, budget: 400000, quality: 78, description: "Two hippie bikers ride across America selling drugs to fund their freedom, only to discover the American Dream is dead.", censorRisk: 75, shootingDays: 14, themes: ["freedom", "counterculture", "drugs"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 4 }, locationNeeds: ["highway", "commune", "southern_diner"], historicalNotes: "Micro-budget films proved audiences craved authentic counterculture stories" },
+            { title: "The Godson", genre: "crime", year: 1972, budget: 6000000, quality: 95, description: "The aging patriarch of a crime dynasty transfers control to his reluctant youngest son, who embraces the family business.", censorRisk: 65, shootingDays: 60, themes: ["family", "power", "corruption"], castRequirements: { male_lead: 3, female_lead: 1, supporting: 12 }, locationNeeds: ["estate", "restaurant", "sicily"], historicalNotes: "Crime epics achieved artistic legitimacy in the Ratings Era" },
+            { title: "Midnight Cowboy Blues", genre: "drama", year: 1969, budget: 1000000, quality: 85, description: "A naive Texas hustler and a sickly con man form an unlikely friendship while struggling to survive in New York City.", censorRisk: 80, shootingDays: 25, themes: ["loneliness", "desperation", "friendship"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 4 }, locationNeeds: ["times_square", "flophouse", "bus_station"], historicalNotes: "The only X-rated film to win Best Picture, proving the Ratings Era's freedom" },
+            { title: "Bonnie and Claude", genre: "crime", year: 1967, budget: 2500000, quality: 84, description: "A charismatic couple embarks on a Depression-era crime spree across the Midwest, becoming folk heroes before a violent end.", censorRisk: 70, shootingDays: 30, themes: ["rebellion", "violence", "celebrity"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["rural_bank", "dusty_road", "motel"], historicalNotes: "Graphic violence shattered the Hays Code's last pretense of authority" },
+            { title: "Night of the Living Corpses", genre: "horror", year: 1968, budget: 115000, quality: 72, description: "Strangers barricade themselves in a farmhouse as the recently dead rise and attack the living.", censorRisk: 85, shootingDays: 10, themes: ["survival", "horror", "social_commentary"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["farmhouse", "cemetery", "basement"], historicalNotes: "Micro-budget horror created the zombie genre and shocked mainstream America" },
+            { title: "2001: A Space Journey", genre: "sci_fi", year: 1968, budget: 10000000, quality: 93, description: "From the dawn of man to the moons of Jupiter, a mysterious monolith guides humanity's evolution in this visionary epic.", censorRisk: 10, shootingDays: 80, themes: ["evolution", "technology", "cosmic"], castRequirements: { male_lead: 2, female_lead: 0, supporting: 6 }, locationNeeds: ["space_station", "lunar_surface", "spacecraft"], historicalNotes: "Revolutionary special effects and avant-garde storytelling redefined sci-fi" },
+            { title: "The Graduate's Dilemma", genre: "comedy", year: 1967, budget: 3000000, quality: 86, description: "A directionless college graduate is seduced by an older woman, then falls for her daughter, scandalizing suburban America.", censorRisk: 55, shootingDays: 25, themes: ["alienation", "sexuality", "generation_gap"], castRequirements: { male_lead: 1, female_lead: 2, supporting: 4 }, locationNeeds: ["suburban_home", "hotel", "church"], historicalNotes: "The counterculture generation gap became a box office goldmine" },
+            { title: "Shaft's Big Score", genre: "crime", year: 1971, budget: 500000, quality: 70, description: "A cool Black private detective navigates Harlem's criminal underworld to rescue a kidnapped girl.", censorRisk: 50, shootingDays: 18, themes: ["empowerment", "justice", "urban"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["harlem", "nightclub", "warehouse"], historicalNotes: "Blaxploitation films gave Black filmmakers and audiences representation" },
+            { title: "MASH Unit", genre: "comedy", year: 1970, budget: 3000000, quality: 83, description: "Irreverent Army surgeons use dark humor and pranks to cope with the insanity of a mobile hospital during the Korean War.", censorRisk: 45, shootingDays: 28, themes: ["war", "satire", "absurdity"], castRequirements: { male_lead: 3, female_lead: 1, supporting: 8 }, locationNeeds: ["army_camp", "operating_room", "mess_tent"], historicalNotes: "Anti-war satire disguised as Korean War comedy resonated during Vietnam" },
+            { title: "A Clockwork Tangerine", genre: "drama", year: 1971, budget: 2000000, quality: 88, description: "A violent young delinquent undergoes experimental aversion therapy that robs him of free will in a dystopian near-future Britain.", censorRisk: 90, shootingDays: 30, themes: ["violence", "free_will", "dystopia"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["council_estate", "prison", "modernist_interior"], historicalNotes: "Ultra-violent art films tested the new ratings system's limits" },
+            { title: "The French Connection Point", genre: "thriller", year: 1971, budget: 1800000, quality: 85, description: "A relentless NYPD detective pursues a suave French heroin smuggler through the streets of New York.", censorRisk: 45, shootingDays: 30, themes: ["obsession", "corruption", "drugs"], castRequirements: { male_lead: 2, female_lead: 0, supporting: 6 }, locationNeeds: ["brooklyn", "subway", "marseille"], historicalNotes: "Gritty location shooting and real car chases set new standards for realism" },
+            { title: "Butch and the Sundance Kid", genre: "western", year: 1969, budget: 6000000, quality: 84, description: "Two charming outlaws flee to Bolivia as the Old West closes in, mixing comedy with inevitable tragedy.", censorRisk: 25, shootingDays: 35, themes: ["friendship", "outlaws", "nostalgia"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 5 }, locationNeeds: ["western_town", "train", "bolivia"], historicalNotes: "Revisionist Westerns romanticized outlaws while mourning the genre's death" }
+        ],
+
+        // ============================================================
+        // NEW HOLLYWOOD (1973-1979) — Auteurs, disaster films, blockbusters born
+        // ============================================================
+        newHollywood: [
+            { title: "Jaws of the Deep", genre: "thriller", year: 1975, budget: 9000000, quality: 90, description: "A massive great white shark terrorizes a beach town, and three very different men set out to hunt it down.", censorRisk: 35, shootingDays: 55, themes: ["survival", "nature", "fear"], castRequirements: { male_lead: 3, female_lead: 0, supporting: 6 }, locationNeeds: ["beach_town", "ocean", "boat"], historicalNotes: "The first summer blockbuster invented wide-release saturation marketing" },
+            { title: "Star Conflicts", genre: "sci_fi", year: 1977, budget: 11000000, quality: 88, description: "A farm boy joins a ragtag rebellion against a galactic empire, guided by an ancient mystical order.", censorRisk: 5, shootingDays: 65, themes: ["heroism", "destiny", "good_vs_evil"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 8 }, locationNeeds: ["desert_planet", "space_station", "rebel_base"], historicalNotes: "Merchandise and sequels created the modern franchise model" },
+            { title: "The Exorcism", genre: "horror", year: 1973, budget: 12000000, quality: 86, description: "A mother watches helplessly as her 12-year-old daughter is possessed by a demon, turning to two priests for salvation.", censorRisk: 85, shootingDays: 40, themes: ["faith", "evil", "motherhood"], castRequirements: { male_lead: 2, female_lead: 2, supporting: 4 }, locationNeeds: ["georgetown_house", "church", "hospital"], historicalNotes: "Horror became prestige cinema, grossing more than most dramas" },
+            { title: "Rocky Road", genre: "drama", year: 1976, budget: 1000000, quality: 83, description: "A small-time boxer from Philadelphia gets a once-in-a-lifetime shot at the heavyweight championship.", censorRisk: 20, shootingDays: 25, themes: ["underdog", "determination", "love"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 }, locationNeeds: ["boxing_ring", "philadelphia_streets", "meat_locker"], historicalNotes: "Low-budget underdog story became the decade's most inspirational film" },
+            { title: "Apocalypse Then", genre: "war", year: 1979, budget: 20000000, quality: 92, description: "A special ops captain journeys upriver into Cambodia to terminate a rogue colonel who has gone insane in the jungle.", censorRisk: 75, shootingDays: 80, themes: ["madness", "war", "morality"], castRequirements: { male_lead: 2, female_lead: 0, supporting: 8 }, locationNeeds: ["jungle_river", "military_base", "temple"], historicalNotes: "A legendary troubled production that nearly destroyed its director" },
+            { title: "Taxi Driver's Confession", genre: "thriller", year: 1976, budget: 1300000, quality: 89, description: "An insomniac Vietnam vet driving a taxi through New York's seedy streets descends into violent vigilantism.", censorRisk: 80, shootingDays: 25, themes: ["alienation", "violence", "redemption"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 }, locationNeeds: ["new_york_streets", "taxi", "apartment"], historicalNotes: "Auteur-driven character studies defined the New Hollywood movement" },
+            { title: "The Towering Flame", genre: "drama", year: 1974, budget: 14000000, quality: 72, description: "A massive fire breaks out in the world's tallest skyscraper on its dedication night, trapping hundreds of guests.", censorRisk: 25, shootingDays: 45, themes: ["disaster", "heroism", "hubris"], castRequirements: { male_lead: 3, female_lead: 2, supporting: 15 }, locationNeeds: ["skyscraper", "penthouse", "stairwell"], historicalNotes: "Disaster films with all-star casts dominated the mid-1970s" },
+            { title: "Close Encounters of the Third Type", genre: "sci_fi", year: 1977, budget: 19000000, quality: 87, description: "Ordinary people across the globe experience mysterious visions that draw them to a remote mountain for humanity's first alien contact.", censorRisk: 5, shootingDays: 50, themes: ["wonder", "obsession", "contact"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["suburban_home", "devils_tower", "desert"], historicalNotes: "Spielberg proved sci-fi could be optimistic and emotionally profound" },
+            { title: "Chinatown Confidential", genre: "crime", year: 1974, budget: 6000000, quality: 91, description: "A 1930s private eye uncovers a conspiracy involving water rights, real estate corruption, and terrible family secrets in Los Angeles.", censorRisk: 55, shootingDays: 35, themes: ["corruption", "incest", "power"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["los_angeles", "reservoir", "mansion"], historicalNotes: "Neo-noir masterpiece showed the New Hollywood at its most cynical" },
+            { title: "Enter the Dragon's Den", genre: "action", year: 1973, budget: 850000, quality: 74, description: "A martial arts master enters an underground tournament on a remote island to avenge his sister and expose a crime lord.", censorRisk: 40, shootingDays: 22, themes: ["revenge", "martial_arts", "honor"], castRequirements: { male_lead: 3, female_lead: 1, supporting: 10 }, locationNeeds: ["island_fortress", "tournament_arena", "underground_lair"], historicalNotes: "Martial arts films crossed over to mainstream Western audiences" },
+            { title: "One Flew Over the Asylum", genre: "drama", year: 1975, budget: 4400000, quality: 93, description: "A charming criminal fakes insanity to serve his sentence in a mental institution, clashing with a tyrannical nurse.", censorRisk: 50, shootingDays: 30, themes: ["freedom", "authority", "madness"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 10 }, locationNeeds: ["mental_hospital", "ward", "basketball_court"], historicalNotes: "One of only three films to sweep all five major Oscar categories" },
+            { title: "Superman Soars", genre: "sci_fi", year: 1978, budget: 55000000, quality: 80, description: "The last son of a dying planet is raised on a Kansas farm and becomes Earth's greatest hero in Metropolis.", censorRisk: 5, shootingDays: 55, themes: ["heroism", "identity", "hope"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["metropolis", "fortress_of_solitude", "kansas_farm"], historicalNotes: "Proved comic book adaptations could work as big-budget prestige films" }
+        ],
+
+        // ============================================================
+        // BLOCKBUSTER AGE (1980-1989) — Action, sci-fi, teen comedies, sequels, VHS
+        // ============================================================
+        blockbusterAge: [
+            { title: "Steel Fortress", genre: "action", year: 1985, budget: 25000000, quality: 78, description: "A maverick NYPD cop wages a one-man war against terrorists who seize a downtown skyscraper on Christmas Eve.", censorRisk: 35, shootingDays: 45, themes: ["heroism", "terrorism", "survival"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 8 }, locationNeeds: ["skyscraper", "rooftop", "parking_garage"], historicalNotes: "High-concept action with a marketable premise dominated the 1980s" },
+            { title: "Raiders of the Lost Temple", genre: "adventure", year: 1981, budget: 20000000, quality: 90, description: "A globe-trotting archaeologist races Nazis to find the Ark of the Covenant before its power falls into evil hands.", censorRisk: 15, shootingDays: 50, themes: ["adventure", "archaeology", "nazis"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 8 }, locationNeeds: ["jungle_temple", "desert", "submarine_base"], historicalNotes: "The ultimate throwback adventure serial, updated for modern audiences" },
+            { title: "The Termination Machine", genre: "sci_fi", year: 1984, budget: 6400000, quality: 82, description: "A cybernetic assassin from the future is sent back in time to kill the mother of humanity's future resistance leader.", censorRisk: 40, shootingDays: 30, themes: ["fate", "technology", "survival"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 4 }, locationNeeds: ["los_angeles", "tech_noir_club", "factory"], historicalNotes: "Low-budget sci-fi action could launch massive franchises" },
+            { title: "Breakfast at Detention", genre: "comedy", year: 1985, budget: 1000000, quality: 82, description: "Five very different high school students bond during a Saturday detention, discovering they have more in common than they thought.", censorRisk: 25, shootingDays: 18, themes: ["identity", "conformity", "youth"], castRequirements: { male_lead: 3, female_lead: 2, supporting: 2 }, locationNeeds: ["high_school_library", "hallway", "parking_lot"], historicalNotes: "Teen comedies became their own profitable genre in the 1980s" },
+            { title: "Ghost Chasers", genre: "comedy", year: 1984, budget: 30000000, quality: 80, description: "Three eccentric parapsychologists start a ghost removal business in New York City, battling an ancient Sumerian god.", censorRisk: 10, shootingDays: 40, themes: ["comedy", "supernatural", "entrepreneurship"], castRequirements: { male_lead: 3, female_lead: 1, supporting: 6 }, locationNeeds: ["firehouse", "apartment_building", "new_york"], historicalNotes: "Effects-heavy comedies became tentpole releases" },
+            { title: "Elm Street Nightmares", genre: "horror", year: 1984, budget: 1800000, quality: 72, description: "A disfigured killer invades teenagers' dreams, murdering them in their sleep in increasingly surreal ways.", censorRisk: 70, shootingDays: 16, themes: ["dreams", "murder", "teenage_fear"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["suburban_house", "dreamscape", "boiler_room"], historicalNotes: "Slasher franchises generated enormous returns on modest budgets" },
+            { title: "Top Ace", genre: "action", year: 1986, budget: 15000000, quality: 70, description: "A hotshot Navy fighter pilot competes at an elite training school while dealing with the ghosts of his father's legacy.", censorRisk: 10, shootingDays: 35, themes: ["competition", "pride", "legacy"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["aircraft_carrier", "bar", "air_base"], historicalNotes: "Military action films boosted Navy recruitment by 500%" },
+            { title: "Back to Yesterday", genre: "sci_fi", year: 1985, budget: 19000000, quality: 85, description: "A teenager accidentally travels 30 years into the past in a time machine built from a DeLorean, accidentally preventing his parents from meeting.", censorRisk: 10, shootingDays: 35, themes: ["time_travel", "family", "adventure"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 5 }, locationNeeds: ["suburban_town", "high_school", "clock_tower"], historicalNotes: "Family-friendly adventure-comedies with sci-fi hooks were license to print money" },
+            { title: "Platoon's Crossing", genre: "war", year: 1986, budget: 6000000, quality: 87, description: "A young soldier in Vietnam is torn between two sergeants representing good and evil as combat destroys innocence.", censorRisk: 60, shootingDays: 30, themes: ["war", "morality", "coming_of_age"], castRequirements: { male_lead: 3, female_lead: 0, supporting: 10 }, locationNeeds: ["jungle", "base_camp", "village"], historicalNotes: "Vietnam War films finally confronted America's collective trauma" },
+            { title: "The Princess Bride's Tale", genre: "romance", year: 1987, budget: 16000000, quality: 84, description: "A grandfather reads a fairy tale of fencing, fighting, torture, true love, and miracles to his sick grandson.", censorRisk: 5, shootingDays: 35, themes: ["love", "adventure", "fairy_tale"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 8 }, locationNeeds: ["castle", "forest", "cliffs_of_insanity"], historicalNotes: "Beloved cult classic that found its massive audience on home video" },
+            { title: "Rain Main", genre: "drama", year: 1988, budget: 25000000, quality: 86, description: "A selfish yuppie discovers he has an autistic savant brother and kidnaps him from an institution for a cross-country road trip.", censorRisk: 15, shootingDays: 35, themes: ["family", "disability", "redemption"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 3 }, locationNeeds: ["institution", "las_vegas", "highway"], historicalNotes: "Star-driven prestige dramas could still compete at the blockbuster box office" },
+            { title: "Blade Sprinter", genre: "sci_fi", year: 1982, budget: 28000000, quality: 88, description: "In a rain-soaked dystopian Los Angeles, a retired detective hunts rogue androids who are desperate to extend their lifespans.", censorRisk: 30, shootingDays: 40, themes: ["humanity", "mortality", "dystopia"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 }, locationNeeds: ["dystopian_city", "rooftop", "noodle_bar"], historicalNotes: "A box office disappointment that became the most influential sci-fi film of the decade on VHS" }
+        ],
+
+        // ============================================================
+        // INDIE BOOM (1990-1996) — Sundance, Tarantino, CGI dawn, indie/tentpole split
+        // ============================================================
+        indieBoom: [
+            { title: "Reservoir Hounds", genre: "crime", year: 1992, budget: 1200000, quality: 82, description: "A jewel heist goes catastrophically wrong, and the surviving criminals hole up in a warehouse trying to identify the rat.", censorRisk: 65, shootingDays: 20, themes: ["betrayal", "violence", "loyalty"], castRequirements: { male_lead: 6, female_lead: 0, supporting: 3 }, locationNeeds: ["warehouse", "diner", "car"], historicalNotes: "Sundance launched a new wave of ultra-cool independent crime films" },
+            { title: "Pulp Friction", genre: "crime", year: 1994, budget: 8000000, quality: 93, description: "The intersecting stories of two hitmen, a boxer, and a mob boss's wife unfold in a kaleidoscopic Los Angeles underworld.", censorRisk: 70, shootingDays: 35, themes: ["crime", "redemption", "pop_culture"], castRequirements: { male_lead: 3, female_lead: 1, supporting: 8 }, locationNeeds: ["diner", "apartment", "boxing_ring"], historicalNotes: "Non-linear storytelling and pop culture dialogue redefined cool" },
+            { title: "Jurassic Theme Park", genre: "sci_fi", year: 1993, budget: 63000000, quality: 85, description: "A billionaire's cloned dinosaur theme park goes catastrophically wrong when the animals escape their enclosures.", censorRisk: 20, shootingDays: 50, themes: ["technology", "hubris", "survival"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 5 }, locationNeeds: ["tropical_island", "lab", "jungle"], historicalNotes: "CGI dinosaurs proved digital effects could create photorealistic creatures" },
+            { title: "Schindler's Ledger", genre: "drama", year: 1993, budget: 22000000, quality: 95, description: "A German industrialist saves over a thousand Jews from the Holocaust by employing them in his factories.", censorRisk: 45, shootingDays: 55, themes: ["holocaust", "redemption", "humanity"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 15 }, locationNeeds: ["krakow", "concentration_camp", "factory"], historicalNotes: "Black-and-white prestige filmmaking proved commercially viable" },
+            { title: "Forrest's Run", genre: "comedy", year: 1994, budget: 55000000, quality: 82, description: "A simple man from Alabama stumbles through every major event of the 1960s and 70s, achieving inadvertent greatness.", censorRisk: 15, shootingDays: 45, themes: ["innocence", "history", "destiny"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["alabama", "vietnam", "washington_dc"], historicalNotes: "Digital effects seamlessly inserted characters into historical footage" },
+            { title: "The Shawshank Atonement", genre: "drama", year: 1994, budget: 25000000, quality: 92, description: "A wrongfully convicted banker forms a transformative friendship over decades in a brutal Maine state prison.", censorRisk: 35, shootingDays: 40, themes: ["hope", "friendship", "injustice"], castRequirements: { male_lead: 2, female_lead: 0, supporting: 8 }, locationNeeds: ["prison", "library", "rooftop"], historicalNotes: "A box office underperformer that became the most-rented video of all time" },
+            { title: "The Silence of the Wolves", genre: "thriller", year: 1991, budget: 19000000, quality: 91, description: "An FBI trainee seeks the help of an imprisoned cannibal psychiatrist to catch another serial killer at large.", censorRisk: 70, shootingDays: 35, themes: ["psychology", "evil", "manipulation"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["fbi_academy", "prison_cell", "basement"], historicalNotes: "Horror-thriller swept the Big Five Oscars, proving genre film excellence" },
+            { title: "Toy Warriors", genre: "animated", year: 1995, budget: 30000000, quality: 86, description: "A cowboy toy's world is turned upside down when a flashy space ranger action figure threatens his position as the favorite.", censorRisk: 5, shootingDays: 0, themes: ["friendship", "jealousy", "identity"], castRequirements: { voice_cast: 6 }, locationNeeds: ["bedroom", "gas_station", "moving_van"], historicalNotes: "The first fully CGI-animated feature film revolutionized animation forever" },
+            { title: "The Usual Suspects Lineup", genre: "thriller", year: 1995, budget: 6000000, quality: 85, description: "Five criminals thrown together in a police lineup pull off a massive heist, but who is the mysterious mastermind behind it all?", censorRisk: 40, shootingDays: 25, themes: ["deception", "identity", "crime"], castRequirements: { male_lead: 5, female_lead: 0, supporting: 4 }, locationNeeds: ["police_station", "boat_dock", "office"], historicalNotes: "Twist-ending thrillers became a staple of 1990s cinema" },
+            { title: "Unforgiven Sins", genre: "western", year: 1992, budget: 14500000, quality: 89, description: "A retired outlaw reluctantly takes one last job to collect a bounty, confronting the violence he thought he'd left behind.", censorRisk: 40, shootingDays: 30, themes: ["violence", "redemption", "legacy"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 6 }, locationNeeds: ["frontier_town", "ranch", "prairie"], historicalNotes: "A revisionist Western that deconstructed the genre's mythology" },
+            { title: "Groundhog Day Loop", genre: "comedy", year: 1993, budget: 14600000, quality: 84, description: "A cynical TV weatherman relives the same day over and over in a small Pennsylvania town until he learns to be a better person.", censorRisk: 5, shootingDays: 28, themes: ["self_improvement", "repetition", "love"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["small_town", "hotel", "town_square"], historicalNotes: "High-concept comedies proved studios didn't need explosions to draw audiences" },
+            { title: "Braveheart's Rebellion", genre: "war", year: 1995, budget: 72000000, quality: 81, description: "A Scottish warrior leads a bloody rebellion against English tyranny in medieval Scotland.", censorRisk: 55, shootingDays: 60, themes: ["freedom", "revenge", "sacrifice"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 12 }, locationNeeds: ["scottish_highlands", "castle", "battlefield"], historicalNotes: "Star-directed epics could still sweep the Oscars" }
+        ],
+
+        // ============================================================
+        // DIGITAL DAWN (1997-2004) — DVD boom, franchises, CGI epics, superhero origins
+        // ============================================================
+        digitalDawn: [
+            { title: "Titanic Dreams", genre: "romance", year: 1997, budget: 200000000, quality: 85, description: "A penniless artist and a high-society woman fall in love aboard the doomed ocean liner on its maiden voyage.", censorRisk: 20, shootingDays: 80, themes: ["love", "class", "tragedy"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 10 }, locationNeeds: ["ocean_liner", "ocean", "lifeboat"], historicalNotes: "The most expensive film ever made became the highest-grossing of all time" },
+            { title: "The Matrix Protocol", genre: "sci_fi", year: 1999, budget: 63000000, quality: 88, description: "A computer hacker discovers reality is a simulation controlled by machines, and he may be the prophesied one to free humanity.", censorRisk: 30, shootingDays: 50, themes: ["reality", "freedom", "destiny"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["dystopian_city", "dojo", "office_building"], historicalNotes: "Bullet-time effects and cyberpunk philosophy became cultural touchstones" },
+            { title: "Lord of the Rings: The Fellowship", genre: "adventure", year: 2001, budget: 93000000, quality: 92, description: "A humble hobbit must carry a powerful ring across a dangerous world to destroy it in the fires where it was forged.", censorRisk: 10, shootingDays: 90, themes: ["friendship", "courage", "evil"], castRequirements: { male_lead: 4, female_lead: 1, supporting: 12 }, locationNeeds: ["shire", "mines_of_moria", "rivendell"], historicalNotes: "Filming three epic fantasy films simultaneously was unprecedented" },
+            { title: "Spider-Boy", genre: "superhero", year: 2002, budget: 139000000, quality: 78, description: "A nerdy teenager gains spider-like powers from a genetically modified spider and must battle a deranged industrialist.", censorRisk: 15, shootingDays: 50, themes: ["responsibility", "identity", "power"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["new_york", "lab", "bridge"], historicalNotes: "The modern superhero blockbuster template was established" },
+            { title: "Saving Captain Ryan", genre: "war", year: 1998, budget: 70000000, quality: 90, description: "After D-Day, a squad of soldiers risks everything to find and bring home the last surviving brother from a family of four servicemen.", censorRisk: 55, shootingDays: 50, themes: ["duty", "sacrifice", "brotherhood"], castRequirements: { male_lead: 4, female_lead: 0, supporting: 8 }, locationNeeds: ["omaha_beach", "french_village", "bridge"], historicalNotes: "Hyper-realistic combat sequences redefined the war film genre" },
+            { title: "Harry Wizard and the Sorcerer's Stone", genre: "adventure", year: 2001, budget: 125000000, quality: 79, description: "An orphaned boy discovers he's a wizard and attends a magical school, where he uncovers a plot involving a dark sorcerer.", censorRisk: 5, shootingDays: 55, themes: ["magic", "friendship", "destiny"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 10 }, locationNeeds: ["castle", "train", "dungeon"], historicalNotes: "IP-driven franchise filmmaking became Hollywood's dominant business model" },
+            { title: "Scream Queen", genre: "horror", year: 1997, budget: 15000000, quality: 76, description: "A masked killer terrorizes a small town, targeting teens who know the rules of horror movies but still can't escape.", censorRisk: 50, shootingDays: 25, themes: ["self_awareness", "murder", "survival"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["suburban_house", "high_school", "video_store"], historicalNotes: "Meta-horror revived the slasher genre by deconstructing its conventions" },
+            { title: "Gladiator's Revenge", genre: "action", year: 2000, budget: 103000000, quality: 83, description: "A Roman general is betrayed, enslaved, and fights his way through the gladiatorial arena to avenge his family.", censorRisk: 40, shootingDays: 55, themes: ["revenge", "honor", "freedom"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 8 }, locationNeeds: ["colosseum", "roman_villa", "arena"], historicalNotes: "Historical epics made a stunning comeback powered by CGI crowd scenes" },
+            { title: "Finding Marlin", genre: "animated", year: 2003, budget: 94000000, quality: 87, description: "An overprotective clownfish crosses the entire ocean to rescue his son, who's been captured by a scuba diver.", censorRisk: 5, shootingDays: 0, themes: ["parenthood", "adventure", "letting_go"], castRequirements: { voice_cast: 8 }, locationNeeds: ["coral_reef", "ocean", "fish_tank"], historicalNotes: "CGI animated films became the most reliable family entertainment" },
+            { title: "The Sixth Perception", genre: "thriller", year: 1999, budget: 40000000, quality: 84, description: "A child psychologist treats a young boy who claims to see dead people walking among the living.", censorRisk: 20, shootingDays: 30, themes: ["death", "perception", "redemption"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 3 }, locationNeeds: ["apartment", "church", "school"], historicalNotes: "Twist endings became a marketing phenomenon unto themselves" },
+            { title: "American Splendor", genre: "comedy", year: 1999, budget: 10000000, quality: 80, description: "A dysfunctional father has a midlife crisis and becomes obsessed with beauty, freedom, and a teenager next door.", censorRisk: 55, shootingDays: 25, themes: ["suburban_decay", "beauty", "delusion"], castRequirements: { male_lead: 1, female_lead: 2, supporting: 5 }, locationNeeds: ["suburban_house", "fast_food", "high_school"], historicalNotes: "Dark suburban satire found its audience in the DVD era" },
+            { title: "X-Warriors", genre: "superhero", year: 2000, budget: 75000000, quality: 76, description: "Mutants with extraordinary powers struggle for acceptance in a world that fears them, while a militant faction pushes for war.", censorRisk: 15, shootingDays: 40, themes: ["prejudice", "identity", "power"], castRequirements: { male_lead: 3, female_lead: 2, supporting: 8 }, locationNeeds: ["mansion", "island_base", "statue_of_liberty"], historicalNotes: "Ensemble superhero teams proved there was room beyond solo heroes" }
+        ],
+
+        // ============================================================
+        // CONVERGENCE (2005-2010) — Superhero franchises, 3D, found footage, streaming
+        // ============================================================
+        convergence: [
+            { title: "The Dark Crusader", genre: "superhero", year: 2008, budget: 185000000, quality: 91, description: "A billionaire vigilante faces his greatest foe: a psychopathic clown who wants to prove that anyone can be corrupted.", censorRisk: 40, shootingDays: 65, themes: ["chaos", "morality", "sacrifice"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 6 }, locationNeeds: ["gotham_city", "warehouse", "hospital"], historicalNotes: "Superhero films achieved artistic legitimacy and billion-dollar grosses" },
+            { title: "Iron Warrior", genre: "superhero", year: 2008, budget: 140000000, quality: 80, description: "A billionaire arms dealer builds a high-tech suit of armor and becomes a superhero after being captured by terrorists.", censorRisk: 20, shootingDays: 50, themes: ["redemption", "technology", "responsibility"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["workshop", "desert_cave", "mansion"], historicalNotes: "Launched the shared cinematic universe model that transformed Hollywood" },
+            { title: "Avatar: Blue World", genre: "sci_fi", year: 2009, budget: 237000000, quality: 78, description: "A paralyzed Marine operates an alien body on a lush jungle moon, falling in love with the native culture he was sent to exploit.", censorRisk: 10, shootingDays: 60, themes: ["colonialism", "nature", "identity"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["alien_jungle", "military_base", "floating_mountains"], historicalNotes: "3D filmmaking and performance capture created immersive alien worlds" },
+            { title: "Paranormal Footage", genre: "horror", year: 2007, budget: 15000, quality: 62, description: "A couple sets up cameras in their home to capture evidence of a demon that has been haunting them since childhood.", censorRisk: 30, shootingDays: 7, themes: ["fear", "supernatural", "voyeurism"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 0 }, locationNeeds: ["house", "bedroom", "hallway"], historicalNotes: "Found footage horror proved $15,000 films could gross $200 million" },
+            { title: "No Country for Old Killers", genre: "thriller", year: 2007, budget: 25000000, quality: 92, description: "A hunter stumbles upon a drug deal gone wrong and takes the money, pursued by a relentless psychopathic killer across West Texas.", censorRisk: 55, shootingDays: 35, themes: ["fate", "violence", "morality"], castRequirements: { male_lead: 3, female_lead: 0, supporting: 4 }, locationNeeds: ["texas_desert", "motel", "gas_station"], historicalNotes: "Austere, intellectual thrillers could still dominate awards season" },
+            { title: "The Departed Souls", genre: "crime", year: 2006, budget: 90000000, quality: 87, description: "A mole in the police and an undercover cop in the mob race to identify each other before their covers are blown.", censorRisk: 55, shootingDays: 40, themes: ["identity", "betrayal", "corruption"], castRequirements: { male_lead: 3, female_lead: 1, supporting: 6 }, locationNeeds: ["boston", "police_station", "bar"], historicalNotes: "Star-driven crime dramas remained viable at premium budget levels" },
+            { title: "WALL-Bot", genre: "animated", year: 2008, budget: 180000000, quality: 90, description: "A lonely trash-compacting robot on an abandoned Earth falls in love and follows his beloved into space to save humanity.", censorRisk: 5, shootingDays: 0, themes: ["love", "environment", "loneliness"], castRequirements: { voice_cast: 4 }, locationNeeds: ["post_apocalyptic_earth", "spaceship", "space"], historicalNotes: "Animated films tackled environmentalism and nearly wordless storytelling" },
+            { title: "The Curious Case of Benjamin Bolton", genre: "drama", year: 2008, budget: 150000000, quality: 79, description: "A man born with the appearance of an 80-year-old ages backwards, experiencing love and loss in reverse.", censorRisk: 10, shootingDays: 50, themes: ["aging", "love", "time"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 5 }, locationNeeds: ["new_orleans", "tugboat", "nursing_home"], historicalNotes: "Digital de-aging effects opened new possibilities for character-driven stories" },
+            { title: "Inception Dreams", genre: "sci_fi", year: 2010, budget: 160000000, quality: 89, description: "A thief who steals secrets by entering dreams is offered a chance to erase his criminal record by planting an idea in someone's mind.", censorRisk: 15, shootingDays: 55, themes: ["dreams", "reality", "redemption"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["dreamscape", "hotel_corridor", "snow_fortress"], historicalNotes: "Original sci-fi concepts could still command blockbuster budgets" },
+            { title: "Slumdog Thousandaire", genre: "drama", year: 2008, budget: 15000000, quality: 85, description: "A Mumbai teen from the slums appears on a game show, and each question triggers a flashback to the events that gave him the answer.", censorRisk: 25, shootingDays: 30, themes: ["destiny", "love", "poverty"], castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 }, locationNeeds: ["mumbai_slums", "tv_studio", "train"], historicalNotes: "Global settings and diverse stories found worldwide audiences" },
+            { title: "The Social Disconnect", genre: "drama", year: 2010, budget: 40000000, quality: 86, description: "The founding of the world's largest social network leads to lawsuits, broken friendships, and billions of dollars.", censorRisk: 15, shootingDays: 30, themes: ["ambition", "betrayal", "technology"], castRequirements: { male_lead: 2, female_lead: 1, supporting: 4 }, locationNeeds: ["harvard_dorm", "office", "courtroom"], historicalNotes: "Tech-industry dramas reflected the new Silicon Valley power structure" },
+            { title: "District Ten", genre: "sci_fi", year: 2009, budget: 30000000, quality: 81, description: "Aliens have been living in a Johannesburg slum for 20 years when a bureaucrat tasked with relocating them starts transforming into one.", censorRisk: 30, shootingDays: 25, themes: ["apartheid", "transformation", "xenophobia"], castRequirements: { male_lead: 1, female_lead: 0, supporting: 5 }, locationNeeds: ["johannesburg", "alien_camp", "lab"], historicalNotes: "Low-budget sci-fi with social commentary could compete globally" }
         ]
     };
 
     // Script generation parameters by era
     const ERA_PARAMETERS = {
+        // PRE-CODE (1933-1934)
         1933: { preCodeChance: 0.7, bMovieChance: 0.4 },
         1934: { preCodeChance: 0.3, bMovieChance: 0.5 },
+        // GOLDEN AGE (1935-1941)
         1935: { goldenAgeChance: 0.6, bMovieChance: 0.4 },
         1936: { goldenAgeChance: 0.7, bMovieChance: 0.4 },
         1937: { goldenAgeChance: 0.75, bMovieChance: 0.4 },
@@ -2091,14 +2237,85 @@ window.ScriptLibrary = (function() {
         1939: { technicolorAvailable: true, goldenAgeChance: 0.85, bMovieChance: 0.35 },
         1940: { goldenAgeChance: 0.8, bMovieChance: 0.35 },
         1941: { goldenAgeChance: 0.5, warYearsChance: 0.3, bMovieChance: 0.35 },
+        // WAR YEARS (1942-1945)
         1942: { warYearsChance: 0.6, propagandaBonus: true, bMovieChance: 0.3 },
         1943: { warYearsChance: 0.8, propagandaBonus: true, bMovieChance: 0.3 },
         1944: { warYearsChance: 0.75, propagandaBonus: true, bMovieChance: 0.3 },
         1945: { warYearsChance: 0.6, postWarChance: 0.2, bMovieChance: 0.3 },
+        // POST-WAR (1946-1949)
         1946: { postWarChance: 0.5, noirChance: 0.4, bMovieChance: 0.35 },
         1947: { postWarChance: 0.7, huacRisk: true, noirChance: 0.5, bMovieChance: 0.35 },
         1948: { postWarChance: 0.8, tvCompetition: true, noirChance: 0.4, bMovieChance: 0.4 },
-        1949: { postWarChance: 0.9, industryChange: true, noirChance: 0.35, bMovieChance: 0.4 }
+        1949: { postWarChance: 0.9, industryChange: true, noirChance: 0.35, bMovieChance: 0.4 },
+        // TV THREAT (1950-1959)
+        1950: { tvThreatChance: 0.5, postWarChance: 0.3, bMovieChance: 0.4 },
+        1951: { tvThreatChance: 0.6, bMovieChance: 0.4 },
+        1952: { tvThreatChance: 0.7, bMovieChance: 0.35 },
+        1953: { tvThreatChance: 0.7, cinemascope: true, bMovieChance: 0.35 },
+        1954: { tvThreatChance: 0.75, cinemascope: true, bMovieChance: 0.35 },
+        1955: { tvThreatChance: 0.8, bMovieChance: 0.35 },
+        1956: { tvThreatChance: 0.8, bMovieChance: 0.3 },
+        1957: { tvThreatChance: 0.8, bMovieChance: 0.3 },
+        1958: { tvThreatChance: 0.75, bMovieChance: 0.35 },
+        1959: { tvThreatChance: 0.75, newWaveChance: 0.1, bMovieChance: 0.35 },
+        // NEW WAVE (1960-1966)
+        1960: { newWaveChance: 0.5, tvThreatChance: 0.3, bMovieChance: 0.3 },
+        1961: { newWaveChance: 0.6, bMovieChance: 0.3 },
+        1962: { newWaveChance: 0.7, bMovieChance: 0.3 },
+        1963: { newWaveChance: 0.75, bMovieChance: 0.25 },
+        1964: { newWaveChance: 0.8, bMovieChance: 0.25 },
+        1965: { newWaveChance: 0.8, bMovieChance: 0.25 },
+        1966: { newWaveChance: 0.75, ratingsEraChance: 0.15, bMovieChance: 0.25 },
+        // RATINGS ERA (1967-1972)
+        1967: { ratingsEraChance: 0.5, newWaveChance: 0.3, bMovieChance: 0.25 },
+        1968: { ratingsEraChance: 0.6, bMovieChance: 0.25 },
+        1969: { ratingsEraChance: 0.7, bMovieChance: 0.25 },
+        1970: { ratingsEraChance: 0.75, bMovieChance: 0.2 },
+        1971: { ratingsEraChance: 0.8, bMovieChance: 0.2 },
+        1972: { ratingsEraChance: 0.75, newHollywoodChance: 0.15, bMovieChance: 0.2 },
+        // NEW HOLLYWOOD (1973-1979)
+        1973: { newHollywoodChance: 0.5, ratingsEraChance: 0.3, bMovieChance: 0.2 },
+        1974: { newHollywoodChance: 0.6, bMovieChance: 0.2 },
+        1975: { newHollywoodChance: 0.7, bMovieChance: 0.2 },
+        1976: { newHollywoodChance: 0.75, bMovieChance: 0.2 },
+        1977: { newHollywoodChance: 0.8, bMovieChance: 0.2 },
+        1978: { newHollywoodChance: 0.8, bMovieChance: 0.2 },
+        1979: { newHollywoodChance: 0.75, blockbusterAgeChance: 0.15, bMovieChance: 0.2 },
+        // BLOCKBUSTER AGE (1980-1989)
+        1980: { blockbusterAgeChance: 0.5, newHollywoodChance: 0.3, bMovieChance: 0.2 },
+        1981: { blockbusterAgeChance: 0.6, bMovieChance: 0.2 },
+        1982: { blockbusterAgeChance: 0.7, bMovieChance: 0.2 },
+        1983: { blockbusterAgeChance: 0.75, bMovieChance: 0.2 },
+        1984: { blockbusterAgeChance: 0.8, bMovieChance: 0.2 },
+        1985: { blockbusterAgeChance: 0.8, bMovieChance: 0.2 },
+        1986: { blockbusterAgeChance: 0.8, bMovieChance: 0.2 },
+        1987: { blockbusterAgeChance: 0.8, bMovieChance: 0.2 },
+        1988: { blockbusterAgeChance: 0.75, bMovieChance: 0.2 },
+        1989: { blockbusterAgeChance: 0.7, indieBoomChance: 0.15, bMovieChance: 0.2 },
+        // INDIE BOOM (1990-1996)
+        1990: { indieBoomChance: 0.5, blockbusterAgeChance: 0.3, bMovieChance: 0.15 },
+        1991: { indieBoomChance: 0.6, bMovieChance: 0.15 },
+        1992: { indieBoomChance: 0.7, bMovieChance: 0.15 },
+        1993: { indieBoomChance: 0.75, bMovieChance: 0.15 },
+        1994: { indieBoomChance: 0.8, bMovieChance: 0.15 },
+        1995: { indieBoomChance: 0.8, bMovieChance: 0.15 },
+        1996: { indieBoomChance: 0.75, digitalDawnChance: 0.1, bMovieChance: 0.15 },
+        // DIGITAL DAWN (1997-2004)
+        1997: { digitalDawnChance: 0.5, indieBoomChance: 0.3, bMovieChance: 0.1 },
+        1998: { digitalDawnChance: 0.6, bMovieChance: 0.1 },
+        1999: { digitalDawnChance: 0.7, bMovieChance: 0.1 },
+        2000: { digitalDawnChance: 0.75, bMovieChance: 0.1 },
+        2001: { digitalDawnChance: 0.8, bMovieChance: 0.1 },
+        2002: { digitalDawnChance: 0.8, bMovieChance: 0.1 },
+        2003: { digitalDawnChance: 0.8, bMovieChance: 0.1 },
+        2004: { digitalDawnChance: 0.75, convergenceChance: 0.1, bMovieChance: 0.1 },
+        // CONVERGENCE (2005-2010)
+        2005: { convergenceChance: 0.5, digitalDawnChance: 0.3, bMovieChance: 0.1 },
+        2006: { convergenceChance: 0.6, bMovieChance: 0.1 },
+        2007: { convergenceChance: 0.7, bMovieChance: 0.1 },
+        2008: { convergenceChance: 0.8, bMovieChance: 0.1 },
+        2009: { convergenceChance: 0.8, bMovieChance: 0.1 },
+        2010: { convergenceChance: 0.85, bMovieChance: 0.1 }
     };
 
     /**
@@ -2144,31 +2361,56 @@ window.ScriptLibrary = (function() {
     function generateScriptForYear(year, params, gameState) {
         const availableCategories = [];
 
-        // Determine available script categories based on year
-        if (year <= 1934 && Math.random() < params.preCodeChance) {
-            availableCategories.push('preCode');
-        }
+        // Era-specific category chances (checked in order)
+        var categoryChecks = [
+            { key: 'preCode', chance: params.preCodeChance, minYear: 0, maxYear: 1934 },
+            { key: 'goldenAge', chance: params.goldenAgeChance, minYear: 1935, maxYear: 1941 },
+            { key: 'warYears', chance: params.warYearsChance, minYear: 1941, maxYear: 1945 },
+            { key: 'postWar', chance: params.postWarChance, minYear: 1946, maxYear: 1959 },
+            { key: 'tvThreat', chance: params.tvThreatChance, minYear: 1950, maxYear: 1959 },
+            { key: 'newWave', chance: params.newWaveChance, minYear: 1960, maxYear: 1966 },
+            { key: 'ratingsEra', chance: params.ratingsEraChance, minYear: 1967, maxYear: 1972 },
+            { key: 'newHollywood', chance: params.newHollywoodChance, minYear: 1973, maxYear: 1979 },
+            { key: 'blockbusterAge', chance: params.blockbusterAgeChance, minYear: 1980, maxYear: 1989 },
+            { key: 'indieBoom', chance: params.indieBoomChance, minYear: 1990, maxYear: 1996 },
+            { key: 'digitalDawn', chance: params.digitalDawnChance, minYear: 1997, maxYear: 2004 },
+            { key: 'convergence', chance: params.convergenceChance, minYear: 2005, maxYear: 2010 }
+        ];
 
-        if (year >= 1935 && year <= 1941 && Math.random() < params.goldenAgeChance) {
-            availableCategories.push('goldenAge');
-        }
-
-        if (year >= 1941 && year <= 1945 && Math.random() < params.warYearsChance) {
-            availableCategories.push('warYears');
-        }
-
-        if (year >= 1946 && Math.random() < params.postWarChance) {
-            availableCategories.push('postWar');
+        for (var i = 0; i < categoryChecks.length; i++) {
+            var check = categoryChecks[i];
+            if (check.chance && year >= check.minYear && year <= check.maxYear && Math.random() < check.chance) {
+                if (SCRIPT_DATABASE[check.key] && SCRIPT_DATABASE[check.key].length > 0) {
+                    availableCategories.push(check.key);
+                }
+            }
         }
 
         // B-movies available throughout
-        if (Math.random() < params.bMovieChance) {
+        if (Math.random() < (params.bMovieChance || 0)) {
             availableCategories.push('bMovies');
         }
 
-        // Default to golden age if no category selected
+        // Default: find the best matching category for the year
         if (availableCategories.length === 0) {
-            availableCategories.push('goldenAge');
+            var eraKey = null;
+            if (window.GameConstants && window.GameConstants.getEraKeyForYear) {
+                eraKey = window.GameConstants.getEraKeyForYear(year);
+            }
+            // Map era keys to script category names
+            var eraToCategory = {
+                PRE_CODE: 'preCode', GOLDEN_AGE: 'goldenAge', WAR_YEARS: 'warYears',
+                POST_WAR: 'postWar', TV_THREAT: 'tvThreat', NEW_WAVE: 'newWave',
+                RATINGS_ERA: 'ratingsEra', NEW_HOLLYWOOD: 'newHollywood',
+                BLOCKBUSTER_AGE: 'blockbusterAge', INDIE_BOOM: 'indieBoom',
+                DIGITAL_DAWN: 'digitalDawn', CONVERGENCE: 'convergence'
+            };
+            var fallbackCat = eraToCategory[eraKey] || 'goldenAge';
+            if (SCRIPT_DATABASE[fallbackCat] && SCRIPT_DATABASE[fallbackCat].length > 0) {
+                availableCategories.push(fallbackCat);
+            } else {
+                availableCategories.push('goldenAge');
+            }
         }
 
         // Select category and script
@@ -2177,9 +2419,10 @@ window.ScriptLibrary = (function() {
 
         if (!scripts || scripts.length === 0) return null;
 
-        // Filter by year appropriateness
+        // Filter by year appropriateness (wider range for newer eras with fewer templates)
+        var yearRange = year >= 1950 ? 5 : 2;
         const appropriateScripts = scripts.filter(script =>
-            Math.abs(script.year - year) <= 2
+            Math.abs(script.year - year) <= yearRange
         );
 
         const selectedScripts = appropriateScripts.length > 0 ? appropriateScripts : scripts;
@@ -2216,27 +2459,28 @@ window.ScriptLibrary = (function() {
      * Adjust censor risk based on current era
      */
     function adjustCensorRiskForEra(baseCensorRisk, year) {
-        // Pre-Code era (1933-1934): Lower censorship
-        if (year <= 1934) {
-            return Math.max(5, baseCensorRisk - 20);
+        // Use centralized era adjustments from constants if available
+        if (window.GameConstants && window.GameConstants.CENSORSHIP && window.GameConstants.getEraKeyForYear) {
+            var eraKey = window.GameConstants.getEraKeyForYear(year);
+            var adj = window.GameConstants.CENSORSHIP.ERA_ADJUSTMENTS[eraKey];
+            if (adj !== undefined) {
+                return Math.max(5, Math.min(95, baseCensorRisk + adj));
+            }
         }
 
-        // Hays Code enforcement (1935-1941): Higher censorship
-        if (year >= 1935 && year <= 1941) {
-            return Math.min(95, baseCensorRisk + 15);
-        }
-
-        // War years (1942-1945): Moderate, patriotic content encouraged
-        if (year >= 1942 && year <= 1945) {
-            return baseCensorRisk;
-        }
-
-        // Post-war (1946-1949): Increasing social commentary, some relaxation
-        if (year >= 1946) {
-            return Math.max(5, baseCensorRisk - 5);
-        }
-
-        return baseCensorRisk;
+        // Fallback for when constants not available
+        if (year <= 1934) return Math.max(5, baseCensorRisk - 20);
+        if (year <= 1941) return Math.min(95, baseCensorRisk + 15);
+        if (year <= 1945) return baseCensorRisk;
+        if (year <= 1949) return Math.max(5, baseCensorRisk - 5);
+        if (year <= 1959) return Math.max(5, baseCensorRisk - 5);
+        if (year <= 1966) return Math.max(5, baseCensorRisk - 15);
+        if (year <= 1972) return Math.max(5, baseCensorRisk - 30);
+        if (year <= 1979) return Math.max(5, baseCensorRisk - 35);
+        if (year <= 1989) return Math.max(5, baseCensorRisk - 25);
+        if (year <= 1996) return Math.max(5, baseCensorRisk - 30);
+        if (year <= 2004) return Math.max(5, baseCensorRisk - 25);
+        return Math.max(5, baseCensorRisk - 20);
     }
 
     /**
