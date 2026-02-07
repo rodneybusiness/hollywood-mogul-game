@@ -13,7 +13,7 @@ window.BoxOfficeSystem = (function() {
         1936: { western: 1.1, crime: 0.8, musical: 1.2, drama: 1.0, comedy: 1.1, horror: 0.9, romance: 1.1, war: 0.5 },
         1937: { western: 1.2, crime: 0.7, musical: 1.4, drama: 1.1, comedy: 1.0, horror: 0.8, romance: 1.2, war: 0.6 },
         1938: { western: 1.1, crime: 0.8, musical: 1.3, drama: 1.2, comedy: 1.1, horror: 0.9, romance: 1.1, war: 0.7 },
-        1939: { western: 1.0, crime: 0.9, musical: 1.2, drama: 1.3, drama: 1.4, comedy: 1.0, horror: 0.8, romance: 1.0, war: 0.8 },
+        1939: { western: 1.0, crime: 0.9, musical: 1.2, drama: 1.4, comedy: 1.0, horror: 0.8, romance: 1.0, war: 0.8 },
         1940: { western: 0.9, crime: 1.0, musical: 1.1, drama: 1.3, comedy: 1.0, horror: 0.9, romance: 1.0, war: 1.0 },
         1941: { western: 0.8, crime: 1.0, musical: 1.0, drama: 1.2, comedy: 0.9, horror: 0.8, romance: 0.9, war: 1.4 },
         1942: { western: 0.7, crime: 0.9, musical: 1.1, drama: 1.1, comedy: 1.0, horror: 0.7, romance: 1.0, war: 1.6 },

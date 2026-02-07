@@ -12,7 +12,7 @@ window.FinancialSystem = (function() {
             name: 'First National Bank',
             minAmount: 25000,
             maxAmount: 300000,
-            baseInterestRate: 0.08, // 8% monthly (brutal but historically accurate)
+            baseInterestRate: 0.04, // 4% monthly - still high but competitive with mob financing
             requirements: {
                 lastFilmGrossed: 200000, // Last film must have grossed at least $200k
                 minReputation: 40,
