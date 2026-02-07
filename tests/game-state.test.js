@@ -63,7 +63,7 @@ describe('HollywoodMogul Game State', () => {
 
             expect(constants.STARTING_CASH).toBe(600000);
             expect(constants.BASE_MONTHLY_BURN).toBe(20000);
-            expect(constants.GAME_END_YEAR).toBe(1949);
+            expect(constants.GAME_END_YEAR).toBe(2010);
             expect(constants.WEEKS_PER_MONTH).toBe(4);
             expect(constants.RUNWAY_DANGER_WEEKS).toBe(8);
             expect(constants.RUNWAY_WARNING_WEEKS).toBe(16);
@@ -219,7 +219,7 @@ describe('HollywoodMogul Game State', () => {
             expect(gameState.endingType).toBe('bankruptcy');
         });
 
-        test('should end game on survival to 1949', () => {
+        test('should end game on survival to 2010', () => {
             window.HollywoodMogul.endGame('survived');
             const gameState = window.HollywoodMogul.getGameState();
 

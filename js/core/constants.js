@@ -45,7 +45,7 @@ window.GameConstants = (function() {
         WEEKS_PER_MONTH: 4,
         MONTHS_PER_YEAR: 12,
         GAME_START_YEAR: 1933,
-        GAME_END_YEAR: 1949,
+        GAME_END_YEAR: 2010,
         LOADING_SCREEN_DURATION_MS: 3000,
         HAYS_CODE_ENFORCEMENT_DATE: new Date(1934, 6, 1) // July 1, 1934
     };
@@ -108,11 +108,39 @@ window.GameConstants = (function() {
         FINAL_REVIEW_RESHOOT_COST: 15000,
 
         // Era adjustments to base censor risk
+        // Positive = stricter, Negative = more permissive
+        // Post-1968: MPAA ratings replace Hays Code (see CONTENT_REGULATION)
         ERA_ADJUSTMENTS: {
             PRE_CODE: -20,       // 1933-1934: lax enforcement
             GOLDEN_AGE: 15,      // 1935-1941: strict enforcement
             WAR_YEARS: 0,        // 1942-1945: patriotic priority
-            POST_WAR: -10        // 1946-1949: gradually relaxing
+            POST_WAR: -10,       // 1946-1949: gradually relaxing
+            TV_THREAT: -5,       // 1950-1959: Code still enforced but weakening
+            NEW_WAVE: -15,       // 1960-1966: Code crumbling, exemptions granted
+            RATINGS_ERA: -30,    // 1967-1972: MPAA replaces Code, creative freedom
+            NEW_HOLLYWOOD: -35,  // 1973-1979: Almost anything goes
+            BLOCKBUSTER_AGE: -25,// 1980-1989: PG-13 introduced, some self-regulation
+            INDIE_BOOM: -30,     // 1990-1996: NC-17 replaces X, indie freedom
+            DIGITAL_DAWN: -25,   // 1997-2004: Studio self-censorship for PG-13 profits
+            CONVERGENCE: -20     // 2005-2010: Studios target PG-13 for global market
+        },
+
+        // Content regulation system type by era
+        // 'hays_code' = Hays Code with violation risk
+        // 'mpaa' = MPAA ratings system (choose your rating)
+        CONTENT_REGULATION: {
+            PRE_CODE: 'hays_code',
+            GOLDEN_AGE: 'hays_code',
+            WAR_YEARS: 'hays_code',
+            POST_WAR: 'hays_code',
+            TV_THREAT: 'hays_code',
+            NEW_WAVE: 'hays_code_weak',
+            RATINGS_ERA: 'mpaa',
+            NEW_HOLLYWOOD: 'mpaa',
+            BLOCKBUSTER_AGE: 'mpaa',
+            INDIE_BOOM: 'mpaa',
+            DIGITAL_DAWN: 'mpaa',
+            CONVERGENCE: 'mpaa'
         }
     };
 
@@ -159,6 +187,27 @@ window.GameConstants = (function() {
         MAX_BACKUPS: 3
     };
 
+    // ================================================================
+    // ERA FINANCIAL SCALING
+    // Multipliers relative to 1933 base values. Applied to budgets,
+    // revenues, costs, and salaries as the game progresses through decades.
+    // Based on real Hollywood economics and CPI data.
+    // ================================================================
+    const ERA_SCALING = {
+        PRE_CODE:        { inflationMult: 1.0,  budgetRange: [50000, 500000],      monthlyBurnMult: 1.0,  marketingMult: 1.0  },
+        GOLDEN_AGE:      { inflationMult: 1.1,  budgetRange: [100000, 1000000],    monthlyBurnMult: 1.1,  marketingMult: 1.2  },
+        WAR_YEARS:       { inflationMult: 1.3,  budgetRange: [150000, 1500000],    monthlyBurnMult: 1.2,  marketingMult: 1.3  },
+        POST_WAR:        { inflationMult: 1.5,  budgetRange: [200000, 2000000],    monthlyBurnMult: 1.4,  marketingMult: 1.5  },
+        TV_THREAT:       { inflationMult: 2.0,  budgetRange: [500000, 5000000],    monthlyBurnMult: 1.8,  marketingMult: 2.0  },
+        NEW_WAVE:        { inflationMult: 2.8,  budgetRange: [1000000, 10000000],  monthlyBurnMult: 2.5,  marketingMult: 3.0  },
+        RATINGS_ERA:     { inflationMult: 3.5,  budgetRange: [500000, 8000000],    monthlyBurnMult: 3.0,  marketingMult: 3.5  },
+        NEW_HOLLYWOOD:   { inflationMult: 5.0,  budgetRange: [2000000, 20000000],  monthlyBurnMult: 4.0,  marketingMult: 5.0  },
+        BLOCKBUSTER_AGE: { inflationMult: 8.0,  budgetRange: [5000000, 50000000],  monthlyBurnMult: 6.0,  marketingMult: 10.0 },
+        INDIE_BOOM:      { inflationMult: 11.0, budgetRange: [10000000, 80000000], monthlyBurnMult: 8.0,  marketingMult: 15.0 },
+        DIGITAL_DAWN:    { inflationMult: 13.0, budgetRange: [20000000, 150000000],monthlyBurnMult: 10.0, marketingMult: 20.0 },
+        CONVERGENCE:     { inflationMult: 16.0, budgetRange: [30000000, 250000000],monthlyBurnMult: 12.0, marketingMult: 25.0 }
+    };
+
     return {
         FINANCIAL,
         TIME,
@@ -167,6 +216,7 @@ window.GameConstants = (function() {
         CENSORSHIP,
         PRODUCTION,
         TALENT,
-        UI
+        UI,
+        ERA_SCALING
     };
 })();

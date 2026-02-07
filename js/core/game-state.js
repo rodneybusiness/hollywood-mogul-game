@@ -726,7 +726,7 @@ window.HollywoodMogul = (function() {
                 break;
             case 'survived':
                 title = 'VICTORY';
-                message = 'You survived the golden age of Hollywood! Your legacy is secure.';
+                message = 'From the golden age through the digital revolution — your studio endured it all. A Hollywood legend.';
                 break;
             default:
                 title = 'THE END';

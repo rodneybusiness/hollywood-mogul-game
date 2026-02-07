@@ -1,6 +1,6 @@
 /**
  * HOLLYWOOD MOGUL - HISTORICAL EVENTS SYSTEM
- * Major milestones and historical moments from 1933-1949
+ * Major milestones and historical moments from 1933-2010
  * Includes: Hays Code (1934), WWII (1941-1945), HUAC (1947-1949)
  * EXPANDED: 60+ authentic historical events covering the full era
  */
@@ -2459,44 +2459,441 @@ window.HistoricalEvents = (function() {
         {
             year: 1949,
             month: 12,
-            id: 'game_end',
-            title: 'End of an Era',
-            description: 'You have survived the Golden Age of Hollywood. The studio system is changing, but your legacy is secure.',
+            id: 'golden_age_ends',
+            title: 'The Golden Age Ends',
+            description: 'The golden age of Hollywood draws to a close. Television is rising, the studio system is crumbling — but your journey continues into a new era.',
             type: 'milestone',
             importance: 'major',
-            effects: {
-                game_complete: true
-            },
+            effects: {},
             modal: {
-                title: '🎬 The End of the Golden Age - December 1949',
+                title: '🎬 A New Era Begins - 1950',
                 content: `
                     <div class="historical-event">
                         <p><strong>You have survived 16 years in Hollywood's Golden Age.</strong></p>
                         <h3>What You Experienced:</h3>
                         <ul>
-                            <li>✅ The end of the Pre-Code era (1934)</li>
-                            <li>✅ The rise of film noir and new genres</li>
-                            <li>✅ World War II and Hollywood's war effort (1941-1945)</li>
-                            <li>✅ Post-war record box office (1946)</li>
-                            <li>✅ The Red Scare and HUAC hearings (1947-1949)</li>
-                            <li>✅ The Paramount Decision (1948)</li>
-                            <li>✅ The television threat emerges</li>
+                            <li>The end of the Pre-Code era (1934)</li>
+                            <li>The rise of film noir and new genres</li>
+                            <li>World War II and Hollywood's war effort (1941-1945)</li>
+                            <li>Post-war record box office (1946)</li>
+                            <li>The Red Scare and HUAC hearings (1947-1949)</li>
+                            <li>The Paramount Decision (1948)</li>
                         </ul>
-                        <h3>What Comes Next (1950s):</h3>
+                        <h3>What Comes Next:</h3>
                         <ul>
-                            <li>📺 Television will devastate movie attendance</li>
-                            <li>🎬 The studio system will continue to decline</li>
-                            <li>⭐ The star system will replace the studio system</li>
-                            <li>🎨 Independent producers will flourish</li>
-                            <li>🌍 International co-productions will rise</li>
-                            <li>🎥 New technologies (CinemaScope, 3D) will fight TV</li>
-                            <li>⚠️ HUAC hearings will continue into 1950s</li>
+                            <li>Television will devastate movie attendance</li>
+                            <li>New technologies (CinemaScope, 3D) will fight TV</li>
+                            <li>The studio system will collapse</li>
+                            <li>New Hollywood auteurs will revolutionize filmmaking</li>
+                            <li>The blockbuster era will transform the business</li>
+                            <li>Digital technology will change everything</li>
+                        </ul>
+                        <p><em>Your studio must adapt or die. 60 more years of Hollywood history await...</em></p>
+                    </div>
+                `
+            },
+            newspaperHeadline: 'END OF AN ERA - HOLLYWOOD ENTERS UNCERTAIN FUTURE'
+        },
+
+        // ============================================================
+        // 1950-2010: EXPANDED ERA MILESTONES
+        // ============================================================
+
+        // --- 1950s: TELEVISION THREAT ---
+        {
+            year: 1950, month: 1, id: 'tv_competition_begins',
+            title: 'Television Invades American Homes',
+            description: 'Television set ownership explodes past 9% of US households and climbing fast. Weekly cinema attendance begins a steep decline.',
+            type: 'industry', importance: 'major',
+            effects: { box_office_modifier: -0.15 },
+            newspaperHeadline: 'TV THREATENS HOLLYWOOD - ATTENDANCE DROPS SHARPLY'
+        },
+        {
+            year: 1950, month: 6, id: 'korean_war_begins',
+            title: 'Korean War Begins',
+            description: 'North Korea invades the South, drawing the United States into another conflict. War films gain renewed relevance.',
+            type: 'political', importance: 'major',
+            effects: { genre_boost: { war: 0.2 } },
+            newspaperHeadline: 'KOREAN WAR ERUPTS - HOLLYWOOD MOBILIZES AGAIN'
+        },
+        {
+            year: 1950, month: 11, id: 'paramount_decree_divestiture',
+            title: 'Paramount Decree Forces Theater Sales',
+            description: 'Studios begin divesting their theater chains under the 1948 Supreme Court ruling. The vertically integrated studio system is ending.',
+            type: 'industry', importance: 'major',
+            effects: { distribution_cost_modifier: 0.2 },
+            newspaperHeadline: 'STUDIOS FORCED TO SELL THEATER CHAINS'
+        },
+        {
+            year: 1951, month: 3, id: 'huac_blacklist_expands',
+            title: 'HUAC Hearings Resume — Blacklist Expands',
+            description: 'The House Un-American Activities Committee resumes Hollywood hearings. Hundreds of writers, directors, and actors are blacklisted.',
+            type: 'political', importance: 'major',
+            effects: { talent_restriction: true },
+            newspaperHeadline: 'HUAC EXPANDS BLACKLIST - HUNDREDS NAMED'
+        },
+        {
+            year: 1953, month: 6, id: 'moon_is_blue_defies_code',
+            title: '"The Moon Is Blue" Released Without Code Seal',
+            description: 'Otto Preminger releases the film without Hays Code approval. It becomes a hit, proving audiences want mature content.',
+            type: 'regulation', importance: 'moderate',
+            effects: { censorship_modifier: -0.1 },
+            newspaperHeadline: '"MOON IS BLUE" DEFIES CENSORS - AND PROFITS'
+        },
+        {
+            year: 1953, month: 9, id: 'cinemascope_debut',
+            title: 'CinemaScope Debuts',
+            description: 'Fox introduces CinemaScope widescreen with "The Robe". Studios rush to adopt widescreen to compete with television.',
+            type: 'technology', importance: 'major',
+            effects: { technology_available: 'cinemascope' },
+            newspaperHeadline: 'CINEMASCOPE DEBUTS - WIDESCREEN SPECTACLE FIGHTS TV'
+        },
+        {
+            year: 1954, month: 1, id: 'drive_in_boom',
+            title: 'Drive-In Theaters Boom',
+            description: 'Over 4,000 drive-in theaters now operate across America, creating a new market hungry for genre pictures.',
+            type: 'industry', importance: 'moderate',
+            effects: { genre_boost: { horror: 0.15, sci_fi: 0.15 } },
+            newspaperHeadline: 'DRIVE-IN THEATERS BOOM - 4,000 AND COUNTING'
+        },
+        {
+            year: 1955, month: 9, id: 'james_dean_death',
+            title: 'James Dean Killed in Car Crash',
+            description: 'James Dean dies at 24. His death crystallizes the rebellious youth culture reshaping Hollywood audiences.',
+            type: 'cultural', importance: 'moderate',
+            effects: { genre_boost: { drama: 0.1 } },
+            newspaperHeadline: 'JAMES DEAN DEAD AT 24 - REBEL WITHOUT A CAUSE'
+        },
+        {
+            year: 1958, month: 4, id: 'studio_system_collapses',
+            title: 'Golden Age Studio System Collapses',
+            description: 'Contract player systems dissolve. Weekly attendance has fallen from 80 million in 1946 to 40 million. Studios slash overhead.',
+            type: 'industry', importance: 'major',
+            effects: { talent_cost_modifier: 0.4 },
+            newspaperHeadline: 'STUDIO SYSTEM COLLAPSES - STARS GO FREELANCE'
+        },
+
+        // --- 1960s: NEW WAVE ---
+        {
+            year: 1960, month: 6, id: 'psycho_changes_horror',
+            title: '"Psycho" Shocks Audiences',
+            description: 'Hitchcock\'s low-budget "Psycho" outgrosses big-budget epics. The shower scene pushes violence further than the Code allows.',
+            type: 'landmark', importance: 'major',
+            effects: { genre_boost: { horror: 0.2, thriller: 0.2 } },
+            newspaperHeadline: '"PSYCHO" SHOCKS NATION - HITCHCOCK DEFIES ALL RULES'
+        },
+        {
+            year: 1960, month: 10, id: 'spartacus_breaks_blacklist',
+            title: '"Spartacus" Credits Dalton Trumbo — Blacklist Broken',
+            description: 'Kirk Douglas insists blacklisted writer Dalton Trumbo receive screen credit. The blacklist begins to crumble.',
+            type: 'political', importance: 'moderate',
+            effects: { talent_restriction: false },
+            newspaperHeadline: 'SPARTACUS CREDITS BLACKLISTED WRITER - WALL CRUMBLES'
+        },
+        {
+            year: 1963, month: 6, id: 'cleopatra_disaster',
+            title: '"Cleopatra" Nearly Bankrupts Fox',
+            description: 'Elizabeth Taylor\'s "Cleopatra" costs $44 million and nearly destroys 20th Century Fox. The age of the bloated epic is over.',
+            type: 'landmark', importance: 'major',
+            effects: { budget_risk_modifier: 0.3 },
+            newspaperHeadline: 'CLEOPATRA FIASCO - FOX TEETERS ON BANKRUPTCY'
+        },
+        {
+            year: 1964, month: 7, id: 'civil_rights_act',
+            title: 'Civil Rights Act Signed Into Law',
+            description: 'The Civil Rights Act reshapes American society. Hollywood faces pressure to improve representation.',
+            type: 'political', importance: 'major',
+            effects: {},
+            newspaperHeadline: 'CIVIL RIGHTS ACT SIGNED - AMERICA TRANSFORMS'
+        },
+        {
+            year: 1966, month: 6, id: 'virginia_woolf_exemption',
+            title: '"Who\'s Afraid of Virginia Woolf?" Gets Special Exemption',
+            description: 'Warner Bros. releases the film with profanity under a special Code exemption. The Hays Code is effectively dead.',
+            type: 'regulation', importance: 'major',
+            effects: { censorship_modifier: -0.3 },
+            newspaperHeadline: 'VIRGINIA WOOLF BREAKS CODE - PROFANITY ON SCREEN'
+        },
+        {
+            year: 1966, month: 10, id: 'conglomerate_era_begins',
+            title: 'Gulf+Western Acquires Paramount Pictures',
+            description: 'Gulf+Western buys Paramount, launching the conglomerate era. Studios become corporate divisions.',
+            type: 'industry', importance: 'major',
+            effects: {},
+            newspaperHeadline: 'CONGLOMERATES SWALLOW HOLLYWOOD'
+        },
+
+        // --- RATINGS ERA ---
+        {
+            year: 1968, month: 11, id: 'mpaa_rating_system',
+            title: 'MPAA Rating System Replaces Hays Code',
+            description: 'Jack Valenti\'s MPAA rating system (G, M, R, X) officially replaces the Hays Production Code. Filmmakers are free to tackle any subject.',
+            type: 'regulation', importance: 'critical',
+            effects: { censorship_system: 'mpaa', censorship_modifier: -0.5 },
+            newspaperHeadline: 'HAYS CODE ABOLISHED - MPAA RATINGS TAKE EFFECT'
+        },
+        {
+            year: 1969, month: 8, id: 'easy_rider_new_hollywood',
+            title: '"Easy Rider" Launches New Hollywood',
+            description: 'Made for $400,000, "Easy Rider" grosses $60 million. Studios hand creative control to young auteur directors.',
+            type: 'landmark', importance: 'major',
+            effects: { genre_boost: { drama: 0.15 } },
+            newspaperHeadline: 'EASY RIDER BREAKS ALL RULES - YOUTH TAKES OVER HOLLYWOOD'
+        },
+
+        // --- NEW HOLLYWOOD ---
+        {
+            year: 1972, month: 3, id: 'godfather_phenomenon',
+            title: '"The Godfather" Becomes Cultural Phenomenon',
+            description: 'Coppola\'s "The Godfather" shatters records and proves R-rated adult drama can dominate commercially.',
+            type: 'landmark', importance: 'major',
+            effects: { genre_boost: { crime: 0.25 } },
+            newspaperHeadline: 'GODFATHER SHATTERS RECORDS - CRIME EPIC DOMINATES'
+        },
+        {
+            year: 1974, month: 8, id: 'watergate_nixon_resigns',
+            title: 'Nixon Resigns Over Watergate',
+            description: 'Nixon resigns in disgrace. Deep public cynicism fuels a wave of paranoid thrillers and anti-establishment films.',
+            type: 'political', importance: 'major',
+            effects: { genre_boost: { thriller: 0.25 } },
+            newspaperHeadline: 'NIXON RESIGNS - WATERGATE SHAKES AMERICA'
+        },
+        {
+            year: 1975, month: 6, id: 'jaws_invents_blockbuster',
+            title: '"Jaws" Invents the Summer Blockbuster',
+            description: 'Spielberg\'s "Jaws" opens wide on 464 screens with massive TV advertising. First film to gross $100 million domestically.',
+            type: 'landmark', importance: 'critical',
+            effects: { distribution_strategy: 'wide_release_enhanced' },
+            newspaperHeadline: 'JAWS DEVOURS BOX OFFICE - $100 MILLION BARRIER SMASHED'
+        },
+        {
+            year: 1975, month: 12, id: 'dolby_stereo_arrives',
+            title: 'Dolby Stereo Comes to Cinema',
+            description: 'Dolby Laboratories introduces Dolby Stereo, dramatically improving theater audio quality.',
+            type: 'technology', importance: 'moderate',
+            effects: { technology_available: 'dolby_stereo' },
+            newspaperHeadline: 'DOLBY STEREO REVOLUTIONIZES MOVIE SOUND'
+        },
+        {
+            year: 1977, month: 5, id: 'star_wars_changes_everything',
+            title: '"Star Wars" Changes Everything',
+            description: 'George Lucas\'s "Star Wars" earns $461 million and creates the franchise model. Merchandising dwarfs ticket sales.',
+            type: 'landmark', importance: 'critical',
+            effects: { genre_boost: { sci_fi: 0.4 }, franchise_model: true },
+            newspaperHeadline: 'STAR WARS CONQUERS THE GALAXY - RECORDS OBLITERATED'
+        },
+
+        // --- BLOCKBUSTER AGE ---
+        {
+            year: 1980, month: 4, id: 'home_video_revolution',
+            title: 'Home Video Market Explodes',
+            description: 'VHS player penetration reaches critical mass. Studios discover they can sell films twice — once in theaters, again on tape.',
+            type: 'technology', importance: 'critical',
+            effects: { revenue_stream: 'home_video' },
+            newspaperHeadline: 'VHS REVOLUTION - STUDIOS DISCOVER HOME VIDEO GOLD'
+        },
+        {
+            year: 1980, month: 11, id: 'heavens_gate_disaster',
+            title: '"Heaven\'s Gate" Ends the Auteur Era',
+            description: 'Cimino\'s $44 million "Heaven\'s Gate" earns $3.5 million. United Artists collapses. Studios reclaim control from directors.',
+            type: 'landmark', importance: 'major',
+            effects: { budget_risk_modifier: 0.5 },
+            newspaperHeadline: 'HEAVEN\'S GATE DESTROYS UNITED ARTISTS'
+        },
+        {
+            year: 1982, month: 7, id: 'tron_cgi_pioneer',
+            title: '"Tron" Pioneers Computer-Generated Imagery',
+            description: 'Disney\'s "Tron" features 15 minutes of CGI — the most ever in a feature film.',
+            type: 'technology', importance: 'moderate',
+            effects: { technology_available: 'basic_cgi' },
+            newspaperHeadline: 'TRON OPENS DOOR TO COMPUTER-GENERATED CINEMA'
+        },
+        {
+            year: 1982, month: 6, id: 'et_breaks_records',
+            title: '"E.T." Breaks All Box Office Records',
+            description: 'Spielberg\'s "E.T." grosses $435 million, becoming the highest-grossing film ever. Family sci-fi proves supreme.',
+            type: 'landmark', importance: 'major',
+            effects: { genre_boost: { sci_fi: 0.2 } },
+            newspaperHeadline: 'E.T. PHONES HOME TO RECORD-BREAKING $435 MILLION'
+        },
+        {
+            year: 1984, month: 7, id: 'pg13_rating_introduced',
+            title: 'PG-13 Rating Introduced',
+            description: 'After outcry over "Temple of Doom" and "Gremlins", the MPAA creates PG-13 — the sweet spot for blockbusters.',
+            type: 'regulation', importance: 'major',
+            effects: { rating_available: 'pg13' },
+            newspaperHeadline: 'MPAA INTRODUCES PG-13 RATING'
+        },
+        {
+            year: 1986, month: 1, id: 'home_video_surpasses_theatrical',
+            title: 'Home Video Revenue Surpasses Theatrical',
+            description: 'Studios earn more from VHS than theaters for the first time. The economics of filmmaking are permanently altered.',
+            type: 'industry', importance: 'major',
+            effects: { revenue_stream: 'home_video_dominant' },
+            newspaperHeadline: 'VHS REVENUE SURPASSES BOX OFFICE - SEISMIC SHIFT'
+        },
+        {
+            year: 1989, month: 6, id: 'batman_marketing_era',
+            title: '"Batman" Launches Event Marketing Era',
+            description: 'Warner Bros.\' "Batman" earns $411 million driven by the most aggressive marketing campaign in history.',
+            type: 'landmark', importance: 'major',
+            effects: { marketing_strategy: 'event_marketing' },
+            newspaperHeadline: 'BATMAN MARKETING BLITZ SETS NEW STANDARD'
+        },
+
+        // --- INDIE BOOM ---
+        {
+            year: 1990, month: 9, id: 'nc17_replaces_x',
+            title: 'NC-17 Rating Replaces X',
+            description: 'The MPAA introduces NC-17 to replace the stigmatized X rating, debuting with "Henry & June".',
+            type: 'regulation', importance: 'moderate',
+            effects: { rating_available: 'nc17' },
+            newspaperHeadline: 'NC-17 REPLACES X RATING - NEW ERA FOR ADULT FILMS'
+        },
+        {
+            year: 1991, month: 7, id: 't2_cgi_breakthrough',
+            title: '"Terminator 2" CGI Breakthrough',
+            description: 'Cameron\'s "T2" stuns with the liquid-metal T-1000, proving CGI can create photorealistic characters.',
+            type: 'technology', importance: 'major',
+            effects: { technology_available: 'advanced_cgi' },
+            newspaperHeadline: 'T-1000 LIQUID METAL - CGI FUTURE IS NOW'
+        },
+        {
+            year: 1993, month: 6, id: 'jurassic_park_cgi_revolution',
+            title: '"Jurassic Park" — CGI Replaces Practical Effects',
+            description: 'Spielberg\'s photorealistic dinosaurs convince the industry that CGI will replace models and miniatures.',
+            type: 'technology', importance: 'critical',
+            effects: { technology_available: 'cgi_standard' },
+            newspaperHeadline: 'JURASSIC PARK CGI STUNS WORLD - PRACTICAL EFFECTS EXTINCT'
+        },
+        {
+            year: 1994, month: 1, id: 'indie_golden_age',
+            title: 'Independent Film Golden Age Begins',
+            description: '"Pulp Fiction" proves indie films can break out. Studios launch specialty divisions. Sundance becomes Hollywood\'s farm system.',
+            type: 'industry', importance: 'major',
+            effects: { distribution_strategy: 'indie_division' },
+            newspaperHeadline: 'PULP FICTION IGNITES INDIE REVOLUTION'
+        },
+        {
+            year: 1995, month: 11, id: 'toy_story_all_cgi',
+            title: '"Toy Story" — First Fully CGI Feature Film',
+            description: 'Pixar\'s "Toy Story" proves entire features can be computer-generated. Traditional animation begins its decline.',
+            type: 'technology', importance: 'critical',
+            effects: { technology_available: 'full_cgi_animation' },
+            newspaperHeadline: 'TOY STORY - FIRST ALL-CGI FILM MAKES HISTORY'
+        },
+
+        // --- DIGITAL DAWN ---
+        {
+            year: 1997, month: 3, id: 'dvd_format_launches',
+            title: 'DVD Format Launches',
+            description: 'DVD arrives with superior quality and bonus features. Consumers begin replacing VHS libraries.',
+            type: 'technology', importance: 'major',
+            effects: { revenue_stream: 'dvd' },
+            newspaperHeadline: 'DVD FORMAT LAUNCHES - VHS REPLACEMENT BEGINS'
+        },
+        {
+            year: 1997, month: 12, id: 'titanic_phenomenon',
+            title: '"Titanic" Becomes Highest-Grossing Film Ever',
+            description: 'Cameron\'s $200M "Titanic" grosses $1.8 billion worldwide, proving mega-budgets can yield mega-returns.',
+            type: 'landmark', importance: 'critical',
+            effects: { budget_ceiling_raised: true },
+            newspaperHeadline: 'TITANIC UNSINKABLE - $1.8 BILLION AND COUNTING'
+        },
+        {
+            year: 1999, month: 7, id: 'blair_witch_viral_marketing',
+            title: '"Blair Witch Project" Proves Internet Marketing',
+            description: 'Made for $60,000, "Blair Witch" grosses $248 million using viral internet marketing.',
+            type: 'landmark', importance: 'moderate',
+            effects: { marketing_strategy: 'viral_internet' },
+            newspaperHeadline: 'BLAIR WITCH - $60,000 FILM EARNS $248 MILLION'
+        },
+        {
+            year: 2001, month: 9, id: 'september_11_attacks',
+            title: 'September 11 Terrorist Attacks',
+            description: 'The 9/11 attacks devastate America. Films with terrorism or urban destruction are delayed. Audiences seek escapism.',
+            type: 'political', importance: 'critical',
+            effects: { box_office_modifier: -0.1, genre_boost: { action: -0.2 } },
+            newspaperHeadline: 'AMERICA ATTACKED - HOLLYWOOD IN SHOCK'
+        },
+        {
+            year: 2001, month: 12, id: 'lord_of_the_rings_trilogy',
+            title: '"Lord of the Rings" Redefines Franchise Filmmaking',
+            description: 'Peter Jackson\'s gamble to shoot three films simultaneously pays off. The trilogy grosses $2.9 billion total.',
+            type: 'landmark', importance: 'major',
+            effects: { franchise_model: 'trilogy' },
+            newspaperHeadline: 'LORD OF THE RINGS - TRILOGY GAMBLE PAYS $2.9 BILLION'
+        },
+        {
+            year: 2004, month: 6, id: 'dvd_revenue_peak',
+            title: 'DVD Revenue Reaches All-Time Peak',
+            description: 'DVD sales hit $21.2 billion — more than double theatrical revenue. Studios dangerously dependent on the format.',
+            type: 'industry', importance: 'major',
+            effects: { revenue_stream: 'dvd_peak' },
+            newspaperHeadline: 'DVD SALES HIT $21 BILLION - STUDIOS SWIMMING IN GOLD'
+        },
+
+        // --- CONVERGENCE ERA ---
+        {
+            year: 2005, month: 6, id: 'youtube_founded',
+            title: 'YouTube Launches',
+            description: 'Video-sharing platform YouTube goes live. Short-form content and user-generated video will reshape audience habits.',
+            type: 'technology', importance: 'major',
+            effects: { audience_fragmentation: true },
+            newspaperHeadline: 'YOUTUBE LAUNCHES - VIDEO GOES VIRAL'
+        },
+        {
+            year: 2007, month: 1, id: 'netflix_streaming_launches',
+            title: 'Netflix Launches Streaming Service',
+            description: 'Netflix introduces streaming alongside DVD-by-mail. The convenience of instant streaming will eventually devour physical media.',
+            type: 'technology', importance: 'critical',
+            effects: { revenue_stream: 'streaming_begins', dvd_decline: true },
+            newspaperHeadline: 'NETFLIX STREAMING ARRIVES - PHYSICAL MEDIA DOOMED?'
+        },
+        {
+            year: 2008, month: 7, id: 'dark_knight_billion',
+            title: '"The Dark Knight" Crosses $1 Billion',
+            description: 'Nolan\'s "Dark Knight" proves superhero films can be prestige events. The billion-dollar club becomes the new benchmark.',
+            type: 'landmark', importance: 'major',
+            effects: { genre_boost: { superhero: 0.3 } },
+            newspaperHeadline: 'DARK KNIGHT JOINS BILLION DOLLAR CLUB'
+        },
+        {
+            year: 2009, month: 12, id: 'avatar_3d_revolution',
+            title: '"Avatar" Launches 3D Revolution',
+            description: 'Cameron\'s "Avatar" grosses $2.8 billion worldwide driven by the 3D premium. Studios rush to convert films to 3D.',
+            type: 'landmark', importance: 'critical',
+            effects: { technology_available: '3d_premium' },
+            newspaperHeadline: 'AVATAR SHATTERS RECORDS - $2.8 BILLION WORLDWIDE'
+        },
+        {
+            year: 2010, month: 12, id: 'game_end',
+            title: 'The Digital Age',
+            description: 'From the golden age of the studio system to the digital revolution — your Hollywood journey spans nearly eight decades of cinematic history.',
+            type: 'milestone', importance: 'critical',
+            effects: { game_complete: true },
+            modal: {
+                title: '🎬 The End of an Era - 2010',
+                content: `
+                    <div class="historical-event">
+                        <p><strong>You have survived 77 years in Hollywood — from the Golden Age to the Digital Revolution.</strong></p>
+                        <h3>Eras You Navigated:</h3>
+                        <ul>
+                            <li>The Pre-Code era and Hays Code enforcement</li>
+                            <li>The Golden Age studio system</li>
+                            <li>World War II and Hollywood's war effort</li>
+                            <li>Television's devastating competition</li>
+                            <li>The New Hollywood auteur revolution</li>
+                            <li>The blockbuster age of Jaws and Star Wars</li>
+                            <li>The VHS and DVD home video booms</li>
+                            <li>The CGI revolution and digital filmmaking</li>
+                            <li>The rise of streaming and franchise dominance</li>
                         </ul>
                         <p><em>Your final statistics and studio legacy will determine your ending...</em></p>
                     </div>
                 `
             },
-            newspaperHeadline: 'END OF AN ERA - HOLLYWOOD ENTERS UNCERTAIN FUTURE'
+            newspaperHeadline: 'HOLLYWOOD 2010: STREAMING, SUPERHEROES, AND THE FUTURE'
         }
     ];
 
