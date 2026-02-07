@@ -32,7 +32,9 @@ describe('HollywoodMogul Game State', () => {
             <div class="nav-btn" data-section="production"></div>
         `;
 
-        // Load the game state module
+        // Load core modules in correct dependency order
+        require('../js/core/event-bus.js');
+        require('../js/core/constants.js');
         require('../js/core/game-state.js');
     });
 

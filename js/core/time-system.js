@@ -92,11 +92,22 @@ window.TimeSystem = (function() {
     }
     
     /**
-     * Get era-specific genre preferences
+     * Get era-specific genre preferences.
+     * Delegates to BoxOfficeSystem for per-year precision when available.
+     * Falls back to era-level averages otherwise.
      */
     function getEraGenreModifiers(year) {
+        // Prefer BoxOfficeSystem's per-year data (single source of truth)
+        if (window.BoxOfficeSystem && window.BoxOfficeSystem.getGenreHeatForYear) {
+            var yearData = window.BoxOfficeSystem.getGenreHeatForYear(year);
+            if (yearData && Object.keys(yearData).length > 0) {
+                return yearData;
+            }
+        }
+
+        // Fallback: era-level averages
         const period = getCurrentPeriod(year);
-        
+
         switch (period?.key) {
             case 'PRE_CODE':
                 return {

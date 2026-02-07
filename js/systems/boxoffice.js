@@ -524,6 +524,17 @@ window.BoxOfficeSystem = (function() {
     }
 
     // Public API
+    /**
+     * Get genre heat multipliers for a specific year.
+     * This is the single source of truth for per-year genre popularity.
+     * TimeSystem.getEraGenreModifiers delegates here when available.
+     * @param {number} year
+     * @returns {Object} genre -> multiplier map
+     */
+    function getGenreHeatForYear(year) {
+        return GENRE_HEAT[year] || GENRE_HEAT[1949] || {};
+    }
+
     return {
         init: init,
         releaseFilm: releaseFilm,
@@ -531,6 +542,8 @@ window.BoxOfficeSystem = (function() {
         getCurrentBoxOfficeData: getCurrentBoxOfficeData,
         calculateBaseBoxOffice: calculateBaseBoxOffice,
         simulateWeeklyBoxOffice: simulateWeeklyBoxOffice,
-        processWeeklyBoxOffice: processWeeklyBoxOffice
+        processWeeklyBoxOffice: processWeeklyBoxOffice,
+        getGenreHeatForYear: getGenreHeatForYear,
+        GENRE_HEAT: GENRE_HEAT
     };
 })();
