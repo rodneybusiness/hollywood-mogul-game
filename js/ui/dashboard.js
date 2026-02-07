@@ -7,34 +7,40 @@ window.DashboardUI = (function() {
 
     let updateInterval;
     let isInitialized = false;
+    let boundClickHandler = null;
+    let boundKeyHandler = null;
 
     /**
      * Initialize the dashboard system
      */
     function init() {
         if (isInitialized) return;
-        
+
         updateDashboard();
         bindEventHandlers();
-        
+
         // Update dashboard every few seconds
         updateInterval = setInterval(updateDashboard, 3000);
         isInitialized = true;
-        
+
         console.log('Dashboard UI initialized');
     }
 
     /**
-     * Bind all dashboard event handlers
+     * Bind all dashboard event handlers (stored as named refs for cleanup)
      */
     function bindEventHandlers() {
-        // Navigation buttons
-        document.addEventListener('click', function(e) {
+        // Remove any previous listeners to prevent accumulation
+        if (boundClickHandler) document.removeEventListener('click', boundClickHandler);
+        if (boundKeyHandler) document.removeEventListener('keydown', boundKeyHandler);
+
+        boundClickHandler = function(e) {
+            // Navigation buttons
             if (e.target.matches('.nav-button')) {
                 const section = e.target.dataset.section;
                 showSection(section);
             }
-            
+
             // Time progression buttons
             if (e.target.matches('#btn-advance-week')) {
                 window.TimeSystem.advanceWeek();
@@ -71,21 +77,21 @@ window.DashboardUI = (function() {
                 const amount = parseInt(e.target.dataset.amount);
                 takeLoan(loanType, amount);
             }
-        });
 
-        // Modal close handlers
-        document.addEventListener('click', function(e) {
+            // Modal close handlers
             if (e.target.matches('.modal-close') || e.target.matches('.modal-overlay')) {
                 closeAllModals();
             }
-        });
+        };
 
-        // ESC key closes modals
-        document.addEventListener('keydown', function(e) {
+        boundKeyHandler = function(e) {
             if (e.key === 'Escape') {
                 closeAllModals();
             }
-        });
+        };
+
+        document.addEventListener('click', boundClickHandler);
+        document.addEventListener('keydown', boundKeyHandler);
     }
 
     /**
@@ -929,6 +935,14 @@ window.DashboardUI = (function() {
         if (updateInterval) {
             clearInterval(updateInterval);
             updateInterval = null;
+        }
+        if (boundClickHandler) {
+            document.removeEventListener('click', boundClickHandler);
+            boundClickHandler = null;
+        }
+        if (boundKeyHandler) {
+            document.removeEventListener('keydown', boundKeyHandler);
+            boundKeyHandler = null;
         }
         isInitialized = false;
     }

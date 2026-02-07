@@ -332,17 +332,24 @@ window.SaveLoadSystem = (function() {
             backlots: { ...gameState.backlots },
             
             // Game collections (deep copy to avoid reference issues)
-            activeFilms: JSON.parse(JSON.stringify(gameState.activeFilms)),
-            completedFilms: JSON.parse(JSON.stringify(gameState.completedFilms)),
-            contractPlayers: JSON.parse(JSON.stringify(gameState.contractPlayers)),
-            availableScripts: JSON.parse(JSON.stringify(gameState.availableScripts)),
-            currentEvents: JSON.parse(JSON.stringify(gameState.currentEvents)),
-            
+            activeFilms: JSON.parse(JSON.stringify(gameState.activeFilms || [])),
+            completedFilms: JSON.parse(JSON.stringify(gameState.completedFilms || [])),
+            contractPlayers: JSON.parse(JSON.stringify(gameState.contractPlayers || [])),
+            availableScripts: JSON.parse(JSON.stringify(gameState.availableScripts || [])),
+            currentEvents: JSON.parse(JSON.stringify(gameState.currentEvents || [])),
+            events: JSON.parse(JSON.stringify(gameState.events || [])),
+
+            // Phase 4-5: technologies, franchises, studio lot
+            technologies: JSON.parse(JSON.stringify(gameState.technologies || [])),
+            franchises: JSON.parse(JSON.stringify(gameState.franchises || [])),
+            studioLot: gameState.studioLot ? JSON.parse(JSON.stringify(gameState.studioLot)) : null,
+
             // Game progress
             gameStarted: gameState.gameStarted,
             gameEnded: gameState.gameEnded,
             endingType: gameState.endingType,
-            
+            scenario: gameState.scenario || null,
+
             // Statistics
             stats: { ...gameState.stats }
         };
@@ -380,16 +387,23 @@ window.SaveLoadSystem = (function() {
             soundStages: saveData.soundStages,
             backlots: { ...saveData.backlots },
             
-            activeFilms: [...saveData.activeFilms],
-            completedFilms: [...saveData.completedFilms],
-            contractPlayers: [...saveData.contractPlayers],
-            availableScripts: [...saveData.availableScripts],
-            currentEvents: [...saveData.currentEvents],
-            
+            activeFilms: [...(saveData.activeFilms || [])],
+            completedFilms: [...(saveData.completedFilms || [])],
+            contractPlayers: [...(saveData.contractPlayers || [])],
+            availableScripts: [...(saveData.availableScripts || [])],
+            currentEvents: [...(saveData.currentEvents || [])],
+            events: [...(saveData.events || [])],
+
+            // Phase 4-5: technologies, franchises, studio lot
+            technologies: saveData.technologies ? JSON.parse(JSON.stringify(saveData.technologies)) : [],
+            franchises: saveData.franchises ? JSON.parse(JSON.stringify(saveData.franchises)) : [],
+            studioLot: saveData.studioLot ? JSON.parse(JSON.stringify(saveData.studioLot)) : null,
+
             gameStarted: saveData.gameStarted,
             gameEnded: saveData.gameEnded,
             endingType: saveData.endingType,
-            
+            scenario: saveData.scenario || null,
+
             stats: { ...saveData.stats }
         };
         
@@ -839,11 +853,11 @@ window.SaveLoadSystem = (function() {
         },
         arrayFields: [
             'activeFilms', 'completedFilms', 'contractPlayers',
-            'availableScripts', 'currentEvents'
+            'availableScripts', 'currentEvents', 'technologies', 'franchises'
         ],
         objectFields: ['backlots', 'stats'],
         numberRanges: {
-            gameYear: { min: 1933, max: 1960 },
+            gameYear: { min: 1933, max: 2011 },
             gameWeek: { min: 1, max: 10000 },
             reputation: { min: 0, max: 100 },
             soundStages: { min: 0, max: 20 }
@@ -931,7 +945,7 @@ window.SaveLoadSystem = (function() {
 
         // 3. Validate arrays
         for (const field of SAVE_SCHEMA.arrayFields) {
-            if (saveData[field] !== undefined && !Array.isArray(saveData[field])) {
+            if (saveData[field] !== undefined && saveData[field] !== null && !Array.isArray(saveData[field])) {
                 errors.push(`${field} should be an array`);
             }
         }

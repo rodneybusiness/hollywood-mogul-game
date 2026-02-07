@@ -1,7 +1,7 @@
 /**
  * HOLLYWOOD MOGUL - SCRIPT LIBRARY
- * Historically authentic film scripts spanning 1933-1949
- * 150+ unique scripts across all major Golden Age genres
+ * Historically authentic film scripts spanning 1933-2010
+ * 250+ unique scripts across 12 eras and all major genres
  */
 
 window.ScriptLibrary = (function() {

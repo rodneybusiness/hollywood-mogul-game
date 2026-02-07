@@ -6,12 +6,24 @@
 window.KeyboardShortcuts = (function() {
     'use strict';
 
+    var isInitialized = false;
+
     /**
      * Initialize keyboard shortcuts
      */
     function init() {
+        if (isInitialized) return;
         document.addEventListener('keydown', handleKeyDown);
+        isInitialized = true;
         console.log('Keyboard shortcuts initialized');
+    }
+
+    /**
+     * Clean up keyboard shortcuts
+     */
+    function destroy() {
+        document.removeEventListener('keydown', handleKeyDown);
+        isInitialized = false;
     }
 
     /**
@@ -141,6 +153,7 @@ window.KeyboardShortcuts = (function() {
      * Public API
      */
     return {
-        init: init
+        init: init,
+        destroy: destroy
     };
 })();

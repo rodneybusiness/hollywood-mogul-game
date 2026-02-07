@@ -257,30 +257,39 @@ window.BoxOfficeSystem = (function() {
 
         // Apply TV competition penalty (1950s-1960s primarily)
         if (window.TVCompetitionSystem && window.TVCompetitionSystem.getBoxOfficePenalty) {
-            var gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
-            var tvMult = window.TVCompetitionSystem.getBoxOfficePenalty(yearRef, gameState);
-            baseGross *= tvMult;
+            var tvGameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            if (tvGameState) {
+                var tvMult = window.TVCompetitionSystem.getBoxOfficePenalty(yearRef, tvGameState);
+                baseGross *= tvMult;
+            }
         }
 
-        // Apply technology revenue bonuses
+        // Apply technology revenue bonuses (capped to prevent runaway stacking)
+        var combinedBonusMult = 1.0;
         if (window.TechnologySystem && window.HollywoodMogul) {
             var gs = window.HollywoodMogul.getGameState();
-            var techRevenueMult = window.TechnologySystem.getTotalRevenueMultiplier(gs);
-            baseGross *= techRevenueMult;
+            if (gs) {
+                combinedBonusMult *= window.TechnologySystem.getTotalRevenueMultiplier(gs);
 
-            // Genre-specific technology bonuses
-            var genreTechBonus = window.TechnologySystem.getGenreBonus(film.genre, gs);
-            if (genreTechBonus > 0) {
-                baseGross *= (1 + genreTechBonus);
+                // Genre-specific technology bonuses
+                var genreTechBonus = window.TechnologySystem.getGenreBonus(film.genre, gs);
+                if (genreTechBonus > 0) {
+                    combinedBonusMult *= (1 + genreTechBonus);
+                }
             }
         }
 
         // Apply franchise/sequel audience bonus
         if (film.isSequel && window.FranchiseSystem && window.HollywoodMogul) {
             var fgs = window.HollywoodMogul.getGameState();
-            var franchiseMult = window.FranchiseSystem.getFranchiseBoxOfficeMultiplier(film, fgs);
-            baseGross *= franchiseMult;
+            if (fgs) {
+                combinedBonusMult *= window.FranchiseSystem.getFranchiseBoxOfficeMultiplier(film, fgs);
+            }
         }
+
+        // Cap combined bonus multiplier at 4.0× to prevent unrealistic values
+        combinedBonusMult = Math.min(combinedBonusMult, 4.0);
+        baseGross *= combinedBonusMult;
 
         return Math.floor(baseGross);
     }

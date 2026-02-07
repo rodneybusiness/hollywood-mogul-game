@@ -107,7 +107,7 @@ window.TVCompetitionSystem = (function() {
 
         // Tech defense (widescreen, stereo, etc. reduce the penalty)
         var techDefense = 0;
-        if (window.TechnologySystem && window.TechnologySystem.getTvDefenseBonus) {
+        if (gameState && window.TechnologySystem && window.TechnologySystem.getTvDefenseBonus) {
             techDefense = window.TechnologySystem.getTvDefenseBonus(gameState);
         }
 

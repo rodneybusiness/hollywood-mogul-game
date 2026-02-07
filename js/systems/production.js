@@ -106,7 +106,14 @@ window.ProductionSystem = (function() {
             totalGross: 0,
             studioRevenue: 0,
             inTheaters: false,
-            theaterCount: 0
+            theaterCount: 0,
+
+            // MPAA / Franchise carry-over from script
+            audienceMultiplier: script.audienceMultiplier || null,
+            isSequel: script.isSequel || false,
+            franchiseId: script.franchiseId || null,
+            sequelNumber: script.sequelNumber || 0,
+            audienceBonus: script.audienceBonus || 0
         };
         
         // Add to active films
@@ -203,7 +210,12 @@ window.ProductionSystem = (function() {
         if (hasRelevantBacklot(film.genre, gameState)) {
             baseCost *= 0.85; // 15% savings with appropriate backlot
         }
-        
+
+        // Technology budget multiplier (e.g. Digital Filmmaking = 15% cheaper)
+        if (window.TechnologySystem && window.TechnologySystem.getBudgetMultiplier) {
+            baseCost *= window.TechnologySystem.getBudgetMultiplier(gameState);
+        }
+
         return Math.floor(baseCost);
     }
     
@@ -839,12 +851,27 @@ window.ProductionSystem = (function() {
     function isPhaseComplete(film) {
         const phaseDuration = PRODUCTION_PHASES[film.phase]?.duration || 1;
         let adjustedDuration = phaseDuration;
-        
+
+        // Technology production speed bonus (e.g. Digital Filmmaking = 15% faster)
+        var techSpeedBonus = 0;
+        if (window.TechnologySystem && window.TechnologySystem.getProductionSpeedBonus) {
+            var gs = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            if (gs) techSpeedBonus = window.TechnologySystem.getProductionSpeedBonus(gs);
+        }
+        // Studio lot speed bonus
+        var lotSpeedBonus = 0;
+        if (window.StudioLotSystem && window.StudioLotSystem.getProductionSpeedBonus) {
+            var gs2 = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            if (gs2) lotSpeedBonus = window.StudioLotSystem.getProductionSpeedBonus(gs2);
+        }
+        var totalSpeedBonus = Math.min(techSpeedBonus + lotSpeedBonus, 40); // Cap at 40%
+        adjustedDuration = Math.max(1, Math.floor(adjustedDuration * (1 - totalSpeedBonus / 100)));
+
         // Adjust duration for delays
         if (film.delayWeeks > 0) {
             adjustedDuration += Math.floor(film.delayWeeks);
         }
-        
+
         return film.weeksInCurrentPhase >= adjustedDuration;
     }
     
