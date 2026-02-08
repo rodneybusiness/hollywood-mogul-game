@@ -55,8 +55,8 @@ window.ProductionSystem = (function() {
             id: generateFilmId(),
             title: script.title,
             genre: script.genre,
-            
-            // Budget & Financial
+
+            // Budget & Financial (script budget already era-appropriate)
             originalBudget: script.budget,
             currentBudget: script.budget,
             spentToDate: 0,
@@ -106,7 +106,14 @@ window.ProductionSystem = (function() {
             totalGross: 0,
             studioRevenue: 0,
             inTheaters: false,
-            theaterCount: 0
+            theaterCount: 0,
+
+            // MPAA / Franchise carry-over from script
+            audienceMultiplier: script.audienceMultiplier || null,
+            isSequel: script.isSequel || false,
+            franchiseId: script.franchiseId || null,
+            sequelNumber: script.sequelNumber || 0,
+            audienceBonus: script.audienceBonus || 0
         };
         
         // Add to active films
@@ -203,7 +210,12 @@ window.ProductionSystem = (function() {
         if (hasRelevantBacklot(film.genre, gameState)) {
             baseCost *= 0.85; // 15% savings with appropriate backlot
         }
-        
+
+        // Technology budget multiplier (e.g. Digital Filmmaking = 15% cheaper)
+        if (window.TechnologySystem && window.TechnologySystem.getBudgetMultiplier) {
+            baseCost *= window.TechnologySystem.getBudgetMultiplier(gameState);
+        }
+
         return Math.floor(baseCost);
     }
     
@@ -839,12 +851,27 @@ window.ProductionSystem = (function() {
     function isPhaseComplete(film) {
         const phaseDuration = PRODUCTION_PHASES[film.phase]?.duration || 1;
         let adjustedDuration = phaseDuration;
-        
+
+        // Technology production speed bonus (e.g. Digital Filmmaking = 15% faster)
+        var techSpeedBonus = 0;
+        if (window.TechnologySystem && window.TechnologySystem.getProductionSpeedBonus) {
+            var gs = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            if (gs) techSpeedBonus = window.TechnologySystem.getProductionSpeedBonus(gs);
+        }
+        // Studio lot speed bonus
+        var lotSpeedBonus = 0;
+        if (window.StudioLotSystem && window.StudioLotSystem.getProductionSpeedBonus) {
+            var gs2 = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            if (gs2) lotSpeedBonus = window.StudioLotSystem.getProductionSpeedBonus(gs2);
+        }
+        var totalSpeedBonus = Math.min(techSpeedBonus + lotSpeedBonus, 40); // Cap at 40%
+        adjustedDuration = Math.max(1, Math.floor(adjustedDuration * (1 - totalSpeedBonus / 100)));
+
         // Adjust duration for delays
         if (film.delayWeeks > 0) {
             adjustedDuration += Math.floor(film.delayWeeks);
         }
-        
+
         return film.weeksInCurrentPhase >= adjustedDuration;
     }
     
@@ -862,28 +889,36 @@ window.ProductionSystem = (function() {
     
     function calculateFinalQuality(film) {
         let quality = film.scriptQuality;
-        
+
         // Director skill impact
         quality += (film.directorSkill - 70) * 0.2;
-        
+
         // Cast chemistry impact
         quality += (film.castChemistry - 70) * 0.1;
-        
+
         // Production issues impact
         quality -= film.crisisCount * 3;
-        
+
         // Crew efficiency impact
         quality += (film.crewEfficiency - 70) * 0.1;
-        
+
         // Budget issues impact
         if (!film.onBudget) {
             quality -= 5;
         }
-        
+
         if (!film.onSchedule) {
             quality -= 3;
         }
-        
+
+        // Technology quality bonus
+        if (window.TechnologySystem && window.TechnologySystem.getTotalQualityBonus) {
+            var gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+            if (gameState) {
+                quality += window.TechnologySystem.getTotalQualityBonus(gameState);
+            }
+        }
+
         return Math.max(10, Math.min(100, Math.floor(quality)));
     }
     

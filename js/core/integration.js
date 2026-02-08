@@ -16,6 +16,7 @@ window.Integration = (function() {
     'use strict';
 
     var isInitialized = false;
+    var boundDelegationHandler = null;
 
     // ================================================================
     // INITIALIZATION
@@ -75,7 +76,12 @@ window.Integration = (function() {
     // ================================================================
 
     function wireEventDelegation() {
-        document.addEventListener('click', function(e) {
+        // Remove previous listener to prevent accumulation
+        if (boundDelegationHandler) {
+            document.removeEventListener('click', boundDelegationHandler);
+        }
+
+        boundDelegationHandler = function(e) {
             // Greenlight script buttons
             if (e.target.classList.contains('greenlight-btn') && e.target.dataset.scriptId) {
                 handleScriptGreenlight(e.target.dataset.scriptId);
@@ -90,7 +96,9 @@ window.Integration = (function() {
             if (e.target.classList.contains('loan-btn')) {
                 handleLoan(e.target.dataset.loanType, parseInt(e.target.dataset.amount));
             }
-        });
+        };
+
+        document.addEventListener('click', boundDelegationHandler);
     }
 
     // ================================================================

@@ -24,7 +24,7 @@ window.SaveLoadUI = (function() {
         }
 
         if (loadBtn) {
-            saveBtn.addEventListener('click', () => showSaveModal('load'));
+            loadBtn.addEventListener('click', () => showSaveModal('load'));
         }
 
         // Bind modal controls

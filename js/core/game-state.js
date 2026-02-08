@@ -50,7 +50,10 @@ window.HollywoodMogul = (function() {
         },
 
         events: [],
-        scenario: null
+        scenario: null,
+
+        technologies: [],
+        franchises: []
     };
 
     // ================================================================
@@ -190,8 +193,17 @@ window.HollywoodMogul = (function() {
                 yearsSurvived: 0
             },
             events: [],
-            scenario: null
+            scenario: null,
+            technologies: [],
+            franchises: []
         };
+
+        if (window.TechnologySystem && window.TechnologySystem.initializeTechnologies) {
+            window.TechnologySystem.initializeTechnologies(gameState);
+        }
+        if (window.FranchiseSystem && window.FranchiseSystem.initializeFranchises) {
+            window.FranchiseSystem.initializeFranchises(gameState);
+        }
 
         if (window.ScenarioSystem && window.ScenarioSystem.applyScenario) {
             window.ScenarioSystem.applyScenario(scenarioId, gameState);
@@ -303,6 +315,18 @@ window.HollywoodMogul = (function() {
 
         if (gameState.studioLot && gameState.studioLot.totalMaintenanceCost) {
             burn += gameState.studioLot.totalMaintenanceCost;
+        }
+
+        // Technology maintenance costs
+        if (window.TechnologySystem && window.TechnologySystem.getTotalMaintenanceCost) {
+            burn += window.TechnologySystem.getTotalMaintenanceCost(gameState);
+        }
+
+        // Apply era financial scaling (costs rise with inflation over decades)
+        var C = getC();
+        if (C.getEraScalingForYear) {
+            var scaling = C.getEraScalingForYear(gameState.gameYear);
+            burn = Math.floor(burn * scaling.monthlyBurnMult);
         }
 
         gameState.monthlyBurn = burn;

@@ -1,10 +1,10 @@
 /**
  * HOLLYWOOD MOGUL - TALENT ROSTER DATABASE
- * Historically accurate actors and directors from 1933-1949
+ * Historically accurate actors and directors from 1933-2010
  * Includes star power ratings, costs, and availability windows
  *
  * MASSIVELY EXPANDED EDITION
- * 75+ Actors | 35+ Directors | Rich Biographical Data
+ * 110+ Actors | 55+ Directors | Rich Biographical Data | 78 Years of Coverage
  */
 
 window.TalentRoster = (function() {
@@ -53,7 +53,7 @@ window.TalentRoster = (function() {
             specialties: ['intensity', 'dramatic range', 'fierce independence'],
             typeCast: 'Strong-willed women who defy convention',
             availableFrom: 1933,
-            availableTo: 1949,
+            availableTo: 1962, // Career extended through Baby Jane era
             oscarWinner: true, // Dangerous (1935), Jezebel (1938)
             oscarPotential: 35,
             scandalRisk: 18,
@@ -74,7 +74,7 @@ window.TalentRoster = (function() {
             specialties: ['world-weary cynicism', 'moral complexity', 'tough vulnerability'],
             typeCast: 'Cynical antihero with hidden nobility',
             availableFrom: 1936,
-            availableTo: 1949,
+            availableTo: 1957, // Died January 1957
             oscarPotential: 22,
             scandalRisk: 10,
             chemistry: 90,
@@ -94,7 +94,7 @@ window.TalentRoster = (function() {
             specialties: ['aristocratic bearing', 'sharp wit', 'physical comedy'],
             typeCast: 'Independent, sophisticated women',
             availableFrom: 1933,
-            availableTo: 1949,
+            availableTo: 1981, // On Golden Pond (1981) was final great role
             oscarWinner: true, // Morning Glory (1933)
             oscarPotential: 35,
             scandalRisk: 20,
@@ -135,7 +135,7 @@ window.TalentRoster = (function() {
             specialties: ['everyman appeal', 'moral integrity', 'aw-shucks charm'],
             typeCast: 'Idealistic American hero',
             availableFrom: 1935,
-            availableTo: 1949,
+            availableTo: 1968, // Last major films in late 1960s
             draftRisk: true, // Served 1941-1945 (bomber pilot)
             oscarWinner: true, // The Philadelphia Story (1940)
             oscarPotential: 30,
@@ -592,7 +592,7 @@ window.TalentRoster = (function() {
             specialties: ['masculine authority', 'western authenticity', 'American values'],
             typeCast: 'Rugged western hero',
             availableFrom: 1933,
-            availableTo: 1949,
+            availableTo: 1976, // True Grit (1969), The Shootist (1976)
             draftRisk: false, // 4F, didn't serve (later controversial)
             oscarPotential: 12,
             scandalRisk: 10,
@@ -1652,7 +1652,7 @@ window.TalentRoster = (function() {
             specialties: ['powerful voice', 'emotional vulnerability', 'girl-next-door appeal'],
             typeCast: 'Wholesome musical stars',
             availableFrom: 1935,
-            availableTo: 1949,
+            availableTo: 1969, // Died 1969, A Star Is Born (1954)
             oscarPotential: 20,
             scandalRisk: 22,
             chemistry: 85,
@@ -1660,6 +1660,794 @@ window.TalentRoster = (function() {
             rivalries: [],
             quirks: ['pill addiction', 'abused by studio', 'powerful voice', 'unstable'],
             description: 'The most talented and troubled musical star. Garland\'s powerful voice and emotional vulnerability made her unforgettable, but MGM\'s abuse with pills and exploitation destroyed her health. Her instability was already showing.'
+        },
+
+        // ========================================================================
+        // 1950s STARS - Method Acting and New Hollywood Glamour
+        // ========================================================================
+
+        marlon_brando: {
+            id: 'marlon_brando',
+            name: 'Marlon Brando',
+            gender: 'male',
+            starPower: 98,
+            weeklyRate: 8000,
+            genres: ['drama', 'crime', 'war', 'romance'],
+            specialties: ['method acting', 'raw intensity', 'mumbling naturalism'],
+            typeCast: 'Tortured rebels and powerful men',
+            availableFrom: 1950,
+            availableTo: 1980,
+            oscarWinner: true, // On the Waterfront (1954), The Godfather (1972)
+            oscarPotential: 40,
+            scandalRisk: 25,
+            chemistry: 80,
+            pairings: ['vivien_leigh', 'eva_marie_saint'],
+            rivalries: ['james_dean'],
+            quirks: ['refuses direction', 'weight gain issues', 'political activism', 'refuses Oscar'],
+            description: 'The greatest actor of his generation. Brando\'s Method acting revolutionized the craft, bringing raw emotional truth to the screen. His refusal to play by Hollywood\'s rules made him both legendary and difficult.'
+        },
+
+        james_dean: {
+            id: 'james_dean',
+            name: 'James Dean',
+            gender: 'male',
+            starPower: 88,
+            weeklyRate: 6000,
+            genres: ['drama', 'romance'],
+            specialties: ['teenage angst', 'vulnerability', 'rebellion'],
+            typeCast: 'Troubled youth',
+            availableFrom: 1955,
+            availableTo: 1955, // Died September 1955
+            oscarPotential: 30,
+            scandalRisk: 18,
+            chemistry: 82,
+            pairings: ['natalie_wood', 'elizabeth_taylor'],
+            rivalries: [],
+            quirks: ['reckless driver', 'moody on set', 'icon of rebellion'],
+            description: 'The ultimate symbol of youthful rebellion. Dean made only three films but became an immortal icon. His raw vulnerability and tortured intensity defined a generation\'s disillusionment.'
+        },
+
+        marilyn_monroe: {
+            id: 'marilyn_monroe',
+            name: 'Marilyn Monroe',
+            gender: 'female',
+            starPower: 96,
+            weeklyRate: 7500,
+            genres: ['comedy', 'romance', 'musical', 'drama'],
+            specialties: ['sex appeal', 'comic timing', 'vulnerability'],
+            typeCast: 'Blonde bombshell with hidden depth',
+            availableFrom: 1950,
+            availableTo: 1962, // Died 1962
+            oscarPotential: 15,
+            scandalRisk: 30,
+            chemistry: 92,
+            pairings: ['tony_curtis', 'clark_gable'],
+            rivalries: ['jane_russell'],
+            quirks: ['chronically late', 'demands retakes', 'fragile psyche', 'studio conflicts'],
+            description: 'The most iconic sex symbol in cinema history. Monroe\'s breathy voice and luminous screen presence masked genuine comic talent and deep personal turmoil. Her battles with studios and personal demons became legendary.'
+        },
+
+        grace_kelly: {
+            id: 'grace_kelly',
+            name: 'Grace Kelly',
+            gender: 'female',
+            starPower: 90,
+            weeklyRate: 7000,
+            genres: ['drama', 'thriller', 'romance', 'comedy'],
+            specialties: ['icy elegance', 'aristocratic beauty', 'hidden passion'],
+            typeCast: 'Cool blonde with smoldering depths',
+            availableFrom: 1951,
+            availableTo: 1956, // Retired to become Princess of Monaco
+            oscarWinner: true, // The Country Girl (1954)
+            oscarPotential: 28,
+            scandalRisk: 8,
+            chemistry: 88,
+            pairings: ['cary_grant', 'james_stewart', 'gary_cooper'],
+            rivalries: [],
+            quirks: ['Hitchcock favorite', 'secretly passionate', 'leaves for royalty'],
+            description: 'The epitome of cool blonde elegance. Kelly\'s brief but brilliant career produced unforgettable Hitchcock heroines before she traded Hollywood for a real-life fairy tale as Princess of Monaco.'
+        },
+
+        audrey_hepburn: {
+            id: 'audrey_hepburn',
+            name: 'Audrey Hepburn',
+            gender: 'female',
+            starPower: 93,
+            weeklyRate: 8000,
+            genres: ['romance', 'comedy', 'drama', 'musical'],
+            specialties: ['gamine charm', 'elegance', 'waif-like beauty'],
+            typeCast: 'Elegant free spirits',
+            availableFrom: 1953,
+            availableTo: 1976,
+            oscarWinner: true, // Roman Holiday (1953)
+            oscarPotential: 25,
+            scandalRisk: 3,
+            chemistry: 90,
+            pairings: ['gregory_peck', 'cary_grant', 'fred_astaire'],
+            rivalries: [],
+            quirks: ['fashion icon', 'humanitarian', 'insecure about talent'],
+            description: 'The most elegant star in Hollywood history. Hepburn\'s gamine charm, impeccable style, and genuine warmth made her beloved worldwide. Her transition from actress to humanitarian was seamless.'
+        },
+
+        elizabeth_taylor: {
+            id: 'elizabeth_taylor',
+            name: 'Elizabeth Taylor',
+            gender: 'female',
+            starPower: 95,
+            weeklyRate: 10000,
+            genres: ['drama', 'romance', 'melodrama'],
+            specialties: ['violet eyes', 'passionate intensity', 'glamour'],
+            typeCast: 'Passionate, tempestuous women',
+            availableFrom: 1950,
+            availableTo: 1980,
+            oscarWinner: true, // BUtterfield 8 (1960), Who's Afraid of Virginia Woolf? (1966)
+            oscarPotential: 30,
+            scandalRisk: 35,
+            chemistry: 88,
+            pairings: ['richard_burton', 'montgomery_clift', 'paul_newman'],
+            rivalries: ['debbie_reynolds'],
+            quirks: ['multiple marriages', 'health problems', 'jewelry obsession', 'tabloid magnet'],
+            description: 'The last great studio-era movie star. Taylor\'s violet eyes, stunning beauty, and tumultuous personal life kept her in headlines for decades. Her on-screen passion was matched only by her off-screen drama.'
+        },
+
+        rock_hudson: {
+            id: 'rock_hudson',
+            name: 'Rock Hudson',
+            gender: 'male',
+            starPower: 85,
+            weeklyRate: 7000,
+            genres: ['romance', 'comedy', 'drama', 'war'],
+            specialties: ['tall dark handsome', 'romantic charm', 'comedic timing'],
+            typeCast: 'Tall, dark, handsome leading man',
+            availableFrom: 1950,
+            availableTo: 1970,
+            oscarPotential: 15,
+            scandalRisk: 20,
+            chemistry: 85,
+            pairings: ['doris_day', 'elizabeth_taylor'],
+            rivalries: [],
+            quirks: ['closeted personal life', 'studio-manufactured image', 'reliable professional'],
+            description: 'The quintessential 1950s leading man. Hudson\'s towering physique and easy charm made him the top box office draw. His comedies with Doris Day defined an era, while his private life remained carefully hidden.'
+        },
+
+        kim_novak: {
+            id: 'kim_novak',
+            name: 'Kim Novak',
+            gender: 'female',
+            starPower: 82,
+            weeklyRate: 6000,
+            genres: ['drama', 'thriller', 'romance', 'noir'],
+            specialties: ['mysterious allure', 'ethereal beauty', 'vulnerability'],
+            typeCast: 'Mysterious, haunting women',
+            availableFrom: 1954,
+            availableTo: 1966,
+            oscarPotential: 15,
+            scandalRisk: 14,
+            chemistry: 80,
+            pairings: ['james_stewart', 'frank_sinatra'],
+            rivalries: ['grace_kelly'],
+            quirks: ['Hitchcock muse', 'studio-controlled image', 'resistant to typecasting'],
+            description: 'Columbia\'s answer to Marilyn Monroe, but with a haunting depth. Novak\'s ethereal presence in Vertigo created one of cinema\'s most unforgettable performances. Her mysterious quality made her perfect for Hitchcock.'
+        },
+
+        // ========================================================================
+        // 1960s STARS - The New Wave and International Icons
+        // ========================================================================
+
+        paul_newman: {
+            id: 'paul_newman',
+            name: 'Paul Newman',
+            gender: 'male',
+            starPower: 94,
+            weeklyRate: 15000,
+            genres: ['drama', 'western', 'crime', 'comedy'],
+            specialties: ['blue-eyed intensity', 'charming antiheroes', 'natural cool'],
+            typeCast: 'Charismatic rebels and antiheroes',
+            availableFrom: 1956,
+            availableTo: 2002,
+            oscarWinner: true, // The Color of Money (1986)
+            oscarPotential: 30,
+            scandalRisk: 6,
+            chemistry: 90,
+            pairings: ['joanne_woodward', 'robert_redford'],
+            rivalries: [],
+            quirks: ['race car driver', 'political activist', 'philanthropist', 'loyal husband'],
+            description: 'The coolest actor in Hollywood. Newman\'s piercing blue eyes and effortless charisma masked serious dramatic talent. His partnership with Robert Redford produced cinematic magic, and his philanthropy set a new standard.'
+        },
+
+        steve_mcqueen: {
+            id: 'steve_mcqueen',
+            name: 'Steve McQueen',
+            gender: 'male',
+            starPower: 90,
+            weeklyRate: 14000,
+            genres: ['action', 'thriller', 'western', 'drama', 'war'],
+            specialties: ['cool stoicism', 'physical presence', 'anti-establishment'],
+            typeCast: 'Cool, laconic action heroes',
+            availableFrom: 1960,
+            availableTo: 1980, // Died 1980
+            oscarPotential: 15,
+            scandalRisk: 18,
+            chemistry: 78,
+            pairings: ['faye_dunaway', 'ali_macgraw'],
+            rivalries: ['paul_newman'],
+            quirks: ['motorcycle obsession', 'difficult on set', 'demands top billing', 'paranoid'],
+            description: 'The King of Cool. McQueen\'s laconic intensity and physical magnetism made him the ultimate action star. His anti-establishment persona and love of speed defined a new kind of masculine cool.'
+        },
+
+        sidney_poitier: {
+            id: 'sidney_poitier',
+            name: 'Sidney Poitier',
+            gender: 'male',
+            starPower: 88,
+            weeklyRate: 12000,
+            genres: ['drama', 'thriller', 'crime'],
+            specialties: ['dignified intensity', 'moral authority', 'breaking barriers'],
+            typeCast: 'Dignified, intelligent men of principle',
+            availableFrom: 1955,
+            availableTo: 1977,
+            oscarWinner: true, // Lilies of the Field (1963)
+            oscarPotential: 25,
+            scandalRisk: 5,
+            chemistry: 82,
+            pairings: ['rod_steiger', 'tony_curtis'],
+            rivalries: [],
+            quirks: ['racial barrier breaker', 'refuses demeaning roles', 'regal bearing'],
+            description: 'The man who broke Hollywood\'s color barrier. Poitier\'s dignified presence and immense talent made him the first Black actor to win the Best Actor Oscar. His insistence on roles of dignity changed the industry forever.'
+        },
+
+        sean_connery: {
+            id: 'sean_connery',
+            name: 'Sean Connery',
+            gender: 'male',
+            starPower: 92,
+            weeklyRate: 15000,
+            genres: ['action', 'thriller', 'adventure', 'drama'],
+            specialties: ['suave masculinity', 'physical charisma', 'Scottish charm'],
+            typeCast: 'Suave, dangerous men of action',
+            availableFrom: 1962,
+            availableTo: 2003,
+            oscarWinner: true, // The Untouchables (1987)
+            oscarPotential: 18,
+            scandalRisk: 12,
+            chemistry: 85,
+            pairings: ['honor_blackman', 'ursula_andress'],
+            rivalries: ['roger_moore'],
+            quirks: ['Bond typecasting', 'refuses toupee off-screen', 'Scottish pride'],
+            description: 'The definitive James Bond and so much more. Connery\'s raw masculine charisma and dangerous charm made him an international superstar. His later career proved he was far more than 007.'
+        },
+
+        julie_andrews: {
+            id: 'julie_andrews',
+            name: 'Julie Andrews',
+            gender: 'female',
+            starPower: 90,
+            weeklyRate: 14000,
+            genres: ['musical', 'comedy', 'drama', 'romance'],
+            specialties: ['crystal voice', 'wholesome charm', 'comic timing'],
+            typeCast: 'Wholesome, spirited heroines',
+            availableFrom: 1964,
+            availableTo: 1982,
+            oscarWinner: true, // Mary Poppins (1964)
+            oscarPotential: 22,
+            scandalRisk: 3,
+            chemistry: 85,
+            pairings: ['dick_van_dyke', 'christopher_plummer'],
+            rivalries: [],
+            quirks: ['practically perfect', 'stage-trained voice', 'subversive humor'],
+            description: 'The voice of a generation. Andrews dominated the 1960s musical with Mary Poppins and The Sound of Music, her crystal-clear soprano and impeccable charm creating two of cinema\'s most beloved characters.'
+        },
+
+        sophia_loren: {
+            id: 'sophia_loren',
+            name: 'Sophia Loren',
+            gender: 'female',
+            starPower: 89,
+            weeklyRate: 13000,
+            genres: ['drama', 'comedy', 'romance'],
+            specialties: ['Mediterranean beauty', 'earthy passion', 'dramatic power'],
+            typeCast: 'Passionate, earthy Mediterranean women',
+            availableFrom: 1957,
+            availableTo: 1980,
+            oscarWinner: true, // Two Women (1961) - first for non-English performance
+            oscarPotential: 25,
+            scandalRisk: 12,
+            chemistry: 88,
+            pairings: ['marcello_mastroianni', 'cary_grant'],
+            rivalries: ['gina_lollobrigida'],
+            quirks: ['international glamour', 'rose from poverty', 'Italian fire'],
+            description: 'Italy\'s greatest film export. Loren\'s stunning beauty and raw dramatic power made her the first actress to win an Oscar for a non-English language performance. Her rags-to-riches story was more dramatic than any film.'
+        },
+
+        // ========================================================================
+        // 1970s STARS - New Hollywood and the Director\'s Era
+        // ========================================================================
+
+        robert_de_niro: {
+            id: 'robert_de_niro',
+            name: 'Robert De Niro',
+            gender: 'male',
+            starPower: 96,
+            weeklyRate: 30000,
+            genres: ['crime', 'drama', 'thriller', 'comedy'],
+            specialties: ['method transformation', 'intensity', 'intimidation'],
+            typeCast: 'Intense, dangerous men',
+            availableFrom: 1973,
+            availableTo: 2010,
+            oscarWinner: true, // The Godfather Part II (1974), Raging Bull (1980)
+            oscarPotential: 35,
+            scandalRisk: 8,
+            chemistry: 85,
+            pairings: ['joe_pesci', 'harvey_keitel'],
+            rivalries: ['al_pacino'],
+            quirks: ['extreme method acting', 'gains weight for roles', 'Scorsese partnership'],
+            description: 'The greatest actor of his generation. De Niro\'s total commitment to Method acting produced some of cinema\'s most unforgettable performances. His physical and psychological transformations remain unmatched.'
+        },
+
+        al_pacino: {
+            id: 'al_pacino',
+            name: 'Al Pacino',
+            gender: 'male',
+            starPower: 95,
+            weeklyRate: 28000,
+            genres: ['crime', 'drama', 'thriller'],
+            specialties: ['explosive intensity', 'quiet menace', 'theatrical flair'],
+            typeCast: 'Passionate, explosive men of power',
+            availableFrom: 1972,
+            availableTo: 2010,
+            oscarWinner: true, // Scent of a Woman (1992)
+            oscarPotential: 32,
+            scandalRisk: 10,
+            chemistry: 82,
+            pairings: ['diane_keaton', 'robert_de_niro'],
+            rivalries: ['robert_de_niro'],
+            quirks: ['Hoo-ah!', 'theatrical training', 'increasingly bombastic'],
+            description: 'The most electrifying actor in American cinema. Pacino\'s volcanic intensity and theatrical flair produced Michael Corleone, Tony Montana, and countless other iconic performances. His quiet menace could explode into operatic fury.'
+        },
+
+        jack_nicholson: {
+            id: 'jack_nicholson',
+            name: 'Jack Nicholson',
+            gender: 'male',
+            starPower: 96,
+            weeklyRate: 30000,
+            genres: ['drama', 'thriller', 'comedy', 'horror', 'crime'],
+            specialties: ['devilish charm', 'manic energy', 'subversive humor'],
+            typeCast: 'Charismatic rebels and dangerous charmers',
+            availableFrom: 1969,
+            availableTo: 2006,
+            oscarWinner: true, // One Flew Over the Cuckoo's Nest (1975), Terms of Endearment (1983), As Good as It Gets (1997)
+            oscarPotential: 35,
+            scandalRisk: 22,
+            chemistry: 88,
+            pairings: ['faye_dunaway', 'shirley_maclaine'],
+            rivalries: [],
+            quirks: ['sunglasses indoors', 'Lakers superfan', 'legendary partier', 'eyebrow acting'],
+            description: 'The most charismatic actor of his era. Nicholson\'s devilish grin and unpredictable energy made every film an event. Three Oscars barely capture the breadth of his talent, from Easy Rider to The Shining to As Good as It Gets.'
+        },
+
+        dustin_hoffman: {
+            id: 'dustin_hoffman',
+            name: 'Dustin Hoffman',
+            gender: 'male',
+            starPower: 90,
+            weeklyRate: 25000,
+            genres: ['drama', 'comedy', 'thriller'],
+            specialties: ['character transformation', 'neurotic energy', 'everyman appeal'],
+            typeCast: 'Unlikely heroes and complex everymen',
+            availableFrom: 1967,
+            availableTo: 2008,
+            oscarWinner: true, // Kramer vs. Kramer (1979), Rain Man (1988)
+            oscarPotential: 30,
+            scandalRisk: 12,
+            chemistry: 84,
+            pairings: ['meryl_streep', 'tom_cruise'],
+            rivalries: [],
+            quirks: ['perfectionist', 'difficult on set', 'Method extremist'],
+            description: 'The anti-movie star who became a movie star. Hoffman\'s unconventional looks and obsessive commitment to character made him the most unlikely leading man in Hollywood. His range from The Graduate to Tootsie to Rain Man is staggering.'
+        },
+
+        faye_dunaway: {
+            id: 'faye_dunaway',
+            name: 'Faye Dunaway',
+            gender: 'female',
+            starPower: 86,
+            weeklyRate: 20000,
+            genres: ['drama', 'crime', 'thriller', 'noir'],
+            specialties: ['fierce beauty', 'intensity', 'glamorous danger'],
+            typeCast: 'Beautiful, dangerous women',
+            availableFrom: 1967,
+            availableTo: 1987,
+            oscarWinner: true, // Network (1976)
+            oscarPotential: 28,
+            scandalRisk: 16,
+            chemistry: 82,
+            pairings: ['warren_beatty', 'jack_nicholson', 'steve_mcqueen'],
+            rivalries: [],
+            quirks: ['demands perfection', 'temperamental', 'high-maintenance'],
+            description: 'The ice-cold beauty of New Hollywood. Dunaway\'s fierce intelligence and stunning presence defined the era, from Bonnie and Clyde to Chinatown to Network. Her intensity could be riveting or terrifying, sometimes both.'
+        },
+
+        diane_keaton: {
+            id: 'diane_keaton',
+            name: 'Diane Keaton',
+            gender: 'female',
+            starPower: 85,
+            weeklyRate: 18000,
+            genres: ['comedy', 'drama', 'romance'],
+            specialties: ['neurotic charm', 'quirky fashion', 'natural comedy'],
+            typeCast: 'Quirky, intelligent women',
+            availableFrom: 1972,
+            availableTo: 2003,
+            oscarWinner: true, // Annie Hall (1977)
+            oscarPotential: 25,
+            scandalRisk: 5,
+            chemistry: 86,
+            pairings: ['woody_allen', 'al_pacino'],
+            rivalries: [],
+            quirks: ['signature menswear style', 'self-deprecating', 'Allen muse'],
+            description: 'The most original screen presence of her generation. Keaton\'s quirky charm, distinctive fashion sense, and natural comic timing created Annie Hall, one of cinema\'s most beloved characters. Her dramatic range surprised everyone.'
+        },
+
+        // ========================================================================
+        // 1980s STARS - Blockbuster Era Icons
+        // ========================================================================
+
+        harrison_ford: {
+            id: 'harrison_ford',
+            name: 'Harrison Ford',
+            gender: 'male',
+            starPower: 97,
+            weeklyRate: 75000,
+            genres: ['action', 'adventure', 'sci_fi', 'thriller', 'drama'],
+            specialties: ['reluctant hero', 'everyman toughness', 'dry humor'],
+            typeCast: 'Reluctant heroes thrust into adventure',
+            availableFrom: 1977,
+            availableTo: 2010,
+            oscarPotential: 15,
+            scandalRisk: 6,
+            chemistry: 85,
+            pairings: ['carrie_fisher', 'karen_allen', 'sean_connery'],
+            rivalries: [],
+            quirks: ['former carpenter', 'private person', 'planes and crashes', 'grumpy interviews'],
+            description: 'The biggest movie star of the blockbuster era. Ford\'s everyman appeal and dry humor made Han Solo and Indiana Jones into cultural icons. His ability to seem like a regular guy doing extraordinary things was unmatched.'
+        },
+
+        meryl_streep: {
+            id: 'meryl_streep',
+            name: 'Meryl Streep',
+            gender: 'female',
+            starPower: 93,
+            weeklyRate: 60000,
+            genres: ['drama', 'comedy', 'romance', 'thriller'],
+            specialties: ['accent mastery', 'total transformation', 'emotional precision'],
+            typeCast: 'Complex women in dramatic situations',
+            availableFrom: 1978,
+            availableTo: 2010,
+            oscarWinner: true, // Kramer vs. Kramer (1979), Sophie's Choice (1982)
+            oscarPotential: 40,
+            scandalRisk: 2,
+            chemistry: 88,
+            pairings: ['dustin_hoffman', 'robert_de_niro'],
+            rivalries: [],
+            quirks: ['accent perfectionist', 'most nominated ever', 'versatility incarnate'],
+            description: 'Widely considered the greatest living actress. Streep\'s chameleon-like ability to disappear into any role, era, or accent is unmatched. Her Oscar record will likely never be broken.'
+        },
+
+        tom_hanks: {
+            id: 'tom_hanks',
+            name: 'Tom Hanks',
+            gender: 'male',
+            starPower: 96,
+            weeklyRate: 100000,
+            genres: ['drama', 'comedy', 'war', 'romance', 'thriller'],
+            specialties: ['everyman warmth', 'likability', 'emotional honesty'],
+            typeCast: 'Decent men facing extraordinary circumstances',
+            availableFrom: 1984,
+            availableTo: 2010,
+            oscarWinner: true, // Philadelphia (1993), Forrest Gump (1994)
+            oscarPotential: 30,
+            scandalRisk: 1,
+            chemistry: 90,
+            pairings: ['meg_ryan', 'wilson_the_volleyball'],
+            rivalries: [],
+            quirks: ['America\'s dad', 'back-to-back Oscars', 'typewriter collector'],
+            description: 'America\'s most beloved actor. Hanks\'s natural warmth and emotional authenticity transformed him from comic actor to dramatic powerhouse. His consecutive Oscar wins cemented his status as the modern James Stewart.'
+        },
+
+        sigourney_weaver: {
+            id: 'sigourney_weaver',
+            name: 'Sigourney Weaver',
+            gender: 'female',
+            starPower: 84,
+            weeklyRate: 50000,
+            genres: ['sci_fi', 'action', 'drama', 'comedy'],
+            specialties: ['physical toughness', 'intelligence', 'genre-defying'],
+            typeCast: 'Strong, intelligent women in extraordinary situations',
+            availableFrom: 1979,
+            availableTo: 2010,
+            oscarPotential: 20,
+            scandalRisk: 3,
+            chemistry: 80,
+            pairings: ['bill_murray'],
+            rivalries: [],
+            quirks: ['sci-fi queen', 'feminist icon', 'Yale-trained'],
+            description: 'The woman who proved female action heroes could carry blockbusters. Weaver\'s Ripley in Alien shattered gender barriers in sci-fi and action. Her intelligence and physical presence redefined what a leading lady could be.'
+        },
+
+        eddie_murphy: {
+            id: 'eddie_murphy',
+            name: 'Eddie Murphy',
+            gender: 'male',
+            starPower: 93,
+            weeklyRate: 80000,
+            genres: ['comedy', 'action', 'crime', 'animated'],
+            specialties: ['comic genius', 'multiple characters', 'street-smart charm'],
+            typeCast: 'Fast-talking comic heroes',
+            availableFrom: 1982,
+            availableTo: 2010,
+            oscarPotential: 12,
+            scandalRisk: 18,
+            chemistry: 82,
+            pairings: ['nick_nolte', 'dan_aykroyd'],
+            rivalries: [],
+            quirks: ['SNL breakout', 'standup legend', 'multiple-role films'],
+            description: 'The most bankable comedian of the 1980s. Murphy\'s explosive energy and fearless comedy made him a superstar before he turned 25. His box office dominance in the 1980s was rivaled only by Spielberg.'
+        },
+
+        michael_douglas: {
+            id: 'michael_douglas',
+            name: 'Michael Douglas',
+            gender: 'male',
+            starPower: 87,
+            weeklyRate: 55000,
+            genres: ['drama', 'thriller', 'crime', 'romance'],
+            specialties: ['alpha male charisma', 'moral ambiguity', 'corporate intensity'],
+            typeCast: 'Powerful men at moral crossroads',
+            availableFrom: 1979,
+            availableTo: 2010,
+            oscarWinner: true, // Wall Street (1987)
+            oscarPotential: 22,
+            scandalRisk: 15,
+            chemistry: 83,
+            pairings: ['kathleen_turner', 'sharon_stone'],
+            rivalries: [],
+            quirks: ['producer-actor', 'father\'s shadow', 'tabloid personal life'],
+            description: 'The definitive 1980s alpha male. Douglas\'s Gordon Gekko became the icon of Reagan-era excess. His ability to make morally compromised characters charismatic and compelling was his greatest gift.'
+        },
+
+        // ========================================================================
+        // 1990s STARS - Indie Revolution and Global Stardom
+        // ========================================================================
+
+        denzel_washington: {
+            id: 'denzel_washington',
+            name: 'Denzel Washington',
+            gender: 'male',
+            starPower: 95,
+            weeklyRate: 120000,
+            genres: ['drama', 'thriller', 'crime', 'action', 'war'],
+            specialties: ['commanding presence', 'moral authority', 'quiet intensity'],
+            typeCast: 'Men of principle facing impossible choices',
+            availableFrom: 1989,
+            availableTo: 2010,
+            oscarWinner: true, // Glory (1989), Training Day (2001)
+            oscarPotential: 32,
+            scandalRisk: 3,
+            chemistry: 88,
+            pairings: ['julia_roberts', 'ethan_hawke'],
+            rivalries: [],
+            quirks: ['methodical preparation', 'refuses villain roles (mostly)', 'quiet dignity'],
+            description: 'The most respected actor of his generation. Washington\'s commanding presence and quiet intensity brought dignity and complexity to every role. His Oscar for Training Day proved he could play against type brilliantly.'
+        },
+
+        julia_roberts: {
+            id: 'julia_roberts',
+            name: 'Julia Roberts',
+            gender: 'female',
+            starPower: 94,
+            weeklyRate: 150000,
+            genres: ['romance', 'comedy', 'drama', 'thriller'],
+            specialties: ['megawatt smile', 'everywoman appeal', 'romantic chemistry'],
+            typeCast: 'Spirited women who triumph against odds',
+            availableFrom: 1988,
+            availableTo: 2010,
+            oscarWinner: true, // Erin Brockovich (2000)
+            oscarPotential: 22,
+            scandalRisk: 14,
+            chemistry: 92,
+            pairings: ['richard_gere', 'hugh_grant', 'denzel_washington'],
+            rivalries: [],
+            quirks: ['biggest female star', 'runaway bride reputation', 'infectious laugh'],
+            description: 'America\'s Sweetheart. Roberts\'s megawatt smile and natural charm made her the highest-paid actress in Hollywood. Pretty Woman created a modern fairy tale, and her box office power was unprecedented for a female star.'
+        },
+
+        brad_pitt: {
+            id: 'brad_pitt',
+            name: 'Brad Pitt',
+            gender: 'male',
+            starPower: 94,
+            weeklyRate: 150000,
+            genres: ['drama', 'crime', 'thriller', 'action', 'comedy'],
+            specialties: ['movie star charisma', 'character actor instincts', 'physical presence'],
+            typeCast: 'Charismatic men in morally complex situations',
+            availableFrom: 1991,
+            availableTo: 2010,
+            oscarPotential: 25,
+            scandalRisk: 18,
+            chemistry: 88,
+            pairings: ['george_clooney', 'edward_norton'],
+            rivalries: [],
+            quirks: ['tabloid magnet', 'produces serious films', 'snacks on set'],
+            description: 'The rare combination of matinee idol looks and serious acting ambition. Pitt\'s willingness to take risks with Fight Club, Se7en, and Snatch proved there was real talent behind the pretty face.'
+        },
+
+        samuel_l_jackson: {
+            id: 'samuel_l_jackson',
+            name: 'Samuel L. Jackson',
+            gender: 'male',
+            starPower: 90,
+            weeklyRate: 100000,
+            genres: ['action', 'crime', 'thriller', 'drama', 'sci_fi'],
+            specialties: ['commanding voice', 'explosive energy', 'cool authority'],
+            typeCast: 'Intense, authoritative figures',
+            availableFrom: 1991,
+            availableTo: 2010,
+            oscarPotential: 20,
+            scandalRisk: 6,
+            chemistry: 85,
+            pairings: ['john_travolta', 'bruce_willis'],
+            rivalries: [],
+            quirks: ['Tarantino favorite', 'most prolific A-lister', 'golf obsession'],
+            description: 'The hardest working man in Hollywood. Jackson\'s Pulp Fiction breakthrough launched one of the most prolific careers in film history. His commanding voice and explosive presence make every film better.'
+        },
+
+        jodie_foster: {
+            id: 'jodie_foster',
+            name: 'Jodie Foster',
+            gender: 'female',
+            starPower: 88,
+            weeklyRate: 90000,
+            genres: ['thriller', 'drama', 'crime'],
+            specialties: ['fierce intelligence', 'quiet strength', 'psychological depth'],
+            typeCast: 'Brilliant, determined women facing danger',
+            availableFrom: 1988,
+            availableTo: 2010,
+            oscarWinner: true, // The Accused (1988), Silence of the Lambs (1991)
+            oscarPotential: 30,
+            scandalRisk: 5,
+            chemistry: 80,
+            pairings: ['anthony_hopkins'],
+            rivalries: [],
+            quirks: ['child star turned auteur', 'fiercely private', 'Yale graduate', 'directs too'],
+            description: 'The most cerebral star in Hollywood. Foster\'s fierce intelligence and quiet intensity made Clarice Starling one of cinema\'s greatest heroes. Her transition from child star to two-time Oscar winner was remarkable.'
+        },
+
+        will_smith: {
+            id: 'will_smith',
+            name: 'Will Smith',
+            gender: 'male',
+            starPower: 95,
+            weeklyRate: 200000,
+            genres: ['action', 'comedy', 'sci_fi', 'drama'],
+            specialties: ['megastar charisma', 'comic timing', 'action credibility'],
+            typeCast: 'Charismatic everyman saving the world',
+            availableFrom: 1993,
+            availableTo: 2010,
+            oscarPotential: 20,
+            scandalRisk: 8,
+            chemistry: 88,
+            pairings: ['martin_lawrence', 'tommy_lee_jones'],
+            rivalries: [],
+            quirks: ['July 4th box office king', 'rapper turned actor', 'family brand'],
+            description: 'The biggest movie star of the late 1990s. Smith\'s combination of action credibility, comic timing, and genuine warmth made him the most bankable star on Earth. Independence Day and Men in Black defined summer blockbusters.'
+        },
+
+        // ========================================================================
+        // 2000s STARS - Global Franchise Era
+        // ========================================================================
+
+        leonardo_dicaprio: {
+            id: 'leonardo_dicaprio',
+            name: 'Leonardo DiCaprio',
+            gender: 'male',
+            starPower: 97,
+            weeklyRate: 300000,
+            genres: ['drama', 'thriller', 'crime', 'adventure', 'sci_fi'],
+            specialties: ['intense commitment', 'tortured characters', 'prestige projects'],
+            typeCast: 'Driven men consumed by obsession',
+            availableFrom: 1993,
+            availableTo: 2010,
+            oscarPotential: 35,
+            scandalRisk: 10,
+            chemistry: 85,
+            pairings: ['kate_winslet', 'cate_blanchett'],
+            rivalries: [],
+            quirks: ['Scorsese partnership', 'environmental activism', 'model girlfriends', 'Oscar quest'],
+            description: 'The most dedicated actor of his generation. DiCaprio survived teen heartthrob status to become the go-to leading man for prestige cinema. His Scorsese collaborations and intense commitment to every role cemented his legacy.'
+        },
+
+        george_clooney: {
+            id: 'george_clooney',
+            name: 'George Clooney',
+            gender: 'male',
+            starPower: 91,
+            weeklyRate: 200000,
+            genres: ['drama', 'thriller', 'crime', 'comedy'],
+            specialties: ['old Hollywood charm', 'intelligence', 'producer instincts'],
+            typeCast: 'Charming, intelligent men of principle',
+            availableFrom: 1996,
+            availableTo: 2010,
+            oscarWinner: true, // Syriana (2005)
+            oscarPotential: 25,
+            scandalRisk: 8,
+            chemistry: 90,
+            pairings: ['brad_pitt', 'matt_damon'],
+            rivalries: [],
+            quirks: ['prankster', 'political activist', 'refuses superhero return', 'old-school star'],
+            description: 'The last old-school movie star. Clooney\'s Cary Grant-like charm and intelligence made him a throwback to Golden Age Hollywood. His dual career as actor and producer-director showed rare ambition and social conscience.'
+        },
+
+        cate_blanchett: {
+            id: 'cate_blanchett',
+            name: 'Cate Blanchett',
+            gender: 'female',
+            starPower: 90,
+            weeklyRate: 150000,
+            genres: ['drama', 'fantasy', 'thriller', 'romance'],
+            specialties: ['chameleon transformations', 'regal presence', 'theatrical power'],
+            typeCast: 'Powerful women of intelligence and mystery',
+            availableFrom: 1998,
+            availableTo: 2010,
+            oscarWinner: true, // The Aviator (2004)
+            oscarPotential: 35,
+            scandalRisk: 3,
+            chemistry: 85,
+            pairings: ['leonardo_dicaprio', 'brad_pitt'],
+            rivalries: [],
+            quirks: ['Australian theater roots', 'fearless role choices', 'effortless elegance'],
+            description: 'The most versatile actress of her generation. Blanchett\'s ability to transform into anyone from Queen Elizabeth to Bob Dylan to an elf queen demonstrated range that few can match. Her theatrical training gave her extraordinary power.'
+        },
+
+        angelina_jolie: {
+            id: 'angelina_jolie',
+            name: 'Angelina Jolie',
+            gender: 'female',
+            starPower: 93,
+            weeklyRate: 200000,
+            genres: ['action', 'drama', 'thriller', 'adventure'],
+            specialties: ['fierce physicality', 'dark beauty', 'humanitarian image'],
+            typeCast: 'Dangerous, beautiful women of action',
+            availableFrom: 1999,
+            availableTo: 2010,
+            oscarWinner: true, // Girl, Interrupted (1999)
+            oscarPotential: 22,
+            scandalRisk: 20,
+            chemistry: 85,
+            pairings: ['brad_pitt'],
+            rivalries: [],
+            quirks: ['humanitarian missions', 'tabloid magnet', 'action star credibility', 'directs too'],
+            description: 'The most famous woman in the world. Jolie\'s combination of dark beauty, fearless physicality, and genuine humanitarian work made her a global icon. Her Lara Croft proved women could carry action franchises.'
+        },
+
+        johnny_depp: {
+            id: 'johnny_depp',
+            name: 'Johnny Depp',
+            gender: 'male',
+            starPower: 95,
+            weeklyRate: 250000,
+            genres: ['adventure', 'fantasy', 'drama', 'comedy', 'horror'],
+            specialties: ['eccentric characters', 'physical comedy', 'Tim Burton muse'],
+            typeCast: 'Eccentric outsiders and charming rogues',
+            availableFrom: 1990,
+            availableTo: 2010,
+            oscarPotential: 25,
+            scandalRisk: 15,
+            chemistry: 82,
+            pairings: ['helena_bonham_carter', 'orlando_bloom'],
+            rivalries: [],
+            quirks: ['Burton collaborator', 'character actor in star body', 'pirate lifestyle', 'Keith Richards fan'],
+            description: 'Hollywood\'s most eccentric leading man. Depp\'s willingness to disappear into bizarre characters made him an unlikely blockbuster star. Captain Jack Sparrow turned a theme park ride into a billion-dollar franchise.'
         }
     };
 
@@ -1697,7 +2485,7 @@ window.TalentRoster = (function() {
             weeklyRate: 5500,
             genres: ['western', 'drama', 'war'],
             availableFrom: 1933,
-            availableTo: 1949,
+            availableTo: 1966, // 7 Women (1966) was final film
             draftRisk: true, // Made war documentaries 1941-1945
             oscarWinner: true, // The Informer (1935), Grapes of Wrath (1940), How Green Was My Valley (1941)
             oscarPotential: 38,
@@ -1713,7 +2501,7 @@ window.TalentRoster = (function() {
             weeklyRate: 4800,
             genres: ['comedy', 'western', 'noir', 'adventure', 'crime'],
             availableFrom: 1933,
-            availableTo: 1949,
+            availableTo: 1970, // Rio Lobo (1970) was final film
             oscarPotential: 18,
             scandalRisk: 6,
             specialties: ['dialogue', 'professionalism', 'strong women', 'overlapping talk'],
@@ -1727,7 +2515,7 @@ window.TalentRoster = (function() {
             weeklyRate: 6500,
             genres: ['thriller', 'noir', 'suspense', 'crime'],
             availableFrom: 1940, // Came to Hollywood in 1939
-            availableTo: 1949,
+            availableTo: 1976, // Family Plot (1976) was final film
             oscarPotential: 25, // Never won competitive Oscar!
             scandalRisk: 8,
             specialties: ['suspense', 'visual storytelling', 'psychology', 'MacGuffins'],
@@ -1742,7 +2530,7 @@ window.TalentRoster = (function() {
             weeklyRate: 5200,
             genres: ['noir', 'comedy', 'drama', 'satire'],
             availableFrom: 1942, // Directorial debut
-            availableTo: 1949,
+            availableTo: 1978, // Fedora (1978) was last notable film
             oscarWinner: true, // The Lost Weekend (1945)
             oscarPotential: 36,
             scandalRisk: 10,
@@ -2208,6 +2996,358 @@ window.TalentRoster = (function() {
             scandalRisk: 6,
             specialties: ['PRC workhorse', 'ultra-low budgets', 'speed', 'volume'],
             description: 'The most prolific director in history - over 250 films! Newfield ground out poverty row quickies for PRC with no pretense to art. The ultimate hack, but his volume and speed were legendary. Used multiple pseudonyms to hide his ubiquity.'
+        },
+
+        // ========================================================================
+        // 1950s DIRECTORS - International Masters and Epic Storytellers
+        // ========================================================================
+
+        akira_kurosawa: {
+            id: 'akira_kurosawa',
+            name: 'Akira Kurosawa',
+            talent: 98,
+            weeklyRate: 6000,
+            genres: ['drama', 'adventure', 'war', 'thriller'],
+            availableFrom: 1950,
+            availableTo: 1985,
+            oscarPotential: 30,
+            scandalRisk: 3,
+            specialties: ['visual grandeur', 'samurai cinema', 'humanist philosophy', 'dynamic editing'],
+            quirks: [],
+            description: 'The Emperor of Japanese cinema. Kurosawa\'s Rashomon, Seven Samurai, and Yojimbo influenced every action filmmaker who followed. His dynamic visual style and humanist themes transcended language barriers.'
+        },
+
+        david_lean: {
+            id: 'david_lean',
+            name: 'David Lean',
+            talent: 96,
+            weeklyRate: 8000,
+            genres: ['drama', 'war', 'adventure', 'romance'],
+            availableFrom: 1946,
+            availableTo: 1984,
+            oscarWinner: true, // Bridge on the River Kwai (1957), Lawrence of Arabia (1962)
+            oscarPotential: 38,
+            scandalRisk: 5,
+            specialties: ['epic scope', 'landscape cinematography', 'intimate epic', 'perfectionism'],
+            quirks: [],
+            description: 'The supreme master of the epic film. Lean transformed from intimate British dramas to sweeping spectacles that defined cinema grandeur. Lawrence of Arabia remains the gold standard for epic filmmaking.'
+        },
+
+        elia_kazan: {
+            id: 'elia_kazan',
+            name: 'Elia Kazan',
+            talent: 94,
+            weeklyRate: 7000,
+            genres: ['drama', 'romance'],
+            availableFrom: 1947,
+            availableTo: 1969,
+            oscarWinner: true, // Gentleman's Agreement (1947), On the Waterfront (1954)
+            oscarPotential: 35,
+            scandalRisk: 20,
+            specialties: ['Method directing', 'social realism', 'actor performances', 'controversial'],
+            quirks: [],
+            description: 'The director who brought Method acting to Hollywood. Kazan\'s explosive collaborations with Brando and Dean changed film acting forever. His HUAC testimony made him the most controversial figure in Hollywood.'
+        },
+
+        // ========================================================================
+        // 1960s DIRECTORS - Auteurs and Genre Revolutionaries
+        // ========================================================================
+
+        stanley_kubrick: {
+            id: 'stanley_kubrick',
+            name: 'Stanley Kubrick',
+            talent: 99,
+            weeklyRate: 15000,
+            genres: ['sci_fi', 'war', 'horror', 'drama', 'thriller', 'crime'],
+            availableFrom: 1956,
+            availableTo: 1999,
+            oscarPotential: 28, // Criminally under-awarded
+            scandalRisk: 8,
+            specialties: ['visual perfection', 'genre mastery', 'psychological depth', 'obsessive control'],
+            quirks: [],
+            description: 'Cinema\'s greatest perfectionist. Kubrick\'s mathematical precision and obsessive control produced masterpieces in every genre he touched. From 2001 to The Shining to Full Metal Jacket, each film redefined its genre.'
+        },
+
+        roman_polanski: {
+            id: 'roman_polanski',
+            name: 'Roman Polanski',
+            talent: 93,
+            weeklyRate: 12000,
+            genres: ['thriller', 'horror', 'noir', 'drama', 'crime'],
+            availableFrom: 1962,
+            availableTo: 2002,
+            oscarWinner: true, // The Pianist (2002)
+            oscarPotential: 30,
+            scandalRisk: 35,
+            specialties: ['paranoia', 'claustrophobia', 'psychological horror', 'European sensibility'],
+            quirks: [],
+            description: 'A brilliant, troubled genius. Polanski\'s ability to create unbearable tension and psychological horror produced Rosemary\'s Baby and Chinatown. His personal tragedies and scandals overshadowed extraordinary artistry.'
+        },
+
+        sergio_leone: {
+            id: 'sergio_leone',
+            name: 'Sergio Leone',
+            talent: 94,
+            weeklyRate: 10000,
+            genres: ['western', 'crime', 'drama'],
+            availableFrom: 1964,
+            availableTo: 1984,
+            oscarPotential: 20,
+            scandalRisk: 4,
+            specialties: ['extreme close-ups', 'Morricone scores', 'mythic westerns', 'operatic violence'],
+            quirks: [],
+            description: 'The man who reinvented the western. Leone\'s Spaghetti Westerns with Clint Eastwood and his operatic crime epic Once Upon a Time in America created a new visual language. His extreme close-ups and Morricone scores were revolutionary.'
+        },
+
+        // ========================================================================
+        // 1970s DIRECTORS - New Hollywood Mavericks
+        // ========================================================================
+
+        francis_ford_coppola: {
+            id: 'francis_ford_coppola',
+            name: 'Francis Ford Coppola',
+            talent: 97,
+            weeklyRate: 25000,
+            genres: ['crime', 'drama', 'war', 'thriller'],
+            availableFrom: 1969,
+            availableTo: 1997,
+            oscarWinner: true, // The Godfather (1972), The Godfather Part II (1974), Apocalypse Now (1979)
+            oscarPotential: 38,
+            scandalRisk: 15,
+            specialties: ['family sagas', 'operatic drama', 'risk-taking', 'epic ambition'],
+            quirks: [],
+            description: 'The most ambitious director of New Hollywood. Coppola bet everything on The Godfather and won, creating the greatest American film. His willingness to risk financial ruin for artistic vision was both his greatest strength and weakness.'
+        },
+
+        martin_scorsese: {
+            id: 'martin_scorsese',
+            name: 'Martin Scorsese',
+            talent: 98,
+            weeklyRate: 30000,
+            genres: ['crime', 'drama', 'thriller', 'comedy'],
+            availableFrom: 1973,
+            availableTo: 2010,
+            oscarWinner: true, // The Departed (2006)
+            oscarPotential: 36,
+            scandalRisk: 6,
+            specialties: ['urban crime', 'tracking shots', 'rock music', 'moral complexity', 'De Niro/DiCaprio'],
+            quirks: [],
+            description: 'American cinema\'s greatest living director. Scorsese\'s kinetic visual style, masterful use of music, and unflinching examination of violence and guilt produced Taxi Driver, Goodfellas, and The Departed. His film preservation work is equally important.'
+        },
+
+        ridley_scott: {
+            id: 'ridley_scott',
+            name: 'Ridley Scott',
+            talent: 90,
+            weeklyRate: 25000,
+            genres: ['sci_fi', 'action', 'war', 'drama', 'thriller'],
+            availableFrom: 1977,
+            availableTo: 2010,
+            oscarPotential: 22,
+            scandalRisk: 4,
+            specialties: ['visual worldbuilding', 'atmosphere', 'production design', 'genre versatility'],
+            quirks: [],
+            description: 'The supreme visual stylist. Scott\'s Alien and Blade Runner created two of cinema\'s most influential visual worlds. His ability to build immersive atmospheres through production design and cinematography is unmatched.'
+        },
+
+        george_lucas: {
+            id: 'george_lucas',
+            name: 'George Lucas',
+            talent: 88,
+            weeklyRate: 20000,
+            genres: ['sci_fi', 'adventure', 'fantasy', 'action'],
+            availableFrom: 1971,
+            availableTo: 2005,
+            oscarPotential: 18,
+            scandalRisk: 3,
+            specialties: ['worldbuilding', 'visual effects pioneer', 'mythology', 'franchise creation'],
+            quirks: [],
+            description: 'The man who changed movies forever. Lucas\'s Star Wars didn\'t just create a film franchise - it revolutionized visual effects, merchandising, and the entire business model of Hollywood. American Graffiti proved he could also make intimate films.'
+        },
+
+        woody_allen: {
+            id: 'woody_allen',
+            name: 'Woody Allen',
+            talent: 92,
+            weeklyRate: 15000,
+            genres: ['comedy', 'drama', 'romance'],
+            availableFrom: 1969,
+            availableTo: 2010,
+            oscarWinner: true, // Annie Hall (1977), Hannah and Her Sisters (1986)
+            oscarPotential: 30,
+            scandalRisk: 25,
+            specialties: ['neurotic comedy', 'New York love letters', 'intellectual humor', 'prolific output'],
+            quirks: [],
+            description: 'America\'s most prolific auteur. Allen\'s neurotic comedies and New York love letters created a unique cinematic voice. Annie Hall redefined romantic comedy, and his annual film output was remarkable in its consistency.'
+        },
+
+        // ========================================================================
+        // 1980s DIRECTORS - Blockbuster Masters
+        // ========================================================================
+
+        steven_spielberg: {
+            id: 'steven_spielberg',
+            name: 'Steven Spielberg',
+            talent: 98,
+            weeklyRate: 100000,
+            genres: ['adventure', 'sci_fi', 'war', 'drama', 'thriller', 'action'],
+            availableFrom: 1975,
+            availableTo: 2010,
+            oscarWinner: true, // Schindler's List (1993), Saving Private Ryan (1998)
+            oscarPotential: 38,
+            scandalRisk: 2,
+            specialties: ['emotional storytelling', 'blockbuster craft', 'prestige and popcorn', 'visual wonder'],
+            quirks: [],
+            description: 'The most successful filmmaker in history. Spielberg invented the modern blockbuster with Jaws and proved he could also make profound art with Schindler\'s List. His ability to combine spectacle with genuine emotion is unmatched.'
+        },
+
+        james_cameron: {
+            id: 'james_cameron',
+            name: 'James Cameron',
+            talent: 92,
+            weeklyRate: 80000,
+            genres: ['sci_fi', 'action', 'thriller', 'adventure'],
+            availableFrom: 1984,
+            availableTo: 2010,
+            oscarWinner: true, // Titanic (1997)
+            oscarPotential: 25,
+            scandalRisk: 10,
+            specialties: ['technical innovation', 'strong women', 'underwater obsession', 'box office records'],
+            quirks: [],
+            description: 'Hollywood\'s greatest technical innovator. Cameron\'s perfectionism and technological ambition produced Terminator, Aliens, and Titanic. His ability to push the boundaries of what\'s possible on screen is legendary, as is his on-set intensity.'
+        },
+
+        tim_burton: {
+            id: 'tim_burton',
+            name: 'Tim Burton',
+            talent: 87,
+            weeklyRate: 50000,
+            genres: ['fantasy', 'horror', 'comedy', 'drama', 'animated'],
+            availableFrom: 1985,
+            availableTo: 2010,
+            oscarPotential: 15,
+            scandalRisk: 5,
+            specialties: ['gothic aesthetic', 'outsider stories', 'visual imagination', 'Danny Elfman scores'],
+            quirks: [],
+            description: 'Hollywood\'s master of the gothic and grotesque. Burton\'s unique visual imagination created Edward Scissorhands, Batman, and Nightmare Before Christmas. His sympathy for outsiders and misfits gave his films unexpected emotional depth.'
+        },
+
+        // ========================================================================
+        // 1990s DIRECTORS - Independent Voices
+        // ========================================================================
+
+        quentin_tarantino: {
+            id: 'quentin_tarantino',
+            name: 'Quentin Tarantino',
+            talent: 94,
+            weeklyRate: 60000,
+            genres: ['crime', 'thriller', 'western', 'drama', 'action'],
+            availableFrom: 1992,
+            availableTo: 2010,
+            oscarWinner: true, // Screenplay Oscars
+            oscarPotential: 30,
+            scandalRisk: 15,
+            specialties: ['dialogue mastery', 'nonlinear storytelling', 'pop culture', 'genre revival'],
+            quirks: [],
+            description: 'The video store clerk who rewrote cinema. Tarantino\'s Pulp Fiction detonated like a bomb, revitalizing independent film and proving that dazzling dialogue and nonlinear storytelling could be wildly commercial. His encyclopedic film knowledge infused every frame.'
+        },
+
+        david_fincher: {
+            id: 'david_fincher',
+            name: 'David Fincher',
+            talent: 93,
+            weeklyRate: 55000,
+            genres: ['thriller', 'crime', 'drama'],
+            availableFrom: 1992,
+            availableTo: 2010,
+            oscarPotential: 28,
+            scandalRisk: 6,
+            specialties: ['dark atmosphere', 'obsessive detail', 'digital perfection', 'serial killers'],
+            quirks: [],
+            description: 'The darkest visual stylist of his generation. Fincher\'s meticulous craftsmanship and bleak worldview produced Se7en, Fight Club, and Zodiac. His hundreds of takes and digital perfection created a new standard for thriller filmmaking.'
+        },
+
+        coen_brothers: {
+            id: 'coen_brothers',
+            name: 'Joel and Ethan Coen',
+            talent: 95,
+            weeklyRate: 50000,
+            genres: ['crime', 'comedy', 'thriller', 'drama', 'western', 'noir'],
+            availableFrom: 1984,
+            availableTo: 2010,
+            oscarWinner: true, // Fargo (1996), No Country for Old Men (2007)
+            oscarPotential: 32,
+            scandalRisk: 3,
+            specialties: ['dark comedy', 'genre deconstruction', 'regional authenticity', 'quirky characters'],
+            quirks: [],
+            description: 'American cinema\'s most distinctive duo. The Coens\' unique blend of dark comedy, genre deconstruction, and regional authenticity produced Blood Simple, Fargo, The Big Lebowski, and No Country for Old Men. Their dialogue is instantly recognizable.'
+        },
+
+        // ========================================================================
+        // 2000s DIRECTORS - Franchise and Prestige Innovators
+        // ========================================================================
+
+        christopher_nolan: {
+            id: 'christopher_nolan',
+            name: 'Christopher Nolan',
+            talent: 94,
+            weeklyRate: 100000,
+            genres: ['thriller', 'sci_fi', 'action', 'drama', 'crime'],
+            availableFrom: 2000,
+            availableTo: 2010,
+            oscarPotential: 28,
+            scandalRisk: 2,
+            specialties: ['puzzle narratives', 'IMAX spectacle', 'practical effects', 'time manipulation'],
+            quirks: [],
+            description: 'The architect of cerebral blockbusters. Nolan proved that intellectually ambitious films could be massive commercial successes. Memento, The Dark Knight, and Inception redefined what blockbusters could be, blending spectacle with genuine ideas.'
+        },
+
+        peter_jackson: {
+            id: 'peter_jackson',
+            name: 'Peter Jackson',
+            talent: 92,
+            weeklyRate: 80000,
+            genres: ['fantasy', 'adventure', 'drama', 'horror'],
+            availableFrom: 1994,
+            availableTo: 2010,
+            oscarWinner: true, // The Lord of the Rings: The Return of the King (2003)
+            oscarPotential: 30,
+            scandalRisk: 3,
+            specialties: ['epic fantasy', 'VFX innovation', 'New Zealand filmmaking', 'literary adaptation'],
+            quirks: [],
+            description: 'The hobbit who conquered Hollywood. Jackson\'s Lord of the Rings trilogy was the most ambitious and successful literary adaptation ever filmed. His transformation from splatter-film director to epic auteur was one of cinema\'s great surprises.'
+        },
+
+        kathryn_bigelow: {
+            id: 'kathryn_bigelow',
+            name: 'Kathryn Bigelow',
+            talent: 89,
+            weeklyRate: 50000,
+            genres: ['action', 'war', 'thriller', 'drama'],
+            availableFrom: 1987,
+            availableTo: 2010,
+            oscarWinner: true, // The Hurt Locker (2009)
+            oscarPotential: 28,
+            scandalRisk: 3,
+            specialties: ['visceral action', 'war realism', 'adrenaline filmmaking', 'barrier breaker'],
+            quirks: [],
+            description: 'The first woman to win the Best Director Oscar. Bigelow\'s visceral action filmmaking and unflinching war realism in The Hurt Locker shattered glass ceilings. Her films pulse with adrenaline while maintaining genuine emotional depth.'
+        },
+
+        ang_lee: {
+            id: 'ang_lee',
+            name: 'Ang Lee',
+            talent: 92,
+            weeklyRate: 55000,
+            genres: ['drama', 'action', 'romance', 'western'],
+            availableFrom: 1993,
+            availableTo: 2010,
+            oscarWinner: true, // Brokeback Mountain (2005)
+            oscarPotential: 30,
+            scandalRisk: 2,
+            specialties: ['cross-cultural storytelling', 'genre versatility', 'emotional subtlety', 'visual poetry'],
+            quirks: [],
+            description: 'Cinema\'s most culturally versatile director. Lee moved seamlessly between Taiwanese family dramas, Jane Austen, wuxia epics, and American westerns. His ability to find universal emotions across cultures is remarkable.'
         }
     };
 

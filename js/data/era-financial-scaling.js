@@ -1,4 +1,9 @@
 /**
+ * DEPRECATED: Reference data only. The active scaling data lives in
+ * js/core/constants.js → ERA_SCALING (with keys: inflationMult,
+ * budgetRange, monthlyBurnMult, marketingMult). This file is kept
+ * for historical reference and detailed sourcing notes.
+ *
  * HOLLYWOOD MOGUL - ERA FINANCIAL SCALING DATA
  * Historically authentic economic data for 12 eras (1933-2010)
  * All values based on real CPI data, NATO ticket price records,

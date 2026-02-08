@@ -138,6 +138,17 @@ window.GameController = (function() {
             burn += gameState.studioLot.totalMaintenanceCost;
         }
 
+        // Technology maintenance costs
+        if (window.TechnologySystem && window.TechnologySystem.getTotalMaintenanceCost) {
+            burn += window.TechnologySystem.getTotalMaintenanceCost(gameState);
+        }
+
+        // Apply era financial scaling (costs rise with inflation over decades)
+        if (C.getEraScalingForYear) {
+            var scaling = C.getEraScalingForYear(gameState.gameYear);
+            burn = Math.floor(burn * scaling.monthlyBurnMult);
+        }
+
         gameState.monthlyBurn = burn;
         return burn;
     }
@@ -160,8 +171,9 @@ window.GameController = (function() {
             window.BoxOfficeSystem.processWeeklyBoxOffice(gameState);
         }
 
-        // Random events (10% chance per week)
-        if (Math.random() < 0.1) {
+        // Random events
+        var eventProb = (C.PRODUCTION && C.PRODUCTION.EVENT_PROBABILITY) || 0.08;
+        if (Math.random() < eventProb) {
             if (window.EventSystem && window.EventSystem.generateRandomEvent) {
                 window.EventSystem.generateRandomEvent(gameState);
             }
@@ -228,6 +240,19 @@ window.GameController = (function() {
         // Achievements
         if (window.AchievementSystem && window.AchievementSystem.checkAchievements) {
             window.AchievementSystem.checkAchievements(gameState);
+        }
+
+        // TV competition events (1950-1970)
+        if (window.TVCompetitionSystem && window.TVCompetitionSystem.checkForTvEvents) {
+            var tvEvent = window.TVCompetitionSystem.checkForTvEvents(gameState);
+            if (tvEvent && window.HollywoodMogul) {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning',
+                    icon: '\uD83D\uDCFA',
+                    message: tvEvent.message,
+                    priority: 'medium'
+                });
+            }
         }
 
         // Scenario victory conditions
