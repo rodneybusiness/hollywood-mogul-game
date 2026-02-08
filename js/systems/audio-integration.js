@@ -13,7 +13,6 @@
             return;
         }
 
-        console.log('Initializing Audio Integration...');
 
         // Initialize the audio system
         window.AudioSystem.init();
@@ -24,7 +23,6 @@
         // Update volume displays when sliders change
         setupVolumeDisplays();
 
-        console.log('Audio Integration complete');
     }
 
     /**

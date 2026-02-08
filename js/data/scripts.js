@@ -2585,10 +2585,18 @@ window.ScriptLibrary = (function() {
     function assessRisk(script) {
         let riskScore = 0;
 
-        // Budget risk
-        if (script.budget > 150000) riskScore += 30;
-        else if (script.budget > 100000) riskScore += 20;
-        else if (script.budget > 50000) riskScore += 10;
+        // Budget risk (scaled to era)
+        var budgetLow = 50000, budgetMed = 100000, budgetHigh = 150000;
+        if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
+            var scaling = window.GameConstants.getEraScalingForYear(script.year || 1933);
+            var mult = scaling.inflationMult || 1;
+            budgetLow = 50000 * mult;
+            budgetMed = 100000 * mult;
+            budgetHigh = 150000 * mult;
+        }
+        if (script.budget > budgetHigh) riskScore += 30;
+        else if (script.budget > budgetMed) riskScore += 20;
+        else if (script.budget > budgetLow) riskScore += 10;
 
         // Censor risk
         riskScore += Math.floor(script.censorRisk / 3);
@@ -2790,7 +2798,6 @@ window.ScriptLibrary = (function() {
             window.HollywoodMogul.closeModal();
         }
 
-        console.log(`Greenlit "${script.title}" for production`);
     }
 
     /**

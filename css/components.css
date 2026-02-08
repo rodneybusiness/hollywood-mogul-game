@@ -1397,3 +1397,158 @@ a:focus-visible,
 .glow-gold { box-shadow: var(--glow-gold-md); }
 .glow-teal { box-shadow: var(--glow-teal-md); }
 .glow-magenta { box-shadow: var(--glow-magenta-md); }
+
+/* ================================================================
+   TECHNOLOGY & FRANCHISE PANELS
+   ================================================================ */
+
+.tech-owned {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.tech-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(46, 204, 113, 0.15);
+    border: 1px solid rgba(46, 204, 113, 0.4);
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #2ecc71;
+}
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.tech-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.tech-card.locked {
+    opacity: 0.5;
+}
+
+.tech-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.tech-header h4 { margin: 0; font-size: 1rem; }
+
+.tech-cost {
+    font-weight: bold;
+    color: var(--secondary-gold, #F7C96B);
+}
+
+.tech-year {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+}
+
+.tech-benefits {
+    margin-bottom: 0.75rem;
+}
+
+.tech-benefits .benefit {
+    font-size: 0.85rem;
+    color: #2ecc71;
+    padding: 0.15rem 0;
+}
+
+.tech-locked-reason {
+    font-size: 0.8rem;
+    color: #e74c3c;
+    font-style: italic;
+}
+
+.franchise-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.franchise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.franchise-header h4 { margin: 0; font-size: 0.95rem; }
+
+.franchise-films {
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.franchise-stats {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    opacity: 0.8;
+}
+
+.franchise-sequel {
+    margin-top: 0.5rem;
+    color: var(--secondary-gold, #F7C96B);
+    font-weight: bold;
+    font-size: 0.85rem;
+}
+
+/* Era Transition Modal */
+.era-transition-modal {
+    text-align: center;
+    padding: 1rem;
+}
+
+.era-transition-modal h2 {
+    font-family: var(--font-accent, 'Cinzel', serif);
+    color: var(--secondary-gold, #F7C96B);
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.era-transition-modal h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.era-description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.era-scaling-info {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.era-scaling-info h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--secondary-gold, #F7C96B);
+}
+
+.era-stat {
+    font-size: 0.9rem;
+    padding: 0.2rem 0;
+}

@@ -509,7 +509,6 @@ window.AchievementSystem = (function() {
         unlockedAchievements.add(achievementId);
         const achievement = ACHIEVEMENTS[achievementId];
 
-        console.log(`Achievement unlocked: ${achievement.title}`);
 
         // Show notification
         showAchievementNotification(achievement);

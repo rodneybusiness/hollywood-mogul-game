@@ -319,7 +319,6 @@ window.ScenarioUI = (function() {
      * Initialize scenario UI
      */
     function init() {
-        console.log('Scenario UI initialized');
         addScenarioIndicator();
     }
 

@@ -566,7 +566,6 @@ window.ProductionSystem = (function() {
         // Clean up
         delete window._currentProductionEvent;
         
-        console.log(`Production event resolved for "${film.title}": ${choice.text}`);
     }
     
     /**
@@ -594,7 +593,6 @@ window.ProductionSystem = (function() {
                 });
             }
             
-            console.log(`"${film.title}" advanced to ${nextPhase}`);
         } else {
             // Film completed!
             completeProduction(film, gameState);
@@ -637,7 +635,6 @@ window.ProductionSystem = (function() {
             showDistributionOptions(film, gameState);
         }, 2000);
         
-        console.log(`"${film.title}" production completed. Final quality: ${film.finalQuality}`);
     }
     
     /**

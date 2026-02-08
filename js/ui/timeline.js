@@ -97,7 +97,6 @@ window.TimelineUI = (function() {
      * Initialize the timeline UI
      */
     function init() {
-        console.log('Timeline UI initialized');
     }
 
     /**

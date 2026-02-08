@@ -2644,8 +2644,6 @@ window.EventSystem = (function() {
      * Trigger an event and show choice modal
      */
     function triggerEvent(event, film, gameState) {
-        console.log(`[EVENT] Triggered: ${event.name} on film: ${film.title}`);
-
         // Store event context for choice handling
         window.EventSystem._currentEvent = {
             event: event,
@@ -2756,8 +2754,6 @@ window.EventSystem = (function() {
             return;
         }
 
-        console.log(`[EVENT] Player selected: ${choice.text}`);
-
         // Apply choice effects
         applyChoiceEffects(choice, film, gameState);
 
@@ -2840,7 +2836,6 @@ window.EventSystem = (function() {
             handleRandomOutcome(film);
         }
 
-        console.log('[EVENT] Effects applied:', effects);
     }
 
     /**
@@ -2912,4 +2907,3 @@ window.EventSystem = (function() {
     };
 })();
 
-console.log('[EVENTS] Production Crisis Events System loaded - 50+ dramatic events ready');

@@ -376,7 +376,6 @@ window.TutorialSystem = (function() {
     function init() {
         loadTutorialState();
         initializeMissions();
-        console.log('Tutorial system initialized');
     }
 
     /**
@@ -424,7 +423,6 @@ window.TutorialSystem = (function() {
         createTutorialOverlay();
         createSpotlightOverlay();
         showStep(0);
-        console.log('Tutorial started');
     }
 
     /**
@@ -740,7 +738,6 @@ window.TutorialSystem = (function() {
         // Show tutorial missions panel
         showTutorialMissions();
 
-        console.log('Tutorial ended');
     }
 
     /**

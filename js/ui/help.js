@@ -527,7 +527,6 @@ window.HelpSystem = (function() {
      */
     function init() {
         createHelpButton();
-        console.log('Help system initialized');
     }
 
     /**

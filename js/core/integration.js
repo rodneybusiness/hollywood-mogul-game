@@ -28,14 +28,12 @@ window.Integration = (function() {
             return;
         }
 
-        console.log('Initializing game integration...');
 
         initializeSystems();
         wireEventDelegation();
         subscribeToEvents();
 
         isInitialized = true;
-        console.log('Game integration complete!');
     }
 
     /**
@@ -61,7 +59,6 @@ window.Integration = (function() {
                     } else {
                         sys.ref.init();
                     }
-                    console.log(sys.name + ' initialized');
                 } catch (error) {
                     console.error('Failed to initialize ' + sys.name, error);
                 }
@@ -148,10 +145,74 @@ window.Integration = (function() {
             updateEraDisplay(gameState);
         });
 
+        // Era transition notification
+        window.EventBus.on('era:changed', function(data) {
+            showEraTransitionModal(data);
+        });
+
         // Game end handling
         window.EventBus.on('game:ended', function(data) {
-            console.log('Game ended:', data.type);
         });
+    }
+
+    /**
+     * Show a modal when the game transitions to a new historical era.
+     */
+    function showEraTransitionModal(data) {
+        var eraInfo = data.eraInfo;
+        var eraName = eraInfo ? eraInfo.name : data.newEra.replace(/_/g, ' ');
+        var year = data.year;
+
+        var ERA_DESCRIPTIONS = {
+            PRE_CODE: 'The Wild West of Hollywood. Before the Production Code is enforced, studios push boundaries with risqu\u00e9 content.',
+            GOLDEN_AGE: 'The Hays Code is strictly enforced. Studios must navigate censorship while producing quality entertainment.',
+            WAR_YEARS: 'America enters WWII. Studios rally with patriotic films, talent enlists, and the government eyes Hollywood.',
+            POST_WAR: 'The war is over but new threats emerge. The Red Scare, antitrust rulings, and the Paramount Decree reshape the industry.',
+            TV_THREAT: 'Television arrives in American living rooms. Box office attendance plummets as studios fight for survival.',
+            NEW_WAVE: 'The Production Code weakens. A new generation of filmmakers pushes creative boundaries.',
+            RATINGS_ERA: 'The MPAA rating system replaces the Hays Code. Creative freedom explodes with G, PG, R, and X ratings.',
+            NEW_HOLLYWOOD: 'Director-driven cinema dominates. Auteurs like Coppola, Scorsese, and Spielberg reshape the art form.',
+            BLOCKBUSTER_AGE: 'The summer blockbuster is born. High-concept films, merchandising, and sequels drive the industry.',
+            INDIE_BOOM: 'Independent cinema surges. Sundance, Miramax, and low-budget hits prove smaller can be profitable.',
+            DIGITAL_DAWN: 'Digital filmmaking transforms production. CGI spectacles and the internet reshape distribution.',
+            CONVERGENCE: 'Studios chase global audiences. Franchise filmmaking, 3D, and streaming platforms define the landscape.'
+        };
+
+        var description = ERA_DESCRIPTIONS[data.newEra] || 'A new chapter in Hollywood history begins.';
+
+        var scaling = null;
+        if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
+            scaling = window.GameConstants.getEraScalingForYear(year);
+        }
+
+        var modalHtml = '<div class="era-transition-modal">' +
+            '<h2>A NEW ERA BEGINS</h2>' +
+            '<h3>' + eraName + ' (' + year + ')</h3>' +
+            '<p class="era-description">' + description + '</p>';
+
+        if (scaling) {
+            modalHtml += '<div class="era-scaling-info">' +
+                '<h4>Industry Changes</h4>' +
+                '<div class="era-stat">Budget range: $' + scaling.budgetRange[0].toLocaleString() + ' \u2013 $' + scaling.budgetRange[1].toLocaleString() + '</div>' +
+                '<div class="era-stat">Operating costs: ' + scaling.monthlyBurnMult.toFixed(1) + 'x baseline</div>' +
+                '</div>';
+        }
+
+        modalHtml += '<button class="action-btn primary" onclick="HollywoodMogul.closeModal()">ONWARD</button>' +
+            '</div>';
+
+        if (window.HollywoodMogul && window.HollywoodMogul.showModal) {
+            window.HollywoodMogul.showModal(modalHtml);
+        }
+
+        if (window.HollywoodMogul && window.HollywoodMogul.addAlert) {
+            window.HollywoodMogul.addAlert({
+                type: 'info',
+                icon: '\uD83C\uDFAC',
+                message: 'Welcome to the ' + eraName + '!',
+                priority: 'critical'
+            });
+        }
     }
 
     // ================================================================

@@ -23,7 +23,6 @@ window.DashboardUI = (function() {
         updateInterval = setInterval(updateDashboard, 3000);
         isInitialized = true;
 
-        console.log('Dashboard UI initialized');
     }
 
     /**
@@ -78,6 +77,16 @@ window.DashboardUI = (function() {
                 takeLoan(loanType, amount);
             }
 
+            // Technology shop button
+            if (e.target.matches('.tech-shop-btn')) {
+                showTechnologyModal();
+            }
+
+            // Technology purchase button
+            if (e.target.matches('.purchase-tech-btn')) {
+                handleTechPurchase(e.target.dataset.techKey);
+            }
+
             // Modal close handlers
             if (e.target.matches('.modal-close') || e.target.matches('.modal-overlay')) {
                 closeAllModals();
@@ -104,30 +113,11 @@ window.DashboardUI = (function() {
         updateAlerts();
         updateTimeDisplay();
         updateEventsLog();
+        updateTechnologyPanel();
+        updateFranchisePanel();
         if (window.TalentManagement && typeof updateTalentSection === 'function') {
             updateTalentSection();
         }
-    }
-
-    function updateDashboard_OLD() {
-        updateFinancialSummary();
-        updateFilmsInProduction();
-        updateFilmsInTheaters();
-        updateAlerts();
-        updateTimeDisplay();
-        updateEventsLog();
-        if (window.TalentManagement) {
-            updateTalentSection();
-        }
-    }
-
-    function updateDashboard_OLD() {
-        updateFinancialSummary();
-        updateFilmsInProduction();
-        updateFilmsInTheaters();
-        updateAlerts();
-        updateTimeDisplay();
-        updateEventsLog();
     }
 
     /**
@@ -929,6 +919,144 @@ window.DashboardUI = (function() {
     function releaseContract() {}
 
     /**
+     * Update Technology panel on dashboard
+     */
+    function updateTechnologyPanel() {
+        var container = document.getElementById('technology-panel');
+        if (!container || !window.TechnologySystem) return;
+
+        var gameState = window.HollywoodMogul.getGameState();
+        var owned = gameState.technologies || [];
+        var available = window.TechnologySystem.getAvailableTechnologies
+            ? window.TechnologySystem.getAvailableTechnologies(gameState) : [];
+        var purchasable = available.filter(function(t) { return t.canPurchase; });
+
+        var html = '';
+
+        if (owned.length > 0) {
+            html += '<div class="tech-owned">';
+            owned.forEach(function(tech) {
+                html += '<div class="tech-badge">' + tech.name + '</div>';
+            });
+            html += '</div>';
+        }
+
+        if (purchasable.length > 0) {
+            html += '<div class="tech-available">' +
+                '<button class="action-btn primary tech-shop-btn">RESEARCH (' + purchasable.length + ' available)</button>' +
+                '</div>';
+        } else if (owned.length === 0) {
+            html += '<div class="no-content">No technologies available yet</div>';
+        }
+
+        container.innerHTML = html;
+    }
+
+    /**
+     * Show Technology purchase modal
+     */
+    function showTechnologyModal() {
+        var gameState = window.HollywoodMogul.getGameState();
+        if (!window.TechnologySystem || !window.TechnologySystem.getAvailableTechnologies) return;
+
+        var available = window.TechnologySystem.getAvailableTechnologies(gameState);
+        var modalContent = document.getElementById('modal-content');
+        var modalOverlay = document.getElementById('modal-overlay');
+        if (!modalContent || !modalOverlay) return;
+
+        var html = '<h2>TECHNOLOGY RESEARCH</h2>' +
+            '<p class="section-description">Invest in new filmmaking technology</p>' +
+            '<div class="tech-grid">';
+
+        available.forEach(function(tech) {
+            var costDisplay = '$' + tech.cost.toLocaleString();
+            var canBuy = tech.canPurchase;
+            var reason = tech.reason || '';
+
+            html += '<div class="tech-card ' + (canBuy ? '' : 'locked') + '">' +
+                '<div class="tech-header">' +
+                '<h4>' + tech.name + '</h4>' +
+                '<span class="tech-cost">' + costDisplay + '</span>' +
+                '</div>' +
+                '<div class="tech-year">Available: ' + tech.yearAvailable + '</div>' +
+                '<div class="tech-benefits">';
+
+            if (tech.benefits) {
+                if (tech.benefits.qualityBonus) html += '<div class="benefit">Quality +' + tech.benefits.qualityBonus + '</div>';
+                if (tech.benefits.revenueMultiplier && tech.benefits.revenueMultiplier > 1) html += '<div class="benefit">Revenue x' + tech.benefits.revenueMultiplier.toFixed(1) + '</div>';
+                if (tech.benefits.tvDefenseBonus) html += '<div class="benefit">TV Defense +' + (tech.benefits.tvDefenseBonus * 100).toFixed(0) + '%</div>';
+            }
+
+            html += '</div>';
+
+            if (canBuy) {
+                html += '<button class="action-btn primary purchase-tech-btn" data-tech-key="' + tech.key + '">RESEARCH</button>';
+            } else {
+                html += '<div class="tech-locked-reason">' + reason + '</div>';
+            }
+
+            html += '</div>';
+        });
+
+        html += '</div>';
+        modalContent.innerHTML = html;
+        modalOverlay.classList.remove('hidden');
+    }
+
+    /**
+     * Handle technology purchase
+     */
+    function handleTechPurchase(techKey) {
+        var gameState = window.HollywoodMogul.getGameState();
+        var result = window.TechnologySystem.purchaseTechnology(techKey, gameState);
+
+        if (result.success) {
+            showNotification('Technology Acquired', result.tech.name + ' is now available!', 'success');
+            showTechnologyModal(); // Refresh modal
+            updateDashboard();
+        } else {
+            showNotification('Research Failed', result.message, 'error');
+        }
+    }
+
+    /**
+     * Update Franchise panel on dashboard
+     */
+    function updateFranchisePanel() {
+        var container = document.getElementById('franchise-panel');
+        if (!container || !window.FranchiseSystem) return;
+
+        var gameState = window.HollywoodMogul.getGameState();
+        var franchises = gameState.franchises || [];
+
+        if (franchises.length === 0) {
+            container.innerHTML = '<div class="no-content">No franchises yet. Hit films (2x budget) create franchise opportunities.</div>';
+            return;
+        }
+
+        var active = window.FranchiseSystem.getActiveFranchises
+            ? window.FranchiseSystem.getActiveFranchises(gameState) : [];
+
+        var html = '';
+        active.forEach(function(f) {
+            var loyaltyPct = Math.round((f.audienceLoyalty || 0) * 100);
+            html += '<div class="franchise-card">' +
+                '<div class="franchise-header">' +
+                '<h4>' + f.name + '</h4>' +
+                '<span class="franchise-films">' + f.filmCount + ' films</span>' +
+                '</div>' +
+                '<div class="franchise-stats">' +
+                '<span class="franchise-genre">' + (f.genre || 'unknown') + '</span>' +
+                '<span class="franchise-loyalty">Audience: ' + loyaltyPct + '%</span>' +
+                '</div>' +
+                (f.canMakeSequel ? '<div class="franchise-sequel">Sequel available!</div>' : '') +
+                '</div>';
+        });
+
+        container.innerHTML = html;
+    }
+
+    /**
      * Clean up dashboard resources
      */
     function destroy() {
@@ -953,6 +1081,7 @@ window.DashboardUI = (function() {
         updateDashboard: updateDashboard,
         showSection: showSection,
         showNotification: showNotification,
+        showTechnologyModal: showTechnologyModal,
         updateAchievementsSection: updateAchievementsSection,
         showAchievementDetails: showAchievementDetails,
         updateTalentSection: updateTalentSection,

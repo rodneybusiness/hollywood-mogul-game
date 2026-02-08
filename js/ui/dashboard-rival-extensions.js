@@ -23,7 +23,6 @@ window.DashboardRivalExtensions = (function() {
             }
         }
 
-        console.log('Dashboard Rival Extensions initialized');
     }
 
     /**

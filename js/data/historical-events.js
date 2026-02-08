@@ -2926,8 +2926,6 @@ window.HistoricalEvents = (function() {
      * Trigger a historical event
      */
     function triggerEvent(event, gameState) {
-        console.log(`Historical event triggered: ${event.title} (${event.id})`);
-
         // Apply event effects to game state
         applyEventEffects(event, gameState);
 

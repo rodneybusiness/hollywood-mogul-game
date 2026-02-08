@@ -13,13 +13,11 @@
         // Initialize tutorial system
         if (window.TutorialSystem) {
             window.TutorialSystem.init();
-            console.log('Tutorial system integrated');
         }
 
         // Initialize help system
         if (window.HelpSystem) {
             window.HelpSystem.init();
-            console.log('Help system integrated');
         }
 
         // Check if tutorial should auto-start

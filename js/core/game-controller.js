@@ -71,6 +71,11 @@ window.GameController = (function() {
             processMonthlyExpenses(gameState);
         }
 
+        // Detect era transitions on year change
+        if (gameState.gameYear !== oldYear) {
+            checkEraTransition(oldYear, gameState.gameYear);
+        }
+
         processWeeklyEvents(gameState);
     }
 
@@ -272,6 +277,34 @@ window.GameController = (function() {
     }
 
     // ================================================================
+    // ERA TRANSITIONS
+    // ================================================================
+
+    /**
+     * Check if the year change caused an era transition.
+     */
+    function checkEraTransition(oldYear, newYear) {
+        var C = getConstants();
+        if (!C.getEraKeyForYear) return;
+
+        var oldEra = C.getEraKeyForYear(oldYear);
+        var newEra = C.getEraKeyForYear(newYear);
+
+        if (oldEra !== newEra && window.EventBus) {
+            var eraInfo = null;
+            if (window.TimeSystem && window.TimeSystem.getCurrentPeriod) {
+                eraInfo = window.TimeSystem.getCurrentPeriod(newYear);
+            }
+            window.EventBus.emit('era:changed', {
+                oldEra: oldEra,
+                newEra: newEra,
+                year: newYear,
+                eraInfo: eraInfo
+            });
+        }
+    }
+
+    // ================================================================
     // GAME END CONDITIONS
     // ================================================================
 
@@ -280,7 +313,7 @@ window.GameController = (function() {
      */
     function checkGameEndConditions(gameState) {
         var C = getConstants();
-        var endYear = (C.TIME && C.TIME.GAME_END_YEAR) || 1949;
+        var endYear = (C.TIME && C.TIME.GAME_END_YEAR) || 2010;
 
         // Bankruptcy
         if (gameState.cash < 0) {
