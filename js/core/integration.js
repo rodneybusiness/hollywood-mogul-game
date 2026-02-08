@@ -17,6 +17,7 @@ window.Integration = (function() {
 
     var isInitialized = false;
     var boundDelegationHandler = null;
+    var pendingIntegrationGreenlight = null; // {scriptId, evaluation}
 
     // ================================================================
     // INITIALIZATION
@@ -105,6 +106,14 @@ window.Integration = (function() {
 
     function subscribeToEvents() {
         if (!window.EventBus) return;
+
+        // MPAA rating selected → complete pending integration greenlight
+        window.EventBus.on('censorship:ratingSelected', function(data) {
+            if (pendingIntegrationGreenlight) {
+                pendingIntegrationGreenlight.mpaaRating = data.ratingKey;
+                completeIntegrationGreenlight();
+            }
+        });
 
         // After time advances, handle integration-specific updates
         window.EventBus.on('time:advanced', function(data) {
@@ -257,26 +266,106 @@ window.Integration = (function() {
             return;
         }
 
-        if (window.ProductionSystem && window.ProductionSystem.startProduction) {
-            var budget = script.budget && script.budget.min ? script.budget.min : script.budget;
-            window.ProductionSystem.startProduction(scriptId, budget);
+        // Route through censorship / MPAA evaluation
+        if (window.CensorshipSystem) {
+            var evaluation = window.CensorshipSystem.evaluateScript(script, gameState);
 
-            window.HollywoodMogul.addAlert({
-                type: 'success',
-                icon: '\uD83C\uDFAC',
-                message: 'Production begins on "' + script.title + '"!',
-                priority: 'high'
-            });
+            if (evaluation.regulationType === 'none') {
+                executeIntegrationGreenlight(scriptId);
+                return;
+            }
+
+            pendingIntegrationGreenlight = { scriptId: scriptId, evaluation: evaluation };
+
+            window.CensorshipSystem.showPCAEvaluationModal(
+                script, evaluation,
+                'Integration.completeIntegrationGreenlight()',
+                'HollywoodMogul.closeModal()'
+            );
+        } else {
+            executeIntegrationGreenlight(scriptId);
+        }
+    }
+
+    function executeIntegrationGreenlight(scriptId) {
+        if (window.ProductionSystem && window.ProductionSystem.greenlightScript) {
+            var result = window.ProductionSystem.greenlightScript(scriptId);
+
+            if (result && result.success) {
+                window.HollywoodMogul.addAlert({
+                    type: 'success',
+                    icon: '\uD83C\uDFAC',
+                    message: 'Production begins on "' + result.film.title + '"!',
+                    priority: 'high'
+                });
+            } else {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning',
+                    icon: '\u26A0\uFE0F',
+                    message: (result && result.message) || 'Could not greenlight script.',
+                    priority: 'high'
+                });
+            }
 
             window.HollywoodMogul.closeModal();
 
             // Ironman auto-save
+            var gameState = window.HollywoodMogul.getGameState();
             if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode) {
                 if (window.SaveLoadSystem.isIronmanMode()) {
                     window.SaveLoadSystem.ironmanSave(gameState);
                 }
             }
         }
+    }
+
+    function completeIntegrationGreenlight() {
+        if (!pendingIntegrationGreenlight) return;
+
+        var scriptId = pendingIntegrationGreenlight.scriptId;
+        var evaluation = pendingIntegrationGreenlight.evaluation;
+        var mpaaRating = pendingIntegrationGreenlight.mpaaRating || null;
+        pendingIntegrationGreenlight = null;
+
+        if (window.ProductionSystem && window.ProductionSystem.greenlightScript) {
+            var result = window.ProductionSystem.greenlightScript(scriptId);
+
+            if (result && result.success) {
+                // Apply Hays Code penalties
+                if (evaluation.regulationType !== 'mpaa' && evaluation.regulationType !== 'none'
+                    && evaluation.violations && evaluation.violations.length > 0) {
+                    window.CensorshipSystem.applyPCAPenalties(result.film, evaluation.violations);
+                }
+
+                // Apply MPAA rating to newly created film
+                if (evaluation.regulationType === 'mpaa' && mpaaRating) {
+                    window.CensorshipSystem.applyMPAARating(result.film, mpaaRating);
+                }
+
+                window.HollywoodMogul.addAlert({
+                    type: 'success',
+                    icon: '\uD83C\uDFAC',
+                    message: 'Production begins on "' + result.film.title + '"!',
+                    priority: 'high'
+                });
+
+                // Ironman auto-save
+                if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode) {
+                    if (window.SaveLoadSystem.isIronmanMode()) {
+                        window.SaveLoadSystem.ironmanSave(gameState);
+                    }
+                }
+            } else {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning',
+                    icon: '\u26A0\uFE0F',
+                    message: (result && result.message) || 'Could not greenlight script.',
+                    priority: 'high'
+                });
+            }
+        }
+
+        window.HollywoodMogul.closeModal();
     }
 
     // ================================================================
@@ -415,6 +504,7 @@ window.Integration = (function() {
     return {
         init: init,
         handleScriptGreenlight: handleScriptGreenlight,
+        completeIntegrationGreenlight: completeIntegrationGreenlight,
         handleDistribution: handleDistribution,
         executeDistribution: executeDistribution,
         handleLoan: handleLoan,

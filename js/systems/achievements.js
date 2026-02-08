@@ -365,7 +365,8 @@ window.AchievementSystem = (function() {
             points: 50,
             secret: true,
             checkCondition: (gameState) => {
-                return gameState.gameYear >= 1949 &&
+                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
+                return gameState.gameYear >= endYear &&
                        (!gameState.loans || gameState.loans.length === 0);
             }
         },
@@ -379,7 +380,8 @@ window.AchievementSystem = (function() {
             points: 60,
             secret: true,
             checkCondition: (gameState) => {
-                if (gameState.gameYear < 1949) return false;
+                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
+                if (gameState.gameYear < endYear) return false;
                 const lowQualityFilms = (gameState.completedFilms || []).filter(f => f.quality < 60);
                 return lowQualityFilms.length === 0 && gameState.stats.filmsProduced >= 10;
             }
@@ -405,13 +407,14 @@ window.AchievementSystem = (function() {
         speed_runner: {
             id: 'speed_runner',
             title: 'Speed Runner',
-            description: 'Complete the game in under 500 weeks',
+            description: 'Reach 2010 in under 4000 weeks',
             icon: '⚡',
             category: 'challenge',
             points: 40,
             secret: true,
             checkCondition: (gameState) => {
-                return gameState.gameYear >= 1949 && gameState.gameWeek < 500;
+                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
+                return gameState.gameYear >= endYear && gameState.gameWeek < 4000;
             }
         },
 

@@ -9,6 +9,7 @@ window.DashboardUI = (function() {
     let isInitialized = false;
     let boundClickHandler = null;
     let boundKeyHandler = null;
+    let pendingGreenlight = null; // {scriptId, evaluation} — set when awaiting censorship/MPAA
 
     /**
      * Initialize the dashboard system
@@ -18,6 +19,16 @@ window.DashboardUI = (function() {
 
         updateDashboard();
         bindEventHandlers();
+
+        // Listen for MPAA rating selections to complete pending greenlights
+        if (window.EventBus) {
+            window.EventBus.on('censorship:ratingSelected', function(data) {
+                if (pendingGreenlight) {
+                    pendingGreenlight.mpaaRating = data.ratingKey;
+                }
+                completePendingGreenlight();
+            });
+        }
 
         // Update dashboard every few seconds
         updateInterval = setInterval(updateDashboard, 3000);
@@ -113,6 +124,7 @@ window.DashboardUI = (function() {
         updateAlerts();
         updateTimeDisplay();
         updateEventsLog();
+        updateRegulationPanel();
         updateTechnologyPanel();
         updateFranchisePanel();
         if (window.TalentManagement && typeof updateTalentSection === 'function') {
@@ -628,20 +640,89 @@ window.DashboardUI = (function() {
     }
 
     /**
-     * Greenlight a script (start production)
+     * Greenlight a script — routes through censorship/MPAA evaluation first
      */
     function greenlightScript(scriptId) {
+        const gameState = window.HollywoodMogul.getGameState();
+        const script = gameState.availableScripts ?
+            gameState.availableScripts.find(s => s.id === scriptId) : null;
+
+        if (!script) {
+            showNotification('Error', 'Script not found', 'error');
+            return;
+        }
+
+        // Check censorship / MPAA rating requirements
+        if (window.CensorshipSystem) {
+            const evaluation = window.CensorshipSystem.evaluateScript(script, gameState);
+
+            if (evaluation.regulationType === 'none') {
+                // Pre-Code era: no restrictions, proceed directly
+                executeGreenlight(scriptId);
+                return;
+            }
+
+            // Store pending greenlight while player interacts with censorship modal
+            pendingGreenlight = { scriptId: scriptId, evaluation: evaluation };
+
+            window.CensorshipSystem.showPCAEvaluationModal(
+                script, evaluation,
+                "DashboardUI.completePendingGreenlight()",
+                "HollywoodMogul.closeModal()"
+            );
+        } else {
+            executeGreenlight(scriptId);
+        }
+    }
+
+    /**
+     * Execute greenlight without censorship (pre-Code or no system)
+     */
+    function executeGreenlight(scriptId) {
         const result = window.ProductionSystem.greenlightScript(scriptId);
-        
+
         if (result.success) {
             updateDashboard();
-            showSection('dashboard'); // Return to main view
-            
-            // Show success notification
+            showSection('dashboard');
             showNotification('Script Greenlit!', `Production begins on "${result.film.title}"`, 'success');
         } else {
             showNotification('Cannot Greenlight', result.message, 'error');
         }
+    }
+
+    /**
+     * Complete a pending greenlight after censorship/MPAA modal resolves
+     */
+    function completePendingGreenlight() {
+        if (!pendingGreenlight) return;
+
+        var scriptId = pendingGreenlight.scriptId;
+        var evaluation = pendingGreenlight.evaluation;
+        var mpaaRating = pendingGreenlight.mpaaRating || null;
+        pendingGreenlight = null;
+
+        const result = window.ProductionSystem.greenlightScript(scriptId);
+
+        if (result.success) {
+            // Apply Hays Code penalties if applicable
+            if (evaluation.regulationType !== 'mpaa' && evaluation.regulationType !== 'none'
+                && evaluation.violations && evaluation.violations.length > 0) {
+                window.CensorshipSystem.applyPCAPenalties(result.film, evaluation.violations);
+            }
+
+            // For MPAA, apply the chosen rating to the newly created film
+            if (evaluation.regulationType === 'mpaa' && result.film && mpaaRating) {
+                window.CensorshipSystem.applyMPAARating(result.film, mpaaRating);
+            }
+
+            updateDashboard();
+            showSection('dashboard');
+            showNotification('Script Greenlit!', `Production begins on "${result.film.title}"`, 'success');
+        } else {
+            showNotification('Cannot Greenlight', result.message, 'error');
+        }
+
+        window.HollywoodMogul.closeModal();
     }
 
     /**
@@ -1057,6 +1138,41 @@ window.DashboardUI = (function() {
     }
 
     /**
+     * Update content regulation panel (Pre-Code / Hays Code / MPAA)
+     */
+    function updateRegulationPanel() {
+        var container = document.getElementById('regulation-panel');
+        if (!container) return;
+
+        if (!window.CensorshipSystem || !window.CensorshipSystem.getCensorshipStatus) {
+            container.innerHTML = '<div class="no-content">Content regulation system unavailable</div>';
+            return;
+        }
+
+        var gameState = window.HollywoodMogul.getGameState();
+        var status = window.CensorshipSystem.getCensorshipStatus(gameState);
+
+        var html = '<div class="regulation-status">';
+        html += '<div class="regulation-header">';
+        html += '<span class="regulation-icon">' + status.icon + '</span>';
+        html += '<span class="regulation-era">' + status.era + '</span>';
+        html += '</div>';
+        html += '<p class="regulation-desc">' + status.description + '</p>';
+
+        if (status.regulationType === 'mpaa' && status.availableRatings) {
+            html += '<div class="regulation-ratings">Available: ';
+            html += status.availableRatings.map(function(r) {
+                return '<span class="rating-badge-mini rating-' + r.toLowerCase() + '">' +
+                    r.replace('13', '-13').replace('17', '-17') + '</span>';
+            }).join(' ');
+            html += '</div>';
+        }
+
+        html += '</div>';
+        container.innerHTML = html;
+    }
+
+    /**
      * Clean up dashboard resources
      */
     function destroy() {
@@ -1081,6 +1197,7 @@ window.DashboardUI = (function() {
         updateDashboard: updateDashboard,
         showSection: showSection,
         showNotification: showNotification,
+        completePendingGreenlight: completePendingGreenlight,
         showTechnologyModal: showTechnologyModal,
         updateAchievementsSection: updateAchievementsSection,
         showAchievementDetails: showAchievementDetails,

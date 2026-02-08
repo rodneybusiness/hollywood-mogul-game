@@ -458,27 +458,27 @@ window.HelpSystem = (function() {
         late_game_strategy: {
             id: 'late_game_strategy',
             category: 'strategy',
-            title: 'Late Game Strategy (1945-1949)',
+            title: 'Late Game Strategy (1990-2010)',
             icon: '🎯',
             content: `
-                <h3>The Final Push</h3>
-                <h4>Victory Conditions</h4>
-                <p>Choose your path to success:</p>
+                <h3>The Modern Era</h3>
+                <h4>Key Strategies</h4>
                 <ul>
-                    <li><strong>Mogul Ending:</strong> $500,000+ cash, 20+ films</li>
-                    <li><strong>Prestige Ending:</strong> 5+ Oscars, reputation 80+</li>
-                    <li><strong>Integrity Ending:</strong> Refuse to cooperate with HUAC</li>
+                    <li><strong>Franchise Power:</strong> Hit films spawn lucrative sequels — build your franchises</li>
+                    <li><strong>Technology:</strong> Invest in CGI, digital filmmaking, and 3D to stay competitive</li>
+                    <li><strong>Revenue Streams:</strong> Home video, DVD, and streaming add massive ancillary revenue</li>
+                    <li><strong>Global Markets:</strong> International box office becomes your biggest growth opportunity</li>
                 </ul>
-                <h4>HUAC Era (1947-1949)</h4>
-                <p>The most challenging period:</p>
+                <h4>Ratings Strategy</h4>
+                <p>MPAA ratings affect audience reach:</p>
                 <ul>
-                    <li>Make moral choices about the blacklist</li>
-                    <li>High reputation gives you more options</li>
-                    <li>Decisions affect which ending you receive</li>
+                    <li><strong>PG-13:</strong> The blockbuster sweet spot — maximum commercial potential</li>
+                    <li><strong>R:</strong> Creative freedom for prestige films, but limited teen audience</li>
+                    <li><strong>G/PG:</strong> Family films with broad appeal</li>
                 </ul>
-                <div class="help-tip">You can achieve multiple endings simultaneously! Aim for all three if possible.</div>
+                <div class="help-tip">Balance franchise blockbusters with prestige Oscar contenders for maximum success!</div>
             `,
-            keywords: ['strategy', 'late', 'endgame', 'ending', 'victory']
+            keywords: ['strategy', 'late', 'endgame', 'ending', 'victory', 'modern']
         },
 
         genre_guide: {

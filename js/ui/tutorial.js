@@ -87,7 +87,7 @@ window.TutorialSystem = (function() {
             content: `
                 <h2>Welcome to MOGUL!</h2>
                 <p>You're the head of a Hollywood studio in 1933, at the dawn of cinema's Golden Age.</p>
-                <p><strong>Your goal:</strong> Survive until 1949, producing legendary films and building your studio empire.</p>
+                <p><strong>Your goal:</strong> Survive through Hollywood history (1933-2010), producing legendary films and building your studio empire.</p>
                 <p>This interactive tutorial will guide you through the essentials. Click <strong>Next</strong> to continue, or <strong>Skip Tutorial</strong> to start playing immediately.</p>
                 <div class="tutorial-tip">💡 You can replay this tutorial anytime from the Help menu (? button).</div>
             `,
@@ -329,12 +329,15 @@ window.TutorialSystem = (function() {
             title: 'Historical Events',
             content: `
                 <h3>Living Through History</h3>
-                <p>The game spans 1933-1949. Major events will impact your studio:</p>
+                <p>The game spans 1933-2010, covering 12 historical eras. Major events will impact your studio:</p>
                 <ul>
                     <li>📜 <strong>1934:</strong> Hays Code enforcement (strict censorship)</li>
                     <li>🎖️ <strong>1941-1945:</strong> World War II (rationing, propaganda films)</li>
-                    <li>⚠️ <strong>1947:</strong> HUAC hearings begin (blacklist era)</li>
-                    <li>⚖️ <strong>1948:</strong> Paramount Decision (antitrust ruling)</li>
+                    <li>📺 <strong>1950s:</strong> Television threatens Hollywood attendance</li>
+                    <li>🎬 <strong>1968:</strong> MPAA ratings replace the Hays Code</li>
+                    <li>🦈 <strong>1975-1977:</strong> Jaws and Star Wars invent the blockbuster</li>
+                    <li>📼 <strong>1980s:</strong> Home video revolutionizes revenue</li>
+                    <li>💻 <strong>2000s:</strong> Digital filmmaking and streaming arrive</li>
                 </ul>
                 <p>Navigate these challenges with wisdom and integrity.</p>
             `,

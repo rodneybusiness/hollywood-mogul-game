@@ -109,6 +109,7 @@ window.ProductionSystem = (function() {
             theaterCount: 0,
 
             // MPAA / Franchise carry-over from script
+            mpaaRating: script.mpaaRating || null,
             audienceMultiplier: script.audienceMultiplier || null,
             isSequel: script.isSequel || false,
             franchiseId: script.franchiseId || null,
