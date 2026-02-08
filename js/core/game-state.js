@@ -72,7 +72,7 @@ window.HollywoodMogul = (function() {
         get CONTRACT_PLAYERS_COST() { var F = getC().FINANCIAL; return F ? F.CONTRACT_PLAYERS_COST : 7000; },
         get WEEKS_PER_MONTH() { var T = getC().TIME; return T ? T.WEEKS_PER_MONTH : 4; },
         get MONTHS_PER_YEAR() { var T = getC().TIME; return T ? T.MONTHS_PER_YEAR : 12; },
-        get GAME_END_YEAR() { var T = getC().TIME; return T ? T.GAME_END_YEAR : 1949; },
+        get GAME_END_YEAR() { var T = getC().TIME; return T ? T.GAME_END_YEAR : 2010; },
         get RUNWAY_DANGER_WEEKS() { var F = getC().FINANCIAL; return F ? F.RUNWAY_DANGER_WEEKS : 8; },
         get RUNWAY_WARNING_WEEKS() { var F = getC().FINANCIAL; return F ? F.RUNWAY_WARNING_WEEKS : 16; },
         MIN_REPUTATION: 0,
@@ -87,7 +87,6 @@ window.HollywoodMogul = (function() {
     // ================================================================
 
     function init() {
-        console.log('Initializing Hollywood Mogul...');
         showLoadingScreen();
 
         setTimeout(function() {
@@ -96,7 +95,6 @@ window.HollywoodMogul = (function() {
             startNewGame();
             hideLoadingScreen();
             emitEvent('game:initialized');
-            console.log('Hollywood Mogul initialized successfully!');
         }, 3000);
     }
 
@@ -227,7 +225,6 @@ window.HollywoodMogul = (function() {
         initializeUI();
         switchSection('dashboard');
         emitEvent('game:started', { scenario: scenarioId });
-        console.log('New game started with scenario:', scenarioId);
     }
 
     // ================================================================

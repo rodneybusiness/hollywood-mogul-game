@@ -1,6 +1,6 @@
 /**
  * HOLLYWOOD MOGUL - INTERACTIVE TIMELINE UI
- * Visual timeline showing progression through Hollywood history (1933-1949)
+ * Visual timeline showing progression through Hollywood history (1933-2010)
  */
 
 window.TimelineUI = (function() {
@@ -55,10 +55,98 @@ window.TimelineUI = (function() {
             description: 'Supreme Court forces studios to divest their theater chains.',
             impact: 'Studio system begins to crumble. Independent producers rise.',
             color: '#4B0082'
+        },
+        1950: {
+            month: 1,
+            title: 'Television Invades',
+            icon: '📺',
+            description: 'TV ownership explodes. Weekly cinema attendance drops sharply.',
+            impact: 'Box office revenue decreases. Studios must innovate to compete.',
+            color: '#2F4F4F'
+        },
+        1953: {
+            month: 9,
+            title: 'CinemaScope Debuts',
+            icon: '🎞️',
+            description: 'Widescreen format launches to fight television.',
+            impact: 'New technology available. Spectacle films get box office boost.',
+            color: '#2F4F4F'
+        },
+        1960: {
+            month: 6,
+            title: 'Psycho Shocks Audiences',
+            icon: '🔪',
+            description: 'Hitchcock\'s low-budget hit outgrosses expensive epics.',
+            impact: 'Horror and thriller genres boosted. Low budgets can win big.',
+            color: '#556B2F'
+        },
+        1968: {
+            month: 11,
+            title: 'MPAA Rating System',
+            icon: '🎬',
+            description: 'Jack Valenti replaces the Hays Code with G/PG/R/X ratings.',
+            impact: 'Choose your film\'s rating. Creative freedom explodes.',
+            color: '#8B4513'
+        },
+        1975: {
+            month: 6,
+            title: 'Jaws Invents the Blockbuster',
+            icon: '🦈',
+            description: 'Spielberg\'s Jaws creates the summer blockbuster model.',
+            impact: 'Wide releases + marketing = massive returns. Industry transformed.',
+            color: '#191970'
+        },
+        1977: {
+            month: 5,
+            title: 'Star Wars Changes Everything',
+            icon: '⭐',
+            description: 'George Lucas redefines cinema with merchandising and sequels.',
+            impact: 'Franchise filmmaking and merchandising become dominant strategy.',
+            color: '#191970'
+        },
+        1980: {
+            month: 4,
+            title: 'Home Video Revolution',
+            icon: '📼',
+            description: 'VHS creates a massive new revenue stream for studios.',
+            impact: 'Home video ancillary revenue begins. New profit channel.',
+            color: '#800080'
+        },
+        1993: {
+            month: 6,
+            title: 'Jurassic Park CGI Revolution',
+            icon: '🦕',
+            description: 'Spielberg proves CGI can create photorealistic creatures.',
+            impact: 'Digital effects transform production possibilities.',
+            color: '#006400'
+        },
+        1997: {
+            month: 12,
+            title: 'Titanic Phenomenon',
+            icon: '🚢',
+            description: 'James Cameron\'s film becomes highest-grossing ever.',
+            impact: 'Proves mega-budget films can yield mega returns.',
+            color: '#006400'
+        },
+        2005: {
+            month: 6,
+            title: 'YouTube Founded',
+            icon: '💻',
+            description: 'Online video sharing begins reshaping content distribution.',
+            impact: 'Digital disruption begins. Streaming era approaches.',
+            color: '#333333'
+        },
+        2009: {
+            month: 12,
+            title: 'Avatar 3D Revolution',
+            icon: '🌍',
+            description: 'Cameron\'s Avatar drives 3D adoption in theaters worldwide.',
+            impact: '3D technology premium. International markets explode.',
+            color: '#333333'
         }
     };
 
-    // Era definitions with styling
+    // Era definitions with styling (all 12 eras, 1933-2010)
     const ERAS = {
         PRE_CODE: {
             name: 'Pre-Code Era',
@@ -87,6 +175,62 @@ window.TimelineUI = (function() {
             endYear: 1949,
             color: '#4B0082',
             description: 'Film noir emerges, HUAC hearings, studio system declines'
+        },
+        TV_THREAT: {
+            name: 'TV Threat',
+            startYear: 1950,
+            endYear: 1957,
+            color: '#2F4F4F',
+            description: 'Television arrives, box office plummets, widescreen fights back'
+        },
+        NEW_WAVE: {
+            name: 'New Wave',
+            startYear: 1958,
+            endYear: 1966,
+            color: '#556B2F',
+            description: 'Code weakens, new filmmakers push boundaries'
+        },
+        RATINGS_ERA: {
+            name: 'Ratings Era',
+            startYear: 1967,
+            endYear: 1974,
+            color: '#8B4513',
+            description: 'MPAA ratings replace Hays Code, creative freedom explodes'
+        },
+        NEW_HOLLYWOOD: {
+            name: 'New Hollywood',
+            startYear: 1975,
+            endYear: 1982,
+            color: '#191970',
+            description: 'Director-driven cinema, blockbusters born'
+        },
+        BLOCKBUSTER_AGE: {
+            name: 'Blockbuster Age',
+            startYear: 1983,
+            endYear: 1993,
+            color: '#800080',
+            description: 'High-concept films, sequels, and merchandising dominate'
+        },
+        INDIE_BOOM: {
+            name: 'Indie Boom',
+            startYear: 1994,
+            endYear: 1999,
+            color: '#006400',
+            description: 'Independent cinema surges, Sundance and Miramax era'
+        },
+        DIGITAL_DAWN: {
+            name: 'Digital Dawn',
+            startYear: 2000,
+            endYear: 2004,
+            color: '#4169E1',
+            description: 'Digital filmmaking, CGI spectacles, internet reshapes distribution'
+        },
+        CONVERGENCE: {
+            name: 'Convergence',
+            startYear: 2005,
+            endYear: 2010,
+            color: '#333333',
+            description: 'Global audiences, franchise filmmaking, streaming platforms'
         }
     };
 
@@ -97,7 +241,6 @@ window.TimelineUI = (function() {
      * Initialize the timeline UI
      */
     function init() {
-        console.log('Timeline UI initialized');
     }
 
     /**
@@ -170,7 +313,7 @@ window.TimelineUI = (function() {
     function renderYearTimeline(currentYear, currentMonth, gameState) {
         let html = '<div class="timeline-years">';
 
-        for (let year = 1933; year <= 1949; year++) {
+        for (let year = 1933; year <= 2010; year++) {
             const era = getEraForYear(year);
             const isPast = year < currentYear || (year === currentYear && currentMonth >= 12);
             const isCurrent = year === currentYear;
@@ -565,7 +708,7 @@ window.TimelineUI = (function() {
      */
     function getMaxYearlyRevenue(gameState) {
         let max = 0;
-        for (let year = 1933; year <= 1949; year++) {
+        for (let year = 1933; year <= 2010; year++) {
             const revenue = getYearlyBoxOfficeRevenue(year, gameState);
             max = Math.max(max, revenue);
         }

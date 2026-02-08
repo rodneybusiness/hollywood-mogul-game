@@ -466,6 +466,11 @@ window.CensorshipSystem = (function() {
             });
             window.HollywoodMogul.closeModal();
         }
+
+        // Notify listeners that a rating was selected (triggers pending greenlight)
+        if (window.EventBus) {
+            window.EventBus.emit('censorship:ratingSelected', { scriptId: scriptId, ratingKey: ratingKey });
+        }
     }
 
     // ================================================================

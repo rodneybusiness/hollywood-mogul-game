@@ -383,8 +383,6 @@ window.CrisisSystem = (function() {
      * Trigger a crisis
      */
     function triggerCrisis(crisis, gameState) {
-        console.log(`Crisis triggered: ${crisis.title} (${crisis.id})`);
-
         // Show crisis modal
         showCrisisModal(crisis, gameState);
 
@@ -477,8 +475,6 @@ window.CrisisSystem = (function() {
             });
             return;
         }
-
-        console.log(`Crisis choice made: ${crisis.id} - ${choice.id}`);
 
         // Apply choice effects
         applyChoiceEffects(choice, gameState);

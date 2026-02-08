@@ -12,7 +12,6 @@
     });
 
     function initializeVisualEnhancements() {
-        console.log('Initializing visual enhancements...');
 
         // Integrate with Dashboard UI
         if (window.DashboardUI && window.DashboardVisuals) {
@@ -29,7 +28,6 @@
             enhanceBoxOfficeSystem();
         }
 
-        console.log('Visual enhancements initialized successfully');
     }
 
     /**
@@ -50,7 +48,6 @@
             };
         }
 
-        console.log('Dashboard UI enhanced with visual production cards');
     }
 
     /**
@@ -90,7 +87,6 @@
                 }
             });
 
-            console.log('Production System enhanced with milestone animations');
         }
 
         // Enhance production event modals
@@ -102,7 +98,6 @@
                 }
             });
 
-            console.log('Production System enhanced with cinematic event modals');
         }
     }
 
@@ -125,7 +120,6 @@
             }
         });
 
-        console.log('Box Office System enhanced with weekly update animations');
     }
 
     // Helper functions

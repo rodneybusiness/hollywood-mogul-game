@@ -168,7 +168,6 @@ window.AwardsSystem = (function() {
         const ceremonyYear = gameState.currentDate.getFullYear();
         const eligibleYear = ceremonyYear - 1; // Oscars honor previous year's films
 
-        console.log(`🏆 Academy Awards Ceremony ${ceremonyYear} (honoring ${eligibleYear} films)`);
 
         // Get eligible films (released in previous calendar year)
         const eligibleFilms = getEligibleFilms(gameState, eligibleYear);
@@ -575,7 +574,6 @@ window.AwardsSystem = (function() {
             gameState.isOscarWinningStudio = true;
         }
 
-        console.log(`Oscar benefits applied: +${reputationBoost} reputation, ${wins} wins, ${nominations} nominations`);
     }
 
     /**
@@ -589,7 +587,6 @@ window.AwardsSystem = (function() {
         gameState.stats.oscarNominations = (gameState.stats.oscarNominations || 0) + ceremony.playerNominations;
         gameState.stats.oscarsWon = (gameState.stats.oscarsWon || 0) + ceremony.playerWins;
 
-        console.log(`Oscar stats updated: ${gameState.stats.oscarNominations} total nominations, ${gameState.stats.oscarsWon} total wins`);
     }
 
     /**

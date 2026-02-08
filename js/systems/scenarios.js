@@ -424,7 +424,6 @@ window.ScenarioSystem = (function() {
             return false;
         }
 
-        console.log('Applying scenario:', scenario.name);
 
         // Apply basic state
         gameState.currentDate = new Date(scenario.startYear, scenario.startMonth, 1);
@@ -461,7 +460,6 @@ window.ScenarioSystem = (function() {
             priority: 'high'
         });
 
-        console.log('Scenario applied successfully:', gameState.scenario);
         return true;
     }
 
@@ -761,7 +759,6 @@ window.ScenarioSystem = (function() {
      * Select and start a scenario
      */
     function selectScenario(scenarioId) {
-        console.log('Starting scenario:', scenarioId);
 
         // Close modal
         if (window.HollywoodMogul && window.HollywoodMogul.closeModal) {

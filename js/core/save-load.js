@@ -143,7 +143,7 @@ window.SaveLoadSystem = (function() {
             localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(saveData));
 
             showAutoSaveIndicator('Game Saved');
-            console.log('Auto-save completed');
+
             autoSaveInProgress = false;
             return true;
 
@@ -439,7 +439,6 @@ window.SaveLoadSystem = (function() {
             }
         }, AUTO_SAVE_INTERVAL);
         
-        console.log('Auto-save started (every 5 minutes)');
     }
     
     /**
@@ -449,7 +448,6 @@ window.SaveLoadSystem = (function() {
         if (autoSaveTimer) {
             clearInterval(autoSaveTimer);
             autoSaveTimer = null;
-            console.log('Auto-save stopped');
         }
     }
     
@@ -631,7 +629,6 @@ window.SaveLoadSystem = (function() {
     function enableIronmanMode() {
         ironmanMode = true;
         saveSettings({ ironmanMode: true });
-        console.log('Ironman mode enabled - auto-save on every action');
         return {
             success: true,
             message: 'Ironman mode enabled'
@@ -644,7 +641,6 @@ window.SaveLoadSystem = (function() {
     function disableIronmanMode() {
         ironmanMode = false;
         saveSettings({ ironmanMode: false });
-        console.log('Ironman mode disabled');
         return {
             success: true,
             message: 'Ironman mode disabled'
@@ -1031,7 +1027,6 @@ window.SaveLoadSystem = (function() {
      * Attempt to recover corrupted save
      */
     function attemptRecovery(key) {
-        console.log(`Attempting to recover corrupted save: ${key}`);
 
         // Try to restore from backup
         const backupResult = restoreFromBackup(key, 0);
@@ -1190,9 +1185,6 @@ window.SaveLoadSystem = (function() {
         // Load settings
         getSettings();
 
-        console.log('Save/Load system initialized');
-        console.log(`Ironman mode: ${ironmanMode ? 'ENABLED' : 'disabled'}`);
-        console.log(`Quick save slot: ${lastQuickSaveSlot}`);
     }
 
     /**

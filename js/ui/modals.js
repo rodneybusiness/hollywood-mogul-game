@@ -488,7 +488,10 @@ window.ModalSystem = (function() {
      * Bind modal event handlers
      */
     function bindEventHandlers() {
-        document.addEventListener('click', function(e) {
+        if (boundClickHandler) {
+            document.removeEventListener('click', boundClickHandler);
+        }
+        boundClickHandler = function(e) {
             // Production event choices
             if (e.target.matches('.choice-btn')) {
                 const filmId = e.target.dataset.filmId;
@@ -545,7 +548,8 @@ window.ModalSystem = (function() {
                     }
                 });
             }
-        });
+        };
+        document.addEventListener('click', boundClickHandler);
     }
 
     /**
@@ -569,7 +573,7 @@ window.ModalSystem = (function() {
      */
     function handleHistoricalEventChoice(eventId, choiceIndex) {
         // Historical events would be handled by the events system
-        console.log(`Historical event ${eventId} choice ${choiceIndex} made`);
+        // Historical event choice handled by events system
         window.DashboardUI.updateDashboard();
     }
 
@@ -619,14 +623,28 @@ window.ModalSystem = (function() {
         return months[monthNum - 1] || 'Unknown';
     }
 
+    var isInitialized = false;
+    var boundClickHandler = null;
+
     // Initialize event handlers
     function init() {
+        if (isInitialized) return;
         bindEventHandlers();
+        isInitialized = true;
+    }
+
+    function destroy() {
+        if (boundClickHandler) {
+            document.removeEventListener('click', boundClickHandler);
+            boundClickHandler = null;
+        }
+        isInitialized = false;
     }
 
     // Public API
     return {
         init: init,
+        destroy: destroy,
         showProductionEventModal: showProductionEventModal,
         showHistoricalEventModal: showHistoricalEventModal,
         showFilmPerformanceModal: showFilmPerformanceModal,

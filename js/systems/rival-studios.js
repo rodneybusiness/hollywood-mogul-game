@@ -181,7 +181,6 @@ window.RivalStudios = (function() {
                 lastUpdate: new Date(gameState.currentDate)
             };
 
-            console.log('Rival studios initialized:', gameState.rivalStudios);
         }
 
         // Register weekly callback with TimeSystem
@@ -507,7 +506,6 @@ window.RivalStudios = (function() {
             message: `${studio.nickname} greenlights "${title}", a ${genre} picture with $${budget.toLocaleString()} budget`
         });
 
-        console.log(`${studio.nickname} greenlit "${title}" (${genre}, $${budget.toLocaleString()})`);
     }
 
     /**

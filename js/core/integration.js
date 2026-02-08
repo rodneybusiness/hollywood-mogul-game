@@ -17,6 +17,7 @@ window.Integration = (function() {
 
     var isInitialized = false;
     var boundDelegationHandler = null;
+    var pendingIntegrationGreenlight = null; // {scriptId, evaluation}
 
     // ================================================================
     // INITIALIZATION
@@ -28,14 +29,12 @@ window.Integration = (function() {
             return;
         }
 
-        console.log('Initializing game integration...');
 
         initializeSystems();
         wireEventDelegation();
         subscribeToEvents();
 
         isInitialized = true;
-        console.log('Game integration complete!');
     }
 
     /**
@@ -61,7 +60,6 @@ window.Integration = (function() {
                     } else {
                         sys.ref.init();
                     }
-                    console.log(sys.name + ' initialized');
                 } catch (error) {
                     console.error('Failed to initialize ' + sys.name, error);
                 }
@@ -109,6 +107,14 @@ window.Integration = (function() {
     function subscribeToEvents() {
         if (!window.EventBus) return;
 
+        // MPAA rating selected → complete pending integration greenlight
+        window.EventBus.on('censorship:ratingSelected', function(data) {
+            if (pendingIntegrationGreenlight) {
+                pendingIntegrationGreenlight.mpaaRating = data.ratingKey;
+                completeIntegrationGreenlight();
+            }
+        });
+
         // After time advances, handle integration-specific updates
         window.EventBus.on('time:advanced', function(data) {
             var gameState = window.HollywoodMogul.getGameState();
@@ -148,10 +154,74 @@ window.Integration = (function() {
             updateEraDisplay(gameState);
         });
 
+        // Era transition notification
+        window.EventBus.on('era:changed', function(data) {
+            showEraTransitionModal(data);
+        });
+
         // Game end handling
         window.EventBus.on('game:ended', function(data) {
-            console.log('Game ended:', data.type);
         });
+    }
+
+    /**
+     * Show a modal when the game transitions to a new historical era.
+     */
+    function showEraTransitionModal(data) {
+        var eraInfo = data.eraInfo;
+        var eraName = eraInfo ? eraInfo.name : data.newEra.replace(/_/g, ' ');
+        var year = data.year;
+
+        var ERA_DESCRIPTIONS = {
+            PRE_CODE: 'The Wild West of Hollywood. Before the Production Code is enforced, studios push boundaries with risqu\u00e9 content.',
+            GOLDEN_AGE: 'The Hays Code is strictly enforced. Studios must navigate censorship while producing quality entertainment.',
+            WAR_YEARS: 'America enters WWII. Studios rally with patriotic films, talent enlists, and the government eyes Hollywood.',
+            POST_WAR: 'The war is over but new threats emerge. The Red Scare, antitrust rulings, and the Paramount Decree reshape the industry.',
+            TV_THREAT: 'Television arrives in American living rooms. Box office attendance plummets as studios fight for survival.',
+            NEW_WAVE: 'The Production Code weakens. A new generation of filmmakers pushes creative boundaries.',
+            RATINGS_ERA: 'The MPAA rating system replaces the Hays Code. Creative freedom explodes with G, PG, R, and X ratings.',
+            NEW_HOLLYWOOD: 'Director-driven cinema dominates. Auteurs like Coppola, Scorsese, and Spielberg reshape the art form.',
+            BLOCKBUSTER_AGE: 'The summer blockbuster is born. High-concept films, merchandising, and sequels drive the industry.',
+            INDIE_BOOM: 'Independent cinema surges. Sundance, Miramax, and low-budget hits prove smaller can be profitable.',
+            DIGITAL_DAWN: 'Digital filmmaking transforms production. CGI spectacles and the internet reshape distribution.',
+            CONVERGENCE: 'Studios chase global audiences. Franchise filmmaking, 3D, and streaming platforms define the landscape.'
+        };
+
+        var description = ERA_DESCRIPTIONS[data.newEra] || 'A new chapter in Hollywood history begins.';
+
+        var scaling = null;
+        if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
+            scaling = window.GameConstants.getEraScalingForYear(year);
+        }
+
+        var modalHtml = '<div class="era-transition-modal">' +
+            '<h2>A NEW ERA BEGINS</h2>' +
+            '<h3>' + eraName + ' (' + year + ')</h3>' +
+            '<p class="era-description">' + description + '</p>';
+
+        if (scaling) {
+            modalHtml += '<div class="era-scaling-info">' +
+                '<h4>Industry Changes</h4>' +
+                '<div class="era-stat">Budget range: $' + scaling.budgetRange[0].toLocaleString() + ' \u2013 $' + scaling.budgetRange[1].toLocaleString() + '</div>' +
+                '<div class="era-stat">Operating costs: ' + scaling.monthlyBurnMult.toFixed(1) + 'x baseline</div>' +
+                '</div>';
+        }
+
+        modalHtml += '<button class="action-btn primary" onclick="HollywoodMogul.closeModal()">ONWARD</button>' +
+            '</div>';
+
+        if (window.HollywoodMogul && window.HollywoodMogul.showModal) {
+            window.HollywoodMogul.showModal(modalHtml);
+        }
+
+        if (window.HollywoodMogul && window.HollywoodMogul.addAlert) {
+            window.HollywoodMogul.addAlert({
+                type: 'info',
+                icon: '\uD83C\uDFAC',
+                message: 'Welcome to the ' + eraName + '!',
+                priority: 'critical'
+            });
+        }
     }
 
     // ================================================================
@@ -196,26 +266,106 @@ window.Integration = (function() {
             return;
         }
 
-        if (window.ProductionSystem && window.ProductionSystem.startProduction) {
-            var budget = script.budget && script.budget.min ? script.budget.min : script.budget;
-            window.ProductionSystem.startProduction(scriptId, budget);
+        // Route through censorship / MPAA evaluation
+        if (window.CensorshipSystem) {
+            var evaluation = window.CensorshipSystem.evaluateScript(script, gameState);
 
-            window.HollywoodMogul.addAlert({
-                type: 'success',
-                icon: '\uD83C\uDFAC',
-                message: 'Production begins on "' + script.title + '"!',
-                priority: 'high'
-            });
+            if (evaluation.regulationType === 'none') {
+                executeIntegrationGreenlight(scriptId);
+                return;
+            }
+
+            pendingIntegrationGreenlight = { scriptId: scriptId, evaluation: evaluation };
+
+            window.CensorshipSystem.showPCAEvaluationModal(
+                script, evaluation,
+                'Integration.completeIntegrationGreenlight()',
+                'HollywoodMogul.closeModal()'
+            );
+        } else {
+            executeIntegrationGreenlight(scriptId);
+        }
+    }
+
+    function executeIntegrationGreenlight(scriptId) {
+        if (window.ProductionSystem && window.ProductionSystem.greenlightScript) {
+            var result = window.ProductionSystem.greenlightScript(scriptId);
+
+            if (result && result.success) {
+                window.HollywoodMogul.addAlert({
+                    type: 'success',
+                    icon: '\uD83C\uDFAC',
+                    message: 'Production begins on "' + result.film.title + '"!',
+                    priority: 'high'
+                });
+            } else {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning',
+                    icon: '\u26A0\uFE0F',
+                    message: (result && result.message) || 'Could not greenlight script.',
+                    priority: 'high'
+                });
+            }
 
             window.HollywoodMogul.closeModal();
 
             // Ironman auto-save
+            var gameState = window.HollywoodMogul.getGameState();
             if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode) {
                 if (window.SaveLoadSystem.isIronmanMode()) {
                     window.SaveLoadSystem.ironmanSave(gameState);
                 }
             }
         }
+    }
+
+    function completeIntegrationGreenlight() {
+        if (!pendingIntegrationGreenlight) return;
+
+        var scriptId = pendingIntegrationGreenlight.scriptId;
+        var evaluation = pendingIntegrationGreenlight.evaluation;
+        var mpaaRating = pendingIntegrationGreenlight.mpaaRating || null;
+        pendingIntegrationGreenlight = null;
+
+        if (window.ProductionSystem && window.ProductionSystem.greenlightScript) {
+            var result = window.ProductionSystem.greenlightScript(scriptId);
+
+            if (result && result.success) {
+                // Apply Hays Code penalties
+                if (evaluation.regulationType !== 'mpaa' && evaluation.regulationType !== 'none'
+                    && evaluation.violations && evaluation.violations.length > 0) {
+                    window.CensorshipSystem.applyPCAPenalties(result.film, evaluation.violations);
+                }
+
+                // Apply MPAA rating to newly created film
+                if (evaluation.regulationType === 'mpaa' && mpaaRating) {
+                    window.CensorshipSystem.applyMPAARating(result.film, mpaaRating);
+                }
+
+                window.HollywoodMogul.addAlert({
+                    type: 'success',
+                    icon: '\uD83C\uDFAC',
+                    message: 'Production begins on "' + result.film.title + '"!',
+                    priority: 'high'
+                });
+
+                // Ironman auto-save
+                if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode) {
+                    if (window.SaveLoadSystem.isIronmanMode()) {
+                        window.SaveLoadSystem.ironmanSave(gameState);
+                    }
+                }
+            } else {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning',
+                    icon: '\u26A0\uFE0F',
+                    message: (result && result.message) || 'Could not greenlight script.',
+                    priority: 'high'
+                });
+            }
+        }
+
+        window.HollywoodMogul.closeModal();
     }
 
     // ================================================================
@@ -354,6 +504,7 @@ window.Integration = (function() {
     return {
         init: init,
         handleScriptGreenlight: handleScriptGreenlight,
+        completeIntegrationGreenlight: completeIntegrationGreenlight,
         handleDistribution: handleDistribution,
         executeDistribution: executeDistribution,
         handleLoan: handleLoan,

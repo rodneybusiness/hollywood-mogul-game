@@ -35,7 +35,6 @@ window.SaveLoadUI = (function() {
             window.SaveLoadSystem.startAutoSave();
         }
 
-        console.log('Save/Load UI initialized');
     }
 
     /**
@@ -389,7 +388,6 @@ window.SaveLoadUI = (function() {
             window.DashboardUI.updateDashboard();
         }
 
-        console.log('Game state loaded and applied', gameState);
     }
 
     /**

@@ -15,7 +15,6 @@ window.KeyboardShortcuts = (function() {
         if (isInitialized) return;
         document.addEventListener('keydown', handleKeyDown);
         isInitialized = true;
-        console.log('Keyboard shortcuts initialized');
     }
 
     /**
@@ -88,7 +87,6 @@ window.KeyboardShortcuts = (function() {
      */
     function handleQuickSave() {
         if (!window.SaveLoadSystem || !window.HollywoodMogul) {
-            console.log('Quick save not available');
             return;
         }
 
@@ -113,7 +111,6 @@ window.KeyboardShortcuts = (function() {
      */
     function handleQuickLoad() {
         if (!window.SaveLoadSystem) {
-            console.log('Quick load not available');
             return;
         }
 

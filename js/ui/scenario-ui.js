@@ -295,7 +295,7 @@ window.ScenarioUI = (function() {
                     </div>
 
                     <p style="font-style: italic; color: rgba(255,255,240,0.8); margin: 2rem 0;">
-                        You can continue playing to reach 1949 or start a new scenario.
+                        You can continue playing to reach 2010 or start a new scenario.
                     </p>
 
                     <div class="details-actions" style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
@@ -319,7 +319,6 @@ window.ScenarioUI = (function() {
      * Initialize scenario UI
      */
     function init() {
-        console.log('Scenario UI initialized');
         addScenarioIndicator();
     }
 

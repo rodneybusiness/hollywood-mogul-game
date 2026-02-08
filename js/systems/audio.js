@@ -188,7 +188,6 @@ window.AudioSystem = (function() {
     function init() {
         if (audioState.initialized) return;
 
-        console.log('Initializing Audio System...');
 
         // Create Web Audio Context
         try {
@@ -208,7 +207,6 @@ window.AudioSystem = (function() {
         bindAudioControls();
 
         audioState.initialized = true;
-        console.log('Audio System initialized successfully');
 
         // Start with appropriate music based on game state
         if (audioState.musicEnabled && !audioState.muted) {
@@ -231,7 +229,6 @@ window.AudioSystem = (function() {
                 audioState.musicEnabled = prefs.musicEnabled !== undefined ? prefs.musicEnabled : true;
                 audioState.sfxEnabled = prefs.sfxEnabled !== undefined ? prefs.sfxEnabled : true;
 
-                console.log('Loaded audio preferences:', prefs);
             }
         } catch (e) {
             console.warn('Could not load audio preferences', e);
@@ -265,9 +262,6 @@ window.AudioSystem = (function() {
         // In production, you would actually load the files here
         // For now, we'll just prepare the audio elements
 
-        console.log('Audio files ready for loading');
-        console.log('Music tracks:', Object.keys(MUSIC_LIBRARY));
-        console.log('Sound effects:', Object.keys(SFX_LIBRARY));
     }
 
     /**
@@ -321,7 +315,6 @@ window.AudioSystem = (function() {
             return;
         }
 
-        console.log(`Playing music: ${track.description}`);
 
         // Create audio element if it doesn't exist
         if (!audioElements.music[trackName]) {

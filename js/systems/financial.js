@@ -501,7 +501,6 @@ window.FinancialSystem = (function() {
             window.HollywoodMogul.closeModal();
         }
         
-        console.log(`Loan approved: $${amount} from ${loanType.name}`);
     }
     
     /**
@@ -665,7 +664,6 @@ window.FinancialSystem = (function() {
             window.HollywoodMogul.closeModal();
         }
         
-        console.log(`Investment made: ${investment.name} for $${investment.cost}`);
     }
     
     /**
