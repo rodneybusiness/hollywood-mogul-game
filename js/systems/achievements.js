@@ -172,13 +172,26 @@ window.AchievementSystem = (function() {
 
         golden_age_complete: {
             id: 'golden_age_complete',
-            title: 'Golden Age Complete',
-            description: 'Survive all 16 years (1933-1949)',
+            title: 'Golden Age Survivor',
+            description: 'Survive the Golden Age era (reach 1950)',
             icon: '🏅',
             category: 'survival',
-            points: 100,
+            points: 50,
             checkCondition: (gameState) => {
-                return gameState.gameYear >= 1949 && !gameState.gameEnded;
+                return gameState.gameYear >= 1950;
+            }
+        },
+
+        full_history: {
+            id: 'full_history',
+            title: 'Living Legend',
+            description: 'Survive all 77 years of Hollywood history (1933-2010)',
+            icon: '👑',
+            category: 'survival',
+            points: 200,
+            checkCondition: (gameState) => {
+                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
+                return gameState.gameYear >= endYear && !gameState.gameEnded;
             }
         },
 

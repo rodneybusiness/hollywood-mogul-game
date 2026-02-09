@@ -35,7 +35,7 @@ window.ScenarioSystem = (function() {
             },
 
             victoryConditions: {
-                description: 'Survive until 1949 and build a successful studio',
+                description: 'Build a successful studio across Hollywood history (1933-2010)',
                 cash: 250000,
                 reputation: 40,
                 films: 5
@@ -177,7 +177,7 @@ window.ScenarioSystem = (function() {
             },
 
             victoryConditions: {
-                description: 'Survive the war, transition to peacetime, and reach 1949',
+                description: 'Survive WWII, transition to peacetime, and produce 10+ films with 3 patriotic',
                 cash: 300000,
                 reputation: 50,
                 films: 10,
@@ -229,7 +229,7 @@ window.ScenarioSystem = (function() {
             },
 
             victoryConditions: {
-                description: 'Survive until 1949 while maintaining moral integrity',
+                description: 'Navigate the Red Scare while maintaining moral integrity',
                 cash: 200000,
                 reputation: 40,
                 films: 5,
@@ -348,7 +348,7 @@ window.ScenarioSystem = (function() {
             },
 
             victoryConditions: {
-                description: 'Survive until 1949 with positive reputation and cash',
+                description: 'Build a studio from nothing — reach $100K, reputation 40, and 20 films',
                 cash: 100000,
                 reputation: 40,
                 films: 20

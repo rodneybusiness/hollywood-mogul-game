@@ -133,6 +133,311 @@ window.AwardsSystem = (function() {
             best_picture: 'All the King\'s Men',
             best_director: 'Joseph L. Mankiewicz (A Letter to Three Wives)',
             studio: 'Columbia Pictures'
+        },
+        1950: {
+            best_picture: 'All About Eve',
+            best_director: 'Joseph L. Mankiewicz',
+            studio: '20th Century Fox'
+        },
+        1951: {
+            best_picture: 'An American in Paris',
+            best_director: 'Vincente Minnelli',
+            studio: 'Metro-Goldwyn-Mayer'
+        },
+        1952: {
+            best_picture: 'The Greatest Show on Earth',
+            best_director: 'Cecil B. DeMille',
+            studio: 'Paramount Pictures'
+        },
+        1953: {
+            best_picture: 'From Here to Eternity',
+            best_director: 'Fred Zinnemann',
+            studio: 'Columbia Pictures'
+        },
+        1954: {
+            best_picture: 'On the Waterfront',
+            best_director: 'Elia Kazan',
+            studio: 'Columbia Pictures'
+        },
+        1955: {
+            best_picture: 'Marty',
+            best_director: 'Delbert Mann',
+            studio: 'United Artists'
+        },
+        1956: {
+            best_picture: 'Around the World in 80 Days',
+            best_director: 'Michael Anderson',
+            studio: 'United Artists'
+        },
+        1957: {
+            best_picture: 'The Bridge on the River Kwai',
+            best_director: 'David Lean',
+            studio: 'Columbia Pictures'
+        },
+        1958: {
+            best_picture: 'Gigi',
+            best_director: 'Vincente Minnelli',
+            studio: 'Metro-Goldwyn-Mayer'
+        },
+        1959: {
+            best_picture: 'Ben-Hur',
+            best_director: 'William Wyler',
+            studio: 'Metro-Goldwyn-Mayer'
+        },
+        1960: {
+            best_picture: 'The Apartment',
+            best_director: 'Billy Wilder',
+            studio: 'United Artists'
+        },
+        1961: {
+            best_picture: 'West Side Story',
+            best_director: 'Robert Wise / Jerome Robbins',
+            studio: 'United Artists'
+        },
+        1962: {
+            best_picture: 'Lawrence of Arabia',
+            best_director: 'David Lean',
+            studio: 'Columbia Pictures'
+        },
+        1963: {
+            best_picture: 'Tom Jones',
+            best_director: 'Tony Richardson',
+            studio: 'United Artists'
+        },
+        1964: {
+            best_picture: 'My Fair Lady',
+            best_director: 'George Cukor',
+            studio: 'Warner Bros.'
+        },
+        1965: {
+            best_picture: 'The Sound of Music',
+            best_director: 'Robert Wise',
+            studio: '20th Century Fox'
+        },
+        1966: {
+            best_picture: 'A Man for All Seasons',
+            best_director: 'Fred Zinnemann',
+            studio: 'Columbia Pictures'
+        },
+        1967: {
+            best_picture: 'In the Heat of the Night',
+            best_director: 'Norman Jewison',
+            studio: 'United Artists'
+        },
+        1968: {
+            best_picture: 'Oliver!',
+            best_director: 'Carol Reed',
+            studio: 'Columbia Pictures'
+        },
+        1969: {
+            best_picture: 'Midnight Cowboy',
+            best_director: 'John Schlesinger',
+            studio: 'United Artists'
+        },
+        1970: {
+            best_picture: 'Patton',
+            best_director: 'Franklin J. Schaffner',
+            studio: '20th Century Fox'
+        },
+        1971: {
+            best_picture: 'The French Connection',
+            best_director: 'William Friedkin',
+            studio: '20th Century Fox'
+        },
+        1972: {
+            best_picture: 'The Godfather',
+            best_director: 'Francis Ford Coppola',
+            studio: 'Paramount Pictures'
+        },
+        1973: {
+            best_picture: 'The Sting',
+            best_director: 'George Roy Hill',
+            studio: 'Universal Pictures'
+        },
+        1974: {
+            best_picture: 'The Godfather Part II',
+            best_director: 'Francis Ford Coppola',
+            studio: 'Paramount Pictures'
+        },
+        1975: {
+            best_picture: 'One Flew Over the Cuckoo\'s Nest',
+            best_director: 'Milos Forman',
+            studio: 'United Artists'
+        },
+        1976: {
+            best_picture: 'Rocky',
+            best_director: 'John G. Avildsen',
+            studio: 'United Artists'
+        },
+        1977: {
+            best_picture: 'Annie Hall',
+            best_director: 'Woody Allen',
+            studio: 'United Artists'
+        },
+        1978: {
+            best_picture: 'The Deer Hunter',
+            best_director: 'Michael Cimino',
+            studio: 'Universal Pictures'
+        },
+        1979: {
+            best_picture: 'Kramer vs. Kramer',
+            best_director: 'Robert Benton',
+            studio: 'Columbia Pictures'
+        },
+        1980: {
+            best_picture: 'Ordinary People',
+            best_director: 'Robert Redford',
+            studio: 'Paramount Pictures'
+        },
+        1981: {
+            best_picture: 'Chariots of Fire',
+            best_director: 'Hugh Hudson',
+            studio: 'Warner Bros.'
+        },
+        1982: {
+            best_picture: 'Gandhi',
+            best_director: 'Richard Attenborough',
+            studio: 'Columbia Pictures'
+        },
+        1983: {
+            best_picture: 'Terms of Endearment',
+            best_director: 'James L. Brooks',
+            studio: 'Paramount Pictures'
+        },
+        1984: {
+            best_picture: 'Amadeus',
+            best_director: 'Milos Forman',
+            studio: 'Orion Pictures'
+        },
+        1985: {
+            best_picture: 'Out of Africa',
+            best_director: 'Sydney Pollack',
+            studio: 'Universal Pictures'
+        },
+        1986: {
+            best_picture: 'Platoon',
+            best_director: 'Oliver Stone',
+            studio: 'Orion Pictures'
+        },
+        1987: {
+            best_picture: 'The Last Emperor',
+            best_director: 'Bernardo Bertolucci',
+            studio: 'Columbia Pictures'
+        },
+        1988: {
+            best_picture: 'Rain Man',
+            best_director: 'Barry Levinson',
+            studio: 'United Artists'
+        },
+        1989: {
+            best_picture: 'Driving Miss Daisy',
+            best_director: 'Bruce Beresford',
+            studio: 'Warner Bros.'
+        },
+        1990: {
+            best_picture: 'Dances with Wolves',
+            best_director: 'Kevin Costner',
+            studio: 'Orion Pictures'
+        },
+        1991: {
+            best_picture: 'The Silence of the Lambs',
+            best_director: 'Jonathan Demme',
+            studio: 'Orion Pictures'
+        },
+        1992: {
+            best_picture: 'Unforgiven',
+            best_director: 'Clint Eastwood',
+            studio: 'Warner Bros.'
+        },
+        1993: {
+            best_picture: 'Schindler\'s List',
+            best_director: 'Steven Spielberg',
+            studio: 'Universal Pictures'
+        },
+        1994: {
+            best_picture: 'Forrest Gump',
+            best_director: 'Robert Zemeckis',
+            studio: 'Paramount Pictures'
+        },
+        1995: {
+            best_picture: 'Braveheart',
+            best_director: 'Mel Gibson',
+            studio: 'Paramount Pictures'
+        },
+        1996: {
+            best_picture: 'The English Patient',
+            best_director: 'Anthony Minghella',
+            studio: 'Miramax'
+        },
+        1997: {
+            best_picture: 'Titanic',
+            best_director: 'James Cameron',
+            studio: 'Paramount Pictures / 20th Century Fox'
+        },
+        1998: {
+            best_picture: 'Shakespeare in Love',
+            best_director: 'John Madden',
+            studio: 'Miramax'
+        },
+        1999: {
+            best_picture: 'American Beauty',
+            best_director: 'Sam Mendes',
+            studio: 'DreamWorks'
+        },
+        2000: {
+            best_picture: 'Gladiator',
+            best_director: 'Ridley Scott',
+            studio: 'DreamWorks'
+        },
+        2001: {
+            best_picture: 'A Beautiful Mind',
+            best_director: 'Ron Howard',
+            studio: 'Universal Pictures'
+        },
+        2002: {
+            best_picture: 'Chicago',
+            best_director: 'Rob Marshall',
+            studio: 'Miramax'
+        },
+        2003: {
+            best_picture: 'The Lord of the Rings: The Return of the King',
+            best_director: 'Peter Jackson',
+            studio: 'New Line Cinema'
+        },
+        2004: {
+            best_picture: 'Million Dollar Baby',
+            best_director: 'Clint Eastwood',
+            studio: 'Warner Bros.'
+        },
+        2005: {
+            best_picture: 'Crash',
+            best_director: 'Paul Haggis',
+            studio: 'Lionsgate'
+        },
+        2006: {
+            best_picture: 'The Departed',
+            best_director: 'Martin Scorsese',
+            studio: 'Warner Bros.'
+        },
+        2007: {
+            best_picture: 'No Country for Old Men',
+            best_director: 'Joel Coen / Ethan Coen',
+            studio: 'Miramax'
+        },
+        2008: {
+            best_picture: 'Slumdog Millionaire',
+            best_director: 'Danny Boyle',
+            studio: 'Fox Searchlight'
+        },
+        2009: {
+            best_picture: 'The Hurt Locker',
+            best_director: 'Kathryn Bigelow',
+            studio: 'Summit Entertainment'
+        },
+        2010: {
+            best_picture: 'The King\'s Speech',
+            best_director: 'Tom Hooper',
+            studio: 'The Weinstein Company'
         }
     };
 
