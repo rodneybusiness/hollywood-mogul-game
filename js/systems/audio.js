@@ -62,6 +62,38 @@ window.AudioSystem = (function() {
             url: 'audio/music/1940s-optimistic.mp3', // 1945-1949: Optimistic post-war
             description: 'Late 1940s Post-War Theme'
         },
+        'tv_threat': {
+            url: 'audio/music/1950s-cinema.mp3', // 1950-1957: Widescreen spectacle
+            description: '1950s Widescreen Cinema Theme'
+        },
+        'new_wave': {
+            url: 'audio/music/1960s-revolution.mp3', // 1958-1966: Rebellious new wave
+            description: '1960s New Wave Theme'
+        },
+        'ratings_era': {
+            url: 'audio/music/1970s-gritty.mp3', // 1967-1974: Gritty new Hollywood
+            description: '1970s Gritty Realism Theme'
+        },
+        'new_hollywood': {
+            url: 'audio/music/1970s-epic.mp3', // 1975-1982: Epic blockbusters
+            description: 'Late 1970s Blockbuster Theme'
+        },
+        'blockbuster_age': {
+            url: 'audio/music/1980s-synth.mp3', // 1983-1993: Synth-driven blockbusters
+            description: '1980s Blockbuster Age Theme'
+        },
+        'indie_boom': {
+            url: 'audio/music/1990s-eclectic.mp3', // 1994-1999: Eclectic indie sound
+            description: '1990s Indie Boom Theme'
+        },
+        'digital_dawn': {
+            url: 'audio/music/2000s-digital.mp3', // 2000-2004: Digital transition
+            description: '2000s Digital Era Theme'
+        },
+        'convergence': {
+            url: 'audio/music/2000s-modern.mp3', // 2005-2010: Modern convergence
+            description: '2000s Convergence Theme'
+        },
 
         // Context-Specific Music
         'tension': {
@@ -534,7 +566,23 @@ window.AudioSystem = (function() {
 
         // Era-based music
         let eraTrack;
-        if (year >= 1945) {
+        if (year >= 2005) {
+            eraTrack = 'convergence';
+        } else if (year >= 2000) {
+            eraTrack = 'digital_dawn';
+        } else if (year >= 1994) {
+            eraTrack = 'indie_boom';
+        } else if (year >= 1983) {
+            eraTrack = 'blockbuster_age';
+        } else if (year >= 1975) {
+            eraTrack = 'new_hollywood';
+        } else if (year >= 1967) {
+            eraTrack = 'ratings_era';
+        } else if (year >= 1958) {
+            eraTrack = 'new_wave';
+        } else if (year >= 1950) {
+            eraTrack = 'tv_threat';
+        } else if (year >= 1945) {
             eraTrack = 'post_war';
         } else if (year >= 1941) {
             eraTrack = 'war_era';
