@@ -352,10 +352,12 @@ window.Integration = (function() {
                     priority: 'high'
                 });
 
-                // Ironman auto-save
+                // Ironman auto-save (gameState was undeclared here — a
+                // ReferenceError under 'use strict' the moment the greenlight
+                // path started working; audit CODE-013)
                 if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode) {
                     if (window.SaveLoadSystem.isIronmanMode()) {
-                        window.SaveLoadSystem.ironmanSave(gameState);
+                        window.SaveLoadSystem.ironmanSave(window.HollywoodMogul.getGameState());
                     }
                 }
             } else {
