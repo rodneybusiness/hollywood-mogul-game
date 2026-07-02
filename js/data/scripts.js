@@ -2945,6 +2945,17 @@ window.ScriptLibrary = (function() {
     }
 
     /**
+     * Look up an available script instance by id. ProductionSystem's
+     * exported greenlight path depends on this (audit CODE-005 — it
+     * previously called a function that was never exported and threw).
+     */
+    function getScriptById(scriptId) {
+        var gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState || !Array.isArray(gameState.availableScripts)) return null;
+        return gameState.availableScripts.find(function (s) { return s.id === scriptId; }) || null;
+    }
+
+    /**
      * Public API
      */
     return {
@@ -2952,6 +2963,7 @@ window.ScriptLibrary = (function() {
         generateMonthlyScripts,
         showScriptSelection,
         greenlightScript,
+        getScriptById,
 
         // For external systems
         getScriptDatabase: () => SCRIPT_DATABASE,

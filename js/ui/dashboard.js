@@ -11,6 +11,74 @@ window.DashboardUI = (function() {
     let boundKeyHandler = null;
     let pendingGreenlight = null; // {scriptId, evaluation} — set when awaiting censorship/MPAA
 
+    // ---- helpers the render pipeline calls but never had (audit CODE-003:
+    // every missing one crashed updateDashboard and froze the whole UI) ----
+
+    /** Same phase-normalization contract as BoxOfficeSystem's private copy. */
+    function normalizePhase(phase) {
+        if (!phase) return '';
+        const mapping = {
+            'DEVELOPMENT': 'greenlit',
+            'PRE_PRODUCTION': 'pre_production',
+            'PRINCIPAL_PHOTOGRAPHY': 'shooting',
+            'POST_PRODUCTION': 'post_production',
+            'DISTRIBUTION_PREP': 'post_production_complete',
+            'COMPLETED': 'post_production_complete'
+        };
+        const normalized = mapping[phase] || phase;
+        return typeof normalized === 'string' ? normalized.toLowerCase() : '';
+    }
+
+    function formatDate(date) {
+        if (!(date instanceof Date)) return date ? String(date) : '';
+        return window.TimeSystem && window.TimeSystem.formatDate
+            ? window.TimeSystem.formatDate(date, 'short')
+            : date.toLocaleDateString();
+    }
+
+    function getEventIcon(type) {
+        const icons = {
+            financial: '💰', production: '🎬', talent: '⭐', crisis: '🔥',
+            historical: '📰', award: '🏆', success: '🏆', warning: '⚠️',
+            tutorial: '📋', info: '📢'
+        };
+        return icons[type] || '📢';
+    }
+
+    function findFilmById(gameState, filmId) {
+        // Film ids are numeric but arrive as strings from data-attributes.
+        return getAllFilms(gameState).find(f => String(f.id) === String(filmId)) || null;
+    }
+
+    function updateStudioSection() {
+        if (window.StudioUIHelpers && window.StudioUIHelpers.renderStudioSection) {
+            window.StudioUIHelpers.renderStudioSection();
+        }
+    }
+
+    function updateTimelineSection() {
+        if (window.TimelineUI && window.TimelineUI.renderTimeline) {
+            window.TimelineUI.renderTimeline();
+        }
+    }
+
+    // Films live in up to three collections depending on lifecycle stage;
+    // dedupe by id (same contract as BoxOfficeSystem/TimelineUI's copies).
+    function getAllFilms(gameState) {
+        const collections = [];
+        if (Array.isArray(gameState.films)) collections.push(...gameState.films);
+        if (Array.isArray(gameState.activeFilms)) collections.push(...gameState.activeFilms);
+        if (Array.isArray(gameState.completedFilms)) collections.push(...gameState.completedFilms);
+
+        const uniqueFilms = new Map();
+        collections.forEach(film => {
+            if (film && film.id && !uniqueFilms.has(film.id)) {
+                uniqueFilms.set(film.id, film);
+            }
+        });
+        return Array.from(uniqueFilms.values());
+    }
+
     /**
      * Initialize the dashboard system
      */
@@ -586,6 +654,13 @@ window.DashboardUI = (function() {
         `).join('');
     }
 
+    /** Month name for a 1-based month index (TimeSystem.getCurrentDate().month). */
+    function getMonthName(month) {
+        const names = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
+        return names[(month - 1 + 12) % 12] || '';
+    }
+
     /**
      * Update time display
      */
@@ -597,12 +672,15 @@ window.DashboardUI = (function() {
             element.textContent = `${getMonthName(currentDate.month)} ${currentDate.year}`;
         }
         
-        // Update era indicator
+        // Update era indicator (getCurrentPeriod requires the year and can
+        // return null for uncovered years)
         const eraElement = document.getElementById('current-era');
         if (eraElement) {
-            const era = window.TimeSystem.getCurrentPeriod();
-            eraElement.textContent = era.name;
-            eraElement.className = `era-indicator era-${era.key}`;
+            const era = window.TimeSystem.getCurrentPeriod(currentDate.year);
+            if (era) {
+                eraElement.textContent = era.name;
+                eraElement.className = `era-indicator era-${era.key}`;
+            }
         }
     }
 

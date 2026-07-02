@@ -138,9 +138,12 @@ window.Integration = (function() {
                 }, 300);
             }
 
-            // Monthly loan processing
-            if (window.FinancialSystem && window.FinancialSystem.processMonthlyLoans) {
-                window.FinancialSystem.processMonthlyLoans(gameState);
+            // Monthly loan/investment processing. The exported name is
+            // processMonthlyFinances — the old processMonthlyLoans guard
+            // never matched anything, so loans were interest-free for the
+            // whole game (audit ECON-004/CODE-002).
+            if (window.FinancialSystem && window.FinancialSystem.processMonthlyFinances) {
+                window.FinancialSystem.processMonthlyFinances(gameState);
             }
 
             // Scenario victory checks

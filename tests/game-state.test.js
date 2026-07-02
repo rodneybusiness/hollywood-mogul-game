@@ -163,18 +163,19 @@ describe('HollywoodMogul Game State', () => {
             expect(newDate.getMonth()).toBe((initialDate.getMonth() + 1) % 12);
         });
 
-        test('should deduct monthly expenses after 4 weeks', () => {
+        test('should deduct monthly expenses exactly once per calendar month', () => {
             const initialCash = window.HollywoodMogul.getCash();
             const gameState = window.HollywoodMogul.getGameState();
-            const monthlyBurn = gameState.monthlyBurn;
 
-            // Advance 4 weeks
-            for (let i = 0; i < 4; i++) {
+            // 5 weekly ticks from Jan 1 crosses exactly one month boundary
+            // (Jan 8, 15, 22, 29, Feb 5). The old `gameWeek % 4` clause
+            // double-billed overhead ~1.9x (audit ECON-002).
+            for (let i = 0; i < 5; i++) {
                 window.HollywoodMogul.advanceTime('week');
             }
 
             const finalCash = window.HollywoodMogul.getCash();
-            expect(finalCash).toBeLessThan(initialCash);
+            expect(finalCash).toBe(initialCash - gameState.monthlyBurn);
         });
 
         test('should update year when crossing year boundary', () => {

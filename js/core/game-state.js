@@ -160,8 +160,10 @@ window.HollywoodMogul = (function() {
     function startNewGameWithScenario(scenarioId) {
         scenarioId = scenarioId || 'classic_start';
 
-        // Clear EventBus subscriptions from previous game
-        if (window.EventBus) window.EventBus.clear();
+        // NOTE: do NOT EventBus.clear() here. All current subscriptions are
+        // made once at init time (Integration, DashboardUI); clearing wiped
+        // loan processing, newspaper, scenario victory checks, and ironman
+        // saves for the entire game (audit: CODE-002).
 
         gameState = {
             currentDate: new Date(1933, 0, 1),
@@ -213,6 +215,16 @@ window.HollywoodMogul = (function() {
             window.StudioLotSystem.initializeStudioLot(gameState);
         }
 
+        // These systems hold per-game state and must be (re)initialized
+        // against the NEW state object — Integration.init runs before any
+        // game exists, so anything it initialized is stale now (CODE-011).
+        if (window.FinancialSystem && window.FinancialSystem.initializeFinancialSystem) {
+            window.FinancialSystem.initializeFinancialSystem(gameState);
+        }
+        if (window.RivalStudios && window.RivalStudios.init) {
+            window.RivalStudios.init(gameState);
+        }
+
         if (!gameState.scenario) {
             addAlert({
                 type: 'tutorial',
@@ -255,6 +267,13 @@ window.HollywoodMogul = (function() {
         emitEvent('state:changed', gameState);
     }
 
+    // ONE tick pipeline. Historically advanceWeek and advanceMonth ran
+    // disjoint simulations — weekly play never received new scripts,
+    // historical events, or Oscars, and monthly play never advanced
+    // production or box office — and weekly play double-billed monthly
+    // overhead via the `gameWeek % 4` clause (audit: ECON-002/003,
+    // CODE-001). Now the week is the only tick; months are week loops,
+    // and month-boundary work fires exactly once per calendar month.
     function advanceWeek() {
         var oldYear = gameState.gameYear;
         var oldMonth = gameState.currentDate.getMonth();
@@ -263,21 +282,25 @@ window.HollywoodMogul = (function() {
         gameState.currentDate.setDate(gameState.currentDate.getDate() + 7);
         gameState.gameYear = gameState.currentDate.getFullYear();
 
-        var newMonth = gameState.currentDate.getMonth();
-        if (gameState.gameYear !== oldYear || newMonth !== oldMonth || gameState.gameWeek % GAME_CONSTANTS.WEEKS_PER_MONTH === 1) {
+        var monthChanged = gameState.gameYear !== oldYear ||
+            gameState.currentDate.getMonth() !== oldMonth;
+        if (monthChanged) {
             processMonthlyExpenses();
+            processMonthlyEvents();
         }
 
         processWeeklyEvents();
     }
 
     function advanceMonth() {
-        gameState.gameWeek += GAME_CONSTANTS.WEEKS_PER_MONTH;
-        gameState.currentDate.setMonth(gameState.currentDate.getMonth() + 1);
-        gameState.gameYear = gameState.currentDate.getFullYear();
-
-        processMonthlyExpenses();
-        processMonthlyEvents();
+        var startMonth = gameState.currentDate.getMonth();
+        var startYear = gameState.gameYear;
+        var guard = 6; // a calendar month is at most 5 week-ticks away
+        while (!gameState.gameEnded && gameState.cash >= 0 && guard-- > 0 &&
+               gameState.currentDate.getMonth() === startMonth &&
+               gameState.gameYear === startYear) {
+            advanceWeek();
+        }
     }
 
     // ================================================================
@@ -340,6 +363,10 @@ window.HollywoodMogul = (function() {
         }
         if (window.BoxOfficeSystem && window.BoxOfficeSystem.processWeeklyBoxOffice) {
             window.BoxOfficeSystem.processWeeklyBoxOffice(gameState);
+        }
+        // Systems registered via TimeSystem.addWeeklyCallback (rivals, etc.)
+        if (window.TimeSystem && window.TimeSystem.runWeeklyCallbacks) {
+            window.TimeSystem.runWeeklyCallbacks(gameState);
         }
         if (Math.random() < 0.1) {
             if (window.EventSystem && window.EventSystem.generateRandomEvent) {
@@ -522,40 +549,52 @@ window.HollywoodMogul = (function() {
         }
     }
 
+    // index.html uses current-cash/monthly-burn/cash-runway; the jsdom test
+    // fixtures use the legacy cash-display/burn-display/runway-display ids.
+    // The HUD was frozen for the whole game because only the legacy ids were
+    // targeted (audit: UX-004).
+    function byId(ids) {
+        for (var i = 0; i < ids.length; i++) {
+            var el = document.getElementById(ids[i]);
+            if (el) return el;
+        }
+        return null;
+    }
+
     function updateFinancialDisplay() {
-        var cashElement = document.getElementById('cash-display');
+        var cashElement = byId(['current-cash', 'cash-display']);
         if (cashElement) {
             cashElement.textContent = '$' + gameState.cash.toLocaleString();
             cashElement.className = gameState.cash < 0 ? 'card-value negative' : 'card-value';
         }
 
-        var burnElement = document.getElementById('burn-display');
+        var burnElement = byId(['monthly-burn', 'burn-display']);
         if (burnElement) {
             burnElement.textContent = '-$' + gameState.monthlyBurn.toLocaleString();
         }
 
-        var runwayElement = document.getElementById('runway-display');
+        var runwayElement = byId(['cash-runway', 'runway-display']);
         var runwayStatusElement = document.getElementById('runway-status');
 
-        if (runwayElement && runwayStatusElement) {
+        if (runwayElement) {
             var runway = calculateRunwayWeeks();
 
             if (runway > 100) {
                 runwayElement.textContent = '\u221E';
-                runwayStatusElement.textContent = 'SAFE';
-                runwayStatusElement.className = 'runway-status safe';
             } else {
                 runwayElement.textContent = runway + ' weeks';
+            }
 
-                if (runway <= GAME_CONSTANTS.RUNWAY_DANGER_WEEKS) {
-                    runwayStatusElement.textContent = 'DANGER';
-                    runwayStatusElement.className = 'runway-status danger';
-                } else if (runway <= GAME_CONSTANTS.RUNWAY_WARNING_WEEKS) {
-                    runwayStatusElement.textContent = 'WARNING';
-                    runwayStatusElement.className = 'runway-status moderate';
-                } else {
+            if (runwayStatusElement) {
+                if (runway > 100 || runway > GAME_CONSTANTS.RUNWAY_WARNING_WEEKS) {
                     runwayStatusElement.textContent = 'SAFE';
                     runwayStatusElement.className = 'runway-status safe';
+                } else if (runway <= GAME_CONSTANTS.RUNWAY_DANGER_WEEKS) {
+                    runwayStatusElement.textContent = 'DANGER';
+                    runwayStatusElement.className = 'runway-status danger';
+                } else {
+                    runwayStatusElement.textContent = 'WARNING';
+                    runwayStatusElement.className = 'runway-status moderate';
                 }
             }
         }

@@ -402,10 +402,69 @@ window.TimeSystem = (function() {
         return new Date(year, month + 1, 0).getDate();
     }
     
+    // ================================================================
+    // LIVE-GAME BRIDGE
+    // Several systems (box office, talent, rivals, dashboard) were written
+    // against these entry points but they never existed — every call site
+    // crashed or silently no-oped (audit: CODE-004, CODE-011, DESIGN-001).
+    // ================================================================
+
+    var weeklyCallbacks = [];
+
+    /**
+     * Current game date as a rich object. Callers use `.year`, spread it,
+     * or store it whole on films.
+     */
+    function getCurrentDate() {
+        var state = window.HollywoodMogul && window.HollywoodMogul.getGameState
+            ? window.HollywoodMogul.getGameState()
+            : null;
+        var date = state && state.currentDate ? state.currentDate : new Date(1933, 0, 1);
+        return {
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            week: state ? state.gameWeek : 1,
+            date: new Date(date.getTime())
+        };
+    }
+
+    /** Register a handler to run once per game-week tick (deduped). */
+    function addWeeklyCallback(fn) {
+        if (typeof fn === 'function' && weeklyCallbacks.indexOf(fn) === -1) {
+            weeklyCallbacks.push(fn);
+        }
+    }
+
+    /** Invoked by the game loop each week. One failing handler must not kill the tick. */
+    function runWeeklyCallbacks(gameState) {
+        for (var i = 0; i < weeklyCallbacks.length; i++) {
+            try {
+                weeklyCallbacks[i](gameState);
+            } catch (e) {
+                console.error('TimeSystem weekly callback failed:', e);
+            }
+        }
+    }
+
+    function advanceWeek() {
+        if (window.HollywoodMogul) window.HollywoodMogul.advanceTime('week');
+    }
+
+    function advanceMonth() {
+        if (window.HollywoodMogul) window.HollywoodMogul.advanceTime('month');
+    }
+
     /**
      * Public API
      */
     return {
+        // Live-game bridge
+        getCurrentDate,
+        addWeeklyCallback,
+        runWeeklyCallbacks,
+        advanceWeek,
+        advanceMonth,
+
         // Period functions
         getCurrentPeriod,
         getCurrentSeason,

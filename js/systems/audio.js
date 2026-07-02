@@ -14,6 +14,11 @@
 window.AudioSystem = (function() {
     'use strict';
 
+    // No music/SFX asset files ship yet — every file request 404s (audit
+    // AUDIO-004). Procedural WebAudio SFX still play. Flip this when real
+    // assets land (build plan Phase 5).
+    const FILE_AUDIO_ENABLED = false;
+
     // Audio State
     let audioState = {
         initialized: false,
@@ -229,6 +234,19 @@ window.AudioSystem = (function() {
             console.warn('Web Audio API not supported', e);
         }
 
+        // Browsers create the context suspended until a user gesture;
+        // without this, even procedural SFX are silent forever (audit
+        // AUDIO-003). Resume once on the first interaction.
+        function resumeAudioContext() {
+            if (audioState.audioContext && audioState.audioContext.state === 'suspended') {
+                audioState.audioContext.resume().catch(function () {});
+            }
+            document.removeEventListener('click', resumeAudioContext);
+            document.removeEventListener('keydown', resumeAudioContext);
+        }
+        document.addEventListener('click', resumeAudioContext);
+        document.addEventListener('keydown', resumeAudioContext);
+
         // Load audio preferences from localStorage
         loadAudioPreferences();
 
@@ -338,6 +356,7 @@ window.AudioSystem = (function() {
      * Play background music by track name
      */
     function playMusic(trackName, fadeInDuration = 2000) {
+        if (!FILE_AUDIO_ENABLED) return; // no assets shipped yet (audit AUDIO-004)
         if (!audioState.musicEnabled || audioState.muted) return;
         if (audioState.currentTrack === trackName && currentMusic) return;
 
@@ -450,8 +469,10 @@ window.AudioSystem = (function() {
         if (!audioState.sfxEnabled || audioState.muted) return;
 
         const sfx = SFX_LIBRARY[sfxName];
-        if (!sfx) {
-            // Try to generate procedural sound
+        if (!sfx || !FILE_AUDIO_ENABLED) {
+            // No asset files shipped yet (audit AUDIO-004): every file
+            // request 404s, so route everything through the procedural
+            // WebAudio synth until real assets land (build plan Phase 5).
             playProceduralSFX(sfxName);
             return;
         }

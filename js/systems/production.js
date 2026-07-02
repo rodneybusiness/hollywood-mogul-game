@@ -701,10 +701,20 @@ window.ProductionSystem = (function() {
      * Handle distribution choice
      */
     function chooseDistribution(filmId, strategy) {
-        const film = window._distributionFilm;
-        const gameState = window._distributionGameState;
-        
-        if (!film || film.id !== filmId) return;
+        // Resolve from live state by id — the old single _distributionFilm
+        // global meant two films completing back-to-back clobbered each
+        // other and the earlier one became permanently unreleasable
+        // (audit ECON-009).
+        const gameState = window._distributionGameState ||
+            (window.HollywoodMogul && window.HollywoodMogul.getGameState());
+        if (!gameState) return;
+
+        let film = window._distributionFilm;
+        if (!film || String(film.id) !== String(filmId)) {
+            const pools = [].concat(gameState.completedFilms || [], gameState.activeFilms || []);
+            film = pools.find(f => String(f.id) === String(filmId)) || null;
+        }
+        if (!film || film.distributionStrategy) return;
         
         const projectedEarnings = calculateProjectedEarnings(film, gameState);
         
