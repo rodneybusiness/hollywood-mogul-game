@@ -125,10 +125,9 @@ window.KeyboardShortcuts = (function() {
         const result = window.SaveLoadSystem.quickLoad();
 
         if (result.success) {
-            // Apply loaded state
+            // Apply loaded state (CODE-008: replace, don't merge)
             if (window.HollywoodMogul && result.gameState) {
-                const currentState = window.HollywoodMogul.getGameState();
-                Object.assign(currentState, result.gameState);
+                window.SaveLoadSystem.applyLoadedState(result.gameState);
 
                 // Refresh UI
                 if (window.DashboardUI && window.DashboardUI.updateDashboard) {

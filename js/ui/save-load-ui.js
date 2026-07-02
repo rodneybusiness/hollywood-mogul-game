@@ -379,9 +379,10 @@ window.SaveLoadUI = (function() {
     function applyLoadedGameState(gameState) {
         if (!window.HollywoodMogul || !gameState) return;
 
-        // Update global game state
-        const currentState = window.HollywoodMogul.getGameState();
-        Object.assign(currentState, gameState);
+        // Update global game state (CODE-008: replace, don't merge —
+        // stale keys from the current session are deleted while the live
+        // object's identity is preserved for systems holding references)
+        window.SaveLoadSystem.applyLoadedState(gameState);
 
         // Refresh all UI components
         if (window.DashboardUI && window.DashboardUI.updateDashboard) {
