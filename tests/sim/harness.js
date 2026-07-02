@@ -193,13 +193,23 @@ function createGame(options = {}) {
         },
 
         /**
-         * Greenlight via the same path the UI uses (cash check included).
+         * Greenlight via the canonical path (Integration → censorship →
+         * ProductionSystem). When the Hays evaluation raises a modal, the
+         * sim auto-approves — exactly what the modal's proceed button does.
          * Returns the film if production started.
          */
         greenlight(script) {
             const before = this.state.activeFilms.length;
             try {
-                w.ScriptLibrary.greenlightScript(script.id);
+                if (w.Integration && w.Integration.handleScriptGreenlight) {
+                    w.Integration.handleScriptGreenlight(script.id);
+                    if (this.state.activeFilms.length === before &&
+                        w.Integration.completeIntegrationGreenlight) {
+                        w.Integration.completeIntegrationGreenlight();
+                    }
+                } else {
+                    w.ScriptLibrary.greenlightScript(script.id);
+                }
             } catch (err) {
                 recordError('greenlight:' + script.title, err);
             }
@@ -214,16 +224,17 @@ function createGame(options = {}) {
         },
 
         /**
-         * Choose distribution exactly as the modal buttons do:
-         * ProductionSystem.chooseDistribution reads window._distributionFilm.
+         * Release through the one distribution executor,
+         * BoxOfficeSystem.releaseFilm — the same call the dashboard's
+         * strategy buttons make. Legacy names map: sell → states_rights.
          */
         release(film, strategy) {
+            const map = { sell: 'states_rights', wide: 'wide', limited: 'limited' };
             try {
-                w._distributionFilm = film;
-                w._distributionGameState = this.state;
-                w.ProductionSystem.chooseDistribution(film.id, strategy);
+                return w.BoxOfficeSystem.releaseFilm(film.id, map[strategy] || strategy);
             } catch (err) {
                 recordError('release:' + film.title, err);
+                return { success: false };
             }
         },
 
@@ -280,18 +291,23 @@ function createGame(options = {}) {
             };
         },
 
-        /** Released-film ROI ledger for the summary. */
+        /** Released-film ROI ledger for the summary (reads both the legacy
+         *  fields and BoxOfficeSystem.releaseFilm's film.distribution shape). */
         filmLedger() {
-            return (this.state.completedFilms || []).map(f => ({
-                title: f.title,
-                genre: f.genre,
-                year: f.releaseDate ? new Date(f.releaseDate).getFullYear() : null,
-                budget: f.originalBudget,
-                marketing: f.marketingBudget || 0,
-                revenue: f.studioRevenue || 0,
-                quality: f.finalQuality,
-                strategy: f.distributionStrategy,
-            }));
+            return (this.state.completedFilms || []).map(f => {
+                const dist = f.distribution || {};
+                const box = dist.boxOfficeResults || {};
+                return {
+                    title: f.title,
+                    genre: f.genre,
+                    year: f.releaseDate ? new Date(f.releaseDate).getFullYear() : null,
+                    budget: f.originalBudget,
+                    marketing: f.marketingBudget || dist.marketingCost || 0,
+                    revenue: f.studioRevenue || dist.totalRevenue || box.totalStudioRevenue || 0,
+                    quality: f.finalQuality,
+                    strategy: f.distributionStrategy || dist.strategy || null,
+                };
+            });
         },
     };
 

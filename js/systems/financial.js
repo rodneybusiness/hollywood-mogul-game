@@ -429,19 +429,35 @@ window.FinancialSystem = (function() {
     }
     
     /**
-     * Submit loan application
+     * Submit loan application (DOM wrapper — reads the modal slider and
+     * delegates to takeLoan, the real API).
      */
     function submitLoanApplication(loanKey) {
-        const loanType = LOAN_TYPES[loanKey];
-        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
-        
-        if (!loanType || !gameState) return;
-        
         const amountSlider = document.getElementById('loan-amount');
         if (!amountSlider) return;
-        
-        const amount = parseInt(amountSlider.value);
-        
+        takeLoan(loanKey, parseInt(amountSlider.value));
+    }
+
+    /**
+     * Take a loan programmatically. The dashboard's loan buttons called
+     * this for the whole game while it didn't exist (audit DESIGN-004) —
+     * loans were unreachable outside the slider modal.
+     */
+    function takeLoan(loanKey, amount) {
+        const loanType = LOAN_TYPES[loanKey];
+        const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+
+        if (!loanType || !gameState) {
+            return { success: false, message: 'Unknown loan type' };
+        }
+        if (!Number.isFinite(amount)) {
+            return { success: false, message: 'Invalid amount' };
+        }
+        amount = Math.max(loanType.minAmount, Math.min(loanType.maxAmount, Math.floor(amount)));
+        if (!meetsLoanRequirements(loanType, gameState)) {
+            return { success: false, message: loanType.name + ' declined: requirements not met' };
+        }
+
         // Create loan object
         const loan = {
             id: generateLoanId(),
@@ -497,10 +513,11 @@ window.FinancialSystem = (function() {
                 message: `Loan approved: $${amount.toLocaleString()} from ${loanType.name}`,
                 priority: 'high'
             });
-            
+
             window.HollywoodMogul.closeModal();
         }
-        
+
+        return { success: true, loan: loan, message: 'Loan approved' };
     }
     
     /**
@@ -1179,6 +1196,7 @@ window.FinancialSystem = (function() {
         showLoanApplication,
         updateLoanPreview,
         submitLoanApplication,
+        takeLoan,
         showInvestmentOptions,
         makeInvestment,
 

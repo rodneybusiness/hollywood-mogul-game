@@ -202,7 +202,8 @@ window.BoxOfficeSystem = (function() {
     }
 
     function findFilmById(gameState, filmId) {
-        return getAllFilms(gameState).find(film => film.id === filmId);
+        // String-normalize: ids arrive as strings from data-attributes.
+        return getAllFilms(gameState).find(film => String(film.id) === String(filmId));
     }
 
     /**

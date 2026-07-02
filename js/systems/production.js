@@ -631,143 +631,28 @@ window.ProductionSystem = (function() {
             });
         }
         
-        // Show distribution options
-        setTimeout(() => {
-            showDistributionOptions(film, gameState);
-        }, 2000);
-        
-    }
-    
-    /**
-     * Show distribution strategy options
-     */
-    function showDistributionOptions(film, gameState) {
-        const projectedEarnings = calculateProjectedEarnings(film, gameState);
-        
-        const modalContent = `
-            <div class="distribution-options">
-                <h2>"${film.title}" - Choose Distribution Strategy</h2>
-                <div class="film-summary">
-                    <p><strong>Final Production Cost:</strong> $${film.spentToDate.toLocaleString()}</p>
-                    <p><strong>Film Quality:</strong> ${film.finalQuality}/100</p>
-                    <p><strong>Genre:</strong> ${film.genre}</p>
-                    <p><strong>Production Issues:</strong> ${film.crisisCount} major events</p>
-                </div>
-                
-                <div class="distribution-choices">
-                    <div class="distribution-option">
-                        <h3>Wide Release (500+ Theaters)</h3>
-                        <p>Marketing Cost: <strong>$25,000</strong></p>
-                        <p>Projected Gross: <strong>$${projectedEarnings.wide.toLocaleString()}</strong></p>
-                        <p>Your Revenue (after theater cut): <strong>$${(projectedEarnings.wide * 0.5).toLocaleString()}</strong></p>
-                        <button onclick="ProductionSystem.chooseDistribution(${film.id}, 'wide')" class="action-btn primary">
-                            Go Wide
-                        </button>
-                    </div>
-                    
-                    <div class="distribution-option">
-                        <h3>Limited Release (100 Theaters)</h3>
-                        <p>Marketing Cost: <strong>$8,000</strong></p>
-                        <p>Projected Gross: <strong>$${projectedEarnings.limited.toLocaleString()}</strong></p>
-                        <p>Your Revenue (after theater cut): <strong>$${(projectedEarnings.limited * 0.6).toLocaleString()}</strong></p>
-                        <button onclick="ProductionSystem.chooseDistribution(${film.id}, 'limited')" class="action-btn secondary">
-                            Limited Release
-                        </button>
-                    </div>
-                    
-                    <div class="distribution-option">
-                        <h3>Sell Distribution Rights</h3>
-                        <p>Immediate Payment: <strong>$${projectedEarnings.sellRights.toLocaleString()}</strong></p>
-                        <p>No marketing costs, no upside potential</p>
-                        <p>Guaranteed money right now</p>
-                        <button onclick="ProductionSystem.chooseDistribution(${film.id}, 'sell')" class="action-btn">
-                            Sell Rights
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        if (window.HollywoodMogul) {
-            window.HollywoodMogul.showModal(modalContent);
+        // One distribution flow: DashboardUI's modal (opened via
+        // Integration's film:readyForDistribution subscription), executed
+        // by BoxOfficeSystem.releaseFilm. The legacy modal that lived here
+        // bypassed era scaling and every cross-system modifier
+        // (CODE-015/DESIGN-009).
+        if (window.EventBus) {
+            window.EventBus.emit('film:readyForDistribution', { filmId: film.id });
         }
-        
-        // Store film reference for distribution choice
-        window._distributionFilm = film;
-        window._distributionGameState = gameState;
-    }
-    
-    /**
-     * Handle distribution choice
-     */
-    function chooseDistribution(filmId, strategy) {
-        // Resolve from live state by id — the old single _distributionFilm
-        // global meant two films completing back-to-back clobbered each
-        // other and the earlier one became permanently unreleasable
-        // (audit ECON-009).
-        const gameState = window._distributionGameState ||
-            (window.HollywoodMogul && window.HollywoodMogul.getGameState());
-        if (!gameState) return;
-
-        let film = window._distributionFilm;
-        if (!film || String(film.id) !== String(filmId)) {
-            const pools = [].concat(gameState.completedFilms || [], gameState.activeFilms || []);
-            film = pools.find(f => String(f.id) === String(filmId)) || null;
-        }
-        if (!film || film.distributionStrategy) return;
-        
-        const projectedEarnings = calculateProjectedEarnings(film, gameState);
-        
-        switch (strategy) {
-            case 'wide':
-                film.distributionStrategy = 'wide';
-                film.marketingBudget = 25000;
-                film.theaterCount = 500;
-                gameState.cash -= 25000;
-                scheduleBoxOfficeRun(film, gameState, projectedEarnings.wide);
-                break;
-                
-            case 'limited':
-                film.distributionStrategy = 'limited';
-                film.marketingBudget = 8000;
-                film.theaterCount = 100;
-                gameState.cash -= 8000;
-                scheduleBoxOfficeRun(film, gameState, projectedEarnings.limited);
-                break;
-                
-            case 'sell':
-                film.distributionStrategy = 'sell_rights';
-                const payment = projectedEarnings.sellRights;
-                gameState.cash += payment;
-                film.studioRevenue = payment;
-                film.status = 'Rights Sold';
-                
-                if (window.HollywoodMogul) {
-                    window.HollywoodMogul.addAlert({
-                        type: 'financial',
-                        icon: '💰',
-                        message: `"${film.title}" rights sold for $${payment.toLocaleString()}`,
-                        priority: 'high'
-                    });
-                }
-                break;
-        }
-        
-        if (window.HollywoodMogul) {
-            window.HollywoodMogul.closeModal();
-        }
-        
-        // Clean up
-        delete window._distributionFilm;
-        delete window._distributionGameState;
     }
     
     /**
      * HELPER FUNCTIONS
      */
     
+    // Monotonic per-session ids. The old Date.now()+rand(0..999) scheme
+    // collided when films were greenlit in quick succession — releasing
+    // one film could flip a different active production to 'in_theaters'
+    // and crash the weekly tick (id-collision variant of ECON-009).
+    let filmIdSeq = 0;
     function generateFilmId() {
-        return Date.now() + Math.floor(Math.random() * 1000);
+        filmIdSeq += 1;
+        return 'film_' + filmIdSeq + '_' + Math.floor(Math.random() * 1e6).toString(36);
     }
     
     function calculateWeeklyBurn(script) {
@@ -848,11 +733,13 @@ window.ProductionSystem = (function() {
     }
     
     function updateCompletion(film) {
+        const spec = PRODUCTION_PHASES[film.phase];
+        if (!spec) return; // released/foreign phase — nothing to progress
         const phases = Object.keys(PRODUCTION_PHASES);
         const currentIndex = phases.findIndex(phase => phase === film.phase);
         const totalPhases = phases.length;
-        
-        const phaseProgress = film.weeksInCurrentPhase / PRODUCTION_PHASES[film.phase].duration;
+
+        const phaseProgress = film.weeksInCurrentPhase / spec.duration;
         film.completion = Math.floor(((currentIndex + phaseProgress) / totalPhases) * 100);
     }
     
@@ -929,52 +816,6 @@ window.ProductionSystem = (function() {
 
         return Math.max(10, Math.min(100, Math.floor(quality)));
     }
-    
-    function calculateProjectedEarnings(film, gameState) {
-        const baseEarnings = film.originalBudget * 1.5; // Conservative 1.5x budget
-        const qualityMultiplier = film.finalQuality / 70; // 70 is baseline
-        const genreMultiplier = film.genreHeat / 100;
-        
-        const wide = Math.floor(baseEarnings * qualityMultiplier * genreMultiplier * 1.5);
-        const limited = Math.floor(baseEarnings * qualityMultiplier * genreMultiplier * 0.8);
-        const sellRights = Math.floor(film.originalBudget * 0.6); // 60% of budget
-        
-        return { wide, limited, sellRights };
-    }
-    
-    function scheduleBoxOfficeRun(film, gameState, projectedGross) {
-        film.inTheaters = true;
-        film.theaterWeek = 1;
-        film.projectedGross = projectedGross;
-
-        // Set phase so BoxOfficeSystem can find this film
-        film.phase = 'in_theaters';
-
-        // Set up distribution data for BoxOfficeSystem.processWeeklyBoxOffice
-        const strategy = film.distributionStrategy === 'limited' ? 'limited' : 'wide';
-        if (window.BoxOfficeSystem) {
-            const boxOfficeResults = window.BoxOfficeSystem.simulateWeeklyBoxOffice(
-                film, strategy, projectedGross
-            );
-            film.distribution = {
-                strategy: strategy,
-                boxOfficeResults: boxOfficeResults,
-                currentWeek: 0,
-                releaseDate: new Date(gameState.currentDate),
-                marketingCost: film.marketingBudget || 0
-            };
-        }
-
-        if (window.HollywoodMogul) {
-            window.HollywoodMogul.addAlert({
-                type: 'release',
-                icon: '🎭',
-                message: `"${film.title}" now in theaters! ${film.theaterCount} locations.`,
-                priority: 'high'
-            });
-        }
-    }
-
     /**
      * Greenlight a script and start production
      * Called from UI when player selects a script
@@ -1036,7 +877,6 @@ window.ProductionSystem = (function() {
         startProduction,
         processWeeklyProduction,
         resolveEvent,
-        chooseDistribution,
         greenlightScript,
 
         // Helper functions for external systems

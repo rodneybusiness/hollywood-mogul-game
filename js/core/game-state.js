@@ -289,7 +289,34 @@ window.HollywoodMogul = (function() {
             processMonthlyEvents();
         }
 
+        // Era transition detection (folded from the never-invoked
+        // GameController — audit CODE-006; integration.js shows the
+        // era-transition modal on this event).
+        if (gameState.gameYear !== oldYear) {
+            checkEraTransition(oldYear, gameState.gameYear);
+        }
+
         processWeeklyEvents();
+    }
+
+    function checkEraTransition(oldYear, newYear) {
+        var C = getC();
+        if (!C.getEraKeyForYear) return;
+
+        var oldEra = C.getEraKeyForYear(oldYear);
+        var newEra = C.getEraKeyForYear(newYear);
+        if (oldEra !== newEra) {
+            var eraInfo = null;
+            if (window.TimeSystem && window.TimeSystem.getCurrentPeriod) {
+                eraInfo = window.TimeSystem.getCurrentPeriod(newYear);
+            }
+            emitEvent('era:changed', {
+                oldEra: oldEra,
+                newEra: newEra,
+                year: newYear,
+                eraInfo: eraInfo
+            });
+        }
     }
 
     function advanceMonth() {
@@ -368,6 +395,15 @@ window.HollywoodMogul = (function() {
         if (window.TimeSystem && window.TimeSystem.runWeeklyCallbacks) {
             window.TimeSystem.runWeeklyCallbacks(gameState);
         }
+        // Crisis + achievement checks each week (folded from the dead
+        // GameController/never-called CrisisSystem — CODE-006, DESIGN-016;
+        // Phase 3's bankruptcy arc depends on near_bankruptcy firing).
+        if (window.CrisisSystem && window.CrisisSystem.checkForCrisis) {
+            window.CrisisSystem.checkForCrisis(gameState);
+        }
+        if (window.AchievementSystem && window.AchievementSystem.checkAchievements) {
+            window.AchievementSystem.checkAchievements(gameState);
+        }
         if (Math.random() < 0.1) {
             if (window.EventSystem && window.EventSystem.generateRandomEvent) {
                 window.EventSystem.generateRandomEvent(gameState);
@@ -392,6 +428,20 @@ window.HollywoodMogul = (function() {
         if (window.AwardsSystem && window.AwardsSystem.shouldTriggerOscars) {
             if (window.AwardsSystem.shouldTriggerOscars(gameState)) {
                 window.AwardsSystem.triggerOscarCeremony(gameState);
+            }
+        }
+
+        // TV competition events (era-gated internally; folded from
+        // GameController — CODE-006/DESIGN-011)
+        if (window.TVCompetitionSystem && window.TVCompetitionSystem.checkForTvEvents) {
+            var tvEvent = window.TVCompetitionSystem.checkForTvEvents(gameState);
+            if (tvEvent) {
+                addAlert({
+                    type: 'warning',
+                    icon: '📺',
+                    message: tvEvent.message,
+                    priority: 'medium'
+                });
             }
         }
 

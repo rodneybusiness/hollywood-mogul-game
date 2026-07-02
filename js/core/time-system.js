@@ -238,69 +238,6 @@ window.TimeSystem = (function() {
         }
     }
     
-    /**
-     * Check for major historical events on specific dates
-     */
-    function checkForHistoricalMilestones(date) {
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1; // JavaScript months are 0-based
-        const day = date.getDate();
-        
-        // Major film industry milestones
-        const milestones = [
-            {
-                year: 1934,
-                month: 7,
-                day: 1,
-                event: 'hays_code_enforcement',
-                title: 'Hays Code Enforcement Begins',
-                description: 'The Motion Picture Production Code is now strictly enforced. All films must comply with moral standards.',
-                impact: 'Censorship restrictions tightened significantly.'
-            },
-            {
-                year: 1937,
-                month: 6,
-                day: 1,
-                event: 'technicolor_available',
-                title: 'Technicolor Technology Available',
-                description: 'Advanced color film technology is now available for major productions.',
-                impact: 'Color films possible but expensive (+50% production cost, +40% box office potential).'
-            },
-            {
-                year: 1941,
-                month: 12,
-                day: 7,
-                event: 'pearl_harbor',
-                title: 'Pearl Harbor Attack',
-                description: 'America enters World War II. The film industry must adapt to wartime conditions.',
-                impact: 'Government seeks propaganda films. Male actors being drafted. Material shortages expected.'
-            },
-            {
-                year: 1947,
-                month: 10,
-                day: 20,
-                event: 'huac_hearings_begin',
-                title: 'HUAC Hollywood Hearings Begin',
-                description: 'House Un-American Activities Committee begins investigating communist influence in Hollywood.',
-                impact: 'Writers, directors, and actors may be blacklisted. Political loyalty becomes crucial.'
-            },
-            {
-                year: 1948,
-                month: 5,
-                day: 3,
-                event: 'paramount_decision',
-                title: 'Paramount Antitrust Decision',
-                description: 'Supreme Court rules studios must divest their theater chains.',
-                impact: 'Studio system begins to crumble. Theater ownership no longer possible.'
-            }
-        ];
-        
-        return milestones.find(milestone => 
-            milestone.year === year && 
-            milestone.month === month && 
-            milestone.day === day
-        );
-    }
     
     /**
      * Get time period description for UI
@@ -474,9 +411,6 @@ window.TimeSystem = (function() {
         // Modifier functions
         getTimeBasedBoxOfficeModifier,
         getEraGenreModifiers,
-        
-        // Historical functions
-        checkForHistoricalMilestones,
         
         // Date utility functions
         formatDate,

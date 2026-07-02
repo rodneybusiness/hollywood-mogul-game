@@ -9,7 +9,6 @@ window.DashboardUI = (function() {
     let isInitialized = false;
     let boundClickHandler = null;
     let boundKeyHandler = null;
-    let pendingGreenlight = null; // {scriptId, evaluation} — set when awaiting censorship/MPAA
 
     // ---- helpers the render pipeline calls but never had (audit CODE-003:
     // every missing one crashed updateDashboard and froze the whole UI) ----
@@ -88,15 +87,9 @@ window.DashboardUI = (function() {
         updateDashboard();
         bindEventHandlers();
 
-        // Listen for MPAA rating selections to complete pending greenlights
-        if (window.EventBus) {
-            window.EventBus.on('censorship:ratingSelected', function(data) {
-                if (pendingGreenlight) {
-                    pendingGreenlight.mpaaRating = data.ratingKey;
-                }
-                completePendingGreenlight();
-            });
-        }
+        // Greenlight/censorship completion is owned by Integration
+        // (one owner per verb — audit CODE-015; the duplicate dashboard
+        // pipeline double-started production once Phase 1 fixed CODE-005).
 
         // Update dashboard every few seconds
         updateInterval = setInterval(updateDashboard, 3000);
@@ -119,22 +112,10 @@ window.DashboardUI = (function() {
                 showSection(section);
             }
 
-            // Time progression buttons
-            if (e.target.matches('#btn-advance-week')) {
-                window.TimeSystem.advanceWeek();
-                updateDashboard();
-            }
-
-            if (e.target.matches('#btn-advance-month')) {
-                window.TimeSystem.advanceMonth();
-                updateDashboard();
-            }
-
-            // Script actions
-            if (e.target.matches('.greenlight-btn')) {
-                const scriptId = e.target.dataset.scriptId;
-                greenlightScript(scriptId);
-            }
+            // Time buttons are owned by game-state's direct listeners and
+            // greenlight clicks by Integration's delegation (one owner per
+            // verb — CODE-015; duplicating them here double-advanced time
+            // and double-greenlit scripts per click).
 
             // Film actions
             if (e.target.matches('.distribute-btn')) {
@@ -720,87 +701,18 @@ window.DashboardUI = (function() {
     /**
      * Greenlight a script — routes through censorship/MPAA evaluation first
      */
+    // Greenlight is owned by Integration (one owner per verb — CODE-015).
+    // These thin delegates keep old callers and modal onclick strings working.
     function greenlightScript(scriptId) {
-        const gameState = window.HollywoodMogul.getGameState();
-        const script = gameState.availableScripts ?
-            gameState.availableScripts.find(s => s.id === scriptId) : null;
-
-        if (!script) {
-            showNotification('Error', 'Script not found', 'error');
-            return;
-        }
-
-        // Check censorship / MPAA rating requirements
-        if (window.CensorshipSystem) {
-            const evaluation = window.CensorshipSystem.evaluateScript(script, gameState);
-
-            if (evaluation.regulationType === 'none') {
-                // Pre-Code era: no restrictions, proceed directly
-                executeGreenlight(scriptId);
-                return;
-            }
-
-            // Store pending greenlight while player interacts with censorship modal
-            pendingGreenlight = { scriptId: scriptId, evaluation: evaluation };
-
-            window.CensorshipSystem.showPCAEvaluationModal(
-                script, evaluation,
-                "DashboardUI.completePendingGreenlight()",
-                "HollywoodMogul.closeModal()"
-            );
-        } else {
-            executeGreenlight(scriptId);
+        if (window.Integration && window.Integration.handleScriptGreenlight) {
+            window.Integration.handleScriptGreenlight(scriptId);
         }
     }
 
-    /**
-     * Execute greenlight without censorship (pre-Code or no system)
-     */
-    function executeGreenlight(scriptId) {
-        const result = window.ProductionSystem.greenlightScript(scriptId);
-
-        if (result.success) {
-            updateDashboard();
-            showSection('dashboard');
-            showNotification('Script Greenlit!', `Production begins on "${result.film.title}"`, 'success');
-        } else {
-            showNotification('Cannot Greenlight', result.message, 'error');
-        }
-    }
-
-    /**
-     * Complete a pending greenlight after censorship/MPAA modal resolves
-     */
     function completePendingGreenlight() {
-        if (!pendingGreenlight) return;
-
-        var scriptId = pendingGreenlight.scriptId;
-        var evaluation = pendingGreenlight.evaluation;
-        var mpaaRating = pendingGreenlight.mpaaRating || null;
-        pendingGreenlight = null;
-
-        const result = window.ProductionSystem.greenlightScript(scriptId);
-
-        if (result.success) {
-            // Apply Hays Code penalties if applicable
-            if (evaluation.regulationType !== 'mpaa' && evaluation.regulationType !== 'none'
-                && evaluation.violations && evaluation.violations.length > 0) {
-                window.CensorshipSystem.applyPCAPenalties(result.film, evaluation.violations);
-            }
-
-            // For MPAA, apply the chosen rating to the newly created film
-            if (evaluation.regulationType === 'mpaa' && result.film && mpaaRating) {
-                window.CensorshipSystem.applyMPAARating(result.film, mpaaRating);
-            }
-
-            updateDashboard();
-            showSection('dashboard');
-            showNotification('Script Greenlit!', `Production begins on "${result.film.title}"`, 'success');
-        } else {
-            showNotification('Cannot Greenlight', result.message, 'error');
+        if (window.Integration && window.Integration.completeIntegrationGreenlight) {
+            window.Integration.completeIntegrationGreenlight();
         }
-
-        window.HollywoodMogul.closeModal();
     }
 
     /**
@@ -1275,6 +1187,7 @@ window.DashboardUI = (function() {
         updateDashboard: updateDashboard,
         showSection: showSection,
         showNotification: showNotification,
+        showDistributionModal: showDistributionModal,
         completePendingGreenlight: completePendingGreenlight,
         showTechnologyModal: showTechnologyModal,
         updateAchievementsSection: updateAchievementsSection,
