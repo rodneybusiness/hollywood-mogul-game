@@ -9,6 +9,7 @@ window.DashboardUI = (function() {
     let isInitialized = false;
     let boundClickHandler = null;
     let boundKeyHandler = null;
+    let busUnsubs = [];
 
     // ---- helpers the render pipeline calls but never had (audit CODE-003:
     // every missing one crashed updateDashboard and froze the whole UI) ----
@@ -91,8 +92,17 @@ window.DashboardUI = (function() {
         // (one owner per verb — audit CODE-015; the duplicate dashboard
         // pipeline double-started production once Phase 1 fixed CODE-005).
 
-        // Update dashboard every few seconds
-        updateInterval = setInterval(updateDashboard, 3000);
+        // Event-driven refresh (audit CODE-016/P2.8): re-render when the
+        // simulation actually changes instead of polling every 3 seconds.
+        if (window.EventBus) {
+            busUnsubs.push(window.EventBus.on('time:advanced', updateDashboard));
+            busUnsubs.push(window.EventBus.on('financial:updated', updateFinancialSummary));
+            busUnsubs.push(window.EventBus.on('game:started', updateDashboard));
+        }
+        // Low-frequency fallback for anything not event-covered; owned by
+        // destroy() so restarts can't accumulate timers.
+        if (updateInterval) clearInterval(updateInterval);
+        updateInterval = setInterval(updateDashboard, 15000);
         isInitialized = true;
 
     }
@@ -1166,6 +1176,8 @@ window.DashboardUI = (function() {
      * Clean up dashboard resources
      */
     function destroy() {
+        busUnsubs.forEach(function (unsub) { try { unsub(); } catch (e) {} });
+        busUnsubs = [];
         if (updateInterval) {
             clearInterval(updateInterval);
             updateInterval = null;

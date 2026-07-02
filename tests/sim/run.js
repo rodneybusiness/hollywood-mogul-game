@@ -15,7 +15,7 @@ const { createGame, mulberry32 } = require('./harness');
 const { strategies } = require('./strategies');
 
 function parseArgs(argv) {
-    const args = { strategy: 'nothing', seed: 1, end: 2010, fidelity: 'browser', matrix: false, seeds: 10, monthly: false, out: null };
+    const args = { strategy: 'nothing', seed: 1, end: 1950, fidelity: 'browser', matrix: false, seeds: 10, monthly: false, out: null };
     for (let i = 2; i < argv.length; i++) {
         const a = argv[i];
         if (a === '--matrix') args.matrix = true;

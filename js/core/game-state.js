@@ -456,11 +456,47 @@ window.HollywoodMogul = (function() {
     // GAME END CONDITIONS
     // ================================================================
 
+    // Insolvency is an arc, not a cliff (audit ECON-008/DESIGN-016): going
+    // cash-negative opens a receivership window — sell a picture, take a
+    // loan, ride out a release — before the banks foreclose.
+    var RECEIVERSHIP_WEEKS = 8;
+
     function checkGameEndConditions() {
         if (gameState.cash < 0) {
-            endGame('bankruptcy');
-            return;
+            if (!gameState.receivership) {
+                gameState.receivership = { weeksRemaining: RECEIVERSHIP_WEEKS };
+                addAlert({
+                    type: 'financial',
+                    icon: '🏦',
+                    message: 'RECEIVERSHIP: creditors give you ' + RECEIVERSHIP_WEEKS +
+                        ' weeks to return to solvency or the studio is foreclosed.',
+                    priority: 'high'
+                });
+                emitEvent('financial:receivership', { weeksRemaining: RECEIVERSHIP_WEEKS });
+            } else {
+                gameState.receivership.weeksRemaining -= 1;
+                if (gameState.receivership.weeksRemaining <= 0) {
+                    endGame('bankruptcy');
+                    return;
+                }
+                addAlert({
+                    type: 'warning',
+                    icon: '🏦',
+                    message: 'Receivership: ' + gameState.receivership.weeksRemaining +
+                        ' week(s) to reach positive cash.',
+                    priority: 'high'
+                });
+            }
+        } else if (gameState.receivership) {
+            gameState.receivership = null;
+            addAlert({
+                type: 'success',
+                icon: '🏦',
+                message: 'Solvency restored — the creditors withdraw. That was close.',
+                priority: 'high'
+            });
         }
+
         if (gameState.gameYear >= GAME_CONSTANTS.GAME_END_YEAR) {
             endGame('survived');
             return;
@@ -468,11 +504,43 @@ window.HollywoodMogul = (function() {
         updateFinancialWarnings();
     }
 
+    /**
+     * Legacy score for the 1949 epilogue (D1 scope): what did sixteen years
+     * of pictures add up to?
+     */
+    function computeLegacyScore() {
+        var s = gameState.stats;
+        var score = 0;
+        score += Math.max(0, gameState.cash) / 10000;          // solvency
+        score += s.boxOfficeTotal / 50000;                     // audience reach
+        score += s.filmsProduced * 20;                         // body of work
+        score += s.oscarsWon * 250;                            // acclaim
+        score += gameState.reputation * 5;                     // standing
+        score = Math.floor(score);
+
+        var tier;
+        if (score >= 4000) tier = 'A Hollywood Legend';
+        else if (score >= 2000) tier = 'A Major Studio';
+        else if (score >= 900) tier = 'A Respected Independent';
+        else if (score >= 300) tier = 'A Working Studio';
+        else tier = 'A Footnote in the Trades';
+
+        return { score: score, tier: tier };
+    }
+
     function endGame(endingType) {
         gameState.gameEnded = true;
         gameState.endingType = endingType;
+        if (endingType === 'survived') {
+            gameState.legacy = computeLegacyScore();
+        }
         showGameOverScreen(endingType);
-        emitEvent('game:ended', { type: endingType, stats: gameState.stats, cash: gameState.cash });
+        emitEvent('game:ended', {
+            type: endingType,
+            stats: gameState.stats,
+            cash: gameState.cash,
+            legacy: gameState.legacy || null
+        });
     }
 
     function updateFinancialWarnings() {
@@ -835,8 +903,12 @@ window.HollywoodMogul = (function() {
                 message = 'Your studio has run out of money. The bank has foreclosed on your assets.';
                 break;
             case 'survived':
-                title = 'VICTORY';
-                message = 'From the golden age through the digital revolution — your studio endured it all. A Hollywood legend.';
+                title = (gameState.legacy && gameState.legacy.tier) ?
+                    gameState.legacy.tier.toUpperCase() : 'VICTORY';
+                message = 'January 1950. Television is coming, the Paramount Decree has ' +
+                    'broken the old order, and the golden age is over — but your studio ' +
+                    'lived it all, from pre-Code freedom to the post-war boom.' +
+                    (gameState.legacy ? ' Legacy score: ' + gameState.legacy.score.toLocaleString() + '.' : '');
                 break;
             default:
                 title = 'THE END';

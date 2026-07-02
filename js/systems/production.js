@@ -847,6 +847,19 @@ window.ProductionSystem = (function() {
             };
         }
 
+        // Sound stages gate concurrent productions (each stage supports two
+        // overlapping pictures since phases stagger). Previously unlimited —
+        // parallel-spam on one stage was optimal and stages were meaningless
+        // (audit ECON-006/DESIGN-013).
+        const capacity = Math.max(1, (gameState.soundStages || 1)) * 2;
+        const inProduction = (gameState.activeFilms || []).filter(f => f.phase !== 'COMPLETED').length;
+        if (inProduction >= capacity) {
+            return {
+                success: false,
+                message: `All sound stages are in use (${inProduction}/${capacity} productions). Build another stage or finish a picture first.`
+            };
+        }
+
         // Start production (handles budget deduction and adding to activeFilms)
         if (!gameState.activeFilms) {
             gameState.activeFilms = [];

@@ -185,6 +185,24 @@ window.FinancialSystem = (function() {
             loan.remainingBalance > 0 && loan.paymentsRemaining > 0
         );
         
+        // Mob favors get called in (audit ECON-004/P3.7 — favors used to
+        // accrue forever with zero consequence, making Carmine's 0% money
+        // strictly free). Each month a favor is outstanding there's a
+        // chance he collects: reputation and federal attention pay for it.
+        if (gameState.finances.mobFavorsOwed > 0 && Math.random() < 0.15) {
+            gameState.finances.mobFavorsOwed -= 1;
+            gameState.reputation = Math.max(0, gameState.reputation - 5);
+            gameState.finances.fbiAttention = (gameState.finances.fbiAttention || 0) + 10;
+            if (window.HollywoodMogul) {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning',
+                    icon: '🤝',
+                    message: 'Carmine calls in a favor. The trades whisper; so does the Bureau. (Reputation -5)',
+                    priority: 'high'
+                });
+            }
+        }
+
         // Process investment income
         gameState.finances.investments.forEach(investment => {
             const monthlyReturn = calculateInvestmentReturn(investment, gameState);

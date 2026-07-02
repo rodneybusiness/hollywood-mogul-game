@@ -63,7 +63,9 @@ describe('HollywoodMogul Game State', () => {
 
             expect(constants.STARTING_CASH).toBe(600000);
             expect(constants.BASE_MONTHLY_BURN).toBe(20000);
-            expect(constants.GAME_END_YEAR).toBe(2010);
+            // D1 scope decision (docs/AUDIT-REPORT.md): deep 1933–1949
+            // campaign; the epilogue fires when the calendar reaches 1950.
+            expect(constants.GAME_END_YEAR).toBe(1950);
             expect(constants.WEEKS_PER_MONTH).toBe(4);
             expect(constants.RUNWAY_DANGER_WEEKS).toBe(8);
             expect(constants.RUNWAY_WARNING_WEEKS).toBe(16);
@@ -392,11 +394,19 @@ describe('HollywoodMogul Game State', () => {
             // Spend all money to go negative (more than 600000)
             window.HollywoodMogul.spendCash(610000);
 
-            // Try to advance time (should trigger bankruptcy check)
+            // Insolvency opens a receivership window instead of instant
+            // death (ECON-008); staying negative through the whole window
+            // forecloses the studio.
             window.HollywoodMogul.advanceTime('week');
-
             const gameState = window.HollywoodMogul.getGameState();
+            expect(gameState.gameEnded).toBe(false);
+            expect(gameState.receivership).toBeTruthy();
+
+            for (let i = 0; i < 10 && !gameState.gameEnded; i++) {
+                window.HollywoodMogul.advanceTime('week');
+            }
             expect(gameState.gameEnded).toBe(true);
+            expect(gameState.endingType).toBe('bankruptcy');
         });
 
         test('should maintain data consistency across multiple time advances', () => {

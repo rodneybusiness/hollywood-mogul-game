@@ -31,15 +31,15 @@ const strategies = {
         actWeekly() {},
     },
 
-    /** Cheap films, one at a time, low-risk releases. */
+    /** Cheap films, cautious cadence, low-risk releases. */
     conservative: {
-        description: 'One cheap film at a time, limited releases, sells bad films.',
+        description: 'Up to two cheap films, limited releases, sells bad films.',
         actWeekly(game) {
             for (const film of game.pendingReleases()) {
                 game.release(film, (film.finalQuality || 0) < 40 ? 'sell' : 'limited');
             }
-            if (game.state.activeFilms.length < 1) {
-                const script = cheapestAffordable(game, 24);
+            if (game.state.activeFilms.length < 2) {
+                const script = cheapestAffordable(game, 16);
                 if (script) game.greenlight(script);
             }
         },

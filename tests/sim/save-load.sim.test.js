@@ -12,12 +12,15 @@ const { strategies } = require('./strategies');
 jest.setTimeout(120000);
 
 describe('save/load in a full game', () => {
-    test('a 20-year prestige campaign survives save → wipe → load', () => {
+    test('a 12-year prestige campaign survives save → wipe → load', () => {
+        // 12 years keeps the save inside the 1933–1949 campaign (D1 —
+        // the game now ends with the 1950 epilogue, and ticking an ended
+        // game is a no-op by design).
         const game = createGame({ seed: 11, fidelity: 'patched' });
         const w = game.window;
         const rng = () => 0.5;
 
-        for (let i = 0; i < 20 * 52 && !game.state.gameEnded; i++) {
+        for (let i = 0; i < 12 * 52 && !game.state.gameEnded; i++) {
             // The shipped economy bankrupts every strategy within ~3 years
             // (audit ECON findings; Phase 3 work) — float the studio with
             // loans so save/load can be exercised against a real 20-year
