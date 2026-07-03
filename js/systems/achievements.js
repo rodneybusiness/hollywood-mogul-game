@@ -55,7 +55,7 @@ window.AchievementSystem = (function() {
             category: 'production',
             points: 30,
             checkCondition: (gameState) => {
-                return (gameState.completedFilms || []).some(f => f.quality >= 90);
+                return (gameState.completedFilms || []).some(f => (f.finalQuality || f.currentQuality || 0) >= 90);
             }
         },
 
@@ -68,7 +68,7 @@ window.AchievementSystem = (function() {
             points: 50,
             secret: true,
             checkCondition: (gameState) => {
-                return (gameState.completedFilms || []).some(f => f.quality >= 95);
+                return (gameState.completedFilms || []).some(f => (f.finalQuality || f.currentQuality || 0) >= 95);
             }
         },
 
@@ -185,12 +185,12 @@ window.AchievementSystem = (function() {
         full_history: {
             id: 'full_history',
             title: 'Living Legend',
-            description: 'Survive all 77 years of Hollywood history (1933-2010)',
+            description: 'Survive the full golden age, 1933 to the 1950 epilogue',
             icon: '👑',
             category: 'survival',
             points: 200,
             checkCondition: (gameState) => {
-                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
+                var endYear = (window.GameConstants && window.GameConstants.TIME && window.GameConstants.TIME.GAME_END_YEAR) || 1950;
                 return gameState.gameYear >= endYear && !gameState.gameEnded;
             }
         },
@@ -378,9 +378,11 @@ window.AchievementSystem = (function() {
             points: 50,
             secret: true,
             checkCondition: (gameState) => {
-                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
-                return gameState.gameYear >= endYear &&
-                       (!gameState.loans || gameState.loans.length === 0);
+                var endYear = (window.GameConstants && window.GameConstants.TIME && window.GameConstants.TIME.GAME_END_YEAR) || 1950;
+                var loans = (gameState.finances && gameState.finances.loans) || [];
+                var everBorrowed = (gameState.finances && gameState.finances.transactions || [])
+                    .some(t => /loan approved/i.test(t.description || ''));
+                return gameState.gameYear >= endYear && loans.length === 0 && !everBorrowed;
             }
         },
 
@@ -393,9 +395,9 @@ window.AchievementSystem = (function() {
             points: 60,
             secret: true,
             checkCondition: (gameState) => {
-                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
+                var endYear = (window.GameConstants && window.GameConstants.TIME && window.GameConstants.TIME.GAME_END_YEAR) || 1950;
                 if (gameState.gameYear < endYear) return false;
-                const lowQualityFilms = (gameState.completedFilms || []).filter(f => f.quality < 60);
+                const lowQualityFilms = (gameState.completedFilms || []).filter(f => (f.finalQuality || f.currentQuality || 100) < 60);
                 return lowQualityFilms.length === 0 && gameState.stats.filmsProduced >= 10;
             }
         },
@@ -419,14 +421,14 @@ window.AchievementSystem = (function() {
 
         speed_runner: {
             id: 'speed_runner',
-            title: 'Speed Runner',
-            description: 'Reach 2010 in under 4000 weeks',
+            title: 'The Long Run',
+            description: 'Guide the studio from 1933 all the way to the 1950 epilogue',
             icon: '⚡',
             category: 'challenge',
             points: 40,
             secret: true,
             checkCondition: (gameState) => {
-                var endYear = (window.GameConstants && window.GameConstants.GAME_END_YEAR) || 2010;
+                var endYear = (window.GameConstants && window.GameConstants.TIME && window.GameConstants.TIME.GAME_END_YEAR) || 1950;
                 return gameState.gameYear >= endYear && gameState.gameWeek < 4000;
             }
         },
@@ -441,9 +443,12 @@ window.AchievementSystem = (function() {
             points: 35,
             secret: true,
             checkCondition: (gameState) => {
-                const criticalFlops = (gameState.completedFilms || []).filter(f =>
-                    f.quality >= 90 && (f.totalRevenue || 0) < f.budget
-                );
+                const criticalFlops = (gameState.completedFilms || []).filter(f => {
+                    const dist = f.distribution || {};
+                    const revenue = f.studioRevenue || dist.totalRevenue ||
+                        (dist.boxOfficeResults && dist.boxOfficeResults.totalStudioRevenue) || 0;
+                    return (f.finalQuality || 0) >= 90 && revenue < (f.originalBudget || 0);
+                });
                 return criticalFlops.length >= 1;
             }
         },
@@ -457,7 +462,7 @@ window.AchievementSystem = (function() {
             points: 25,
             secret: true,
             checkCondition: (gameState) => {
-                const bMovies = (gameState.completedFilms || []).filter(f => f.budget < 50000);
+                const bMovies = (gameState.completedFilms || []).filter(f => (f.originalBudget || Infinity) < 50000);
                 return bMovies.length >= 10;
             }
         },
@@ -471,7 +476,7 @@ window.AchievementSystem = (function() {
             points: 35,
             secret: true,
             checkCondition: (gameState) => {
-                return (gameState.completedFilms || []).some(f => f.budget >= 200000);
+                return (gameState.completedFilms || []).some(f => (f.originalBudget || 0) >= 200000);
             }
         },
 

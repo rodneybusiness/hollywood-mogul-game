@@ -18,11 +18,11 @@ window.NewspaperSystem = (function() {
 
     // Famous columnists of the era
     const COLUMNISTS = [
-        { name: 'Louella Parsons', publication: 'Hearst Newspapers' },
-        { name: 'Hedda Hopper', publication: 'Los Angeles Times' },
-        { name: 'Walter Winchell', publication: 'Daily Mirror' },
-        { name: 'Sheilah Graham', publication: 'Hollywood Reporter' },
-        { name: 'Sidney Skolsky', publication: 'New York Daily News' }
+        { name: 'Lucille Prescott', publication: 'Harmon Newspapers' },
+        { name: 'Henrietta Hollis', publication: 'Los Angeles Ledger' },
+        { name: 'Wendell Winslow', publication: 'Daily Looking-Glass' },
+        { name: 'Selma Granger', publication: 'Hollywood Register' },
+        { name: 'Sid Marlowe', publication: 'New York Daily Standard' }
     ];
 
     // BOX OFFICE HEADLINES (40+)
@@ -967,8 +967,8 @@ window.NewspaperSystem = (function() {
     }
 
     function getRandomStudioName() {
-        const studios = ['MGM', 'WARNER BROS.', 'PARAMOUNT', '20TH CENTURY-FOX',
-                        'RKO', 'COLUMBIA', 'UNIVERSAL', 'UNITED ARTISTS'];
+        const studios = ['MERIDIAN GRAND', 'WHITMORE BROS.', 'PINNACLE', 'CONTINENTAL-FOXHALL',
+                        'REGENCY RADIO', 'CORINTHIAN', 'UNIVERSAL CITY', 'ALLIED ARTISANS'];
         return getRandomElement(studios);
     }
 

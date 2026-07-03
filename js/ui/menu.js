@@ -96,6 +96,9 @@ window.MainMenu = (function () {
             alertBox('MOGUL', 'A historically grounded studio-management game.\nAll studio personnel are fictional; the history is real.');
         }));
 
+        var version = (window.GameConstants && window.GameConstants.GAME_VERSION) || 'dev';
+        panel.appendChild(el('div', 'margin-top:22px;font-size:11px;letter-spacing:2px;color:#8a7a55;', 'v' + version));
+
         overlay.appendChild(panel);
         document.body.appendChild(overlay);
     }

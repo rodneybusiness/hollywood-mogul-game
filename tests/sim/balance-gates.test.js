@@ -101,8 +101,12 @@ describe('economy balance gates (1933–1949)', () => {
 
     test('the mob-loan exploit is never the best line of play', () => {
         const exploitBest = Math.max(...results.exploit.map(r => r.finalCash));
-        const prestigeWorst = Math.min(...results.prestige.map(r => r.finalCash));
-        expect(exploitBest).toBeLessThan(prestigeWorst);
+        // Compare against the prestige MEDIAN: with per-run market variety
+        // (P6.5) a prestige run can die to a bad opening market, and one
+        // death must not vacuously pass/fail dominance.
+        const sorted = results.prestige.map(r => r.finalCash).sort((a, b) => a - b);
+        const prestigeMedian = sorted[Math.floor(sorted.length / 2)];
+        expect(exploitBest).toBeLessThan(prestigeMedian);
         // and it lives on borrowed money the whole way
         for (const r of results.exploit) expect(r.minCash).toBeLessThan(-100000);
     });

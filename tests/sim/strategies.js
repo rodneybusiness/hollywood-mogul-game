@@ -9,11 +9,17 @@
 'use strict';
 
 function cheapestAffordable(game, cushionWeeks) {
+    // A cautious player doesn't buy the cheapest script sight-unseen -
+    // they pick the best quality-per-dollar in the low end of the market
+    // (matters since P6.5 made the script market vary per campaign).
     const s = game.state;
     const cushion = (s.monthlyBurn / 4) * cushionWeeks;
-    return game.availableScripts()
+    const affordable = game.availableScripts()
         .filter(sc => s.cash > sc.recommendedBudget + cushion)
-        .sort((a, b) => a.recommendedBudget - b.recommendedBudget)[0] || null;
+        .sort((a, b) => a.recommendedBudget - b.recommendedBudget);
+    if (!affordable.length) return null;
+    const cheapHalf = affordable.slice(0, Math.max(1, Math.ceil(affordable.length / 2)));
+    return cheapHalf.sort((a, b) => (b.quality || 0) - (a.quality || 0))[0];
 }
 
 function bestQualityAffordable(game, cushionWeeks) {

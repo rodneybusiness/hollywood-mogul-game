@@ -38,3 +38,5 @@ npm-debug.log*
 # Generated artifacts (audit tooling)
 coverage/
 docs/audit/screens/
+dist/
+mogul-web-v*.zip

@@ -2582,9 +2582,34 @@ window.ScriptLibrary = (function() {
     /**
      * Add metadata to script for game use
      */
+    // Recently-dealt titles: guards against intra-batch duplicates that the
+    // live-state check can't see (the batch isn't in availableScripts yet).
+    const recentTitles = [];
+
+    function uniqueTitle(title) {
+        const used = usedTitles();
+        recentTitles.forEach(t => used.add(t));
+        let candidate = title;
+        const numerals = [' II', ' III', ' IV', ' V'];
+        let i = 0;
+        while (used.has(candidate) && i < numerals.length) {
+            candidate = title + numerals[i++];
+        }
+        // small template pools can exhaust the numeral ladder in a long
+        // campaign - fall through to an unbounded counter
+        let n = 6;
+        while (used.has(candidate)) {
+            candidate = title + ' No. ' + (n++);
+        }
+        recentTitles.push(candidate);
+        if (recentTitles.length > 60) recentTitles.shift();
+        return candidate;
+    }
+
     function addScriptMetadata(script) {
         return {
             ...script,
+            title: uniqueTitle(script.title),
             id: generateScriptId(),
             available: true,
             optioned: false,
@@ -2911,17 +2936,38 @@ window.ScriptLibrary = (function() {
         };
     }
 
+    // Titles already in the player's world (market, productions, releases) -
+    // new draws must not duplicate them (audit UX-012: the initial pool
+    // dealt the same title twice).
+    function usedTitles() {
+        const used = new Set();
+        const s = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!s) return used;
+        [].concat(s.availableScripts || [], s.activeFilms || [], s.completedFilms || [])
+            .forEach(x => { if (x && x.title) used.add(x.title.replace(/ (II|III|IV)$/, '')); });
+        return used;
+    }
+
+    /** Random pick among matching candidates, avoiding titles in play. */
+    function pickScript(candidates) {
+        if (!candidates.length) return null;
+        const used = usedTitles();
+        const fresh = candidates.filter(c => !used.has(c.title));
+        const pool = fresh.length ? fresh : candidates;
+        return pool[Math.floor(Math.random() * pool.length)];
+    }
+
     function selectScriptByType(category, type) {
         const scripts = SCRIPT_DATABASE[category] || [];
 
         if (type === 'low_budget') {
-            return scripts.find(s => s.budget < 75000) || scripts[0];
+            return pickScript(scripts.filter(s => s.budget < 75000)) || scripts[0];
         }
         if (type === 'medium_budget') {
-            return scripts.find(s => s.budget >= 75000 && s.budget < 150000) || scripts[0];
+            return pickScript(scripts.filter(s => s.budget >= 75000 && s.budget < 150000)) || scripts[0];
         }
         if (type === 'high_budget') {
-            return scripts.find(s => s.budget >= 150000) || scripts[0];
+            return pickScript(scripts.filter(s => s.budget >= 150000)) || scripts[0];
         }
         if (type === 'high_risk') {
             return scripts.find(s => s.censorRisk > 70) || scripts[0];
