@@ -451,16 +451,20 @@ window.SaveLoadUI = (function() {
         const enabled = event.target.checked;
 
         if (enabled) {
-            if (confirm('Enable Ironman Mode? This will create a single save slot with auto-save on every action. This cannot be undone!')) {
-                const result = window.SaveLoadSystem.enableIronmanMode();
-                if (result.success) {
-                    if (window.DashboardUI && window.DashboardUI.showNotification) {
-                        window.DashboardUI.showNotification('Ironman Mode', 'Ironman mode enabled', 'warning');
+            const checkbox = event.target;
+            window.GameDialogs.confirm(
+                'Enable Ironman Mode? This will create a single save slot with auto-save on every action. This cannot be undone!',
+                function () {
+                    const result = window.SaveLoadSystem.enableIronmanMode();
+                    if (result.success) {
+                        if (window.DashboardUI && window.DashboardUI.showNotification) {
+                            window.DashboardUI.showNotification('Ironman Mode', 'Ironman mode enabled', 'warning');
+                        }
                     }
-                }
-            } else {
-                event.target.checked = false;
-            }
+                },
+                function () { checkbox.checked = false; },
+                { title: 'IRONMAN MODE', confirmLabel: 'ENABLE' }
+            );
         } else {
             const result = window.SaveLoadSystem.disableIronmanMode();
             if (result.success) {
@@ -535,14 +539,22 @@ window.SaveLoadUI = (function() {
      * Handle clear all saves
      */
     function handleClearAllSaves() {
-        if (!confirm('Are you ABSOLUTELY SURE you want to delete ALL save data? This cannot be undone!')) {
-            return;
-        }
+        window.GameDialogs.confirm(
+            'Are you ABSOLUTELY SURE you want to delete ALL save data? This cannot be undone!',
+            function () {
+                window.GameDialogs.confirm(
+                    'This is your last warning. All saves will be permanently deleted. Continue?',
+                    doClearAllSaves,
+                    null,
+                    { title: 'LAST WARNING', confirmLabel: 'DELETE EVERYTHING', danger: true }
+                );
+            },
+            null,
+            { title: 'DELETE ALL SAVES', confirmLabel: 'DELETE ALL', danger: true }
+        );
+    }
 
-        if (!confirm('This is your last warning. All saves will be permanently deleted. Continue?')) {
-            return;
-        }
-
+    function doClearAllSaves() {
         if (!window.SaveLoadSystem) return;
 
         const result = window.SaveLoadSystem.clearAllSaves();
