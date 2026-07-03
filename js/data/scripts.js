@@ -2861,13 +2861,21 @@ window.ScriptLibrary = (function() {
      * Greenlight a script for production
      */
     function greenlightScript(scriptId) {
+        // One greenlight path: Integration → censorship → ProductionSystem
+        // (CODE-015/CODE-005 — this direct route silently bypassed the
+        // entire censorship system).
+        if (window.Integration && window.Integration.handleScriptGreenlight) {
+            window.Integration.handleScriptGreenlight(scriptId);
+            return;
+        }
+
+        // Fallback for environments without the integration layer (unit tests)
         const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
         if (!gameState) return;
 
         const script = gameState.availableScripts.find(s => s.id === scriptId);
         if (!script) return;
 
-        // Check if can afford
         if (gameState.cash < script.recommendedBudget) {
             if (window.HollywoodMogul) {
                 window.HollywoodMogul.addAlert({
@@ -2880,11 +2888,8 @@ window.ScriptLibrary = (function() {
             return;
         }
 
-        // Start production
         if (window.ProductionSystem) {
             window.ProductionSystem.startProduction(script, gameState);
-
-            // Remove from available scripts
             script.available = false;
             script.optioned = true;
             script.optionDate = new Date(gameState.currentDate);
@@ -2893,7 +2898,6 @@ window.ScriptLibrary = (function() {
         if (window.HollywoodMogul) {
             window.HollywoodMogul.closeModal();
         }
-
     }
 
     /**
@@ -2945,13 +2949,42 @@ window.ScriptLibrary = (function() {
     }
 
     /**
+     * Look up an available script instance by id. ProductionSystem's
+     * exported greenlight path depends on this (audit CODE-005 — it
+     * previously called a function that was never exported and threw).
+     */
+    function getScriptById(scriptId) {
+        var gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState || !Array.isArray(gameState.availableScripts)) return null;
+        return gameState.availableScripts.find(function (s) { return s.id === scriptId; }) || null;
+    }
+
+    /**
      * Public API
      */
+    /**
+     * Mark a script consumed after greenlight. ProductionSystem calls this
+     * on the canonical path; without it the same script could be optioned
+     * repeatedly (the guard failed silently — CODE-015 drift).
+     */
+    function removeScript(scriptId) {
+        var gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (!gameState || !Array.isArray(gameState.availableScripts)) return;
+        var script = gameState.availableScripts.find(function (s) { return s.id === scriptId; });
+        if (script) {
+            script.available = false;
+            script.optioned = true;
+            script.optionDate = new Date(gameState.currentDate);
+        }
+    }
+
     return {
         generateInitialScripts,
         generateMonthlyScripts,
         showScriptSelection,
         greenlightScript,
+        getScriptById,
+        removeScript,
 
         // For external systems
         getScriptDatabase: () => SCRIPT_DATABASE,

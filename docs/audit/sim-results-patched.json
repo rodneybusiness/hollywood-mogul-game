@@ -1,0 +1,682 @@
+{
+  "generatedFor": "AUDIT-PLAN §1",
+  "fidelity": "patched",
+  "endYear": 2010,
+  "runs": [
+    {
+      "strategy": "nothing",
+      "seed": 1,
+      "fidelity": "patched",
+      "weeksSimulated": 48,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10000,
+      "finalDebt": 0,
+      "minCash": -10000,
+      "maxCash": 410000,
+      "unconstrainedYear": null,
+      "filmsProduced": 0,
+      "filmsReleased": 0,
+      "totalFilmSpend": 0,
+      "totalFilmRevenue": 0,
+      "aggregateROI": null,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 265
+    },
+    {
+      "strategy": "nothing",
+      "seed": 2,
+      "fidelity": "patched",
+      "weeksSimulated": 48,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10000,
+      "finalDebt": 0,
+      "minCash": -10000,
+      "maxCash": 410000,
+      "unconstrainedYear": null,
+      "filmsProduced": 0,
+      "filmsReleased": 0,
+      "totalFilmSpend": 0,
+      "totalFilmRevenue": 0,
+      "aggregateROI": null,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 137
+    },
+    {
+      "strategy": "nothing",
+      "seed": 3,
+      "fidelity": "patched",
+      "weeksSimulated": 48,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10000,
+      "finalDebt": 0,
+      "minCash": -10000,
+      "maxCash": 410000,
+      "unconstrainedYear": null,
+      "filmsProduced": 0,
+      "filmsReleased": 0,
+      "totalFilmSpend": 0,
+      "totalFilmRevenue": 0,
+      "aggregateROI": null,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 90
+    },
+    {
+      "strategy": "nothing",
+      "seed": 4,
+      "fidelity": "patched",
+      "weeksSimulated": 48,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10000,
+      "finalDebt": 0,
+      "minCash": -10000,
+      "maxCash": 410000,
+      "unconstrainedYear": null,
+      "filmsProduced": 0,
+      "filmsReleased": 0,
+      "totalFilmSpend": 0,
+      "totalFilmRevenue": 0,
+      "aggregateROI": null,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 75
+    },
+    {
+      "strategy": "nothing",
+      "seed": 5,
+      "fidelity": "patched",
+      "weeksSimulated": 48,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10000,
+      "finalDebt": 0,
+      "minCash": -10000,
+      "maxCash": 410000,
+      "unconstrainedYear": null,
+      "filmsProduced": 0,
+      "filmsReleased": 0,
+      "totalFilmSpend": 0,
+      "totalFilmRevenue": 0,
+      "aggregateROI": null,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 77
+    },
+    {
+      "strategy": "conservative",
+      "seed": 1,
+      "fidelity": "patched",
+      "weeksSimulated": 40,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -12343,
+      "finalDebt": 0,
+      "minCash": -12343,
+      "maxCash": 375000,
+      "unconstrainedYear": null,
+      "filmsProduced": 2,
+      "filmsReleased": 2,
+      "totalFilmSpend": 86441,
+      "totalFilmRevenue": 44098,
+      "aggregateROI": 0.51,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 89
+    },
+    {
+      "strategy": "conservative",
+      "seed": 2,
+      "fidelity": "patched",
+      "weeksSimulated": 40,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -15849,
+      "finalDebt": 0,
+      "minCash": -15849,
+      "maxCash": 374000,
+      "unconstrainedYear": null,
+      "filmsProduced": 2,
+      "filmsReleased": 2,
+      "totalFilmSpend": 86135,
+      "totalFilmRevenue": 40286,
+      "aggregateROI": 0.47,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 80
+    },
+    {
+      "strategy": "conservative",
+      "seed": 3,
+      "fidelity": "patched",
+      "weeksSimulated": 40,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -7786,
+      "finalDebt": 0,
+      "minCash": -7786,
+      "maxCash": 362000,
+      "unconstrainedYear": null,
+      "filmsProduced": 2,
+      "filmsReleased": 2,
+      "totalFilmSpend": 92020,
+      "totalFilmRevenue": 54234,
+      "aggregateROI": 0.59,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 81
+    },
+    {
+      "strategy": "conservative",
+      "seed": 4,
+      "fidelity": "patched",
+      "weeksSimulated": 40,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -356,
+      "finalDebt": 0,
+      "minCash": -356,
+      "maxCash": 368000,
+      "unconstrainedYear": null,
+      "filmsProduced": 2,
+      "filmsReleased": 2,
+      "totalFilmSpend": 89849,
+      "totalFilmRevenue": 59493,
+      "aggregateROI": 0.66,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 110
+    },
+    {
+      "strategy": "conservative",
+      "seed": 5,
+      "fidelity": "patched",
+      "weeksSimulated": 40,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -6730,
+      "finalDebt": 0,
+      "minCash": -6730,
+      "maxCash": 362000,
+      "unconstrainedYear": null,
+      "filmsProduced": 2,
+      "filmsReleased": 2,
+      "totalFilmSpend": 95548,
+      "totalFilmRevenue": 58818,
+      "aggregateROI": 0.62,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 72
+    },
+    {
+      "strategy": "prestige",
+      "seed": 1,
+      "fidelity": "patched",
+      "weeksSimulated": 53,
+      "endYear": 1934,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -1078,
+      "finalDebt": 0,
+      "minCash": -1078,
+      "maxCash": 290000,
+      "unconstrainedYear": null,
+      "filmsProduced": 4,
+      "filmsReleased": 4,
+      "totalFilmSpend": 414357,
+      "totalFilmRevenue": 500140,
+      "aggregateROI": 1.21,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 110
+    },
+    {
+      "strategy": "prestige",
+      "seed": 2,
+      "fidelity": "patched",
+      "weeksSimulated": 52,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10241,
+      "finalDebt": 0,
+      "minCash": -10241,
+      "maxCash": 290000,
+      "unconstrainedYear": null,
+      "filmsProduced": 4,
+      "filmsReleased": 4,
+      "totalFilmSpend": 398058,
+      "totalFilmRevenue": 417817,
+      "aggregateROI": 1.05,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 102
+    },
+    {
+      "strategy": "prestige",
+      "seed": 3,
+      "fidelity": "patched",
+      "weeksSimulated": 36,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -4045,
+      "finalDebt": 0,
+      "minCash": -4045,
+      "maxCash": 290000,
+      "unconstrainedYear": null,
+      "filmsProduced": 3,
+      "filmsReleased": 2,
+      "totalFilmSpend": 255000,
+      "totalFilmRevenue": 307199,
+      "aggregateROI": 1.2,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 88
+    },
+    {
+      "strategy": "prestige",
+      "seed": 4,
+      "fidelity": "patched",
+      "weeksSimulated": 56,
+      "endYear": 1934,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -5532,
+      "finalDebt": 0,
+      "minCash": -5532,
+      "maxCash": 290000,
+      "unconstrainedYear": null,
+      "filmsProduced": 4,
+      "filmsReleased": 4,
+      "totalFilmSpend": 420384,
+      "totalFilmRevenue": 558990,
+      "aggregateROI": 1.33,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 95
+    },
+    {
+      "strategy": "prestige",
+      "seed": 5,
+      "fidelity": "patched",
+      "weeksSimulated": 53,
+      "endYear": 1934,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -18796,
+      "finalDebt": 0,
+      "minCash": -18796,
+      "maxCash": 290000,
+      "unconstrainedYear": null,
+      "filmsProduced": 4,
+      "filmsReleased": 4,
+      "totalFilmSpend": 410149,
+      "totalFilmRevenue": 477661,
+      "aggregateROI": 1.16,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 88
+    },
+    {
+      "strategy": "exploit",
+      "seed": 1,
+      "fidelity": "patched",
+      "weeksSimulated": 753,
+      "endYear": 1947,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -99309,
+      "finalDebt": 16583580,
+      "minCash": -1099309,
+      "maxCash": 1188805,
+      "unconstrainedYear": null,
+      "filmsProduced": 329,
+      "filmsReleased": 328,
+      "totalFilmSpend": 22830323,
+      "totalFilmRevenue": 13698072,
+      "aggregateROI": 0.6,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 1510
+    },
+    {
+      "strategy": "exploit",
+      "seed": 2,
+      "fidelity": "patched",
+      "weeksSimulated": 580,
+      "endYear": 1944,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10458,
+      "finalDebt": 14375202,
+      "minCash": -986458,
+      "maxCash": 1216913,
+      "unconstrainedYear": null,
+      "filmsProduced": 254,
+      "filmsReleased": 253,
+      "totalFilmSpend": 21266362,
+      "totalFilmRevenue": 12759688,
+      "aggregateROI": 0.6,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 1298
+    },
+    {
+      "strategy": "exploit",
+      "seed": 3,
+      "fidelity": "patched",
+      "weeksSimulated": 784,
+      "endYear": 1948,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -90923,
+      "finalDebt": 17583596,
+      "minCash": -1122563,
+      "maxCash": 1207693,
+      "unconstrainedYear": null,
+      "filmsProduced": 344,
+      "filmsReleased": 344,
+      "totalFilmSpend": 24128252,
+      "totalFilmRevenue": 14476814,
+      "aggregateROI": 0.6,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 1543
+    },
+    {
+      "strategy": "exploit",
+      "seed": 4,
+      "fidelity": "patched",
+      "weeksSimulated": 727,
+      "endYear": 1946,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -62372,
+      "finalDebt": 15833576,
+      "minCash": -1131213,
+      "maxCash": 1203989,
+      "unconstrainedYear": null,
+      "filmsProduced": 319,
+      "filmsReleased": 319,
+      "totalFilmSpend": 22191777,
+      "totalFilmRevenue": 13314933,
+      "aggregateROI": 0.6,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 1426
+    },
+    {
+      "strategy": "exploit",
+      "seed": 5,
+      "fidelity": "patched",
+      "weeksSimulated": 684,
+      "endYear": 1946,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -81814,
+      "finalDebt": 15458550,
+      "minCash": -1053814,
+      "maxCash": 1206284,
+      "unconstrainedYear": null,
+      "filmsProduced": 299,
+      "filmsReleased": 298,
+      "totalFilmSpend": 21675539,
+      "totalFilmRevenue": 13005201,
+      "aggregateROI": 0.6,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 1445
+    },
+    {
+      "strategy": "random",
+      "seed": 1,
+      "fidelity": "patched",
+      "weeksSimulated": 13,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -20000,
+      "finalDebt": 0,
+      "minCash": -20000,
+      "maxCash": 290000,
+      "unconstrainedYear": null,
+      "filmsProduced": 0,
+      "filmsReleased": 0,
+      "totalFilmSpend": 0,
+      "totalFilmRevenue": 0,
+      "aggregateROI": null,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 97
+    },
+    {
+      "strategy": "random",
+      "seed": 2,
+      "fidelity": "patched",
+      "weeksSimulated": 24,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -5445,
+      "finalDebt": 0,
+      "minCash": -5445,
+      "maxCash": 325000,
+      "unconstrainedYear": null,
+      "filmsProduced": 3,
+      "filmsReleased": 3,
+      "totalFilmSpend": 214000,
+      "totalFilmRevenue": 177860,
+      "aggregateROI": 0.83,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 102
+    },
+    {
+      "strategy": "random",
+      "seed": 3,
+      "fidelity": "patched",
+      "weeksSimulated": 31,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -10394,
+      "finalDebt": 0,
+      "minCash": -10394,
+      "maxCash": 410000,
+      "unconstrainedYear": null,
+      "filmsProduced": 2,
+      "filmsReleased": 2,
+      "totalFilmSpend": 183000,
+      "totalFilmRevenue": 187388,
+      "aggregateROI": 1.02,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 102
+    },
+    {
+      "strategy": "random",
+      "seed": 4,
+      "fidelity": "patched",
+      "weeksSimulated": 32,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -15370,
+      "finalDebt": 0,
+      "minCash": -15370,
+      "maxCash": 410000,
+      "unconstrainedYear": null,
+      "filmsProduced": 2,
+      "filmsReleased": 2,
+      "totalFilmSpend": 137753,
+      "totalFilmRevenue": 82651,
+      "aggregateROI": 0.6,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 115
+    },
+    {
+      "strategy": "random",
+      "seed": 5,
+      "fidelity": "patched",
+      "weeksSimulated": 13,
+      "endYear": 1933,
+      "gameEnded": true,
+      "endingType": "bankruptcy",
+      "finalCash": -83,
+      "finalDebt": 0,
+      "minCash": -83,
+      "maxCash": 325000,
+      "unconstrainedYear": null,
+      "filmsProduced": 0,
+      "filmsReleased": 0,
+      "totalFilmSpend": 0,
+      "totalFilmRevenue": 0,
+      "aggregateROI": null,
+      "errorCount": 1,
+      "errorSample": [
+        {
+          "where": "console.error",
+          "message": "Failed to initialize DashboardUI ReferenceError: getAllFilms is not defined"
+        }
+      ],
+      "wallMs": 181
+    }
+  ]
+}

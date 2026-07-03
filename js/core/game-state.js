@@ -160,8 +160,10 @@ window.HollywoodMogul = (function() {
     function startNewGameWithScenario(scenarioId) {
         scenarioId = scenarioId || 'classic_start';
 
-        // Clear EventBus subscriptions from previous game
-        if (window.EventBus) window.EventBus.clear();
+        // NOTE: do NOT EventBus.clear() here. All current subscriptions are
+        // made once at init time (Integration, DashboardUI); clearing wiped
+        // loan processing, newspaper, scenario victory checks, and ironman
+        // saves for the entire game (audit: CODE-002).
 
         gameState = {
             currentDate: new Date(1933, 0, 1),
@@ -213,6 +215,16 @@ window.HollywoodMogul = (function() {
             window.StudioLotSystem.initializeStudioLot(gameState);
         }
 
+        // These systems hold per-game state and must be (re)initialized
+        // against the NEW state object — Integration.init runs before any
+        // game exists, so anything it initialized is stale now (CODE-011).
+        if (window.FinancialSystem && window.FinancialSystem.initializeFinancialSystem) {
+            window.FinancialSystem.initializeFinancialSystem(gameState);
+        }
+        if (window.RivalStudios && window.RivalStudios.init) {
+            window.RivalStudios.init(gameState);
+        }
+
         if (!gameState.scenario) {
             addAlert({
                 type: 'tutorial',
@@ -255,6 +267,13 @@ window.HollywoodMogul = (function() {
         emitEvent('state:changed', gameState);
     }
 
+    // ONE tick pipeline. Historically advanceWeek and advanceMonth ran
+    // disjoint simulations — weekly play never received new scripts,
+    // historical events, or Oscars, and monthly play never advanced
+    // production or box office — and weekly play double-billed monthly
+    // overhead via the `gameWeek % 4` clause (audit: ECON-002/003,
+    // CODE-001). Now the week is the only tick; months are week loops,
+    // and month-boundary work fires exactly once per calendar month.
     function advanceWeek() {
         var oldYear = gameState.gameYear;
         var oldMonth = gameState.currentDate.getMonth();
@@ -263,21 +282,52 @@ window.HollywoodMogul = (function() {
         gameState.currentDate.setDate(gameState.currentDate.getDate() + 7);
         gameState.gameYear = gameState.currentDate.getFullYear();
 
-        var newMonth = gameState.currentDate.getMonth();
-        if (gameState.gameYear !== oldYear || newMonth !== oldMonth || gameState.gameWeek % GAME_CONSTANTS.WEEKS_PER_MONTH === 1) {
+        var monthChanged = gameState.gameYear !== oldYear ||
+            gameState.currentDate.getMonth() !== oldMonth;
+        if (monthChanged) {
             processMonthlyExpenses();
+            processMonthlyEvents();
+        }
+
+        // Era transition detection (folded from the never-invoked
+        // GameController — audit CODE-006; integration.js shows the
+        // era-transition modal on this event).
+        if (gameState.gameYear !== oldYear) {
+            checkEraTransition(oldYear, gameState.gameYear);
         }
 
         processWeeklyEvents();
     }
 
-    function advanceMonth() {
-        gameState.gameWeek += GAME_CONSTANTS.WEEKS_PER_MONTH;
-        gameState.currentDate.setMonth(gameState.currentDate.getMonth() + 1);
-        gameState.gameYear = gameState.currentDate.getFullYear();
+    function checkEraTransition(oldYear, newYear) {
+        var C = getC();
+        if (!C.getEraKeyForYear) return;
 
-        processMonthlyExpenses();
-        processMonthlyEvents();
+        var oldEra = C.getEraKeyForYear(oldYear);
+        var newEra = C.getEraKeyForYear(newYear);
+        if (oldEra !== newEra) {
+            var eraInfo = null;
+            if (window.TimeSystem && window.TimeSystem.getCurrentPeriod) {
+                eraInfo = window.TimeSystem.getCurrentPeriod(newYear);
+            }
+            emitEvent('era:changed', {
+                oldEra: oldEra,
+                newEra: newEra,
+                year: newYear,
+                eraInfo: eraInfo
+            });
+        }
+    }
+
+    function advanceMonth() {
+        var startMonth = gameState.currentDate.getMonth();
+        var startYear = gameState.gameYear;
+        var guard = 6; // a calendar month is at most 5 week-ticks away
+        while (!gameState.gameEnded && gameState.cash >= 0 && guard-- > 0 &&
+               gameState.currentDate.getMonth() === startMonth &&
+               gameState.gameYear === startYear) {
+            advanceWeek();
+        }
     }
 
     // ================================================================
@@ -341,6 +391,19 @@ window.HollywoodMogul = (function() {
         if (window.BoxOfficeSystem && window.BoxOfficeSystem.processWeeklyBoxOffice) {
             window.BoxOfficeSystem.processWeeklyBoxOffice(gameState);
         }
+        // Systems registered via TimeSystem.addWeeklyCallback (rivals, etc.)
+        if (window.TimeSystem && window.TimeSystem.runWeeklyCallbacks) {
+            window.TimeSystem.runWeeklyCallbacks(gameState);
+        }
+        // Crisis + achievement checks each week (folded from the dead
+        // GameController/never-called CrisisSystem — CODE-006, DESIGN-016;
+        // Phase 3's bankruptcy arc depends on near_bankruptcy firing).
+        if (window.CrisisSystem && window.CrisisSystem.checkForCrisis) {
+            window.CrisisSystem.checkForCrisis(gameState);
+        }
+        if (window.AchievementSystem && window.AchievementSystem.checkAchievements) {
+            window.AchievementSystem.checkAchievements(gameState);
+        }
         if (Math.random() < 0.1) {
             if (window.EventSystem && window.EventSystem.generateRandomEvent) {
                 window.EventSystem.generateRandomEvent(gameState);
@@ -368,6 +431,20 @@ window.HollywoodMogul = (function() {
             }
         }
 
+        // TV competition events (era-gated internally; folded from
+        // GameController — CODE-006/DESIGN-011)
+        if (window.TVCompetitionSystem && window.TVCompetitionSystem.checkForTvEvents) {
+            var tvEvent = window.TVCompetitionSystem.checkForTvEvents(gameState);
+            if (tvEvent) {
+                addAlert({
+                    type: 'warning',
+                    icon: '📺',
+                    message: tvEvent.message,
+                    priority: 'medium'
+                });
+            }
+        }
+
         var startDate = new Date(1933, 0, 1);
         var daysSurvived = Math.floor((gameState.currentDate - startDate) / (1000 * 60 * 60 * 24));
         gameState.stats.yearsSurvived = daysSurvived / 365.25;
@@ -379,11 +456,47 @@ window.HollywoodMogul = (function() {
     // GAME END CONDITIONS
     // ================================================================
 
+    // Insolvency is an arc, not a cliff (audit ECON-008/DESIGN-016): going
+    // cash-negative opens a receivership window — sell a picture, take a
+    // loan, ride out a release — before the banks foreclose.
+    var RECEIVERSHIP_WEEKS = 8;
+
     function checkGameEndConditions() {
         if (gameState.cash < 0) {
-            endGame('bankruptcy');
-            return;
+            if (!gameState.receivership) {
+                gameState.receivership = { weeksRemaining: RECEIVERSHIP_WEEKS };
+                addAlert({
+                    type: 'financial',
+                    icon: '🏦',
+                    message: 'RECEIVERSHIP: creditors give you ' + RECEIVERSHIP_WEEKS +
+                        ' weeks to return to solvency or the studio is foreclosed.',
+                    priority: 'high'
+                });
+                emitEvent('financial:receivership', { weeksRemaining: RECEIVERSHIP_WEEKS });
+            } else {
+                gameState.receivership.weeksRemaining -= 1;
+                if (gameState.receivership.weeksRemaining <= 0) {
+                    endGame('bankruptcy');
+                    return;
+                }
+                addAlert({
+                    type: 'warning',
+                    icon: '🏦',
+                    message: 'Receivership: ' + gameState.receivership.weeksRemaining +
+                        ' week(s) to reach positive cash.',
+                    priority: 'high'
+                });
+            }
+        } else if (gameState.receivership) {
+            gameState.receivership = null;
+            addAlert({
+                type: 'success',
+                icon: '🏦',
+                message: 'Solvency restored — the creditors withdraw. That was close.',
+                priority: 'high'
+            });
         }
+
         if (gameState.gameYear >= GAME_CONSTANTS.GAME_END_YEAR) {
             endGame('survived');
             return;
@@ -391,11 +504,43 @@ window.HollywoodMogul = (function() {
         updateFinancialWarnings();
     }
 
+    /**
+     * Legacy score for the 1949 epilogue (D1 scope): what did sixteen years
+     * of pictures add up to?
+     */
+    function computeLegacyScore() {
+        var s = gameState.stats;
+        var score = 0;
+        score += Math.max(0, gameState.cash) / 10000;          // solvency
+        score += s.boxOfficeTotal / 50000;                     // audience reach
+        score += s.filmsProduced * 20;                         // body of work
+        score += s.oscarsWon * 250;                            // acclaim
+        score += gameState.reputation * 5;                     // standing
+        score = Math.floor(score);
+
+        var tier;
+        if (score >= 4000) tier = 'A Hollywood Legend';
+        else if (score >= 2000) tier = 'A Major Studio';
+        else if (score >= 900) tier = 'A Respected Independent';
+        else if (score >= 300) tier = 'A Working Studio';
+        else tier = 'A Footnote in the Trades';
+
+        return { score: score, tier: tier };
+    }
+
     function endGame(endingType) {
         gameState.gameEnded = true;
         gameState.endingType = endingType;
+        if (endingType === 'survived') {
+            gameState.legacy = computeLegacyScore();
+        }
         showGameOverScreen(endingType);
-        emitEvent('game:ended', { type: endingType, stats: gameState.stats, cash: gameState.cash });
+        emitEvent('game:ended', {
+            type: endingType,
+            stats: gameState.stats,
+            cash: gameState.cash,
+            legacy: gameState.legacy || null
+        });
     }
 
     function updateFinancialWarnings() {
@@ -522,40 +667,52 @@ window.HollywoodMogul = (function() {
         }
     }
 
+    // index.html uses current-cash/monthly-burn/cash-runway; the jsdom test
+    // fixtures use the legacy cash-display/burn-display/runway-display ids.
+    // The HUD was frozen for the whole game because only the legacy ids were
+    // targeted (audit: UX-004).
+    function byId(ids) {
+        for (var i = 0; i < ids.length; i++) {
+            var el = document.getElementById(ids[i]);
+            if (el) return el;
+        }
+        return null;
+    }
+
     function updateFinancialDisplay() {
-        var cashElement = document.getElementById('cash-display');
+        var cashElement = byId(['current-cash', 'cash-display']);
         if (cashElement) {
             cashElement.textContent = '$' + gameState.cash.toLocaleString();
             cashElement.className = gameState.cash < 0 ? 'card-value negative' : 'card-value';
         }
 
-        var burnElement = document.getElementById('burn-display');
+        var burnElement = byId(['monthly-burn', 'burn-display']);
         if (burnElement) {
             burnElement.textContent = '-$' + gameState.monthlyBurn.toLocaleString();
         }
 
-        var runwayElement = document.getElementById('runway-display');
+        var runwayElement = byId(['cash-runway', 'runway-display']);
         var runwayStatusElement = document.getElementById('runway-status');
 
-        if (runwayElement && runwayStatusElement) {
+        if (runwayElement) {
             var runway = calculateRunwayWeeks();
 
             if (runway > 100) {
                 runwayElement.textContent = '\u221E';
-                runwayStatusElement.textContent = 'SAFE';
-                runwayStatusElement.className = 'runway-status safe';
             } else {
                 runwayElement.textContent = runway + ' weeks';
+            }
 
-                if (runway <= GAME_CONSTANTS.RUNWAY_DANGER_WEEKS) {
-                    runwayStatusElement.textContent = 'DANGER';
-                    runwayStatusElement.className = 'runway-status danger';
-                } else if (runway <= GAME_CONSTANTS.RUNWAY_WARNING_WEEKS) {
-                    runwayStatusElement.textContent = 'WARNING';
-                    runwayStatusElement.className = 'runway-status moderate';
-                } else {
+            if (runwayStatusElement) {
+                if (runway > 100 || runway > GAME_CONSTANTS.RUNWAY_WARNING_WEEKS) {
                     runwayStatusElement.textContent = 'SAFE';
                     runwayStatusElement.className = 'runway-status safe';
+                } else if (runway <= GAME_CONSTANTS.RUNWAY_DANGER_WEEKS) {
+                    runwayStatusElement.textContent = 'DANGER';
+                    runwayStatusElement.className = 'runway-status danger';
+                } else {
+                    runwayStatusElement.textContent = 'WARNING';
+                    runwayStatusElement.className = 'runway-status moderate';
                 }
             }
         }
@@ -746,8 +903,12 @@ window.HollywoodMogul = (function() {
                 message = 'Your studio has run out of money. The bank has foreclosed on your assets.';
                 break;
             case 'survived':
-                title = 'VICTORY';
-                message = 'From the golden age through the digital revolution — your studio endured it all. A Hollywood legend.';
+                title = (gameState.legacy && gameState.legacy.tier) ?
+                    gameState.legacy.tier.toUpperCase() : 'VICTORY';
+                message = 'January 1950. Television is coming, the Paramount Decree has ' +
+                    'broken the old order, and the golden age is over — but your studio ' +
+                    'lived it all, from pre-Code freedom to the post-war boom.' +
+                    (gameState.legacy ? ' Legacy score: ' + gameState.legacy.score.toLocaleString() + '.' : '');
                 break;
             default:
                 title = 'THE END';

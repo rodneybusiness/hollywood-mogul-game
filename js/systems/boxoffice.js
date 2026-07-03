@@ -141,7 +141,7 @@ window.BoxOfficeSystem = (function() {
         wide: {
             name: "Wide Release",
             theaters: 500,
-            marketingCost: 20000,
+            marketingCost: 30000,
             theaterCut: 0.45,
             potential: { min: 150000, max: 600000 },
             description: "500 theaters nationwide - Maximum exposure, high risk/reward"
@@ -149,7 +149,7 @@ window.BoxOfficeSystem = (function() {
         limited: {
             name: "Limited Release",
             theaters: 100,
-            marketingCost: 5000,
+            marketingCost: 7000,
             theaterCut: 0.30,
             prestigeBonus: 10,
             potential: { min: 80000, max: 250000 },
@@ -202,7 +202,8 @@ window.BoxOfficeSystem = (function() {
     }
 
     function findFilmById(gameState, filmId) {
-        return getAllFilms(gameState).find(film => film.id === filmId);
+        // String-normalize: ids arrive as strings from data-attributes.
+        return getAllFilms(gameState).find(film => String(film.id) === String(filmId));
     }
 
     /**
@@ -218,14 +219,34 @@ window.BoxOfficeSystem = (function() {
         }
 
         if (strategy === 'states_rights') {
-            // States rights is based on film quality, not box office simulation
-            const qualityMultiplier = Math.max(0.5, film.scriptQuality / 100);
-            const baseValue = 50000 * eraInflation;
-            return Math.floor(baseValue + (30000 * eraInflation * qualityMultiplier) + (Math.random() * 10000 * eraInflation));
+            // A quality-dependent FLOOR tied to what the film cost, not a
+            // flat era-scaled payout — the old formula paid more than a
+            // cheap film's whole budget with zero risk, making sell-spam
+            // the dominant strategy (audit ECON-005; Phase-2 sim: 5-6x ROI).
+            // EV spans ~0.45x budget (junk) to ~1.1x (a gem someone
+            // overpays for), so selling recovers sunk cost but release
+            // play is where profits live.
+            const quality = film.finalQuality || film.currentQuality || film.scriptQuality || 50;
+            const budget = film.originalBudget || 50000;
+            const qualityFactor = 0.45 + 0.6 * (quality / 100);
+            return Math.floor(budget * (qualityFactor + Math.random() * 0.05));
         }
 
         // Base calculation starts with script quality, scaled by era inflation
-        let baseGross = film.scriptQuality * 2000 * eraInflation;
+        let baseGross = film.scriptQuality * 1700 * eraInflation;
+
+        // Production values: what the money bought. Revenue previously
+        // ignored budget entirely — a $600k epic grossed the same as a
+        // $60k programmer of equal script quality, so cheap films strictly
+        // dominated on ROI (P3.1/P3.4). Square-root scaling: spectacle
+        // draws crowds, with diminishing returns. Reference point is a
+        // mid-range picture for the era (~$150k in 1933 dollars).
+        {
+            const refBudget = 150000 * eraInflation;
+            const budgetForScale = film.originalBudget || refBudget;
+            const productionValues = 0.6 + 0.8 * Math.sqrt(budgetForScale / refBudget);
+            baseGross *= Math.min(productionValues, 3.0);
+        }
 
         // Apply star power (total cast influence)
         if (film.cast && film.cast.length > 0) {
@@ -284,6 +305,17 @@ window.BoxOfficeSystem = (function() {
             var fgs = window.HollywoodMogul.getGameState();
             if (fgs) {
                 combinedBonusMult *= window.FranchiseSystem.getFranchiseBoxOfficeMultiplier(film, fgs);
+            }
+        }
+
+        // Studio lot revenue perks (screening rooms etc.) — built but never
+        // consumed until Phase 3 (audit DESIGN-013)
+        if (window.StudioLotSystem && window.StudioLotSystem.getRevenueBonus && window.HollywoodMogul) {
+            var lotState = window.HollywoodMogul.getGameState();
+            if (lotState) {
+                // Returns a multiplier (1.0 = no facilities)
+                var lotMult = window.StudioLotSystem.getRevenueBonus(film, lotState);
+                if (lotMult && isFinite(lotMult)) combinedBonusMult *= lotMult;
             }
         }
 
@@ -386,11 +418,19 @@ window.BoxOfficeSystem = (function() {
             adjustedTotal *= (1 + event.impact);
         });
 
-        // Ensure it stays within reasonable bounds
+        // Bounds scale with the era — the old fixed ceiling clamped every
+        // wide release to $900k for the entire game while budgets scaled
+        // into the millions, making the game mathematically unwinnable in
+        // later eras (audit DESIGN-002).
         const strategyData = DISTRIBUTION_STRATEGIES[strategy];
+        var boundsInflation = 1.0;
+        if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
+            var boundsYear = window.TimeSystem ? window.TimeSystem.getCurrentDate().year : 1933;
+            boundsInflation = window.GameConstants.getEraScalingForYear(boundsYear).inflationMult || 1.0;
+        }
         adjustedTotal = Math.max(
-            strategyData.potential.min * 0.3, 
-            Math.min(adjustedTotal, strategyData.potential.max * 1.5)
+            strategyData.potential.min * 0.3 * boundsInflation,
+            Math.min(adjustedTotal, strategyData.potential.max * 1.5 * boundsInflation)
         );
 
         // Week-by-week breakdown (typical box office curve)

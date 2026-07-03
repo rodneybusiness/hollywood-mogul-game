@@ -62,10 +62,12 @@ global.testUtils = {
   },
 
   /**
-   * Clean up DOM
+   * Clean up DOM (no-op in non-jsdom test environments)
    */
   cleanupDOM() {
-    document.body.innerHTML = '';
+    if (typeof document !== 'undefined') {
+      document.body.innerHTML = '';
+    }
   },
 
   /**

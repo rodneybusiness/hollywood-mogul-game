@@ -1376,7 +1376,7 @@ describe('SaveLoadSystem', () => {
             const saved = JSON.parse(mockStorage['hollywood-mogul-saves']);
             const slotData = saved['slot_1'];
 
-            expect(slotData.version).toBe('2.0');
+            expect(slotData.version).toBe('3.0');
             expect(slotData.name).toBe('My Save');
         });
 
@@ -1391,10 +1391,10 @@ describe('SaveLoadSystem', () => {
             const saved = JSON.parse(mockStorage['hollywood-mogul-saves']);
             const slotData = saved['slot_1'];
 
-            expect(slotData.technologies).toBeDefined();
-            expect(slotData.technologies.length).toBe(2);
-            expect(slotData.technologies[0].id).toBe('color_film');
-            expect(slotData.technologies[1].id).toBe('widescreen');
+            expect(slotData.state.technologies).toBeDefined();
+            expect(slotData.state.technologies.length).toBe(2);
+            expect(slotData.state.technologies[0].id).toBe('color_film');
+            expect(slotData.state.technologies[1].id).toBe('widescreen');
         });
 
         test('should include franchises array', () => {
@@ -1407,10 +1407,10 @@ describe('SaveLoadSystem', () => {
             const saved = JSON.parse(mockStorage['hollywood-mogul-saves']);
             const slotData = saved['slot_1'];
 
-            expect(slotData.franchises).toBeDefined();
-            expect(slotData.franchises.length).toBe(1);
-            expect(slotData.franchises[0].name).toBe('Space Wars');
-            expect(slotData.franchises[0].audienceLoyalty).toBeCloseTo(0.72, 2);
+            expect(slotData.state.franchises).toBeDefined();
+            expect(slotData.state.franchises.length).toBe(1);
+            expect(slotData.state.franchises[0].name).toBe('Space Wars');
+            expect(slotData.state.franchises[0].audienceLoyalty).toBeCloseTo(0.72, 2);
         });
 
         test('should include core game state fields', () => {
@@ -1423,7 +1423,7 @@ describe('SaveLoadSystem', () => {
             expect(slotData.gameYear).toBe(1940);
             expect(slotData.cash).toBe(750000);
             expect(slotData.studioName).toBe('Test Studio');
-            expect(slotData.reputation).toBe(65);
+            expect(slotData.state.reputation).toBe(65);
             expect(slotData.stats.filmsProduced).toBe(5);
         });
 
@@ -1439,7 +1439,7 @@ describe('SaveLoadSystem', () => {
             // Saved data should not be affected
             const saved = JSON.parse(mockStorage['hollywood-mogul-saves']);
             const slotData = saved['slot_1'];
-            expect(slotData.technologies.length).toBe(1);
+            expect(slotData.state.technologies.length).toBe(1);
         });
 
         test('should handle empty technologies and franchises', () => {
@@ -1449,8 +1449,8 @@ describe('SaveLoadSystem', () => {
             const saved = JSON.parse(mockStorage['hollywood-mogul-saves']);
             const slotData = saved['slot_1'];
 
-            expect(slotData.technologies).toEqual([]);
-            expect(slotData.franchises).toEqual([]);
+            expect(slotData.state.technologies).toEqual([]);
+            expect(slotData.state.franchises).toEqual([]);
         });
     });
 
@@ -1882,8 +1882,8 @@ describe('SaveLoadSystem', () => {
     });
 
     describe('SAVE_VERSION constant', () => {
-        test('should be version 2.0', () => {
-            expect(window.SaveLoadSystem.SAVE_VERSION).toBe('2.0');
+        test('should be version 3.0', () => {
+            expect(window.SaveLoadSystem.SAVE_VERSION).toBe('3.0');
         });
     });
 });

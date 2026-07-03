@@ -34,3 +34,7 @@ Thumbs.db
 *.log
 npm-debug.log*
 .vercel
+
+# Generated artifacts (audit tooling)
+coverage/
+docs/audit/screens/

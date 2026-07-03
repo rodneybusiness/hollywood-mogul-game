@@ -45,7 +45,10 @@ window.GameConstants = (function() {
         WEEKS_PER_MONTH: 4,
         MONTHS_PER_YEAR: 12,
         GAME_START_YEAR: 1933,
-        GAME_END_YEAR: 2010,
+        // D1 (AUDIT-REPORT §Decisions): ship the deep 1933–1949 campaign.
+        // The game ends with a scored epilogue when the calendar reaches
+        // Jan 1950. Post-1949 era data is preserved for Phase 6/DLC.
+        GAME_END_YEAR: 1950,
         LOADING_SCREEN_DURATION_MS: 3000,
         HAYS_CODE_ENFORCEMENT_DATE: new Date(1934, 6, 1) // July 1, 1934
     };

@@ -13,7 +13,11 @@ window.SaveLoadSystem = (function() {
     const SETTINGS_KEY = 'hollywood-mogul-save-settings';
     const MAX_SAVE_SLOTS = 5;
     const AUTO_SAVE_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
-    const SAVE_VERSION = '2.0'; // Bumped version for enhanced features
+    const SAVE_VERSION = '3.0'; // v3: full generic state serialization + migrations (CODE-007)
+
+    // CODE-009: caps for unbounded history arrays in the save payload
+    const MAX_SAVED_EVENTS = 100;
+    const MAX_SAVED_ALERTS = 20;
 
     let autoSaveTimer = null;
     let ironmanMode = false;
@@ -41,7 +45,15 @@ window.SaveLoadSystem = (function() {
 
             saves[slotKey] = saveData;
 
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(saves));
+            // CODE-009: guarded write — a quota failure leaves the previous
+            // save untouched and surfaces a user-visible alert.
+            const writeResult = safeSetItem(STORAGE_KEY, JSON.stringify(saves));
+            if (!writeResult.success) {
+                return {
+                    success: false,
+                    message: writeResult.message
+                };
+            }
 
             // Update last quick save slot
             lastQuickSaveSlot = slotNumber;
@@ -140,7 +152,12 @@ window.SaveLoadSystem = (function() {
             }
 
             const saveData = createSaveData(gameState, 'Auto Save');
-            localStorage.setItem(AUTO_SAVE_KEY, JSON.stringify(saveData));
+            const writeResult = safeSetItem(AUTO_SAVE_KEY, JSON.stringify(saveData));
+            if (!writeResult.success) {
+                showAutoSaveIndicator('Auto-Save Failed');
+                autoSaveInProgress = false;
+                return false;
+            }
 
             showAutoSaveIndicator('Game Saved');
 
@@ -299,117 +316,347 @@ window.SaveLoadSystem = (function() {
     }
     
     /**
-     * Create save data object from game state
+     * GENERIC STATE SERIALIZATION (CODE-007)
+     */
+
+    /**
+     * JSON-safe deep copy of arbitrary game state. Dates are tagged so load
+     * can revive them as Date instances wherever they appear (currentDate,
+     * film.startDate, film.releaseDate, loan.originationDate, ...).
+     * Functions and undefined are dropped; circular references are cut.
+     */
+    function serializeValue(value, seen) {
+        if (value === null || typeof value !== 'object') {
+            return (typeof value === 'function' || value === undefined) ? undefined : value;
+        }
+        if (value instanceof Date) {
+            return { __type: 'Date', iso: value.toISOString() };
+        }
+
+        seen = seen || new WeakSet();
+        if (seen.has(value)) return undefined;
+        seen.add(value);
+
+        let result;
+        if (Array.isArray(value)) {
+            result = value.map(item => {
+                const serialized = serializeValue(item, seen);
+                return serialized === undefined ? null : serialized;
+            });
+        } else {
+            result = {};
+            for (const key of Object.keys(value)) {
+                const serialized = serializeValue(value[key], seen);
+                if (serialized !== undefined) result[key] = serialized;
+            }
+        }
+        seen.delete(value);
+        return result;
+    }
+
+    /**
+     * Reverse of serializeValue: rebuilds Date instances from tagged objects.
+     */
+    function reviveValue(value) {
+        if (value === null || typeof value !== 'object') return value;
+        if (value instanceof Date) return value; // migrations may emit real Dates
+        if (value.__type === 'Date' && typeof value.iso === 'string') {
+            return new Date(value.iso);
+        }
+        if (Array.isArray(value)) return value.map(reviveValue);
+        const result = {};
+        for (const key of Object.keys(value)) {
+            result[key] = reviveValue(value[key]);
+        }
+        return result;
+    }
+
+    /**
+     * Shrink the state before serializing (CODE-009).
+     * Consumed scripts can never be optioned again, so only their ids are
+     * kept; unbounded history arrays are capped to the most recent entries.
+     * Returns a shallow copy — the live state is never mutated.
+     */
+    function pruneStateForSave(gameState) {
+        const pruned = { ...gameState };
+
+        if (Array.isArray(pruned.availableScripts)) {
+            pruned.availableScripts = pruned.availableScripts.map(script => {
+                if (script && typeof script === 'object' &&
+                    (script.optioned || script.available === false)) {
+                    return {
+                        id: script.id,
+                        title: script.title,
+                        available: false,
+                        optioned: !!script.optioned
+                    };
+                }
+                return script;
+            });
+        }
+
+        if (Array.isArray(pruned.events) && pruned.events.length > MAX_SAVED_EVENTS) {
+            pruned.events = pruned.events.slice(-MAX_SAVED_EVENTS);
+        }
+        if (Array.isArray(pruned.currentEvents) && pruned.currentEvents.length > MAX_SAVED_ALERTS) {
+            pruned.currentEvents = pruned.currentEvents.slice(-MAX_SAVED_ALERTS);
+        }
+
+        return pruned;
+    }
+
+    /**
+     * QUOTA-SAFE STORAGE WRITES (CODE-009)
+     */
+
+    function isQuotaError(error) {
+        return !!error && (
+            error.name === 'QuotaExceededError' ||
+            error.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
+            error.code === 22 ||
+            error.code === 1014 ||
+            /quota/i.test(String(error.message))
+        );
+    }
+
+    function notifyQuotaExceeded() {
+        showAutoSaveIndicator('Save Failed — Storage Full');
+        if (window.HollywoodMogul && window.HollywoodMogul.addAlert) {
+            window.HollywoodMogul.addAlert({
+                type: 'danger',
+                icon: '💾',
+                message: 'Save failed: browser storage is full. Your previous save is intact — delete or export old saves to free space.',
+                priority: 'high'
+            });
+        }
+    }
+
+    /**
+     * localStorage.setItem is atomic per key: on failure the previous value
+     * survives, so an existing save is never corrupted by a failed write.
+     * On quota exhaustion the (expendable) backup store is sacrificed and the
+     * write retried once; a final failure is reported to the player.
+     */
+    function safeSetItem(key, value, options = {}) {
+        try {
+            localStorage.setItem(key, value);
+            return { success: true };
+        } catch (error) {
+            let finalError = error;
+            if (isQuotaError(error) && key !== BACKUP_KEY) {
+                try {
+                    localStorage.removeItem(BACKUP_KEY);
+                    localStorage.setItem(key, value);
+                    return { success: true, backupsPurged: true };
+                } catch (retryError) {
+                    finalError = retryError;
+                }
+            }
+
+            const quota = isQuotaError(finalError);
+            if (!options.silent) {
+                console.error(`Storage write failed for ${key}:`, finalError);
+                if (quota) notifyQuotaExceeded();
+            }
+
+            return {
+                success: false,
+                quotaExceeded: quota,
+                message: quota ?
+                    'Save failed: browser storage is full. Your previous save is intact — delete or export old saves to free space.' :
+                    'Save failed: ' + finalError.message
+            };
+        }
+    }
+
+    /**
+     * SAVE DATA CREATION & RESTORATION
+     */
+
+    /**
+     * Create save data object from game state.
+     * Header fields (name, dates, cash, ...) exist for slot lists, integrity
+     * checks and migrations; the complete gameplay state lives under `state`,
+     * serialized generically so no field is ever silently dropped (CODE-007).
      */
     function createSaveData(gameState, customName = null) {
         const saveDate = new Date();
 
-        // Create a clean save object with only essential data
-        const saveData = {
+        return {
             version: SAVE_VERSION,
             name: customName || generateSaveName(gameState),
             saveDate: saveDate.toISOString(),
-            
-            // Game time data
+
+            // Header metadata
             currentDate: gameState.currentDate.toISOString(),
-            gameDate: window.TimeSystem ? 
-                window.TimeSystem.formatDate(gameState.currentDate, 'full') : 
+            gameDate: window.TimeSystem ?
+                window.TimeSystem.formatDate(gameState.currentDate, 'full') :
                 gameState.currentDate.toDateString(),
             gameWeek: gameState.gameWeek,
             gameYear: gameState.gameYear,
             year: gameState.gameYear, // For quick reference
-            
-            // Financial data
             cash: gameState.cash,
-            monthlyBurn: gameState.monthlyBurn,
-            totalRevenue: gameState.totalRevenue,
-            totalExpenses: gameState.totalExpenses,
-            
-            // Studio data
             studioName: gameState.studioName,
-            reputation: gameState.reputation,
-            soundStages: gameState.soundStages,
-            backlots: { ...gameState.backlots },
-            
-            // Game collections (deep copy to avoid reference issues)
-            activeFilms: JSON.parse(JSON.stringify(gameState.activeFilms || [])),
-            completedFilms: JSON.parse(JSON.stringify(gameState.completedFilms || [])),
-            contractPlayers: JSON.parse(JSON.stringify(gameState.contractPlayers || [])),
-            availableScripts: JSON.parse(JSON.stringify(gameState.availableScripts || [])),
-            currentEvents: JSON.parse(JSON.stringify(gameState.currentEvents || [])),
-            events: JSON.parse(JSON.stringify(gameState.events || [])),
+            stats: { ...gameState.stats },
 
-            // Phase 4-5: technologies, franchises, studio lot
-            technologies: JSON.parse(JSON.stringify(gameState.technologies || [])),
-            franchises: JSON.parse(JSON.stringify(gameState.franchises || [])),
-            studioLot: gameState.studioLot ? JSON.parse(JSON.stringify(gameState.studioLot)) : null,
-
-            // Game progress
-            gameStarted: gameState.gameStarted,
-            gameEnded: gameState.gameEnded,
-            endingType: gameState.endingType,
-            scenario: gameState.scenario || null,
-
-            // Statistics
-            stats: { ...gameState.stats }
+            // The entire live game state, pruned and deep-copied
+            state: serializeValue(pruneStateForSave(gameState))
         };
-        
-        return saveData;
     }
-    
+
     /**
-     * Restore game state from save data
+     * SAVE MIGRATIONS
+     * Applied in sequence on load until the data reaches SAVE_VERSION.
+     * Unknown (e.g. future) versions abort the load with a clear message
+     * instead of silently corrupting the running game.
+     */
+
+    /**
+     * The complete new-game state shape, mirroring
+     * HollywoodMogul.startNewGameWithScenario (js/core/game-state.js).
+     * v2 saves are filled with these defaults so they load playable
+     * instead of half-initialized.
+     */
+    function defaultStateFields() {
+        return {
+            currentDate: new Date(1933, 0, 1),
+            gameWeek: 1,
+            gameYear: 1933,
+            cash: 600000,
+            monthlyBurn: 20000,
+            totalRevenue: 0,
+            totalExpenses: 0,
+            studioName: 'Mogul Pictures',
+            reputation: 50,
+            activeFilms: [],
+            completedFilms: [],
+            contractPlayers: [],
+            availableScripts: [],
+            currentEvents: [],
+            soundStages: 1,
+            backlots: { western: false, nyc: false, jungle: false },
+            gameStarted: true,
+            gameEnded: false,
+            endingType: null,
+            stats: {
+                filmsProduced: 0,
+                oscarsWon: 0,
+                boxOfficeTotal: 0,
+                scandalsHandled: 0,
+                yearsSurvived: 0
+            },
+            events: [],
+            scenario: null,
+            technologies: [],
+            franchises: [],
+            studioLot: null
+        };
+    }
+
+    // Header-only fields on a v2 save that are not gameplay state
+    const V2_METADATA_KEYS = ['version', 'name', 'saveDate', 'gameDate', 'year', 'ironman'];
+
+    /**
+     * v2 (and the structurally identical 1.x) saves stored a flat whitelist
+     * of fields. Rebuild the v3 shape: defaults for everything, overlaid with
+     * whatever the old save actually captured.
+     */
+    function migrateV2toV3(saveData) {
+        const state = defaultStateFields();
+        const defaultStats = state.stats;
+
+        for (const key of Object.keys(saveData)) {
+            if (V2_METADATA_KEYS.indexOf(key) !== -1) continue;
+            if (saveData[key] === undefined || saveData[key] === null) continue;
+            state[key] = saveData[key];
+        }
+
+        state.currentDate = new Date(saveData.currentDate);
+        state.stats = { ...defaultStats, ...(saveData.stats || {}) };
+
+        return {
+            version: '3.0',
+            name: saveData.name,
+            saveDate: saveData.saveDate,
+            currentDate: saveData.currentDate,
+            gameDate: saveData.gameDate,
+            gameWeek: state.gameWeek,
+            gameYear: state.gameYear,
+            year: state.gameYear,
+            cash: state.cash,
+            studioName: state.studioName,
+            stats: { ...state.stats },
+            ironman: saveData.ironman,
+            state: state
+        };
+    }
+
+    const MIGRATIONS = {
+        '2.0': migrateV2toV3
+    };
+
+    function migrateSaveData(saveData) {
+        let current = saveData;
+        let version = current.version || '1.0';
+
+        // 1.x saves share the flat v2 shape; route them through the v2 migration
+        if (version.indexOf('1.') === 0) version = '2.0';
+
+        while (version !== SAVE_VERSION) {
+            const migrate = MIGRATIONS[version];
+            if (!migrate) {
+                throw new Error(
+                    `Save version "${current.version}" is not supported by this game (current: ${SAVE_VERSION}). ` +
+                    'Loading was aborted; the save file was not modified.'
+                );
+            }
+            current = migrate(current);
+            version = current.version;
+        }
+
+        if (!current.state || typeof current.state !== 'object') {
+            throw new Error('Save data has no game state payload');
+        }
+
+        return current;
+    }
+
+    /**
+     * Restore game state from save data (migrating older versions first)
      */
     function restoreGameState(saveData) {
-        // Validate save data version compatibility
-        if (!saveData.version) {
-            console.warn('Save data missing version, attempting compatibility mode');
-        } else if (saveData.version !== SAVE_VERSION) {
-            console.warn(`Save data version mismatch (${saveData.version} vs ${SAVE_VERSION}), attempting compatibility mode`);
+        const migrated = migrateSaveData(saveData);
+        const gameState = reviveValue(migrated.state);
+
+        // Safety net: currentDate must always come back as a Date
+        if (!(gameState.currentDate instanceof Date) || isNaN(gameState.currentDate.getTime())) {
+            gameState.currentDate = new Date(migrated.currentDate);
         }
-        
-        // Restore dates from ISO strings
-        const currentDate = new Date(saveData.currentDate);
-        
-        // Reconstruct game state object
-        const gameState = {
-            currentDate: currentDate,
-            gameWeek: saveData.gameWeek,
-            gameYear: saveData.gameYear,
-            
-            cash: saveData.cash,
-            monthlyBurn: saveData.monthlyBurn,
-            totalRevenue: saveData.totalRevenue || 0,
-            totalExpenses: saveData.totalExpenses || 0,
-            
-            studioName: saveData.studioName,
-            reputation: saveData.reputation,
-            soundStages: saveData.soundStages,
-            backlots: { ...saveData.backlots },
-            
-            activeFilms: [...(saveData.activeFilms || [])],
-            completedFilms: [...(saveData.completedFilms || [])],
-            contractPlayers: [...(saveData.contractPlayers || [])],
-            availableScripts: [...(saveData.availableScripts || [])],
-            currentEvents: [...(saveData.currentEvents || [])],
-            events: [...(saveData.events || [])],
 
-            // Phase 4-5: technologies, franchises, studio lot
-            technologies: saveData.technologies ? JSON.parse(JSON.stringify(saveData.technologies)) : [],
-            franchises: saveData.franchises ? JSON.parse(JSON.stringify(saveData.franchises)) : [],
-            studioLot: saveData.studioLot ? JSON.parse(JSON.stringify(saveData.studioLot)) : null,
-
-            gameStarted: saveData.gameStarted,
-            gameEnded: saveData.gameEnded,
-            endingType: saveData.endingType,
-            scenario: saveData.scenario || null,
-
-            stats: { ...saveData.stats }
-        };
-        
         return gameState;
     }
-    
+
+    /**
+     * Apply a loaded state onto the live gameState object (CODE-008).
+     * Preserves object identity — systems hold references to the live
+     * object — but removes every stale key first so the current session
+     * cannot contaminate the loaded game.
+     */
+    function applyLoadedState(loadedState) {
+        if (!loadedState) return null;
+
+        const live = (window.HollywoodMogul && window.HollywoodMogul.getGameState) ?
+            window.HollywoodMogul.getGameState() : null;
+        if (!live) return loadedState;
+
+        for (const key of Object.keys(live)) {
+            delete live[key];
+        }
+        Object.assign(live, loadedState);
+        return live;
+    }
+
+
     /**
      * Generate a descriptive save name
      */
@@ -558,7 +805,14 @@ window.SaveLoadSystem = (function() {
                     // Import to specified slot
                     const saves = getAllSaves();
                     saves[`slot_${targetSlot}`] = importData.saveData;
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(saves));
+                    const writeResult = safeSetItem(STORAGE_KEY, JSON.stringify(saves));
+                    if (!writeResult.success) {
+                        resolve({
+                            success: false,
+                            message: writeResult.message
+                        });
+                        return;
+                    }
 
                     resolve({
                         success: true,
@@ -627,8 +881,10 @@ window.SaveLoadSystem = (function() {
      * Enable Ironman mode
      */
     function enableIronmanMode() {
-        ironmanMode = true;
+        // saveSettings first: its getSettings() call reloads the stored flag
+        // into memory, which would clobber an in-memory-only change
         saveSettings({ ironmanMode: true });
+        ironmanMode = true;
         return {
             success: true,
             message: 'Ironman mode enabled'
@@ -639,8 +895,8 @@ window.SaveLoadSystem = (function() {
      * Disable Ironman mode
      */
     function disableIronmanMode() {
-        ironmanMode = false;
         saveSettings({ ironmanMode: false });
+        ironmanMode = false;
         return {
             success: true,
             message: 'Ironman mode disabled'
@@ -675,7 +931,13 @@ window.SaveLoadSystem = (function() {
             const saveData = createSaveData(gameState, 'Ironman Save');
             saveData.ironman = true;
 
-            localStorage.setItem(IRONMAN_KEY, JSON.stringify(saveData));
+            const writeResult = safeSetItem(IRONMAN_KEY, JSON.stringify(saveData));
+            if (!writeResult.success) {
+                return {
+                    success: false,
+                    message: writeResult.message
+                };
+            }
 
             return {
                 success: true,
@@ -757,7 +1019,12 @@ window.SaveLoadSystem = (function() {
             keyBackups.unshift(backupEntry);
             backups[key] = keyBackups.slice(0, 3);
 
-            localStorage.setItem(BACKUP_KEY, JSON.stringify(backups));
+            // Backups are expendable: a quota failure here must never block
+            // (or alert about) the real save that follows (CODE-009).
+            const writeResult = safeSetItem(BACKUP_KEY, JSON.stringify(backups), { silent: true });
+            if (!writeResult.success && writeResult.quotaExceeded) {
+                localStorage.removeItem(BACKUP_KEY);
+            }
 
         } catch (error) {
             console.error('Backup creation failed:', error);
@@ -800,7 +1067,13 @@ window.SaveLoadSystem = (function() {
             }
 
             const backup = keyBackups[backupIndex];
-            localStorage.setItem(key, backup.data);
+            const writeResult = safeSetItem(key, backup.data);
+            if (!writeResult.success) {
+                return {
+                    success: false,
+                    message: writeResult.message
+                };
+            }
 
             return {
                 success: true,
@@ -1125,7 +1398,7 @@ window.SaveLoadSystem = (function() {
         try {
             const currentSettings = getSettings();
             const updatedSettings = { ...currentSettings, ...settings };
-            localStorage.setItem(SETTINGS_KEY, JSON.stringify(updatedSettings));
+            safeSetItem(SETTINGS_KEY, JSON.stringify(updatedSettings), { silent: true });
         } catch (error) {
             console.error('Failed to save settings:', error);
         }
@@ -1199,6 +1472,7 @@ window.SaveLoadSystem = (function() {
         loadGame,
         autoSave,
         loadAutoSave,
+        applyLoadedState,
 
         // Save management
         getAllSaves,

@@ -183,12 +183,24 @@ window.RivalStudios = (function() {
 
         }
 
-        // Register weekly callback with TimeSystem
+        // Register weekly callback with TimeSystem. The hook fetches live
+        // state each tick: init can run against a state object that is
+        // replaced at new-game (audit CODE-011), so closing over gameState
+        // here would go stale. addWeeklyCallback dedupes the named function,
+        // so re-initializing per game never double-registers.
         if (window.TimeSystem && typeof window.TimeSystem.addWeeklyCallback === 'function') {
-            window.TimeSystem.addWeeklyCallback(() => processWeeklyRivalUpdates(gameState));
+            window.TimeSystem.addWeeklyCallback(rivalWeeklyHook);
         }
 
         return gameState.rivalStudios;
+    }
+
+    function rivalWeeklyHook() {
+        var live = window.HollywoodMogul && window.HollywoodMogul.getGameState
+            ? window.HollywoodMogul.getGameState()
+            : null;
+        if (!live || !live.rivalStudios) return;
+        processWeeklyRivalUpdates(live);
     }
 
     /**

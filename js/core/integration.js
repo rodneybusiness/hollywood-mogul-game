@@ -85,15 +85,9 @@ window.Integration = (function() {
                 handleScriptGreenlight(e.target.dataset.scriptId);
             }
 
-            // Distribution buttons
-            if (e.target.classList.contains('distribute-btn')) {
-                handleDistribution(e.target.dataset.filmId);
-            }
-
-            // Loan buttons
-            if (e.target.classList.contains('loan-btn')) {
-                handleLoan(e.target.dataset.loanType, parseInt(e.target.dataset.amount));
-            }
+            // Distribution and loan clicks are owned by DashboardUI
+            // (one owner per verb — CODE-015; both firing double-handled
+            // every distribute/loan click).
         };
 
         document.addEventListener('click', boundDelegationHandler);
@@ -138,9 +132,12 @@ window.Integration = (function() {
                 }, 300);
             }
 
-            // Monthly loan processing
-            if (window.FinancialSystem && window.FinancialSystem.processMonthlyLoans) {
-                window.FinancialSystem.processMonthlyLoans(gameState);
+            // Monthly loan/investment processing. The exported name is
+            // processMonthlyFinances — the old processMonthlyLoans guard
+            // never matched anything, so loans were interest-free for the
+            // whole game (audit ECON-004/CODE-002).
+            if (window.FinancialSystem && window.FinancialSystem.processMonthlyFinances) {
+                window.FinancialSystem.processMonthlyFinances(gameState);
             }
 
             // Scenario victory checks
@@ -157,6 +154,15 @@ window.Integration = (function() {
         // Era transition notification
         window.EventBus.on('era:changed', function(data) {
             showEraTransitionModal(data);
+        });
+
+        // A finished film needs a distribution decision — route to the
+        // one distribution modal (DashboardUI); production.js no longer
+        // owns a competing flow (CODE-015/DESIGN-009).
+        window.EventBus.on('film:readyForDistribution', function(data) {
+            if (window.DashboardUI && window.DashboardUI.showDistributionModal) {
+                window.DashboardUI.showDistributionModal(data.filmId);
+            }
         });
 
         // Game end handling
@@ -349,10 +355,12 @@ window.Integration = (function() {
                     priority: 'high'
                 });
 
-                // Ironman auto-save
+                // Ironman auto-save (gameState was undeclared here — a
+                // ReferenceError under 'use strict' the moment the greenlight
+                // path started working; audit CODE-013)
                 if (window.SaveLoadSystem && window.SaveLoadSystem.isIronmanMode) {
                     if (window.SaveLoadSystem.isIronmanMode()) {
-                        window.SaveLoadSystem.ironmanSave(gameState);
+                        window.SaveLoadSystem.ironmanSave(window.HollywoodMogul.getGameState());
                     }
                 }
             } else {
@@ -371,81 +379,6 @@ window.Integration = (function() {
     // ================================================================
     // ORCHESTRATION: DISTRIBUTION
     // ================================================================
-
-    function handleDistribution(filmId) {
-        var gameState = window.HollywoodMogul.getGameState();
-        var allFilms = [].concat(gameState.activeFilms || [], gameState.completedFilms || []);
-        var film = allFilms.find(function(f) { return f.id === filmId; });
-
-        if (!film) {
-            console.error('Film not found:', filmId);
-            return;
-        }
-
-        if (window.BoxOfficeSystem && window.BoxOfficeSystem.showDistributionModal) {
-            window.BoxOfficeSystem.showDistributionModal(filmId);
-        } else {
-            showSimpleDistributionModal(film, filmId);
-        }
-    }
-
-    function showSimpleDistributionModal(film, filmId) {
-        var modalContent = document.getElementById('modal-content');
-        var modalOverlay = document.getElementById('modal-overlay');
-        if (!modalContent || !modalOverlay) return;
-
-        modalContent.innerHTML = '';
-
-        var h2 = document.createElement('h2');
-        h2.textContent = 'Distribute "' + film.title + '"';
-        modalContent.appendChild(h2);
-
-        var p = document.createElement('p');
-        p.textContent = 'Select distribution strategy:';
-        modalContent.appendChild(p);
-
-        var strategies = [
-            { key: 'wide', label: 'Wide Release' },
-            { key: 'limited', label: 'Limited Release' }
-        ];
-
-        strategies.forEach(function(strat) {
-            var btn = document.createElement('button');
-            btn.className = 'action-btn primary';
-            btn.textContent = strat.label;
-            btn.addEventListener('click', function() {
-                executeDistribution(filmId, strat.key);
-            });
-            modalContent.appendChild(btn);
-        });
-
-        var cancelBtn = document.createElement('button');
-        cancelBtn.className = 'action-btn secondary';
-        cancelBtn.textContent = 'Cancel';
-        cancelBtn.addEventListener('click', function() {
-            window.HollywoodMogul.closeModal();
-        });
-        modalContent.appendChild(cancelBtn);
-
-        modalOverlay.classList.remove('hidden');
-    }
-
-    function executeDistribution(filmId, strategy) {
-        if (window.BoxOfficeSystem && window.BoxOfficeSystem.releaseFilm) {
-            var result = window.BoxOfficeSystem.releaseFilm(filmId, strategy);
-
-            if (result && result.success) {
-                window.HollywoodMogul.addAlert({
-                    type: 'success',
-                    icon: '\uD83C\uDF9E\uFE0F',
-                    message: 'Film released with ' + strategy + ' distribution',
-                    priority: 'high'
-                });
-            }
-        }
-
-        window.HollywoodMogul.closeModal();
-    }
 
     // ================================================================
     // ORCHESTRATION: LOANS
@@ -505,8 +438,6 @@ window.Integration = (function() {
         init: init,
         handleScriptGreenlight: handleScriptGreenlight,
         completeIntegrationGreenlight: completeIntegrationGreenlight,
-        handleDistribution: handleDistribution,
-        executeDistribution: executeDistribution,
         handleLoan: handleLoan,
         formatProductionPhase: formatProductionPhase
     };

@@ -9,7 +9,75 @@ window.DashboardUI = (function() {
     let isInitialized = false;
     let boundClickHandler = null;
     let boundKeyHandler = null;
-    let pendingGreenlight = null; // {scriptId, evaluation} — set when awaiting censorship/MPAA
+    let busUnsubs = [];
+
+    // ---- helpers the render pipeline calls but never had (audit CODE-003:
+    // every missing one crashed updateDashboard and froze the whole UI) ----
+
+    /** Same phase-normalization contract as BoxOfficeSystem's private copy. */
+    function normalizePhase(phase) {
+        if (!phase) return '';
+        const mapping = {
+            'DEVELOPMENT': 'greenlit',
+            'PRE_PRODUCTION': 'pre_production',
+            'PRINCIPAL_PHOTOGRAPHY': 'shooting',
+            'POST_PRODUCTION': 'post_production',
+            'DISTRIBUTION_PREP': 'post_production_complete',
+            'COMPLETED': 'post_production_complete'
+        };
+        const normalized = mapping[phase] || phase;
+        return typeof normalized === 'string' ? normalized.toLowerCase() : '';
+    }
+
+    function formatDate(date) {
+        if (!(date instanceof Date)) return date ? String(date) : '';
+        return window.TimeSystem && window.TimeSystem.formatDate
+            ? window.TimeSystem.formatDate(date, 'short')
+            : date.toLocaleDateString();
+    }
+
+    function getEventIcon(type) {
+        const icons = {
+            financial: '💰', production: '🎬', talent: '⭐', crisis: '🔥',
+            historical: '📰', award: '🏆', success: '🏆', warning: '⚠️',
+            tutorial: '📋', info: '📢'
+        };
+        return icons[type] || '📢';
+    }
+
+    function findFilmById(gameState, filmId) {
+        // Film ids are numeric but arrive as strings from data-attributes.
+        return getAllFilms(gameState).find(f => String(f.id) === String(filmId)) || null;
+    }
+
+    function updateStudioSection() {
+        if (window.StudioUIHelpers && window.StudioUIHelpers.renderStudioSection) {
+            window.StudioUIHelpers.renderStudioSection();
+        }
+    }
+
+    function updateTimelineSection() {
+        if (window.TimelineUI && window.TimelineUI.renderTimeline) {
+            window.TimelineUI.renderTimeline();
+        }
+    }
+
+    // Films live in up to three collections depending on lifecycle stage;
+    // dedupe by id (same contract as BoxOfficeSystem/TimelineUI's copies).
+    function getAllFilms(gameState) {
+        const collections = [];
+        if (Array.isArray(gameState.films)) collections.push(...gameState.films);
+        if (Array.isArray(gameState.activeFilms)) collections.push(...gameState.activeFilms);
+        if (Array.isArray(gameState.completedFilms)) collections.push(...gameState.completedFilms);
+
+        const uniqueFilms = new Map();
+        collections.forEach(film => {
+            if (film && film.id && !uniqueFilms.has(film.id)) {
+                uniqueFilms.set(film.id, film);
+            }
+        });
+        return Array.from(uniqueFilms.values());
+    }
 
     /**
      * Initialize the dashboard system
@@ -20,18 +88,21 @@ window.DashboardUI = (function() {
         updateDashboard();
         bindEventHandlers();
 
-        // Listen for MPAA rating selections to complete pending greenlights
-        if (window.EventBus) {
-            window.EventBus.on('censorship:ratingSelected', function(data) {
-                if (pendingGreenlight) {
-                    pendingGreenlight.mpaaRating = data.ratingKey;
-                }
-                completePendingGreenlight();
-            });
-        }
+        // Greenlight/censorship completion is owned by Integration
+        // (one owner per verb — audit CODE-015; the duplicate dashboard
+        // pipeline double-started production once Phase 1 fixed CODE-005).
 
-        // Update dashboard every few seconds
-        updateInterval = setInterval(updateDashboard, 3000);
+        // Event-driven refresh (audit CODE-016/P2.8): re-render when the
+        // simulation actually changes instead of polling every 3 seconds.
+        if (window.EventBus) {
+            busUnsubs.push(window.EventBus.on('time:advanced', updateDashboard));
+            busUnsubs.push(window.EventBus.on('financial:updated', updateFinancialSummary));
+            busUnsubs.push(window.EventBus.on('game:started', updateDashboard));
+        }
+        // Low-frequency fallback for anything not event-covered; owned by
+        // destroy() so restarts can't accumulate timers.
+        if (updateInterval) clearInterval(updateInterval);
+        updateInterval = setInterval(updateDashboard, 15000);
         isInitialized = true;
 
     }
@@ -51,22 +122,10 @@ window.DashboardUI = (function() {
                 showSection(section);
             }
 
-            // Time progression buttons
-            if (e.target.matches('#btn-advance-week')) {
-                window.TimeSystem.advanceWeek();
-                updateDashboard();
-            }
-
-            if (e.target.matches('#btn-advance-month')) {
-                window.TimeSystem.advanceMonth();
-                updateDashboard();
-            }
-
-            // Script actions
-            if (e.target.matches('.greenlight-btn')) {
-                const scriptId = e.target.dataset.scriptId;
-                greenlightScript(scriptId);
-            }
+            // Time buttons are owned by game-state's direct listeners and
+            // greenlight clicks by Integration's delegation (one owner per
+            // verb — CODE-015; duplicating them here double-advanced time
+            // and double-greenlit scripts per click).
 
             // Film actions
             if (e.target.matches('.distribute-btn')) {
@@ -586,6 +645,13 @@ window.DashboardUI = (function() {
         `).join('');
     }
 
+    /** Month name for a 1-based month index (TimeSystem.getCurrentDate().month). */
+    function getMonthName(month) {
+        const names = ['January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'];
+        return names[(month - 1 + 12) % 12] || '';
+    }
+
     /**
      * Update time display
      */
@@ -597,12 +663,15 @@ window.DashboardUI = (function() {
             element.textContent = `${getMonthName(currentDate.month)} ${currentDate.year}`;
         }
         
-        // Update era indicator
+        // Update era indicator (getCurrentPeriod requires the year and can
+        // return null for uncovered years)
         const eraElement = document.getElementById('current-era');
         if (eraElement) {
-            const era = window.TimeSystem.getCurrentPeriod();
-            eraElement.textContent = era.name;
-            eraElement.className = `era-indicator era-${era.key}`;
+            const era = window.TimeSystem.getCurrentPeriod(currentDate.year);
+            if (era) {
+                eraElement.textContent = era.name;
+                eraElement.className = `era-indicator era-${era.key}`;
+            }
         }
     }
 
@@ -642,87 +711,18 @@ window.DashboardUI = (function() {
     /**
      * Greenlight a script — routes through censorship/MPAA evaluation first
      */
+    // Greenlight is owned by Integration (one owner per verb — CODE-015).
+    // These thin delegates keep old callers and modal onclick strings working.
     function greenlightScript(scriptId) {
-        const gameState = window.HollywoodMogul.getGameState();
-        const script = gameState.availableScripts ?
-            gameState.availableScripts.find(s => s.id === scriptId) : null;
-
-        if (!script) {
-            showNotification('Error', 'Script not found', 'error');
-            return;
-        }
-
-        // Check censorship / MPAA rating requirements
-        if (window.CensorshipSystem) {
-            const evaluation = window.CensorshipSystem.evaluateScript(script, gameState);
-
-            if (evaluation.regulationType === 'none') {
-                // Pre-Code era: no restrictions, proceed directly
-                executeGreenlight(scriptId);
-                return;
-            }
-
-            // Store pending greenlight while player interacts with censorship modal
-            pendingGreenlight = { scriptId: scriptId, evaluation: evaluation };
-
-            window.CensorshipSystem.showPCAEvaluationModal(
-                script, evaluation,
-                "DashboardUI.completePendingGreenlight()",
-                "HollywoodMogul.closeModal()"
-            );
-        } else {
-            executeGreenlight(scriptId);
+        if (window.Integration && window.Integration.handleScriptGreenlight) {
+            window.Integration.handleScriptGreenlight(scriptId);
         }
     }
 
-    /**
-     * Execute greenlight without censorship (pre-Code or no system)
-     */
-    function executeGreenlight(scriptId) {
-        const result = window.ProductionSystem.greenlightScript(scriptId);
-
-        if (result.success) {
-            updateDashboard();
-            showSection('dashboard');
-            showNotification('Script Greenlit!', `Production begins on "${result.film.title}"`, 'success');
-        } else {
-            showNotification('Cannot Greenlight', result.message, 'error');
-        }
-    }
-
-    /**
-     * Complete a pending greenlight after censorship/MPAA modal resolves
-     */
     function completePendingGreenlight() {
-        if (!pendingGreenlight) return;
-
-        var scriptId = pendingGreenlight.scriptId;
-        var evaluation = pendingGreenlight.evaluation;
-        var mpaaRating = pendingGreenlight.mpaaRating || null;
-        pendingGreenlight = null;
-
-        const result = window.ProductionSystem.greenlightScript(scriptId);
-
-        if (result.success) {
-            // Apply Hays Code penalties if applicable
-            if (evaluation.regulationType !== 'mpaa' && evaluation.regulationType !== 'none'
-                && evaluation.violations && evaluation.violations.length > 0) {
-                window.CensorshipSystem.applyPCAPenalties(result.film, evaluation.violations);
-            }
-
-            // For MPAA, apply the chosen rating to the newly created film
-            if (evaluation.regulationType === 'mpaa' && result.film && mpaaRating) {
-                window.CensorshipSystem.applyMPAARating(result.film, mpaaRating);
-            }
-
-            updateDashboard();
-            showSection('dashboard');
-            showNotification('Script Greenlit!', `Production begins on "${result.film.title}"`, 'success');
-        } else {
-            showNotification('Cannot Greenlight', result.message, 'error');
+        if (window.Integration && window.Integration.completeIntegrationGreenlight) {
+            window.Integration.completeIntegrationGreenlight();
         }
-
-        window.HollywoodMogul.closeModal();
     }
 
     /**
@@ -1176,6 +1176,8 @@ window.DashboardUI = (function() {
      * Clean up dashboard resources
      */
     function destroy() {
+        busUnsubs.forEach(function (unsub) { try { unsub(); } catch (e) {} });
+        busUnsubs = [];
         if (updateInterval) {
             clearInterval(updateInterval);
             updateInterval = null;
@@ -1197,6 +1199,7 @@ window.DashboardUI = (function() {
         updateDashboard: updateDashboard,
         showSection: showSection,
         showNotification: showNotification,
+        showDistributionModal: showDistributionModal,
         completePendingGreenlight: completePendingGreenlight,
         showTechnologyModal: showTechnologyModal,
         updateAchievementsSection: updateAchievementsSection,

@@ -933,9 +933,10 @@ window.TutorialSystem = (function() {
             setTimeout(() => notification.remove(), 500);
         }, 4000);
 
-        // Play sound if available
-        if (window.AudioSystem) {
-            window.AudioSystem.playSound('achievement');
+        // Play sound if available (playSFX is the real API — playSound never
+        // existed and threw an uncaught TypeError here; audit AUDIO-002)
+        if (window.AudioSystem && typeof window.AudioSystem.playSFX === 'function') {
+            window.AudioSystem.playSFX('achievement');
         }
     }
 
