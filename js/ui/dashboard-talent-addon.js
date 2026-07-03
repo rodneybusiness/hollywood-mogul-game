@@ -238,20 +238,22 @@ function signTalent(talentId, talentType, years) {
 function releaseContract(talentId) {
     const gameState = window.HollywoodMogul.getGameState();
 
-    // Confirm release
-    if (!confirm('Are you sure you want to release this talent? This will cost a buyout fee.')) {
-        return;
-    }
+    window.GameDialogs.confirm(
+        'Release this talent from contract? The buyout fee comes out of studio cash.',
+        function () {
+            const result = window.TalentManagement.releaseFromContract(talentId, gameState);
 
-    const result = window.TalentManagement.releaseFromContract(talentId, gameState);
-
-    if (result.success) {
-        updateTalentSection();
-        updateFinancialSummary();
-        showNotification('Contract Released', result.message, 'success');
-    } else {
-        showNotification('Cannot Release', result.message, 'error');
-    }
+            if (result.success) {
+                updateTalentSection();
+                updateFinancialSummary();
+                showNotification('Contract Released', result.message, 'success');
+            } else {
+                showNotification('Cannot Release', result.message, 'error');
+            }
+        },
+        null,
+        { title: 'RELEASE CONTRACT', confirmLabel: 'RELEASE', danger: true }
+    );
 }
 
 // Export these functions by adding them to the return statement:

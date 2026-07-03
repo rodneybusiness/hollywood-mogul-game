@@ -705,12 +705,13 @@ window.TutorialSystem = (function() {
     }
 
     /**
-     * Skip tutorial with confirmation
+     * Skip tutorial. No confirmation: skipping is low-stakes (replayable from
+     * the Help menu), Escape already skips unprompted, and window.confirm()
+     * is a dead end in sandboxed embeds - it returns false and traps the
+     * player in the overlay.
      */
     function skipTutorial() {
-        if (confirm('Are you sure you want to skip the tutorial? You can replay it anytime from the Help menu (? button).')) {
-            endTutorial();
-        }
+        endTutorial();
     }
 
     /**
