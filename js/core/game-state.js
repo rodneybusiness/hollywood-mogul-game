@@ -202,7 +202,11 @@ window.HollywoodMogul = (function() {
             events: [],
             scenario: null,
             technologies: [],
-            franchises: []
+            franchises: [],
+            // Per-run variety seed (ROADMAP P6.5): drawn from the session
+            // RNG stream, so the sim harness stays deterministic per seed
+            // while every browser campaign differs.
+            runSeed: Math.floor(Math.random() * 1e9)
         };
 
         if (window.TechnologySystem && window.TechnologySystem.initializeTechnologies) {
@@ -905,6 +909,47 @@ window.HollywoodMogul = (function() {
         }
     }
 
+    /**
+     * Epilogue reels (ROADMAP P6.2): one per ending flavor, colored by how
+     * the studio behaved - the HUAC stance, the money, the filmography.
+     */
+    function buildEpilogue(endingType) {
+        var lte = gameState.longTermEffects || [];
+        var informer = lte.indexOf('cooperative_witness') !== -1;
+        var defiant = lte.indexOf('blacklisted') !== -1;
+        var films = gameState.stats.filmsProduced;
+        var oscars = gameState.stats.oscarsWon;
+
+        if (endingType === 'bankruptcy') {
+            if (gameState.gameYear <= 1935) {
+                return 'The trades gave the studio two paragraphs. The Depression gave it none. ' +
+                    'The stages were sold to a poverty-row outfit before the paint dried on the gate.';
+            }
+            if (informer) {
+                return 'The creditors took the lot; the town took its revenge. At the auction, ' +
+                    'nobody from the old crowd bid, and nobody from the new crowd came.';
+            }
+            return 'The banks foreclosed in the end, as banks do. But for ' +
+                gameState.stats.yearsSurvived.toFixed(0) + ' years the marquee stayed lit, and ' +
+                films + ' pictures carry the studio\'s name into the archives.';
+        }
+
+        // survived - flavor by legacy tier + conduct
+        var tier = gameState.legacy ? gameState.legacy.tier : 'A Working Studio';
+        var lines = {
+            'A Hollywood Legend': 'Film historians will write that the golden age had five majors and one upstart that outlasted the century. ' +
+                (oscars > 0 ? 'The ' + oscars + ' Academy Awards sit in the lobby; the library is priceless.' : 'The library alone is priceless.'),
+            'A Major Studio': 'The studio enters the television age with its gates intact, its stars under contract, and its library coveted by every network in New York.',
+            'A Respected Independent': 'Never the biggest lot in town - but the pictures were good, the books balanced, and the name above the gate still means something.',
+            'A Working Studio': 'The studio survived what broke half the town: the Code, the war, the strikes, the Decree. Survival, in this business, is a genre of victory.',
+            'A Footnote in the Trades': 'The studio limps into 1950 - alive, technically. The trades list it under "miscellaneous." There is nowhere to go but up.'
+        };
+        var base = lines[tier] || lines['A Working Studio'];
+        if (informer) base += ' The blacklist years left a stain the publicity department never quite washed out.';
+        if (defiant) base += ' And when the committee came, the studio said no - the town remembers that too.';
+        return base;
+    }
+
     function showGameOverScreen(endingType) {
         var gameOverScreen = document.getElementById('game-over-screen');
         var titleElement = document.getElementById('game-over-title');
@@ -938,16 +983,42 @@ window.HollywoodMogul = (function() {
         if (statsElement) {
             statsElement.innerHTML = '';
 
+            // Epilogue reel (ROADMAP P6.2): what history says about the studio
+            var epilogue = buildEpilogue(endingType);
+            if (epilogue) {
+                var reel = document.createElement('p');
+                reel.className = 'epilogue-reel';
+                reel.style.cssText = 'font-style:italic;color:#b8ab8c;margin:10px 0 18px;line-height:1.6;';
+                reel.textContent = epilogue;
+                statsElement.appendChild(reel);
+            }
+
             var header = document.createElement('h3');
-            header.textContent = 'Final Statistics';
+            header.textContent = 'The Studio Record';
             statsElement.appendChild(header);
 
+            var films = gameState.completedFilms || [];
+            var topFilm = films.reduce(function (best, f) {
+                var rev = f.studioRevenue || (f.distribution && f.distribution.totalRevenue) ||
+                    (f.distribution && f.distribution.boxOfficeResults &&
+                     f.distribution.boxOfficeResults.totalStudioRevenue) || 0;
+                return (!best || rev > best.rev) ? { title: f.title, rev: rev } : best;
+            }, null);
+
             var statsList = [
+                { label: 'Studio', value: gameState.studioName },
                 { label: 'Years Survived', value: gameState.stats.yearsSurvived.toFixed(1) },
                 { label: 'Films Produced', value: gameState.stats.filmsProduced },
                 { label: 'Total Box Office', value: '$' + gameState.stats.boxOfficeTotal.toLocaleString() },
+                { label: 'Academy Awards', value: gameState.stats.oscarsWon },
                 { label: 'Final Cash', value: '$' + gameState.cash.toLocaleString() }
             ];
+            if (topFilm && topFilm.rev > 0) {
+                statsList.splice(4, 0, { label: 'Biggest Picture', value: '"' + topFilm.title + '" ($' + topFilm.rev.toLocaleString() + ')' });
+            }
+            if (gameState.legacy) {
+                statsList.push({ label: 'Legacy Score', value: gameState.legacy.score.toLocaleString() + ' — ' + gameState.legacy.tier });
+            }
 
             statsList.forEach(function(stat) {
                 var p = document.createElement('p');

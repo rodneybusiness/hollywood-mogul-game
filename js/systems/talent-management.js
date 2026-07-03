@@ -157,7 +157,15 @@ window.TalentManagement = (function() {
 
         // Check availability
         const currentYear = gameState.gameYear || new Date(gameState.currentDate).getFullYear();
-        if (currentYear < talent.availableFrom || currentYear > talent.availableTo) {
+        // Per-run debut variance (P6.5): journeyman talent arrives up to
+        // two years earlier or later each campaign; marquee names
+        // (starPower >= 88) debut on schedule.
+        let availableFrom = talent.availableFrom;
+        const jitterState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (window.GameRNG && jitterState && jitterState.runSeed && (talent.starPower || 0) < 88) {
+            availableFrom += window.GameRNG.intInRange(jitterState.runSeed, 'debut:' + talent.name, -2, 2);
+        }
+        if (currentYear < availableFrom || currentYear > talent.availableTo) {
             return {
                 success: false,
                 message: `${talent.name} is not available in ${currentYear}`
