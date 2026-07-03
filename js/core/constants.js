@@ -41,6 +41,8 @@ window.GameConstants = (function() {
     // ================================================================
     // TIME
     // ================================================================
+    const GAME_VERSION = '3.0.0';
+
     const TIME = {
         WEEKS_PER_MONTH: 4,
         MONTHS_PER_YEAR: 12,
@@ -240,6 +242,7 @@ window.GameConstants = (function() {
     }
 
     return {
+        GAME_VERSION,
         FINANCIAL,
         TIME,
         REPUTATION,

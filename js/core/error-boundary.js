@@ -10,6 +10,21 @@
 window.ErrorBoundary = (function () {
     'use strict';
 
+    // Release console gating (ROADMAP P7.1): informational logging is
+    // silenced unless the player opts into debug mode
+    // (localStorage.MOGUL_DEBUG = '1'). console.error stays live - the
+    // boundary and bug reports depend on it.
+    try {
+        var debugOn = false;
+        try { debugOn = window.localStorage && window.localStorage.getItem('MOGUL_DEBUG') === '1'; } catch (e) {}
+        if (!debugOn) {
+            var noop = function () {};
+            console.log = noop;
+            console.info = noop;
+            console.debug = noop;
+        }
+    } catch (e) {}
+
     var recentErrors = [];
     var overlayVisible = false;
     var MAX_REPORTS = 20; // stop collecting after this many (avoid loops)
@@ -59,6 +74,28 @@ window.ErrorBoundary = (function () {
         pre.textContent = entry.message + '\n' + (entry.source || '') + '\n' + (entry.stack || '');
         details.appendChild(pre);
         panel.appendChild(details);
+
+        var copyBtn = document.createElement('button');
+        copyBtn.textContent = 'COPY BUG REPORT';
+        copyBtn.style.cssText = 'margin:0 0 14px;padding:8px 14px;background:transparent;color:#b8ab8c;border:1px solid #8a7a55;cursor:pointer;font-size:12px;';
+        copyBtn.addEventListener('click', function () {
+            var version = (window.GameConstants && window.GameConstants.GAME_VERSION) || 'dev';
+            var s = null;
+            try { s = window.HollywoodMogul && window.HollywoodMogul.getGameState(); } catch (e) {}
+            var report = 'MOGUL v' + version + ' bug report\n' +
+                'When: ' + new Date().toISOString() + '\n' +
+                (s ? 'Game: year ' + s.gameYear + ', week ' + s.gameWeek + ', cash ' + s.cash +
+                    ', films ' + (s.stats && s.stats.filmsProduced) + ', scenario ' +
+                    (s.scenario && s.scenario.id || 'classic') + '\n' : '') +
+                'Error: ' + entry.message + '\n' + (entry.source || '') + '\n' + (entry.stack || '');
+            try {
+                if (navigator.clipboard) navigator.clipboard.writeText(report);
+                copyBtn.textContent = 'COPIED — PASTE INTO A BUG REPORT';
+            } catch (e) {
+                copyBtn.textContent = 'SELECT THE DETAILS ABOVE TO COPY';
+            }
+        });
+        panel.appendChild(copyBtn);
 
         var btnRow = document.createElement('div');
         btnRow.style.cssText = 'display:flex;gap:12px;justify-content:center;';

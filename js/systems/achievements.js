@@ -185,7 +185,7 @@ window.AchievementSystem = (function() {
         full_history: {
             id: 'full_history',
             title: 'Living Legend',
-            description: 'Survive all 77 years of Hollywood history (1933-2010)',
+            description: 'Survive the full golden age, 1933 to the 1950 epilogue',
             icon: '👑',
             category: 'survival',
             points: 200,
@@ -421,8 +421,8 @@ window.AchievementSystem = (function() {
 
         speed_runner: {
             id: 'speed_runner',
-            title: 'Speed Runner',
-            description: 'Reach 2010 in under 4000 weeks',
+            title: 'The Long Run',
+            description: 'Guide the studio from 1933 all the way to the 1950 epilogue',
             icon: '⚡',
             category: 'challenge',
             points: 40,
