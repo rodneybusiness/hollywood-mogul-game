@@ -85,7 +85,7 @@ window.HistoricalEvents = (function() {
             month: 8,
             id: 'production_code_written',
             title: 'Production Code Written',
-            description: 'The Motion Picture Production Code is formally drafted, though not yet enforced. The Pre-Code era continues for now.',
+            description: 'The Motion Picture Production Code is now under enforcement pressure, though not yet enforced. The Pre-Code era continues for now.',
             type: 'industry',
             importance: 'minor',
             effects: {},
@@ -2223,7 +2223,7 @@ window.HistoricalEvents = (function() {
                         <h3>The Film:</h3>
                         <ul>
                             <li>Wholesome fantasy in cynical times</li>
-                            <li>Wins Edmund Gwenn Best Supporting Actor</li>
+                            <li>Edmund Gwenn's Kris Kringle charms the nation (an Oscar will follow)</li>
                             <li>Proves escapism still viable</li>
                             <li>Safe content during HUAC era</li>
                         </ul>
@@ -3710,7 +3710,504 @@ window.HistoricalEvents = (function() {
                 `
             },
             newspaperHeadline: 'HOLLYWOOD 2010: STREAMING, SUPERHEROES, AND THE FUTURE'
-        }
+        },
+        // ================================================================
+        // DENSITY PASS (ROADMAP P4.9, audit HIST-002): 31 additional
+        // historically-grounded events bringing every year 1933-1949 to
+        // the >=6 events/year floor. All effects flow through the P4.1
+        // interpreter - no flavor-only events.
+        // ================================================================
+        {
+            id: 'recession_recovery',
+            year: 1938,
+            month: 7,
+            effects: { box_office_modifier: 0.08 },
+            modal: {
+                title: 'The Recession Lifts - 1938',
+                content: `
+                    <div class="historical-event">
+                        <p>The economy turns the corner and the ticket lines come back. Exhibitors breathe again.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'wartime_attendance_boom',
+            year: 1942,
+            month: 1,
+            effects: { box_office_modifier: 0.10 },
+            modal: {
+                title: 'War Workers Fill the Theaters - 1942',
+                content: `
+                    <div class="historical-event">
+                        <p>Full employment, gas rationing, and the need for two hours somewhere else: weekly attendance climbs toward its all-time peak.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'csu_strike_settled',
+            year: 1945,
+            month: 11,
+            effects: { production_costs: 0.93 },
+            modal: {
+                title: 'The Strike Is Settled - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>After eight months and a riot, the set decorators' strike ends in arbitration. The lots go back to work - warily.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'labor_peace_at_a_price',
+            year: 1947,
+            month: 8,
+            effects: { production_costs: 0.92 },
+            modal: {
+                title: 'Labor Peace, At a Price - 1947',
+                content: `
+                    <div class="historical-event">
+                        <p>The jurisdictional war ends with one union victorious and the other broken. Costs settle - and so does a long resentment.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'march_bank_holiday',
+            year: 1933,
+            month: 3,
+            effects: { box_office_modifier: -0.03, production_costs: 0.97 },
+            modal: {
+                title: 'Bank Holiday - 1933',
+                content: `
+                    <div class="historical-event">
+                        <p>FDR closes every bank in America. Box offices go quiet for a week - and the studios learn how fragile the ticket line is.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'dillinger_era_ends',
+            year: 1934,
+            month: 7,
+            effects: { genre_boost: { gangster: -0.15, crime: -0.1 } },
+            modal: {
+                title: 'The Outlaw Era Ends - 1934',
+                content: `
+                    <div class="historical-event">
+                        <p>John Dillinger is shot outside the Biograph Theater. With the Code tightening, the gangster cycle cools overnight.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'bank_night_craze',
+            year: 1934,
+            month: 9,
+            effects: { box_office_modifier: 0.05 },
+            modal: {
+                title: 'Bank Night Sweeps the Country - 1934',
+                content: `
+                    <div class="historical-event">
+                        <p>Theaters run cash-prize lotteries to pull Depression audiences back to the movies. Attendance ticks up - respectability ticks down.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'becky_sharp_technicolor',
+            year: 1935,
+            month: 6,
+            effects: { production_costs: 1.03, genre_boost: { musical: 0.08 } },
+            modal: {
+                title: 'Three-Strip Technicolor Arrives - 1935',
+                content: `
+                    <div class="historical-event">
+                        <p>The first full three-strip Technicolor feature dazzles critics. Color is expensive - and suddenly very desirable.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'directors_guild_founded',
+            year: 1936,
+            month: 1,
+            effects: { talent_cost_modifier: 0.05, labor_relations: true },
+            modal: {
+                title: 'The Directors Organize - 1936',
+                content: `
+                    <div class="historical-event">
+                        <p>Top directors found their guild in defiance of the studios. Labor is organizing above and below the line.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'gwtw_rights_record',
+            year: 1936,
+            month: 7,
+            effects: { audience_expectations: 5, budget_risk_modifier: 0.1 },
+            modal: {
+                title: 'A Record Price for a Novel - 1936',
+                content: `
+                    <div class="historical-event">
+                        <p>A producer pays a record 50,000 dollars for an unpublished Civil War novel. Prestige-adaptation fever grips every front office.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'republic_serial_boom',
+            year: 1937,
+            month: 3,
+            effects: { genre_boost: { western: 0.1 } },
+            modal: {
+                title: 'Saturday Serials Boom - 1937',
+                content: `
+                    <div class="historical-event">
+                        <p>Poverty Row rides high on chapter plays and singing cowboys. The B-western is reliable money.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'roosevelt_recession',
+            year: 1937,
+            month: 11,
+            effects: { box_office_modifier: -0.08 },
+            modal: {
+                title: 'The Roosevelt Recession - 1937',
+                content: `
+                    <div class="historical-event">
+                        <p>The recovery stalls and attendance sags with it. Nervous exhibitors demand surer bets.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'paramount_case_filed',
+            year: 1938,
+            month: 7,
+            effects: { political_risk: 5 },
+            modal: {
+                title: 'Washington Sues the Studios - 1938',
+                content: `
+                    <div class="historical-event">
+                        <p>The Justice Department files United States v. Paramount Pictures, attacking studio ownership of theaters. The case will take a decade - and change everything.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'war_in_europe_markets',
+            year: 1939,
+            month: 9,
+            effects: { box_office_modifier: -0.05, european_markets: false },
+            modal: {
+                title: 'War Closes the European Market - 1939',
+                content: `
+                    <div class="historical-event">
+                        <p>Germany invades Poland. Continental grosses evaporate as the lights go out across Europe.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'television_worlds_fair',
+            year: 1939,
+            month: 4,
+            effects: { audience_expectations: 2 },
+            modal: {
+                title: 'Television at the Fair - 1939',
+                content: `
+                    <div class="historical-event">
+                        <p>RCA demonstrates television at the New York World's Fair. A curiosity, executives say. For now.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'b_western_peak',
+            year: 1939,
+            month: 6,
+            effects: { genre_boost: { western: 0.08 } },
+            modal: {
+                title: 'Year of the Western - 1939',
+                content: `
+                    <div class="historical-event">
+                        <p>The A-western comes roaring back alongside the singing-cowboy programmers. Saddle up.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'peacetime_draft',
+            year: 1940,
+            month: 10,
+            effects: { draft_risk: 0.1, political_risk: 3 },
+            modal: {
+                title: 'The First Peacetime Draft - 1940',
+                content: `
+                    <div class="historical-event">
+                        <p>Registration begins under the Selective Training and Service Act. Casting directors start reading draft boards like trade papers.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'lend_lease_economy',
+            year: 1941,
+            month: 3,
+            effects: { production_costs: 1.03, genre_boost: { war: 0.05 } },
+            modal: {
+                title: 'Lend-Lease Heats the Economy - 1941',
+                content: `
+                    <div class="historical-event">
+                        <p>War production ramps up. Wages - and costs - start climbing across the lot.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'uso_founded',
+            year: 1941,
+            month: 2,
+            effects: { audience_expectations: 3, patriotic_sentiment: true },
+            modal: {
+                title: 'The USO Is Founded - 1941',
+                content: `
+                    <div class="historical-event">
+                        <p>Stars begin touring for the troops-to-be. Patriotic association is suddenly a career asset.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'war_bond_drives',
+            year: 1942,
+            month: 9,
+            effects: { box_office_modifier: 0.05 },
+            modal: {
+                title: 'Stars Sell War Bonds - 1942',
+                content: `
+                    <div class="historical-event">
+                        <p>Bond rallies fill theaters between features. Hollywood's war effort is box office in uniform.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'outlaw_censorship_fight',
+            year: 1943,
+            month: 2,
+            effects: { political_risk: 2, content_risk: true },
+            modal: {
+                title: 'A Producer Defies the Code - 1943',
+                content: `
+                    <div class="historical-event">
+                        <p>A maverick producer releases his notorious western without a seal in one defiant engagement. The industry watches the fight - and the grosses.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'de_havilland_decision',
+            year: 1944,
+            month: 12,
+            effects: { talent_cost_modifier: 0.1, labor_relations: true },
+            modal: {
+                title: 'The Seven-Year Contract Falls - 1944',
+                content: `
+                    <div class="historical-event">
+                        <p>A California appeals court rules studios cannot extend contracts with suspension time. Star leverage - and star salaries - will never be the same.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'fifth_war_loan',
+            year: 1944,
+            month: 6,
+            effects: { box_office_modifier: 0.04 },
+            modal: {
+                title: 'The Fifth War Loan - 1944',
+                content: `
+                    <div class="historical-event">
+                        <p>The biggest bond drive of the war runs through every theater in America.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'csu_strike_begins',
+            year: 1945,
+            month: 3,
+            effects: { production_costs: 1.1, budget_risk_modifier: 0.2, labor_tensions: true },
+            modal: {
+                title: 'The Set Decorators Walk Out - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>The Conference of Studio Unions strikes. Pickets ring the studio gates; production costs climb week by week.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'vj_day_celebration',
+            year: 1945,
+            month: 8,
+            effects: { box_office_modifier: 0.08 },
+            modal: {
+                title: 'Victory Over Japan - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>The war is over. America celebrates - and goes to the movies.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'hollywood_black_friday',
+            year: 1945,
+            month: 10,
+            effects: { political_risk: 5, production_costs: 1.03 },
+            modal: {
+                title: 'Black Friday at the Gates - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>Strikers and replacements battle outside a major studio. Fire hoses, tear gas, headlines.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'csu_lockout',
+            year: 1946,
+            month: 9,
+            effects: { production_costs: 1.08, labor_tensions: true },
+            modal: {
+                title: 'The Second Strike Wave - 1946',
+                content: `
+                    <div class="historical-event">
+                        <p>Jurisdictional war between the unions shuts stages again. The lots feel like armed camps.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'star_salary_spiral',
+            year: 1946,
+            month: 5,
+            effects: { talent_cost_modifier: 0.15 },
+            modal: {
+                title: 'Star Salaries Spiral - 1946',
+                content: `
+                    <div class="historical-event">
+                        <p>Flush times and free agency push top-star deals to record numbers.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'british_import_duty',
+            year: 1947,
+            month: 8,
+            effects: { box_office_modifier: -0.06, european_markets: false },
+            modal: {
+                title: 'Britain Taxes American Films - 1947',
+                content: `
+                    <div class="historical-event">
+                        <p>A 75 percent ad valorem duty freezes Hollywood revenue from its biggest foreign market overnight.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'drive_in_expansion',
+            year: 1947,
+            month: 6,
+            effects: { box_office_modifier: 0.02 },
+            modal: {
+                title: 'Drive-Ins Multiply - 1947',
+                content: `
+                    <div class="historical-event">
+                        <p>Ozoners sprout along every highway. New screens, new audiences, new mothers with sleeping kids in the back seat.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'anglo_film_settlement',
+            year: 1948,
+            month: 3,
+            effects: { box_office_modifier: 0.04 },
+            modal: {
+                title: 'The British Duty Is Settled - 1948',
+                content: `
+                    <div class="historical-event">
+                        <p>The import-duty standoff ends. The Atlantic pipeline reopens - at less favorable terms.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'television_takeoff',
+            year: 1948,
+            month: 10,
+            effects: { theater_attendance_decline: -0.03, television_competition: true },
+            modal: {
+                title: 'Television Takes Off - 1948',
+                content: `
+                    <div class="historical-event">
+                        <p>Set sales triple; urban first-run houses feel it first. The box in the living room is not a fad.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'consent_decrees_begin',
+            year: 1949,
+            month: 2,
+            effects: { distribution_cost_modifier: 0.05, studio_power_decline: true },
+            modal: {
+                title: 'The Consent Decrees Begin - 1949',
+                content: `
+                    <div class="historical-event">
+                        <p>The first majors sign consent decrees divorcing their theaters. Distribution will never be the same.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'television_two_million',
+            year: 1949,
+            month: 6,
+            effects: { theater_attendance_decline: -0.04 },
+            modal: {
+                title: 'Two Million Sets - 1949',
+                content: `
+                    <div class="historical-event">
+                        <p>Television reaches two million American homes. Neighborhood theaters begin to close.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'b_picture_squeeze',
+            year: 1949,
+            month: 10,
+            effects: { genre_boost: { western: -0.05 }, production_costs: 1.02 },
+            modal: {
+                title: 'The B-Picture Squeeze - 1949',
+                content: `
+                    <div class="historical-event">
+                        <p>Double features fade and the B-market contracts. Poverty Row starts reading obituaries.</p>
+                    </div>
+                `
+            }
+        },
+
     ];
 
     /**
@@ -3719,6 +4216,17 @@ window.HistoricalEvents = (function() {
     function checkForEvents(gameState) {
         const currentYear = gameState.gameYear;
         const currentMonth = gameState.currentDate.getMonth() + 1;
+
+        // Persistence (audit HIST-011): gameState is the single source of
+        // truth for the fired-set, so save v3 carries it (pre-v3, loading
+        // re-fired events and re-applied additive effects) AND a new game
+        // starts clean (the old module-only Set survived restarts and
+        // suppressed every event in a second campaign). The module Set is
+        // rebuilt from state each check.
+        if (!Array.isArray(gameState.triggeredHistoricalEvents)) {
+            gameState.triggeredHistoricalEvents = [];
+        }
+        triggeredEvents = new Set(gameState.triggeredHistoricalEvents);
 
         // Find all events for current year/month that haven't triggered
         const eligibleEvents = HISTORICAL_EVENTS.filter(event => {
@@ -3731,6 +4239,9 @@ window.HistoricalEvents = (function() {
         const triggeredThisMonth = [];
         eligibleEvents.forEach(event => {
             triggeredEvents.add(event.id);
+            if (gameState.triggeredHistoricalEvents.indexOf(event.id) === -1) {
+                gameState.triggeredHistoricalEvents.push(event.id);
+            }
             triggerEvent(event, gameState);
             triggeredThisMonth.push(event);
         });
@@ -3775,54 +4286,214 @@ window.HistoricalEvents = (function() {
     /**
      * Apply event effects to game state
      */
+    // ================================================================
+    // EFFECTS INTERPRETER (audit HIST-001 / roadmap P4.1)
+    // The old dispatcher handled 10 keys and silently dropped the other
+    // ~140 authored effect payloads — 97% of history was decorative.
+    // Every key is now classified: GENRE keys move genre economics,
+    // ECONOMY keys move cost/revenue multipliers consumed by the live
+    // systems, MARQUEE keys keep their dedicated behavior, and FLAG keys
+    // persist as queryable world state. Unknown keys are recorded on
+    // gameState.__unhandledEffects — a test asserts that set stays empty.
+    // ================================================================
+
+    // Every remaining authored key, enumerated from the data. Additions
+    // to event data must extend one of the classification tables or a test
+    // fails (tests/sim/history-effects.test.js).
+    var FLAG_KEYS = {
+        dvd_decline: true,
+        animation_experimentation: true, anti_fascist_sentiment: true, anti_nazi_sentiment: true, art_deco_style: true, art_film_awareness: true, artistic_ambition: true,
+        atomic_anxiety: true, audience_fragmentation: true, audience_tastes_shift: true, awards_marketing_value: true, bacall_bogart_chemistry: true, bad_boy_image_viable: true,
+        blacklist_fear: true, blonde_bombshell_archetype: true, bogart_mystique: true, british_films: true, budget_ceiling_raised: true, budget_expectations: true,
+        capra_optimism: true, capra_style_popular: true, casting_publicity: true, chaplin_influence: true, child_star_value: true, cinematography_innovation: true,
+        cold_war_intensifies: true, cooper_prestige: true, creative_freedom: true, crosby_value: true, cynical_tone_acceptable: true, dance_sequences_popular: true,
+        darker_content_acceptable: true, distribution_harder: true, diversity_slow_progress: true, ensemble_casts: true, european_competition: true, european_markets: true,
+        family_film_market: true, fear_maximum: true, female_stars_dominance: true, femme_fatale_archetype: true, franchise_model: true, government_goodwill: true,
+        gwtw_anticipation: true, hearst_boycott: true, hughes_prestige: true, huston_prestige: true, independent_producers_rise: true, industry_mourning: true,
+        international_prestige: true, japanese_american_talent_lost: true, labor_relations: true, labor_tensions: true, moral_complexity: true, morale_bonus: true,
+        morality_clause_tension: true, musical_confidence: true, nightclub_scenes_viable: true, optimism: true, oscar_prestige: true, patriotic_sentiment: true,
+        pin_up_culture: true, political_awareness: true, political_content_risk: true, prestige_animation: true, prestige_cinema: true, prestige_picture_viable: true,
+        production_delays: true, production_time: true, production_uncertainty: true, propaganda_acceptance: true, propaganda_quota: true, racial_awareness: true,
+        radio_drama_respect: true, realism_acceptable: true, refugee_talent: true, reputation_requirement: true, returning_veterans: true, rko_weakness: true,
+        scandal_publicity: true, social_commentary_films: true, social_films_risky: true, sophisticated_romance: true, special_effects_interest: true, star_patriotic_value: true,
+        studio_power_decline: true, studio_system_cracks: true, superhero_awareness: true, technicolor_demand: true, technicolor_prestige: true, theater_attendance_peak: true,
+        veteran_directors: true, victory_optimism: true, victory_sentiment: true, war_coordination: true, war_drama_credibility: true, war_end_planning: true,
+        welles_interest: true, wholesome_content: true
+    };
+
+    function ensureEventContainers(gameState) {
+        if (!gameState.worldFlags) gameState.worldFlags = {};
+        if (!gameState.eventMods) {
+            gameState.eventMods = {
+                genre: {},            // multiplicative, clamped [0.5, 2.0]
+                boxOffice: 1.0,       // global gross multiplier
+                productionCost: 1.0,  // weekly production cost multiplier
+                distributionCost: 1.0,// marketing cost multiplier
+                talentCost: 1.0,      // contract salary multiplier
+                budgetRisk: 0.0       // added chance of budget crises
+            };
+        }
+    }
+
+    function bumpGenre(gameState, genre, mult) {
+        ensureEventContainers(gameState);
+        var cur = gameState.eventMods.genre[genre] || 1.0;
+        gameState.eventMods.genre[genre] = Math.max(0.5, Math.min(2.0, cur * mult));
+    }
+
+    // GENRE_KEYS: flavor keys with clear genre semantics.
+    // value semantics: 'mult' keys carry their own multiplier (e.g. 1.2);
+    // fixed entries apply the listed multiplier when the key is truthy.
+    var GENRE_KEYS = {
+        musical_genre_boost: { genre: 'musical', mult: null },
+        musical_popularity: { genre: 'musical', mult: null },
+        epic_genre_boost: { genre: 'drama', mult: null },
+        romantic_comedy_boost: { genre: 'comedy', mult: 1.12 },
+        family_films_boost: { genre: 'comedy', mult: 1.08 },
+        spectacle_films_boost: { genre: 'drama', mult: 1.1 },
+        war_films: { genre: 'war', mult: 1.15 },
+        morale_films_boost: { genre: 'musical', mult: 1.1 },
+        war_romance_boost: { genre: 'romance', mult: 1.12 },
+        film_noir_viable: { genre: 'noir', mult: 1.15 },
+        dark_films_boost: { genre: 'noir', mult: 1.1 },
+        cynical_films: { genre: 'noir', mult: 1.08 },
+        noir_template: { genre: 'noir', mult: 1.08 },
+        social_problem_films: { genre: 'drama', mult: 1.08 },
+        social_realism: { genre: 'drama', mult: 1.06 },
+        veteran_films: { genre: 'drama', mult: 1.06 },
+        prestige_drama: { genre: 'drama', mult: 1.08 },
+        political_films: { genre: 'drama', mult: 1.05 },
+        christmas_films: { genre: 'comedy', mult: 1.08 },
+        womens_pictures: { genre: 'romance', mult: 1.1 },
+        integrated_musicals: { genre: 'musical', mult: 1.1 },
+        musical_theater_source: { genre: 'musical', mult: 1.06 },
+        fantasy_genre: { genre: 'horror', mult: 1.08 },
+        sci_fi_potential: { genre: 'sci_fi', mult: 1.1 },
+        aviation_films: { genre: 'action', mult: 1.08 },
+        animation_viable: { genre: 'comedy', mult: 1.05 },
+        rural_comedy_decline: { genre: 'comedy', mult: 0.95 }
+    };
+
+    // ECONOMY_KEYS: numeric keys consumed by the live money systems.
+    // shape: 'mult' (value IS the multiplier), 'delta' (multiplier = 1+value)
+    var ECONOMY_KEYS = {
+        production_costs: { target: 'productionCost', shape: 'mult' },
+        material_rationing: { target: 'productionCost', shape: 'mult' },
+        animation_costs: { target: 'productionCost', shape: 'mult' },
+        actor_costs: { target: 'talentCost', shape: 'mult' },
+        budget_inflation: { target: 'productionCost', shape: 'mult' },
+        box_office_modifier: { target: 'boxOffice', shape: 'delta' },
+        box_office_peak: { target: 'boxOffice', shape: 'delta' },
+        theater_attendance_decline: { target: 'boxOffice', shape: 'delta' },
+        distribution_cost_modifier: { target: 'distributionCost', shape: 'delta' },
+        talent_cost_modifier: { target: 'talentCost', shape: 'delta' },
+        budget_risk_modifier: { target: 'budgetRisk', shape: 'add' }
+    };
+
     function applyEventEffects(event, gameState) {
         const effects = event.effects || {};
+        ensureEventContainers(gameState);
 
-        // Censorship effects
-        if (effects.censorship_active !== undefined) {
-            gameState.censorshipActive = effects.censorship_active;
-        }
+        Object.keys(effects).forEach(function (key) {
+            var value = effects[key];
 
-        // War effects
-        if (effects.war_active !== undefined) {
-            gameState.warActive = effects.war_active;
-        }
+            // ---- structured genre payload: genre_boost: { war: 0.2 } ----
+            if (key === 'genre_boost' && value && typeof value === 'object') {
+                Object.keys(value).forEach(function (g) {
+                    bumpGenre(gameState, g, 1 + value[g]);
+                });
+                return;
+            }
 
-        if (effects.actor_draft_risk !== undefined) {
-            gameState.actorDraftRisk = effects.actor_draft_risk;
-        }
+            // ---- classified genre flavor keys ----
+            if (GENRE_KEYS[key]) {
+                var spec = GENRE_KEYS[key];
+                var mult = spec.mult !== null ? spec.mult
+                    : (typeof value === 'number' ? value : 1.1);
+                if (value !== false) bumpGenre(gameState, spec.genre, mult);
+                return;
+            }
 
-        // HUAC effects
-        if (effects.huac_active !== undefined) {
-            gameState.huacActive = effects.huac_active;
-        }
+            // ---- classified economy keys ----
+            if (ECONOMY_KEYS[key] && typeof value === 'number') {
+                var eco = ECONOMY_KEYS[key];
+                if (eco.shape === 'add') {
+                    gameState.eventMods[eco.target] += value;
+                } else {
+                    var m = eco.shape === 'mult' ? value : 1 + value;
+                    gameState.eventMods[eco.target] =
+                        Math.max(0.4, Math.min(2.5, gameState.eventMods[eco.target] * m));
+                }
+                return;
+            }
 
-        if (effects.political_risk !== undefined) {
-            gameState.politicalRisk = (gameState.politicalRisk || 0) + effects.political_risk;
-        }
+            // ---- marquee keys: dedicated world-state behavior ----
+            switch (key) {
+                case 'censorship_active':
+                    gameState.censorshipActive = value; return;
+                case 'war_active':
+                    gameState.warActive = value; return;
+                case 'actor_draft_risk':
+                    gameState.actorDraftRisk = value; return;
+                case 'draft_risk':
+                    gameState.actorDraftRisk = Math.max(gameState.actorDraftRisk || 0,
+                        typeof value === 'number' ? value : 0.3); return;
+                case 'male_actor_shortage':
+                case 'talent_restriction':
+                    gameState.talentRestricted = !!value; return;
+                case 'huac_active':
+                case 'huac_continues':
+                    gameState.huacActive = !!value; return;
+                case 'political_risk':
+                    gameState.politicalRisk = (gameState.politicalRisk || 0) + value; return;
+                case 'blacklist_begins':
+                case 'blacklist_permanent':
+                    gameState.blacklistActive = !!value; return;
+                case 'vertical_integration_ends':
+                    gameState.verticalIntegration = !value;
+                    if (window.FinancialSystem && window.FinancialSystem.applyParamountDecree) {
+                        window.FinancialSystem.applyParamountDecree(gameState);
+                    }
+                    return;
+                case 'box_office_uncertainty':
+                    gameState.boxOfficeVariance = (gameState.boxOfficeVariance || 0) + value; return;
+                case 'audience_expectations':
+                    gameState.audienceExpectations =
+                        (gameState.audienceExpectations || 50) + value; return;
+                case 'television_competition':
+                case 'home_entertainment_threat':
+                    gameState.worldFlags[key] = value; return;
+                case 'technology_available':
+                case 'rating_available':
+                case 'revenue_stream':
+                case 'censorship_system':
+                case 'distribution_strategy':
+                case 'marketing_strategy':
+                    gameState.worldFlags[key] = value; return;
+                case 'censorship_modifier':
+                case 'content_restrictions':
+                case 'content_freedom':
+                case 'content_risk':
+                case 'catholic_censorship':
+                case 'military_censorship':
+                    gameState.worldFlags[key] = value; return;
+                case 'game_complete':
+                    gameState.gameComplete = value; return;
+            }
 
-        if (effects.blacklist_begins !== undefined) {
-            gameState.blacklistActive = effects.blacklist_begins;
-        }
+            // ---- everything else: persisted, queryable world color ----
+            // (deliberate FLAG classification — newspaper, AI, and future
+            // content read these; they are no longer dropped on the floor)
+            if (Object.prototype.hasOwnProperty.call(FLAG_KEYS, key)) {
+                gameState.worldFlags[key] = value;
+                return;
+            }
 
-        // Business effects
-        if (effects.vertical_integration_ends !== undefined) {
-            gameState.verticalIntegration = !effects.vertical_integration_ends;
-        }
-
-        if (effects.box_office_uncertainty !== undefined) {
-            gameState.boxOfficeVariance = (gameState.boxOfficeVariance || 0) + effects.box_office_uncertainty;
-        }
-
-        // Industry effects
-        if (effects.audience_expectations !== undefined) {
-            gameState.audienceExpectations = (gameState.audienceExpectations || 50) + effects.audience_expectations;
-        }
-
-        // Game completion
-        if (effects.game_complete !== undefined) {
-            gameState.gameComplete = effects.game_complete;
-        }
+            // ---- unknown: never silent ----
+            if (!gameState.__unhandledEffects) gameState.__unhandledEffects = [];
+            gameState.__unhandledEffects.push(event.id + ':' + key);
+            console.warn('Unhandled historical effect key: ' + key + ' (event ' + event.id + ')');
+        });
     }
 
     /**
@@ -3894,6 +4565,7 @@ window.HistoricalEvents = (function() {
     return {
         checkForEvents,
         triggerEvent,
+        applyEventEffects,
         getTriggeredEvents,
         getEventById,
         getEventsForYear,

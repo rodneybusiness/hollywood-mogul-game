@@ -261,6 +261,23 @@ window.BoxOfficeSystem = (function() {
         const genreMultiplier = yearHeat[film.genre.toLowerCase()] || 1.0;
         baseGross *= genreMultiplier;
 
+        // Historical-event world state (P4.1 interpreter): genre currents
+        // and the global box-office climate move real revenue now.
+        const evState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (evState && evState.eventMods) {
+            baseGross *= evState.eventMods.genre[film.genre.toLowerCase()] || 1.0;
+            baseGross *= evState.eventMods.boxOffice || 1.0;
+        }
+
+        // Film-level modifiers earned through production events and crises
+        // (P3.8 — these were written but never read before)
+        if (film.boxOfficeMultiplier && isFinite(film.boxOfficeMultiplier)) {
+            baseGross *= Math.max(0.4, Math.min(2.0, film.boxOfficeMultiplier));
+        }
+        if (typeof film.hype === 'number') {
+            baseGross *= 1 + (film.hype - 50) / 250; // ±20% at the extremes
+        }
+
         // Apply distribution strategy multiplier
         const strategyData = DISTRIBUTION_STRATEGIES[strategy];
         if (strategy === 'wide') {
@@ -516,6 +533,10 @@ window.BoxOfficeSystem = (function() {
         if (window.GameConstants && window.GameConstants.getEraScalingForYear) {
             var yearNow = window.TimeSystem ? window.TimeSystem.getCurrentDate().year : 1933;
             marketingMult = window.GameConstants.getEraScalingForYear(yearNow).marketingMult || 1.0;
+        }
+        // Historical distribution-cost climate (P4.1)
+        if (gameState.eventMods && gameState.eventMods.distributionCost) {
+            marketingMult *= gameState.eventMods.distributionCost;
         }
         const marketingCost = Math.floor(DISTRIBUTION_STRATEGIES[strategy].marketingCost * marketingMult);
         if (!window.FinancialSystem.canAfford(marketingCost)) {

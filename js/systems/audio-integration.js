@@ -1,249 +1,126 @@
 /**
  * HOLLYWOOD MOGUL - AUDIO INTEGRATION
- * Connects audio system with game UI interactions
+ * Wires the audio system to the game through the EventBus.
+ *
+ * Rewritten for ROADMAP P5.2/P5.3 (audit AUDIO-006): the old version
+ * polled cash every second, polled the era every five seconds, and
+ * sniffed CSS classes with a MutationObserver. Now every sound comes
+ * from a real game event, and all handles are lifecycle-safe.
  */
 
-(function() {
+window.AudioIntegration = (function () {
     'use strict';
 
-    // Wait for audio system to be available
+    let initialized = false;
+    let busUnsubs = [];
+    let clickHandler = null;
+
     function initAudioIntegration() {
-        if (!window.AudioSystem) {
-            console.warn('AudioSystem not available');
-            return;
-        }
+        if (initialized) return;
+        if (!window.AudioSystem) return;
 
-
-        // Initialize the audio system
         window.AudioSystem.init();
-
-        // Set up event listeners for audio triggers
-        setupAudioTriggers();
-
-        // Update volume displays when sliders change
-        setupVolumeDisplays();
-
+        subscribe();
+        wireClicks();
+        initialized = true;
     }
 
-    /**
-     * Set up audio trigger event listeners
-     */
-    function setupAudioTriggers() {
-        // Use event delegation for better performance
-        document.addEventListener('click', function(e) {
-            const target = e.target;
+    function subscribe() {
+        if (!window.EventBus) return;
 
-            // Navigation buttons
-            if (target.closest('.nav-button')) {
-                window.AudioSystem.playSFX('navigation');
-            }
+        // Era transitions → score change the same tick as the era modal
+        busUnsubs.push(window.EventBus.on('era:changed', function () {
+            refreshMusic();
+        }));
 
-            // Time advancement buttons
-            if (target.matches('#btn-advance-week')) {
-                window.AudioSystem.playSFX('clock_tick');
-            }
+        // Game start → era score
+        busUnsubs.push(window.EventBus.on('game:started', function () {
+            refreshMusic();
+        }));
 
-            if (target.matches('#btn-advance-month')) {
-                window.AudioSystem.playSFX('calendar_flip');
-            }
+        // Weekly tick → clock; also catches tension/crisis music transitions
+        busUnsubs.push(window.EventBus.on('time:advanced', function () {
+            window.AudioSystem.playSFX('clock_tick', 0.5);
+            refreshMusic();
+        }));
 
-            // Greenlight button
-            if (target.matches('.greenlight-btn') && !target.disabled) {
-                window.AudioSystem.playSFX('greenlight');
-                setTimeout(() => {
-                    window.AudioSystem.playSFX('cash_register');
-                }, 200);
-            }
+        busUnsubs.push(window.EventBus.on('month:processed', function () {
+            window.AudioSystem.playSFX('calendar_flip', 0.7);
+        }));
 
-            // Distribution button
-            if (target.matches('.distribute-btn')) {
-                window.AudioSystem.playProceduralSFX('click');
-            }
+        // Money movement → register/coins by direction and size
+        busUnsubs.push(window.EventBus.on('financial:updated', function (data) {
+            if (!data || typeof data.change !== 'number' || data.change === 0) return;
+            if (Math.abs(data.change) < 5000) return; // ignore pocket change
+            window.AudioSystem.playSFX(data.change > 0 ? 'money_positive' : 'money_negative', 0.8);
+        }));
 
-            // Strategy selection
-            if (target.matches('.strategy-btn') && !target.disabled) {
-                window.AudioSystem.playSFX('film_release');
-            }
+        // A finished film wants a decision
+        busUnsubs.push(window.EventBus.on('film:readyForDistribution', function () {
+            window.AudioSystem.playSFX('phone_ring', 0.7);
+        }));
 
-            // Loan buttons
-            if (target.matches('.loan-btn') && !target.disabled) {
-                window.AudioSystem.playSFX('money_positive');
-                setTimeout(() => {
-                    window.AudioSystem.playSFX('cash_register');
-                }, 150);
-            }
+        // Receivership drama
+        busUnsubs.push(window.EventBus.on('financial:receivership', function () {
+            window.AudioSystem.playSFX('alert_critical', 1.0);
+        }));
 
-            // General action buttons (fallback for any uncaught buttons)
-            if ((target.matches('.action-btn') || target.matches('.cta-button') ||
-                 target.matches('.time-btn') || target.matches('.utility-btn')) &&
-                !target.disabled) {
-                window.AudioSystem.playProceduralSFX('click');
-            }
-
-            // Modal close buttons
-            if (target.matches('.modal-close')) {
-                window.AudioSystem.playProceduralSFX('click');
-            }
-
-            // Audio settings toggle
-            if (target.matches('#audio-settings-toggle')) {
-                const panel = document.getElementById('audio-settings');
-                if (panel) {
-                    panel.classList.toggle('hidden');
-                }
-            }
-        });
-
-        // Listen for custom game events
-        listenForGameEvents();
+        // Endgame sting
+        busUnsubs.push(window.EventBus.on('game:ended', function (data) {
+            window.AudioSystem.playSFX(
+                data && data.type === 'survived' ? 'fanfare' : 'crisis', 1.0);
+        }));
     }
 
-    /**
-     * Listen for custom game events and play appropriate audio
-     */
-    function listenForGameEvents() {
-        // Create a MutationObserver to detect notifications
-        const notificationsContainer = document.getElementById('notifications');
-        if (notificationsContainer) {
-            const observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    mutation.addedNodes.forEach(function(node) {
-                        if (node.nodeType === 1 && node.classList) {
-                            if (node.classList.contains('notification')) {
-                                playNotificationSound(node);
-                            }
-                        }
-                    });
-                });
-            });
-
-            observer.observe(notificationsContainer, {
-                childList: true,
-                subtree: true
-            });
-        }
-
-        // Listen for financial changes (via polling)
-        let lastCash = null;
-        setInterval(() => {
-            if (window.HollywoodMogul) {
-                const gameState = window.HollywoodMogul.getGameState();
-                if (gameState && gameState.cash !== null) {
-                    if (lastCash !== null && lastCash !== gameState.cash) {
-                        // Cash changed
-                        if (gameState.cash > lastCash) {
-                            // Money received (box office, loan, etc.)
-                            // Skip sound if it's a very small change
-                            if (gameState.cash - lastCash > 1000) {
-                                // Already played by specific action
-                            }
-                        } else if (gameState.cash < lastCash) {
-                            // Money spent (production cost, expenses)
-                            if (lastCash - gameState.cash > 10000) {
-                                // Large expense
-                                window.AudioSystem.playSFX('money_negative');
-                            }
-                        }
-                    }
-                    lastCash = gameState.cash;
-
-                    // Update background music based on game state
-                    window.AudioSystem.updateMusicForGameState(gameState);
-                }
+    function wireClicks() {
+        // One delegated listener replaces the old MutationObserver +
+        // CSS-class sniffing. Buttons click; primary actions get their own
+        // voice (the greenlight/release sounds of the feedback inventory).
+        clickHandler = function (e) {
+            const btn = e.target.closest ? e.target.closest('button') : null;
+            if (!btn) return;
+            if (btn.classList.contains('greenlight-btn')) {
+                window.AudioSystem.playSFX('greenlight', 1.0);
+            } else if (btn.classList.contains('strategy-btn') || btn.classList.contains('distribute-btn')) {
+                window.AudioSystem.playSFX('film_release', 1.0);
+            } else {
+                window.AudioSystem.playSFX('button_click', 0.4);
             }
-        }, 5000); // Check every 5 seconds
+        };
+        document.addEventListener('click', clickHandler);
     }
 
-    /**
-     * Play notification sound based on type
-     */
-    function playNotificationSound(notificationElement) {
-        if (notificationElement.classList.contains('success')) {
-            window.AudioSystem.playProceduralSFX('success');
-        } else if (notificationElement.classList.contains('error')) {
-            window.AudioSystem.playProceduralSFX('error');
-        } else if (notificationElement.classList.contains('warning')) {
-            window.AudioSystem.playSFX('alert_warning');
-        } else {
-            window.AudioSystem.playSFX('alert_info');
+    function currentState() {
+        return window.HollywoodMogul && window.HollywoodMogul.getGameState
+            ? window.HollywoodMogul.getGameState() : null;
+    }
+
+    function refreshMusic() {
+        const s = currentState();
+        if (s && window.AudioSystem.updateMusicForGameState) {
+            window.AudioSystem.updateMusicForGameState(s);
         }
     }
 
-    /**
-     * Set up volume display updates
-     */
-    function setupVolumeDisplays() {
-        const masterSlider = document.getElementById('audio-master-volume');
-        const musicSlider = document.getElementById('audio-music-volume');
-        const sfxSlider = document.getElementById('audio-sfx-volume');
-
-        const masterDisplay = document.getElementById('master-volume-display');
-        const musicDisplay = document.getElementById('music-volume-display');
-        const sfxDisplay = document.getElementById('sfx-volume-display');
-
-        if (masterSlider && masterDisplay) {
-            masterSlider.addEventListener('input', function() {
-                masterDisplay.textContent = masterSlider.value + '%';
-            });
+    function destroy() {
+        busUnsubs.forEach(function (u) { try { u(); } catch (e) {} });
+        busUnsubs = [];
+        if (clickHandler) {
+            document.removeEventListener('click', clickHandler);
+            clickHandler = null;
         }
-
-        if (musicSlider && musicDisplay) {
-            musicSlider.addEventListener('input', function() {
-                musicDisplay.textContent = musicSlider.value + '%';
-            });
-        }
-
-        if (sfxSlider && sfxDisplay) {
-            sfxSlider.addEventListener('input', function() {
-                sfxDisplay.textContent = sfxSlider.value + '%';
-                // Play a test sound when adjusting SFX volume
-                window.AudioSystem.playProceduralSFX('ding');
-            });
-        }
+        initialized = false;
     }
 
-    /**
-     * Enhance DashboardUI with audio methods if it exists
-     */
-    function enhanceDashboardUI() {
-        if (window.DashboardUI) {
-            // Store original showNotification if it exists
-            const originalShowNotification = window.DashboardUI.showNotification;
-
-            if (originalShowNotification) {
-                window.DashboardUI.showNotification = function(title, message, type) {
-                    // Play sound based on notification type
-                    if (window.AudioSystem) {
-                        switch(type) {
-                            case 'success':
-                                window.AudioSystem.playProceduralSFX('success');
-                                break;
-                            case 'error':
-                                window.AudioSystem.playProceduralSFX('error');
-                                break;
-                            case 'warning':
-                                window.AudioSystem.playSFX('alert_warning');
-                                break;
-                            default:
-                                window.AudioSystem.playSFX('alert_info');
-                        }
-                    }
-
-                    // Call original function
-                    return originalShowNotification.call(this, title, message, type);
-                };
-            }
-        }
-    }
-
-    // Initialize when DOM is ready
+    // Boot when the page is ready (idempotent)
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            initAudioIntegration();
-            enhanceDashboardUI();
-        });
+        document.addEventListener('DOMContentLoaded', initAudioIntegration);
     } else {
         initAudioIntegration();
-        enhanceDashboardUI();
     }
+
+    return {
+        init: initAudioIntegration,
+        destroy: destroy
+    };
 })();

@@ -118,8 +118,19 @@ window.CensorshipSystem = (function() {
     // ================================================================
 
     function getRegulationType(gameState) {
-        if (window.GameConstants && window.GameConstants.getContentRegulationForYear) {
-            return window.GameConstants.getContentRegulationForYear(gameState.gameYear || 1933);
+        // Pre-Code is actually pre-Code (audit HIST-008): the Production
+        // Code Administration begins enforcement July 1, 1934 — before
+        // that date scripts face no review, which is the era's whole
+        // strategic identity (exploit the window before the door closes).
+        var C = window.GameConstants;
+        if (C && C.TIME && C.TIME.HAYS_CODE_ENFORCEMENT_DATE && gameState.currentDate) {
+            if (new Date(gameState.currentDate) < C.TIME.HAYS_CODE_ENFORCEMENT_DATE) {
+                return 'none';
+            }
+        }
+
+        if (C && C.getContentRegulationForYear) {
+            return C.getContentRegulationForYear(gameState.gameYear || 1933);
         }
         // Fallback
         if (!gameState.censorshipActive) return 'none';

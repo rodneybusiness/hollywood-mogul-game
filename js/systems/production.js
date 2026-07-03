@@ -217,6 +217,12 @@ window.ProductionSystem = (function() {
             baseCost *= window.TechnologySystem.getBudgetMultiplier(gameState);
         }
 
+        // Historical-event cost climate (P4.1): strikes, rationing, and
+        // post-war inflation move real production costs now.
+        if (gameState.eventMods && gameState.eventMods.productionCost) {
+            baseCost *= gameState.eventMods.productionCost;
+        }
+
         return Math.floor(baseCost);
     }
     
@@ -269,6 +275,12 @@ window.ProductionSystem = (function() {
     function shouldTriggerEvent(film) {
         // Events more likely during principal photography
         let baseChance = film.phase === 'PRINCIPAL_PHOTOGRAPHY' ? 0.4 : 0.1;
+
+        // Historical budget-risk climate (P4.1: budget_risk_modifier)
+        const riskState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (riskState && riskState.eventMods && riskState.eventMods.budgetRisk) {
+            baseChance += riskState.eventMods.budgetRisk * 0.1;
+        }
         
         // Higher chance if already having problems
         if (!film.onSchedule || !film.onBudget) {
@@ -681,10 +693,10 @@ window.ProductionSystem = (function() {
     function assignDirector(film, gameState) {
         // Placeholder - will be enhanced when talent system is built
         const directors = [
-            { name: 'Frank Capra', skill: 90, specialty: 'drama' },
-            { name: 'Howard Hawks', skill: 85, specialty: 'adventure' },
-            { name: 'Billy Wilder', skill: 88, specialty: 'comedy' },
-            { name: 'John Ford', skill: 92, specialty: 'western' }
+            { name: 'Ezra Yardley', skill: 90, specialty: 'drama' },
+            { name: 'Gideon Blackwood', skill: 85, specialty: 'adventure' },
+            { name: 'Ignatius Draper', skill: 88, specialty: 'comedy' },
+            { name: 'Fletcher Ashford', skill: 92, specialty: 'western' }
         ];
         
         const director = directors[Math.floor(Math.random() * directors.length)];
@@ -700,10 +712,10 @@ window.ProductionSystem = (function() {
     function doCasting(film, gameState) {
         // Placeholder casting - will be enhanced with talent system
         const actors = [
-            { name: 'Clark Gable', starPower: 95, chemistry: 80 },
-            { name: 'Greta Garbo', starPower: 90, chemistry: 85 },
-            { name: 'James Stewart', starPower: 80, chemistry: 90 },
-            { name: 'Katharine Hepburn', starPower: 88, chemistry: 75 }
+            { name: 'Vincent Ashcroft', starPower: 95, chemistry: 80 },
+            { name: 'Katrine Lindqvist', starPower: 90, chemistry: 85 },
+            { name: 'Walter Fairweather', starPower: 80, chemistry: 90 },
+            { name: 'Dorothea Devereaux', starPower: 88, chemistry: 75 }
         ];
         
         // Assign random lead actor for now

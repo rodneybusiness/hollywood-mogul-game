@@ -650,6 +650,16 @@ window.FinancialSystem = (function() {
         const gameState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
         
         if (!investment || !gameState) return;
+        if (!isInvestmentAvailable(investmentKey, gameState)) {
+            if (window.HollywoodMogul) {
+                window.HollywoodMogul.addAlert({
+                    type: 'warning', icon: '⚖️',
+                    message: 'The Paramount Decree bars studios from owning theater chains.',
+                    priority: 'high'
+                });
+            }
+            return;
+        }
         
         if (gameState.cash < investment.cost) {
             if (window.HollywoodMogul) {
@@ -965,6 +975,43 @@ window.FinancialSystem = (function() {
         }, 0);
     }
     
+    /**
+     * The Paramount Decree (May 1948, audit HIST-003): the Supreme Court
+     * forces studios to divest their theater chains. Owned chains are sold
+     * at a court-supervised discount, the income stream ends, and the
+     * investment is no longer purchasable. Invoked by the historical-events
+     * interpreter on `vertical_integration_ends`.
+     */
+    function applyParamountDecree(gameState) {
+        if (!gameState.finances || gameState.decreeApplied) return;
+        gameState.decreeApplied = true;
+
+        const chains = gameState.finances.investments.filter(inv => inv.type === 'THEATER_CHAIN');
+        if (chains.length) {
+            let payout = 0;
+            chains.forEach(chain => { payout += Math.floor(chain.cost * 0.6); });
+            gameState.cash += payout;
+            gameState.finances.investments = gameState.finances.investments
+                .filter(inv => inv.type !== 'THEATER_CHAIN');
+            addTransaction(payout, 'Court-ordered theater divestiture (US v. Paramount)');
+            if (window.HollywoodMogul) {
+                window.HollywoodMogul.addAlert({
+                    type: 'financial',
+                    icon: '⚖️',
+                    message: 'The Paramount Decree forces you to sell your theaters for $' +
+                        payout.toLocaleString() + '. The monthly box-office pipeline is gone.',
+                    priority: 'high'
+                });
+            }
+        }
+    }
+
+    /** Decree-aware availability: no buying theaters after divestiture. */
+    function isInvestmentAvailable(investmentKey, gameState) {
+        if (investmentKey === 'THEATER_CHAIN' && gameState && gameState.decreeApplied) return false;
+        return true;
+    }
+
     function calculateInvestmentReturn(investment, gameState) {
         let baseReturn = investment.monthlyReturn;
         
@@ -1217,6 +1264,8 @@ window.FinancialSystem = (function() {
         takeLoan,
         showInvestmentOptions,
         makeInvestment,
+        applyParamountDecree,
+        isInvestmentAvailable,
 
         // Mob favor functions
         checkMobFavorEvent,

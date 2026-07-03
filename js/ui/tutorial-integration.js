@@ -20,11 +20,25 @@
             window.HelpSystem.init();
         }
 
-        // Check if tutorial should auto-start
-        const gameState = window.HollywoodMogul?.getGameState();
-        if (gameState && window.TutorialSystem) {
-            window.TutorialSystem.checkAutoStart(gameState);
+        // Tutorial auto-start waits for a real game (audit UX-006: it used
+        // to open on top of the scenario picker at boot and eat every
+        // pointer event). Offer it shortly after the campaign begins.
+        if (window.EventBus && window.TutorialSystem) {
+            window.EventBus.on('game:started', function () {
+                setTimeout(function () {
+                    const gs = window.HollywoodMogul?.getGameState();
+                    if (gs) window.TutorialSystem.checkAutoStart(gs);
+                }, 1500);
+            });
         }
+
+        // Escape always dismisses the tutorial overlay (UX-006)
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape' && window.TutorialSystem &&
+                window.TutorialSystem.isActive && window.TutorialSystem.isActive()) {
+                window.TutorialSystem.skipTutorial();
+            }
+        });
     }
 
     /**

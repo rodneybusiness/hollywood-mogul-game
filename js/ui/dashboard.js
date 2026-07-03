@@ -194,6 +194,34 @@ window.DashboardUI = (function() {
     /**
      * Update financial summary section
      */
+    // Animated money HUD (ROADMAP P5.8): the cash figure counts to its
+    // new value instead of silently swapping.
+    let cashShown = null;
+    let cashAnim = null;
+
+    function animateCashTo(element, target) {
+        if (cashShown === null || typeof requestAnimationFrame !== 'function' ||
+            Math.abs(target - cashShown) < 1000) {
+            cashShown = target;
+            element.textContent = `$${target.toLocaleString()}`;
+            return;
+        }
+        const from = cashShown;
+        const start = performance.now();
+        const DURATION = 450;
+        if (cashAnim) cancelAnimationFrame(cashAnim);
+        function step(now) {
+            const t = Math.min(1, (now - start) / DURATION);
+            const eased = 1 - Math.pow(1 - t, 3);
+            const value = Math.round(from + (target - from) * eased);
+            element.textContent = `$${value.toLocaleString()}`;
+            if (t < 1) cashAnim = requestAnimationFrame(step);
+            else { cashShown = target; cashAnim = null; }
+        }
+        cashAnim = requestAnimationFrame(step);
+        cashShown = target;
+    }
+
     function updateFinancialSummary() {
         const gameState = window.HollywoodMogul.getGameState();
         const runway = window.HollywoodMogul.calculateRunwayWeeks();
@@ -203,7 +231,7 @@ window.DashboardUI = (function() {
         const runwayElement = document.getElementById('cash-runway');
 
         if (cashElement) {
-            cashElement.textContent = `$${gameState.cash.toLocaleString()}`;
+            animateCashTo(cashElement, gameState.cash);
             cashElement.className = `cash-amount ${getCashStatusClass(gameState.cash, runway)}`;
         }
 

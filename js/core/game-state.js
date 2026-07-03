@@ -89,13 +89,20 @@ window.HollywoodMogul = (function() {
     function init() {
         showLoadingScreen();
 
+        var duration = GAME_CONSTANTS && window.GameConstants && window.GameConstants.TIME
+            ? window.GameConstants.TIME.LOADING_SCREEN_DURATION_MS : 400;
         setTimeout(function() {
             initializeEventListeners();
             initializeUI();
-            startNewGame();
             hideLoadingScreen();
+            // Boot to the title menu, not straight into a game (SHIP-002)
+            if (window.MainMenu && window.MainMenu.show) {
+                window.MainMenu.show();
+            } else {
+                startNewGame();
+            }
             emitEvent('game:initialized');
-        }, 3000);
+        }, duration);
     }
 
     function initializeEventListeners() {
@@ -355,9 +362,19 @@ window.HollywoodMogul = (function() {
         burn += GAME_CONSTANTS.CONTRACT_PLAYERS_COST;
 
         if (gameState.contractPlayers) {
+            var salaryBurn = 0;
             for (var i = 0; i < gameState.contractPlayers.length; i++) {
-                burn += gameState.contractPlayers[i].monthlySalary || 0;
+                var p = gameState.contractPlayers[i];
+                // Contracts store weeklyRate; the old read of a nonexistent
+                // monthlySalary made every signing free after the bonus
+                // (audit DESIGN-014).
+                salaryBurn += p.monthlySalary || ((p.weeklyRate || 0) * 4);
             }
+            // Historical talent-cost climate (P4.1: strikes, war shortage)
+            if (gameState.eventMods && gameState.eventMods.talentCost) {
+                salaryBurn *= gameState.eventMods.talentCost;
+            }
+            burn += Math.floor(salaryBurn);
         }
 
         if (gameState.studioLot && gameState.studioLot.totalMaintenanceCost) {
