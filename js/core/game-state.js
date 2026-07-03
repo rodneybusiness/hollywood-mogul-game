@@ -89,13 +89,20 @@ window.HollywoodMogul = (function() {
     function init() {
         showLoadingScreen();
 
+        var duration = GAME_CONSTANTS && window.GameConstants && window.GameConstants.TIME
+            ? window.GameConstants.TIME.LOADING_SCREEN_DURATION_MS : 400;
         setTimeout(function() {
             initializeEventListeners();
             initializeUI();
-            startNewGame();
             hideLoadingScreen();
+            // Boot to the title menu, not straight into a game (SHIP-002)
+            if (window.MainMenu && window.MainMenu.show) {
+                window.MainMenu.show();
+            } else {
+                startNewGame();
+            }
             emitEvent('game:initialized');
-        }, 3000);
+        }, duration);
     }
 
     function initializeEventListeners() {

@@ -11,6 +11,19 @@ window.KeyboardShortcuts = (function() {
     /**
      * Initialize keyboard shortcuts
      */
+    // Space = advance one week (ROADMAP P5.9) - the single most common
+    // action gets the biggest key. Ignored while typing or in a modal.
+    document.addEventListener('keydown', function (e) {
+        if (e.code !== 'Space') return;
+        const tag = (e.target && e.target.tagName || '').toLowerCase();
+        if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+        const overlay = document.getElementById('modal-overlay');
+        if (overlay && !overlay.classList.contains('hidden')) return;
+        if (document.getElementById('main-menu')) return;
+        e.preventDefault();
+        if (window.HollywoodMogul) window.HollywoodMogul.advanceTime('week');
+    });
+
     function init() {
         if (isInitialized) return;
         document.addEventListener('keydown', handleKeyDown);

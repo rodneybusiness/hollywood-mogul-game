@@ -489,3 +489,23 @@
     --badge-info-border: var(--color-info-border);
     --badge-info-text: var(--color-info);
 }
+
+
+/* ================================================================
+   LAYERING SCALE (ROADMAP P5.7, audit UX-010: 19 ad-hoc z-index
+   values up to 10003). New/updated rules use these; the remaining
+   literals migrate as files are touched.
+   ================================================================ */
+:root {
+    --z-base: 1;
+    --z-panel: 100;
+    --z-action-bar: 800;
+    --z-overlay: 1000;
+    --z-modal: 1200;
+    --z-tutorial: 1400;
+    --z-menu: 9000;
+    --z-error: 99999;
+
+    /* AA-contrast muted text (audit UX-013: placeholder text failed 4.5:1) */
+    --color-text-muted: #b8ab8c;
+}

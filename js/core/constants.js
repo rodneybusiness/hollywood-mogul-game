@@ -49,7 +49,7 @@ window.GameConstants = (function() {
         // The game ends with a scored epilogue when the calendar reaches
         // Jan 1950. Post-1949 era data is preserved for Phase 6/DLC.
         GAME_END_YEAR: 1950,
-        LOADING_SCREEN_DURATION_MS: 3000,
+        LOADING_SCREEN_DURATION_MS: 400, // was a 3s fake wait (audit UX-014)
         HAYS_CODE_ENFORCEMENT_DATE: new Date(1934, 6, 1) // July 1, 1934
     };
 
