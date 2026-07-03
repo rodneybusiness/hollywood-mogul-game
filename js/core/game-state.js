@@ -355,9 +355,19 @@ window.HollywoodMogul = (function() {
         burn += GAME_CONSTANTS.CONTRACT_PLAYERS_COST;
 
         if (gameState.contractPlayers) {
+            var salaryBurn = 0;
             for (var i = 0; i < gameState.contractPlayers.length; i++) {
-                burn += gameState.contractPlayers[i].monthlySalary || 0;
+                var p = gameState.contractPlayers[i];
+                // Contracts store weeklyRate; the old read of a nonexistent
+                // monthlySalary made every signing free after the bonus
+                // (audit DESIGN-014).
+                salaryBurn += p.monthlySalary || ((p.weeklyRate || 0) * 4);
             }
+            // Historical talent-cost climate (P4.1: strikes, war shortage)
+            if (gameState.eventMods && gameState.eventMods.talentCost) {
+                salaryBurn *= gameState.eventMods.talentCost;
+            }
+            burn += Math.floor(salaryBurn);
         }
 
         if (gameState.studioLot && gameState.studioLot.totalMaintenanceCost) {

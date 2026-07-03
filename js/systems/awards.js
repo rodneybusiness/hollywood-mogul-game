@@ -685,6 +685,15 @@ window.AwardsSystem = (function() {
                 // Slight bias against player (winning should be earned)
                 if (!film.isRival) {
                     score -= 5;
+
+                    // HUAC long-tail (audit HIST-009: naming names used to be
+                    // mechanically dominant). Friendly witnesses are quietly
+                    // shunned by the Academy's talent branches; a defiant
+                    // stand earns artistic credibility at the industry's
+                    // political risk.
+                    const lte = gameState && gameState.longTermEffects;
+                    if (lte && lte.indexOf('cooperative_witness') !== -1) score -= 12;
+                    if (lte && lte.indexOf('blacklisted') !== -1) score += 6;
                 }
 
                 return { film, score };
@@ -1035,6 +1044,7 @@ window.AwardsSystem = (function() {
 
     // Public API
     return {
+        determineWinners,
         shouldTriggerOscars,
         triggerOscarCeremony,
         getFilmOscarCount,

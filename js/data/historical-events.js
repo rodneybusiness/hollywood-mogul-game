@@ -3720,6 +3720,17 @@ window.HistoricalEvents = (function() {
         const currentYear = gameState.gameYear;
         const currentMonth = gameState.currentDate.getMonth() + 1;
 
+        // Persistence (audit HIST-011): gameState is the single source of
+        // truth for the fired-set, so save v3 carries it (pre-v3, loading
+        // re-fired events and re-applied additive effects) AND a new game
+        // starts clean (the old module-only Set survived restarts and
+        // suppressed every event in a second campaign). The module Set is
+        // rebuilt from state each check.
+        if (!Array.isArray(gameState.triggeredHistoricalEvents)) {
+            gameState.triggeredHistoricalEvents = [];
+        }
+        triggeredEvents = new Set(gameState.triggeredHistoricalEvents);
+
         // Find all events for current year/month that haven't triggered
         const eligibleEvents = HISTORICAL_EVENTS.filter(event => {
             return event.year === currentYear &&
@@ -3731,6 +3742,9 @@ window.HistoricalEvents = (function() {
         const triggeredThisMonth = [];
         eligibleEvents.forEach(event => {
             triggeredEvents.add(event.id);
+            if (gameState.triggeredHistoricalEvents.indexOf(event.id) === -1) {
+                gameState.triggeredHistoricalEvents.push(event.id);
+            }
             triggerEvent(event, gameState);
             triggeredThisMonth.push(event);
         });
@@ -3775,54 +3789,214 @@ window.HistoricalEvents = (function() {
     /**
      * Apply event effects to game state
      */
+    // ================================================================
+    // EFFECTS INTERPRETER (audit HIST-001 / roadmap P4.1)
+    // The old dispatcher handled 10 keys and silently dropped the other
+    // ~140 authored effect payloads — 97% of history was decorative.
+    // Every key is now classified: GENRE keys move genre economics,
+    // ECONOMY keys move cost/revenue multipliers consumed by the live
+    // systems, MARQUEE keys keep their dedicated behavior, and FLAG keys
+    // persist as queryable world state. Unknown keys are recorded on
+    // gameState.__unhandledEffects — a test asserts that set stays empty.
+    // ================================================================
+
+    // Every remaining authored key, enumerated from the data. Additions
+    // to event data must extend one of the classification tables or a test
+    // fails (tests/sim/history-effects.test.js).
+    var FLAG_KEYS = {
+        dvd_decline: true,
+        animation_experimentation: true, anti_fascist_sentiment: true, anti_nazi_sentiment: true, art_deco_style: true, art_film_awareness: true, artistic_ambition: true,
+        atomic_anxiety: true, audience_fragmentation: true, audience_tastes_shift: true, awards_marketing_value: true, bacall_bogart_chemistry: true, bad_boy_image_viable: true,
+        blacklist_fear: true, blonde_bombshell_archetype: true, bogart_mystique: true, british_films: true, budget_ceiling_raised: true, budget_expectations: true,
+        capra_optimism: true, capra_style_popular: true, casting_publicity: true, chaplin_influence: true, child_star_value: true, cinematography_innovation: true,
+        cold_war_intensifies: true, cooper_prestige: true, creative_freedom: true, crosby_value: true, cynical_tone_acceptable: true, dance_sequences_popular: true,
+        darker_content_acceptable: true, distribution_harder: true, diversity_slow_progress: true, ensemble_casts: true, european_competition: true, european_markets: true,
+        family_film_market: true, fear_maximum: true, female_stars_dominance: true, femme_fatale_archetype: true, franchise_model: true, government_goodwill: true,
+        gwtw_anticipation: true, hearst_boycott: true, hughes_prestige: true, huston_prestige: true, independent_producers_rise: true, industry_mourning: true,
+        international_prestige: true, japanese_american_talent_lost: true, labor_relations: true, labor_tensions: true, moral_complexity: true, morale_bonus: true,
+        morality_clause_tension: true, musical_confidence: true, nightclub_scenes_viable: true, optimism: true, oscar_prestige: true, patriotic_sentiment: true,
+        pin_up_culture: true, political_awareness: true, political_content_risk: true, prestige_animation: true, prestige_cinema: true, prestige_picture_viable: true,
+        production_delays: true, production_time: true, production_uncertainty: true, propaganda_acceptance: true, propaganda_quota: true, racial_awareness: true,
+        radio_drama_respect: true, realism_acceptable: true, refugee_talent: true, reputation_requirement: true, returning_veterans: true, rko_weakness: true,
+        scandal_publicity: true, social_commentary_films: true, social_films_risky: true, sophisticated_romance: true, special_effects_interest: true, star_patriotic_value: true,
+        studio_power_decline: true, studio_system_cracks: true, superhero_awareness: true, technicolor_demand: true, technicolor_prestige: true, theater_attendance_peak: true,
+        veteran_directors: true, victory_optimism: true, victory_sentiment: true, war_coordination: true, war_drama_credibility: true, war_end_planning: true,
+        welles_interest: true, wholesome_content: true
+    };
+
+    function ensureEventContainers(gameState) {
+        if (!gameState.worldFlags) gameState.worldFlags = {};
+        if (!gameState.eventMods) {
+            gameState.eventMods = {
+                genre: {},            // multiplicative, clamped [0.5, 2.0]
+                boxOffice: 1.0,       // global gross multiplier
+                productionCost: 1.0,  // weekly production cost multiplier
+                distributionCost: 1.0,// marketing cost multiplier
+                talentCost: 1.0,      // contract salary multiplier
+                budgetRisk: 0.0       // added chance of budget crises
+            };
+        }
+    }
+
+    function bumpGenre(gameState, genre, mult) {
+        ensureEventContainers(gameState);
+        var cur = gameState.eventMods.genre[genre] || 1.0;
+        gameState.eventMods.genre[genre] = Math.max(0.5, Math.min(2.0, cur * mult));
+    }
+
+    // GENRE_KEYS: flavor keys with clear genre semantics.
+    // value semantics: 'mult' keys carry their own multiplier (e.g. 1.2);
+    // fixed entries apply the listed multiplier when the key is truthy.
+    var GENRE_KEYS = {
+        musical_genre_boost: { genre: 'musical', mult: null },
+        musical_popularity: { genre: 'musical', mult: null },
+        epic_genre_boost: { genre: 'drama', mult: null },
+        romantic_comedy_boost: { genre: 'comedy', mult: 1.12 },
+        family_films_boost: { genre: 'comedy', mult: 1.08 },
+        spectacle_films_boost: { genre: 'drama', mult: 1.1 },
+        war_films: { genre: 'war', mult: 1.15 },
+        morale_films_boost: { genre: 'musical', mult: 1.1 },
+        war_romance_boost: { genre: 'romance', mult: 1.12 },
+        film_noir_viable: { genre: 'noir', mult: 1.15 },
+        dark_films_boost: { genre: 'noir', mult: 1.1 },
+        cynical_films: { genre: 'noir', mult: 1.08 },
+        noir_template: { genre: 'noir', mult: 1.08 },
+        social_problem_films: { genre: 'drama', mult: 1.08 },
+        social_realism: { genre: 'drama', mult: 1.06 },
+        veteran_films: { genre: 'drama', mult: 1.06 },
+        prestige_drama: { genre: 'drama', mult: 1.08 },
+        political_films: { genre: 'drama', mult: 1.05 },
+        christmas_films: { genre: 'comedy', mult: 1.08 },
+        womens_pictures: { genre: 'romance', mult: 1.1 },
+        integrated_musicals: { genre: 'musical', mult: 1.1 },
+        musical_theater_source: { genre: 'musical', mult: 1.06 },
+        fantasy_genre: { genre: 'horror', mult: 1.08 },
+        sci_fi_potential: { genre: 'sci_fi', mult: 1.1 },
+        aviation_films: { genre: 'action', mult: 1.08 },
+        animation_viable: { genre: 'comedy', mult: 1.05 },
+        rural_comedy_decline: { genre: 'comedy', mult: 0.95 }
+    };
+
+    // ECONOMY_KEYS: numeric keys consumed by the live money systems.
+    // shape: 'mult' (value IS the multiplier), 'delta' (multiplier = 1+value)
+    var ECONOMY_KEYS = {
+        production_costs: { target: 'productionCost', shape: 'mult' },
+        material_rationing: { target: 'productionCost', shape: 'mult' },
+        animation_costs: { target: 'productionCost', shape: 'mult' },
+        actor_costs: { target: 'talentCost', shape: 'mult' },
+        budget_inflation: { target: 'productionCost', shape: 'mult' },
+        box_office_modifier: { target: 'boxOffice', shape: 'delta' },
+        box_office_peak: { target: 'boxOffice', shape: 'delta' },
+        theater_attendance_decline: { target: 'boxOffice', shape: 'delta' },
+        distribution_cost_modifier: { target: 'distributionCost', shape: 'delta' },
+        talent_cost_modifier: { target: 'talentCost', shape: 'delta' },
+        budget_risk_modifier: { target: 'budgetRisk', shape: 'add' }
+    };
+
     function applyEventEffects(event, gameState) {
         const effects = event.effects || {};
+        ensureEventContainers(gameState);
 
-        // Censorship effects
-        if (effects.censorship_active !== undefined) {
-            gameState.censorshipActive = effects.censorship_active;
-        }
+        Object.keys(effects).forEach(function (key) {
+            var value = effects[key];
 
-        // War effects
-        if (effects.war_active !== undefined) {
-            gameState.warActive = effects.war_active;
-        }
+            // ---- structured genre payload: genre_boost: { war: 0.2 } ----
+            if (key === 'genre_boost' && value && typeof value === 'object') {
+                Object.keys(value).forEach(function (g) {
+                    bumpGenre(gameState, g, 1 + value[g]);
+                });
+                return;
+            }
 
-        if (effects.actor_draft_risk !== undefined) {
-            gameState.actorDraftRisk = effects.actor_draft_risk;
-        }
+            // ---- classified genre flavor keys ----
+            if (GENRE_KEYS[key]) {
+                var spec = GENRE_KEYS[key];
+                var mult = spec.mult !== null ? spec.mult
+                    : (typeof value === 'number' ? value : 1.1);
+                if (value !== false) bumpGenre(gameState, spec.genre, mult);
+                return;
+            }
 
-        // HUAC effects
-        if (effects.huac_active !== undefined) {
-            gameState.huacActive = effects.huac_active;
-        }
+            // ---- classified economy keys ----
+            if (ECONOMY_KEYS[key] && typeof value === 'number') {
+                var eco = ECONOMY_KEYS[key];
+                if (eco.shape === 'add') {
+                    gameState.eventMods[eco.target] += value;
+                } else {
+                    var m = eco.shape === 'mult' ? value : 1 + value;
+                    gameState.eventMods[eco.target] =
+                        Math.max(0.4, Math.min(2.5, gameState.eventMods[eco.target] * m));
+                }
+                return;
+            }
 
-        if (effects.political_risk !== undefined) {
-            gameState.politicalRisk = (gameState.politicalRisk || 0) + effects.political_risk;
-        }
+            // ---- marquee keys: dedicated world-state behavior ----
+            switch (key) {
+                case 'censorship_active':
+                    gameState.censorshipActive = value; return;
+                case 'war_active':
+                    gameState.warActive = value; return;
+                case 'actor_draft_risk':
+                    gameState.actorDraftRisk = value; return;
+                case 'draft_risk':
+                    gameState.actorDraftRisk = Math.max(gameState.actorDraftRisk || 0,
+                        typeof value === 'number' ? value : 0.3); return;
+                case 'male_actor_shortage':
+                case 'talent_restriction':
+                    gameState.talentRestricted = !!value; return;
+                case 'huac_active':
+                case 'huac_continues':
+                    gameState.huacActive = !!value; return;
+                case 'political_risk':
+                    gameState.politicalRisk = (gameState.politicalRisk || 0) + value; return;
+                case 'blacklist_begins':
+                case 'blacklist_permanent':
+                    gameState.blacklistActive = !!value; return;
+                case 'vertical_integration_ends':
+                    gameState.verticalIntegration = !value;
+                    if (window.FinancialSystem && window.FinancialSystem.applyParamountDecree) {
+                        window.FinancialSystem.applyParamountDecree(gameState);
+                    }
+                    return;
+                case 'box_office_uncertainty':
+                    gameState.boxOfficeVariance = (gameState.boxOfficeVariance || 0) + value; return;
+                case 'audience_expectations':
+                    gameState.audienceExpectations =
+                        (gameState.audienceExpectations || 50) + value; return;
+                case 'television_competition':
+                case 'home_entertainment_threat':
+                    gameState.worldFlags[key] = value; return;
+                case 'technology_available':
+                case 'rating_available':
+                case 'revenue_stream':
+                case 'censorship_system':
+                case 'distribution_strategy':
+                case 'marketing_strategy':
+                    gameState.worldFlags[key] = value; return;
+                case 'censorship_modifier':
+                case 'content_restrictions':
+                case 'content_freedom':
+                case 'content_risk':
+                case 'catholic_censorship':
+                case 'military_censorship':
+                    gameState.worldFlags[key] = value; return;
+                case 'game_complete':
+                    gameState.gameComplete = value; return;
+            }
 
-        if (effects.blacklist_begins !== undefined) {
-            gameState.blacklistActive = effects.blacklist_begins;
-        }
+            // ---- everything else: persisted, queryable world color ----
+            // (deliberate FLAG classification — newspaper, AI, and future
+            // content read these; they are no longer dropped on the floor)
+            if (Object.prototype.hasOwnProperty.call(FLAG_KEYS, key)) {
+                gameState.worldFlags[key] = value;
+                return;
+            }
 
-        // Business effects
-        if (effects.vertical_integration_ends !== undefined) {
-            gameState.verticalIntegration = !effects.vertical_integration_ends;
-        }
-
-        if (effects.box_office_uncertainty !== undefined) {
-            gameState.boxOfficeVariance = (gameState.boxOfficeVariance || 0) + effects.box_office_uncertainty;
-        }
-
-        // Industry effects
-        if (effects.audience_expectations !== undefined) {
-            gameState.audienceExpectations = (gameState.audienceExpectations || 50) + effects.audience_expectations;
-        }
-
-        // Game completion
-        if (effects.game_complete !== undefined) {
-            gameState.gameComplete = effects.game_complete;
-        }
+            // ---- unknown: never silent ----
+            if (!gameState.__unhandledEffects) gameState.__unhandledEffects = [];
+            gameState.__unhandledEffects.push(event.id + ':' + key);
+            console.warn('Unhandled historical effect key: ' + key + ' (event ' + event.id + ')');
+        });
     }
 
     /**
@@ -3894,6 +4068,7 @@ window.HistoricalEvents = (function() {
     return {
         checkForEvents,
         triggerEvent,
+        applyEventEffects,
         getTriggeredEvents,
         getEventById,
         getEventsForYear,

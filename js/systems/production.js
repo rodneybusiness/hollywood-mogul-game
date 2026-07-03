@@ -217,6 +217,12 @@ window.ProductionSystem = (function() {
             baseCost *= window.TechnologySystem.getBudgetMultiplier(gameState);
         }
 
+        // Historical-event cost climate (P4.1): strikes, rationing, and
+        // post-war inflation move real production costs now.
+        if (gameState.eventMods && gameState.eventMods.productionCost) {
+            baseCost *= gameState.eventMods.productionCost;
+        }
+
         return Math.floor(baseCost);
     }
     
@@ -269,6 +275,12 @@ window.ProductionSystem = (function() {
     function shouldTriggerEvent(film) {
         // Events more likely during principal photography
         let baseChance = film.phase === 'PRINCIPAL_PHOTOGRAPHY' ? 0.4 : 0.1;
+
+        // Historical budget-risk climate (P4.1: budget_risk_modifier)
+        const riskState = window.HollywoodMogul ? window.HollywoodMogul.getGameState() : null;
+        if (riskState && riskState.eventMods && riskState.eventMods.budgetRisk) {
+            baseChance += riskState.eventMods.budgetRisk * 0.1;
+        }
         
         // Higher chance if already having problems
         if (!film.onSchedule || !film.onBudget) {

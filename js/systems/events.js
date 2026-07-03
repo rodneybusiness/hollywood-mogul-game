@@ -2533,7 +2533,7 @@ window.EventSystem = (function() {
     function getEligibleEvents(gameState, film) {
         const allEvents = [];
         const currentPhase = film.phase || 'PRODUCTION';
-        const currentYear = gameState.year || 1940;
+        const currentYear = gameState.gameYear || 1940;
 
         // Gather all events from all categories
         for (const category in EVENT_DATABASE) {
@@ -2577,10 +2577,10 @@ window.EventSystem = (function() {
                     if (conditions[key] && !film.hasFemaleLead) return false;
                     break;
                 case 'isWartime':
-                    if (conditions[key] && (gameState.year < 1941 || gameState.year > 1945)) return false;
+                    if (conditions[key] && (gameState.gameYear < 1941 || gameState.gameYear > 1945)) return false;
                     break;
                 case 'isRedScare':
-                    if (conditions[key] && (gameState.year < 1947 || gameState.year > 1954)) return false;
+                    if (conditions[key] && (gameState.gameYear < 1947 || gameState.gameYear > 1954)) return false;
                     break;
                 case 'hasExternalInvestor':
                     if (conditions[key] && !film.hasInvestor) return false;
@@ -2788,17 +2788,21 @@ window.EventSystem = (function() {
         const effects = choice.effects;
 
         // Apply to film
+        // P3.8 (audit DESIGN-007): consequences land on the fields the
+        // production/box-office pipeline actually reads — the old writes
+        // (film.quality / weeksRemaining / budgetSpent) were placebo.
         if (effects.budget && window.HollywoodMogul && window.HollywoodMogul.spendCash) {
             window.HollywoodMogul.spendCash(Math.abs(effects.budget));
-            film.budgetSpent = (film.budgetSpent || 0) + Math.abs(effects.budget);
+            film.spentToDate = (film.spentToDate || 0) + Math.abs(effects.budget);
         }
 
         if (effects.weeks) {
-            film.weeksRemaining = (film.weeksRemaining || 12) + effects.weeks;
+            film.delayWeeks = (film.delayWeeks || 0) + Math.max(0, effects.weeks);
+            if (effects.weeks > 0) film.onSchedule = false;
         }
 
         if (effects.quality) {
-            film.quality = Math.max(0, Math.min(100, (film.quality || 50) + effects.quality));
+            film.currentQuality = Math.max(0, Math.min(100, (film.currentQuality || film.scriptQuality || 50) + effects.quality));
         }
 
         if (effects.hype) {
@@ -2811,6 +2815,8 @@ window.EventSystem = (function() {
 
         if (effects.morale) {
             film.morale = Math.max(0, Math.min(100, (film.morale || 50) + effects.morale));
+            // Morale reaches the pipeline through crew efficiency
+            film.crewEfficiency = Math.max(30, Math.min(100, (film.crewEfficiency || 70) + effects.morale / 2));
         }
 
         if (effects.scandal) {

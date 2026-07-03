@@ -534,6 +534,16 @@ window.CrisisSystem = (function() {
             gameState.blacklistRisk = (gameState.blacklistRisk || 0) + effects.blacklistRisk;
         }
 
+        // Naming-names karma and industry standing (audit HIST-009 — these
+        // keys were authored but silently dropped)
+        if (effects.blacklistKarma) {
+            gameState.blacklistKarma = (gameState.blacklistKarma || 0) + effects.blacklistKarma;
+        }
+        if (effects.industryRelations) {
+            gameState.industryRelations = Math.max(0, Math.min(100,
+                (gameState.industryRelations || 50) + effects.industryRelations));
+        }
+
         // Long-term effects
         if (choice.longTermEffect) {
             if (!gameState.longTermEffects) {

@@ -24,8 +24,22 @@ window.TalentManagement = (function() {
             return { success: false, message: `${talent.name} is already under contract` };
         }
 
+        // HUAC long-tail (audit HIST-009): talent despises friendly
+        // witnesses. Informer studios pay a premium, and some talent
+        // refuses outright.
+        let huacPremium = 1.0;
+        if (gameState.longTermEffects && gameState.longTermEffects.indexOf('cooperative_witness') !== -1) {
+            huacPremium = 1.25;
+            if (Math.random() < 0.2) {
+                return {
+                    success: false,
+                    message: `${talent.name} won't work for an informer's studio.`
+                };
+            }
+        }
+
         // Calculate contract cost
-        const weeklyRate = talent.weeklyRate;
+        const weeklyRate = Math.floor(talent.weeklyRate * huacPremium);
         const annualCost = weeklyRate * 52; // 52 weeks per year
         const totalCost = annualCost * years;
         const signingBonus = Math.floor(annualCost * 0.25); // 25% signing bonus
