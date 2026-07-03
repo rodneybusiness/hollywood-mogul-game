@@ -13,7 +13,7 @@ window.ScriptLibrary = (function() {
         preCode: [
             // GANGSTER/CRIME
             {
-                title: "The Public Enemy",
+                title: "Public Menace No. 1",
                 genre: "gangster",
                 year: 1933,
                 budget: 85000,
@@ -71,7 +71,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "This type of 'fallen woman' narrative would be banned under the Hays Code"
             },
             {
-                title: "Baby Face",
+                title: "Angel Face",
                 genre: "drama",
                 year: 1933,
                 budget: 70000,
@@ -85,7 +85,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "One of the most notorious Pre-Code films, heavily censored after 1934"
             },
             {
-                title: "Red-Headed Woman",
+                title: "The Scarlet-Haired Woman",
                 genre: "drama",
                 year: 1933,
                 budget: 68000,
@@ -99,7 +99,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Amoral heroines were common in Pre-Code but disappeared after censorship"
             },
             {
-                title: "The Divorcee",
+                title: "The Divorcée of Fifth Avenue",
                 genre: "drama",
                 year: 1933,
                 budget: 72000,
@@ -115,7 +115,7 @@ window.ScriptLibrary = (function() {
 
             // MUSICAL - PRE-CODE
             {
-                title: "Gold Diggers of Broadway",
+                title: "Gold Diggers of the Great White Way",
                 genre: "musical",
                 year: 1933,
                 budget: 125000,
@@ -143,7 +143,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Busby Berkeley's elaborate choreography defined the era"
             },
             {
-                title: "Footlight Parade",
+                title: "Footlight Frenzy",
                 genre: "musical",
                 year: 1933,
                 budget: 140000,
@@ -159,7 +159,7 @@ window.ScriptLibrary = (function() {
 
             // COMEDY - PRE-CODE
             {
-                title: "She Done Him Wrong",
+                title: "She Did Him Dirty",
                 genre: "comedy",
                 year: 1933,
                 budget: 65000,
@@ -173,7 +173,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Mae West's double entendres pushed Pre-Code boundaries"
             },
             {
-                title: "Design for Living",
+                title: "Blueprint for Living",
                 genre: "comedy",
                 year: 1933,
                 budget: 78000,
@@ -184,7 +184,7 @@ window.ScriptLibrary = (function() {
                 themes: ["sexuality", "unconventional_relationships", "sophistication"],
                 castRequirements: { male_lead: 2, female_lead: 1, supporting: 4 },
                 locationNeeds: ["paris_apartment", "artist_studio", "penthouse"],
-                historicalNotes: "Ernst Lubitsch's sophisticated Pre-Code comedy about a threesome"
+                historicalNotes: "Eugene Lindqvist's sophisticated Pre-Code comedy about a threesome"
             },
 
             // WESTERN - PRE-CODE
@@ -205,7 +205,7 @@ window.ScriptLibrary = (function() {
 
             // HORROR - PRE-CODE
             {
-                title: "The Island of Lost Souls",
+                title: "The Island of Forgotten Souls",
                 genre: "horror",
                 year: 1933,
                 budget: 45000,
@@ -251,7 +251,7 @@ window.ScriptLibrary = (function() {
 
             // MYSTERY - PRE-CODE
             {
-                title: "The Thin Man",
+                title: "The Slender Gentleman",
                 genre: "mystery",
                 year: 1934,
                 budget: 85000,
@@ -284,7 +284,7 @@ window.ScriptLibrary = (function() {
 
             // BIOGRAPHY - PRE-CODE
             {
-                title: "The Private Life of Henry VIII",
+                title: "The Private Life of a King",
                 genre: "biography",
                 year: 1933,
                 budget: 95000,
@@ -314,7 +314,7 @@ window.ScriptLibrary = (function() {
                 themes: ["journey", "redemption", "frontier"],
                 castRequirements: { male_lead: 3, female_lead: 2, supporting: 6 },
                 locationNeeds: ["desert", "stagecoach", "western_town"],
-                historicalNotes: "John Ford elevated the Western to prestige cinema"
+                historicalNotes: "Fletcher Ashford elevated the Western to prestige cinema"
             },
             {
                 title: "Dodge City Law",
@@ -331,7 +331,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Technicolor spectacle made Westerns more prestigious"
             },
             {
-                title: "Destry Rides Again",
+                title: "Dalton Rides Again",
                 genre: "western",
                 year: 1939,
                 budget: 88000,
@@ -342,10 +342,10 @@ window.ScriptLibrary = (function() {
                 themes: ["nonviolence", "wit", "justice"],
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 7 },
                 locationNeeds: ["saloon", "western_town", "sheriff_office"],
-                historicalNotes: "Marlene Dietrich's iconic saloon singer role"
+                historicalNotes: "Marjorie Kingsford's iconic saloon singer role"
             },
             {
-                title: "The Westerner",
+                title: "The Frontiersman",
                 genre: "western",
                 year: 1940,
                 budget: 105000,
@@ -356,7 +356,7 @@ window.ScriptLibrary = (function() {
                 themes: ["conflict", "honor", "frontier"],
                 castRequirements: { male_lead: 2, female_lead: 1, supporting: 8 },
                 locationNeeds: ["ranch", "courthouse", "plains"],
-                historicalNotes: "Walter Brennan won Oscar for Judge Roy Bean portrayal"
+                historicalNotes: "Clifford Westbrook won Oscar for Judge Roy Bean portrayal"
             },
             {
                 title: "Jesse James Rides",
@@ -373,7 +373,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Sympathetic outlaw portrayal tested Hays Code limits"
             },
             {
-                title: "Union Pacific",
+                title: "Transcontinental",
                 genre: "western",
                 year: 1939,
                 budget: 145000,
@@ -402,7 +402,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Westerns became the quintessential American genre during this period"
             },
             {
-                title: "The Plainsman",
+                title: "The Prairie Marshal",
                 genre: "western",
                 year: 1937,
                 budget: 115000,
@@ -418,7 +418,7 @@ window.ScriptLibrary = (function() {
 
             // SCREWBALL COMEDY
             {
-                title: "It Happened One Night",
+                title: "It Happened One Evening",
                 genre: "comedy",
                 year: 1935,
                 budget: 95000,
@@ -432,7 +432,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "First film to win all five major Oscars, defined screwball comedy"
             },
             {
-                title: "My Man Godfrey",
+                title: "My Butler Bartholomew",
                 genre: "comedy",
                 year: 1936,
                 budget: 105000,
@@ -446,7 +446,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Sophisticated Depression-era class commentary disguised as comedy"
             },
             {
-                title: "Bringing Up Baby",
+                title: "Raising Rosie",
                 genre: "comedy",
                 year: 1938,
                 budget: 115000,
@@ -461,7 +461,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Hawks' masterpiece of controlled chaos and rapid-fire dialogue"
             },
             {
-                title: "The Awful Truth",
+                title: "The Dreadful Truth",
                 genre: "comedy",
                 year: 1937,
                 budget: 98000,
@@ -475,7 +475,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Sophisticated treatment of divorce within Hays Code limits"
             },
             {
-                title: "His Girl Friday",
+                title: "Her Front-Page Fella",
                 genre: "comedy",
                 year: 1940,
                 budget: 110000,
@@ -503,7 +503,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Screwball comedies defined sophisticated entertainment in the late 1930s"
             },
             {
-                title: "The Lady Eve",
+                title: "The Lady Evangeline",
                 genre: "comedy",
                 year: 1941,
                 budget: 102000,
@@ -514,10 +514,10 @@ window.ScriptLibrary = (function() {
                 themes: ["deception", "romance", "revenge"],
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 },
                 locationNeeds: ["ocean_liner", "mansion", "dining_room"],
-                historicalNotes: "Preston Sturges' sophisticated comedy about sexual politics"
+                historicalNotes: "Harold Ives' sophisticated comedy about sexual politics"
             },
             {
-                title: "The Philadelphia Story",
+                title: "The Newport Story",
                 genre: "comedy",
                 year: 1940,
                 budget: 125000,
@@ -528,7 +528,7 @@ window.ScriptLibrary = (function() {
                 themes: ["class", "romance", "second_chances"],
                 castRequirements: { male_lead: 3, female_lead: 1, supporting: 8 },
                 locationNeeds: ["estate", "library", "garden"],
-                historicalNotes: "Katharine Hepburn's comeback vehicle, sophisticated romantic triangle"
+                historicalNotes: "Dorothea Devereaux's comeback vehicle, sophisticated romantic triangle"
             },
 
             // MUSICAL
@@ -547,7 +547,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Astaire-Rogers at their peak, iconic Art Deco sets"
             },
             {
-                title: "Swing Time",
+                title: "Swing Fever",
                 genre: "musical",
                 year: 1936,
                 budget: 125000,
@@ -561,7 +561,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Features 'The Way You Look Tonight' and classic Astaire choreography"
             },
             {
-                title: "Shall We Dance",
+                title: "May I Have This Dance",
                 genre: "musical",
                 year: 1937,
                 budget: 135000,
@@ -575,7 +575,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Gershwin score, blend of ballet and tap dancing"
             },
             {
-                title: "The Wizard of Oz",
+                title: "The Wizard of the Emerald City",
                 genre: "musical",
                 year: 1939,
                 budget: 275000,
@@ -590,7 +590,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Revolutionary use of Technicolor, became cultural phenomenon"
             },
             {
-                title: "Babes in Arms",
+                title: "Babes on Broadway Row",
                 genre: "musical",
                 year: 1939,
                 budget: 115000,
@@ -601,10 +601,10 @@ window.ScriptLibrary = (function() {
                 themes: ["youth", "showbusiness", "perseverance"],
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 20 },
                 locationNeeds: ["theater", "barn", "small_town"],
-                historicalNotes: "Mickey Rooney and Judy Garland's first pairing"
+                historicalNotes: "Mickey Rooney and Selma Harrington's first pairing"
             },
             {
-                title: "Broadway Melody of 1940",
+                title: "Broadway Rhapsody of 1940",
                 genre: "musical",
                 year: 1940,
                 budget: 142000,
@@ -633,7 +633,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Color films were rare and expensive but drew huge audiences"
             },
             {
-                title: "Meet Me in St. Louis",
+                title: "Meet Me at the Fair",
                 genre: "musical",
                 year: 1944,
                 budget: 165000,
@@ -645,12 +645,12 @@ window.ScriptLibrary = (function() {
                 castRequirements: { male_lead: 2, female_lead: 3, children: 2, supporting: 8 },
                 locationNeeds: ["victorian_house", "streetcar", "fairgrounds"],
                 specialRequirements: ["technicolor", "period_sets"],
-                historicalNotes: "Judy Garland's most iconic non-Oz role, introduces 'Have Yourself a Merry Little Christmas'"
+                historicalNotes: "Selma Harrington's most iconic non-Oz role, introduces 'Have Yourself a Merry Little Christmas'"
             },
 
             // DRAMA
             {
-                title: "The Grapes of Wrath",
+                title: "The Harvest of Anger",
                 genre: "drama",
                 year: 1940,
                 budget: 180000,
@@ -664,7 +664,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Steinbeck adaptation, powerful social commentary on Depression"
             },
             {
-                title: "Citizen Kane",
+                title: "Citizen Crane",
                 genre: "drama",
                 year: 1941,
                 budget: 150000,
@@ -679,7 +679,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Revolutionary filmmaking techniques, Hearst tried to suppress it"
             },
             {
-                title: "How Green Was My Valley",
+                title: "How Green Was the Glen",
                 genre: "drama",
                 year: 1941,
                 budget: 175000,
@@ -690,10 +690,10 @@ window.ScriptLibrary = (function() {
                 themes: ["family", "labor", "nostalgia"],
                 castRequirements: { male_lead: 3, female_lead: 2, children: 3, supporting: 15 },
                 locationNeeds: ["mining_village", "coal_mine", "church"],
-                historicalNotes: "Beat Citizen Kane for Best Picture, John Ford's family saga"
+                historicalNotes: "Beat Citizen Kane for Best Picture, Fletcher Ashford's family saga"
             },
             {
-                title: "Rebecca",
+                title: "The Second Mrs. Ashworth",
                 genre: "drama",
                 year: 1940,
                 budget: 165000,
@@ -707,7 +707,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Hitchcock's first American film, won Best Picture"
             },
             {
-                title: "Wuthering Heights",
+                title: "Storm on the Moors",
                 genre: "drama",
                 year: 1939,
                 budget: 155000,
@@ -721,7 +721,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Gothic romance, Laurence Olivier's Hollywood debut"
             },
             {
-                title: "Mr. Smith Goes to Washington",
+                title: "Mr. Sutton Goes to Washington",
                 genre: "drama",
                 year: 1939,
                 budget: 145000,
@@ -749,7 +749,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Social realist dramas addressed Depression hardships"
             },
             {
-                title: "Of Mice and Men",
+                title: "Of Dust and Dreams",
                 genre: "drama",
                 year: 1939,
                 budget: 135000,
@@ -763,7 +763,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Steinbeck's tragic tale of friendship and shattered dreams"
             },
             {
-                title: "All This and Heaven Too",
+                title: "All This and Paradise",
                 genre: "drama",
                 year: 1940,
                 budget: 158000,
@@ -777,7 +777,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Lavish period drama based on true crime scandal"
             },
             {
-                title: "Dark Victory",
+                title: "Bitter Victory",
                 genre: "drama",
                 year: 1939,
                 budget: 125000,
@@ -788,10 +788,10 @@ window.ScriptLibrary = (function() {
                 themes: ["death", "love", "redemption"],
                 castRequirements: { male_lead: 2, female_lead: 1, supporting: 6 },
                 locationNeeds: ["mansion", "hospital", "countryside"],
-                historicalNotes: "Bette Davis' iconic tearjerker performance"
+                historicalNotes: "Vivian Barrington' iconic tearjerker performance"
             },
             {
-                title: "Jezebel",
+                title: "Delilah of the Delta",
                 genre: "drama",
                 year: 1938,
                 budget: 140000,
@@ -807,7 +807,7 @@ window.ScriptLibrary = (function() {
 
             // ROMANCE
             {
-                title: "Love Affair",
+                title: "A Shipboard Affair",
                 genre: "romance",
                 year: 1939,
                 budget: 95000,
@@ -821,7 +821,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Later remade as An Affair to Remember"
             },
             {
-                title: "Camille",
+                title: "Camellia",
                 genre: "romance",
                 year: 1936,
                 budget: 118000,
@@ -835,7 +835,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Garbo's greatest tragic romance within Hays Code limits"
             },
             {
-                title: "Waterloo Bridge",
+                title: "London Bridge at Midnight",
                 genre: "romance",
                 year: 1940,
                 budget: 112000,
@@ -846,10 +846,10 @@ window.ScriptLibrary = (function() {
                 themes: ["war", "tragedy", "love"],
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 6 },
                 locationNeeds: ["bridge", "theater", "manor"],
-                historicalNotes: "Vivien Leigh's follow-up to Gone with the Wind"
+                historicalNotes: "Lillian Norwood's follow-up to Gone with the Wind"
             },
             {
-                title: "Intermezzo",
+                title: "Interlude",
                 genre: "romance",
                 year: 1939,
                 budget: 105000,
@@ -860,10 +860,10 @@ window.ScriptLibrary = (function() {
                 themes: ["adultery", "music", "guilt"],
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 },
                 locationNeeds: ["concert_hall", "villa", "apartment"],
-                historicalNotes: "Ingrid Bergman's Hollywood debut, adultery carefully handled"
+                historicalNotes: "Sylvia Underhill's Hollywood debut, adultery carefully handled"
             },
             {
-                title: "The Shop Around the Corner",
+                title: "The Shop on Maple Street",
                 genre: "romance",
                 year: 1940,
                 budget: 98000,
@@ -877,7 +877,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Lubitsch's charming romance, later remade as You've Got Mail"
             },
             {
-                title: "Ninotchka",
+                title: "Natasha Laughs",
                 genre: "romance",
                 year: 1939,
                 budget: 122000,
@@ -893,7 +893,7 @@ window.ScriptLibrary = (function() {
 
             // ADVENTURE
             {
-                title: "The Adventures of Robin Hood",
+                title: "The Outlaw of Nottingham",
                 genre: "adventure",
                 year: 1938,
                 budget: 185000,
@@ -905,10 +905,10 @@ window.ScriptLibrary = (function() {
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 12 },
                 locationNeeds: ["forest", "castle", "tournament"],
                 specialRequirements: ["technicolor", "swordplay", "archery"],
-                historicalNotes: "Errol Flynn's most iconic role, lavish Technicolor production"
+                historicalNotes: "Howard Lockridge's most iconic role, lavish Technicolor production"
             },
             {
-                title: "Gunga Din",
+                title: "Drums Over the Khyber",
                 genre: "adventure",
                 year: 1939,
                 budget: 175000,
@@ -922,7 +922,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Kipling adaptation, problematic colonial attitudes"
             },
             {
-                title: "The Mark of Zorro",
+                title: "The Mark of the Fox",
                 genre: "adventure",
                 year: 1940,
                 budget: 145000,
@@ -934,7 +934,7 @@ window.ScriptLibrary = (function() {
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 10 },
                 locationNeeds: ["hacienda", "mission", "pueblo"],
                 specialRequirements: ["swordplay", "horsemanship"],
-                historicalNotes: "Tyrone Power's swashbuckling masterpiece"
+                historicalNotes: "Theodore Ashford's swashbuckling masterpiece"
             },
             {
                 title: "Adventure in the Amazon",
@@ -997,7 +997,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Karloff again, playing on Egypt mania"
             },
             {
-                title: "Cat People",
+                title: "The Panther Woman",
                 genre: "horror",
                 year: 1942,
                 budget: 62000,
@@ -1013,7 +1013,7 @@ window.ScriptLibrary = (function() {
 
             // NOIR (Early examples in Golden Age period)
             {
-                title: "The Maltese Falcon",
+                title: "The Cyprus Falcon",
                 genre: "noir",
                 year: 1941,
                 budget: 115000,
@@ -1027,7 +1027,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Defined film noir style, Bogart's breakthrough role"
             },
             {
-                title: "Stranger on the Third Floor",
+                title: "Stranger on the Fourth Floor",
                 genre: "noir",
                 year: 1940,
                 budget: 72000,
@@ -1043,7 +1043,7 @@ window.ScriptLibrary = (function() {
 
             // MYSTERY/THRILLER
             {
-                title: "Suspicion",
+                title: "A Wife's Suspicion",
                 genre: "mystery",
                 year: 1941,
                 budget: 98000,
@@ -1054,10 +1054,10 @@ window.ScriptLibrary = (function() {
                 themes: ["paranoia", "marriage", "suspense"],
                 castRequirements: { male_lead: 1, female_lead: 1, supporting: 4 },
                 locationNeeds: ["country_house", "cliffside", "village"],
-                historicalNotes: "Hitchcock's psychological thriller, Joan Fontaine won Oscar"
+                historicalNotes: "Hitchcock's psychological thriller, Beatrice Quimby won Oscar"
             },
             {
-                title: "Shadow of a Doubt",
+                title: "Shadow of Suspicion",
                 genre: "mystery",
                 year: 1943,
                 budget: 105000,
@@ -1073,7 +1073,7 @@ window.ScriptLibrary = (function() {
 
             // BIOGRAPHY
             {
-                title: "The Life of Emile Zola",
+                title: "The Conscience of Monsieur Renard",
                 genre: "biography",
                 year: 1937,
                 budget: 145000,
@@ -1087,7 +1087,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Won Best Picture, rare Hollywood treatment of anti-Semitism"
             },
             {
-                title: "Yankee Doodle Dandy",
+                title: "Yankee Doodle Showman",
                 genre: "biography",
                 year: 1942,
                 budget: 155000,
@@ -1106,7 +1106,7 @@ window.ScriptLibrary = (function() {
         warYears: [
             // WAR FILMS
             {
-                title: "Casablanca",
+                title: "Port of Tangier",
                 genre: "war",
                 year: 1942,
                 budget: 135000,
@@ -1120,7 +1120,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Perfect wartime romance, became instant classic"
             },
             {
-                title: "Mrs. Miniver",
+                title: "Mrs. Whitcombe",
                 genre: "war",
                 year: 1942,
                 budget: 148000,
@@ -1135,7 +1135,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Churchill said it did more for the war effort than a fleet of destroyers"
             },
             {
-                title: "Wake Island",
+                title: "Coral Island",
                 genre: "war",
                 year: 1942,
                 budget: 168000,
@@ -1167,7 +1167,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Government actively encouraged war films and provided military equipment"
             },
             {
-                title: "Air Force",
+                title: "Bomber Command",
                 genre: "war",
                 year: 1943,
                 budget: 165000,
@@ -1183,7 +1183,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Hawks' tribute to bomber crews, documentary-like realism"
             },
             {
-                title: "Destination Tokyo",
+                title: "Destination: Pacific",
                 genre: "war",
                 year: 1943,
                 budget: 158000,
@@ -1196,10 +1196,10 @@ window.ScriptLibrary = (function() {
                 locationNeeds: ["submarine", "tokyo_bay", "base"],
                 specialRequirements: ["submarine_sets", "underwater"],
                 governmentSupport: true,
-                historicalNotes: "Cary Grant in rare action role, claustrophobic tension"
+                historicalNotes: "Raymond Ellsworth in rare action role, claustrophobic tension"
             },
             {
-                title: "Bataan",
+                title: "The Last Stand at Corregidor",
                 genre: "war",
                 year: 1943,
                 budget: 152000,
@@ -1214,7 +1214,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "One of the first diverse military units on screen"
             },
             {
-                title: "Guadalcanal Diary",
+                title: "South Pacific Diary",
                 genre: "war",
                 year: 1943,
                 budget: 172000,
@@ -1230,7 +1230,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Based on real correspondent's account of the campaign"
             },
             {
-                title: "Sahara",
+                title: "Desert Column",
                 genre: "war",
                 year: 1943,
                 budget: 145000,
@@ -1244,7 +1244,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Bogart leads international force, promotes Allied unity"
             },
             {
-                title: "Thirty Seconds Over Tokyo",
+                title: "Sixty Seconds Over the Pacific",
                 genre: "war",
                 year: 1944,
                 budget: 185000,
@@ -1260,7 +1260,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Based on real mission that boosted American morale after Pearl Harbor"
             },
             {
-                title: "The Story of G.I. Joe",
+                title: "The Story of the Footslogger",
                 genre: "war",
                 year: 1945,
                 budget: 162000,
@@ -1276,7 +1276,7 @@ window.ScriptLibrary = (function() {
 
             // HOME FRONT
             {
-                title: "Since You Went Away",
+                title: "While You Were Gone",
                 genre: "drama",
                 year: 1944,
                 budget: 195000,
@@ -1306,7 +1306,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Films about women's wartime contributions were encouraged"
             },
             {
-                title: "Tender Comrade",
+                title: "Faithful Comrade",
                 genre: "drama",
                 year: 1943,
                 budget: 88000,
@@ -1337,7 +1337,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Wartime romances often featured exotic locations and moral complexity"
             },
             {
-                title: "Random Harvest",
+                title: "Scattered Harvest",
                 genre: "romance",
                 year: 1942,
                 budget: 125000,
@@ -1368,7 +1368,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Light comedies helped maintain morale during wartime"
             },
             {
-                title: "The More the Merrier",
+                title: "Three's Company in Washington",
                 genre: "comedy",
                 year: 1943,
                 budget: 92000,
@@ -1384,7 +1384,7 @@ window.ScriptLibrary = (function() {
 
             // ANTI-NAZI
             {
-                title: "To Be or Not to Be",
+                title: "The Ham of Warsaw",
                 genre: "comedy",
                 year: 1942,
                 budget: 108000,
@@ -1398,7 +1398,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Controversial for satirizing Nazis during war, now considered classic"
             },
             {
-                title: "The Great Dictator",
+                title: "The Little Tyrant",
                 genre: "comedy",
                 year: 1940,
                 budget: 195000,
@@ -1412,7 +1412,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Chaplin's first talkie, powerful anti-Nazi message before US entry"
             },
             {
-                title: "Hangmen Also Die",
+                title: "The Hangman's Reckoning",
                 genre: "noir",
                 year: 1943,
                 budget: 112000,
@@ -1451,7 +1451,7 @@ window.ScriptLibrary = (function() {
         postWar: [
             // FILM NOIR
             {
-                title: "The Best Years of Our Lives",
+                title: "The Long Road Home",
                 genre: "drama",
                 year: 1946,
                 budget: 215000,
@@ -1465,7 +1465,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Won Best Picture, captured national mood about returning veterans"
             },
             {
-                title: "The Big Sleep",
+                title: "The Long Slumber",
                 genre: "noir",
                 year: 1946,
                 budget: 125000,
@@ -1479,7 +1479,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Bogart and Bacall chemistry, deliberately confusing plot"
             },
             {
-                title: "Double Indemnity",
+                title: "Double Jeopardy Clause",
                 genre: "noir",
                 year: 1944,
                 budget: 118000,
@@ -1493,7 +1493,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Defined noir style, shocking for showing murder plot in detail"
             },
             {
-                title: "Out of the Past",
+                title: "Echoes of the Past",
                 genre: "noir",
                 year: 1947,
                 budget: 115000,
@@ -1507,7 +1507,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Quintessential noir, fatalistic worldview"
             },
             {
-                title: "The Postman Always Rings Twice",
+                title: "The Milkman Never Knocks",
                 genre: "noir",
                 year: 1946,
                 budget: 108000,
@@ -1521,7 +1521,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Steamy adaptation pushed Hays Code limits"
             },
             {
-                title: "Mildred Pierce",
+                title: "Mildred Pemberton",
                 genre: "noir",
                 year: 1945,
                 budget: 132000,
@@ -1532,10 +1532,10 @@ window.ScriptLibrary = (function() {
                 themes: ["ambition", "motherhood", "betrayal"],
                 castRequirements: { male_lead: 2, female_lead: 2, supporting: 8 },
                 locationNeeds: ["restaurant", "beach_house", "police_station"],
-                historicalNotes: "Joan Crawford's comeback, strong female protagonist"
+                historicalNotes: "Constance Ingersoll's comeback, strong female protagonist"
             },
             {
-                title: "Gilda",
+                title: "Griselda",
                 genre: "noir",
                 year: 1946,
                 budget: 122000,
@@ -1546,10 +1546,10 @@ window.ScriptLibrary = (function() {
                 themes: ["obsession", "sexuality", "triangle"],
                 castRequirements: { male_lead: 2, female_lead: 1, supporting: 6 },
                 locationNeeds: ["casino", "buenos_aires", "nightclub"],
-                historicalNotes: "Rita Hayworth's most iconic role, sexually charged"
+                historicalNotes: "Irene Vandermeer's most iconic role, sexually charged"
             },
             {
-                title: "The Killers",
+                title: "The Hired Guns",
                 genre: "noir",
                 year: 1946,
                 budget: 98000,
@@ -1560,10 +1560,10 @@ window.ScriptLibrary = (function() {
                 themes: ["fate", "femme_fatale", "flashback"],
                 castRequirements: { male_lead: 2, female_lead: 1, supporting: 8 },
                 locationNeeds: ["small_town", "boxing_ring", "hotel"],
-                historicalNotes: "Burt Lancaster's debut, classic noir structure"
+                historicalNotes: "Rudolph Loxley's debut, classic noir structure"
             },
             {
-                title: "Nightmare Alley",
+                title: "Midway of Nightmares",
                 genre: "noir",
                 year: 1947,
                 budget: 128000,
@@ -1592,7 +1592,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Film noir emerged from post-war disillusionment and anxiety"
             },
             {
-                title: "The Lady from Shanghai",
+                title: "The Lady from Macao",
                 genre: "noir",
                 year: 1947,
                 budget: 135000,
@@ -1607,7 +1607,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Welles' surreal noir, famous mirror maze climax"
             },
             {
-                title: "Kiss of Death",
+                title: "The Kiss Before Dying",
                 genre: "noir",
                 year: 1947,
                 budget: 105000,
@@ -1618,10 +1618,10 @@ window.ScriptLibrary = (function() {
                 themes: ["violence", "redemption", "vengeance"],
                 castRequirements: { male_lead: 2, female_lead: 1, supporting: 8 },
                 locationNeeds: ["new_york_street", "courthouse", "apartment"],
-                historicalNotes: "Richard Widmark's shocking debut as giggling psychopath"
+                historicalNotes: "Emil Tanwood's shocking debut as giggling psychopath"
             },
             {
-                title: "Criss Cross",
+                title: "Double Cross",
                 genre: "noir",
                 year: 1949,
                 budget: 112000,
@@ -1637,7 +1637,7 @@ window.ScriptLibrary = (function() {
 
             // POST-WAR DRAMA
             {
-                title: "Gentleman's Agreement",
+                title: "A Gentleman's Bargain",
                 genre: "drama",
                 year: 1947,
                 budget: 165000,
@@ -1651,7 +1651,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Won Best Picture, bold treatment of American anti-Semitism"
             },
             {
-                title: "Crossfire",
+                title: "Caught in the Crossfire",
                 genre: "drama",
                 year: 1947,
                 budget: 95000,
@@ -1665,7 +1665,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Low budget noir tackling anti-Semitism, shot in 22 days"
             },
             {
-                title: "The Snake Pit",
+                title: "The Asylum Walls",
                 genre: "drama",
                 year: 1948,
                 budget: 142000,
@@ -1679,7 +1679,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Shocking exposé of mental health treatment, led to reforms"
             },
             {
-                title: "Sunset Boulevard",
+                title: "Twilight Boulevard",
                 genre: "noir",
                 year: 1950,
                 budget: 175000,
@@ -1693,7 +1693,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Wilder's masterpiece about Hollywood's dark side"
             },
             {
-                title: "All the King's Men",
+                title: "All the Governor's Men",
                 genre: "drama",
                 year: 1949,
                 budget: 158000,
@@ -1707,7 +1707,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Won Best Picture, based on Huey Long"
             },
             {
-                title: "The Treasure of the Sierra Madre",
+                title: "The Gold of the Sierra Vieja",
                 genre: "adventure",
                 year: 1948,
                 budget: 145000,
@@ -1782,7 +1782,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Late 1940s Westerns began exploring themes of change and loss"
             },
             {
-                title: "Red River",
+                title: "Rio Bravo Trail",
                 genre: "western",
                 year: 1948,
                 budget: 155000,
@@ -1796,7 +1796,7 @@ window.ScriptLibrary = (function() {
                 historicalNotes: "Hawks' epic Western, psychological depth uncommon for genre"
             },
             {
-                title: "The Ox-Bow Incident",
+                title: "The Hanging at Dry Creek",
                 genre: "western",
                 year: 1943,
                 budget: 125000,
@@ -1959,7 +1959,7 @@ window.ScriptLibrary = (function() {
                 year: 1939,
                 budget: 44000,
                 quality: 56,
-                description: "Big game hunters face deadly animals and hostile tribes in darkest Africa.",
+                description: "A reckless trophy-hunting expedition unravels in the wild - a period jungle adventure in the era's pulp style.",
                 censorRisk: 28,
                 shootingDays: 15,
                 themes: ["hunting", "africa", "danger"],

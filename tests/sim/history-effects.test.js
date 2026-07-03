@@ -168,3 +168,41 @@ describe('event persistence (P4.10 / HIST-011)', () => {
         expect(game.state.triggeredHistoricalEvents.length).toBeGreaterThanOrEqual(countBefore);
     });
 });
+
+describe('content density floor (P4.9 / HIST-002)', () => {
+    test('every year 1933–1949 has at least 6 historical events', () => {
+        const game = createGame({ seed: 39 });
+        const events = game.window.HistoricalEvents.HISTORICAL_EVENTS;
+        const counts = {};
+        for (const e of events) {
+            if (e.year >= 1933 && e.year <= 1949) counts[e.year] = (counts[e.year] || 0) + 1;
+        }
+        const under = [];
+        for (let y = 1933; y <= 1949; y++) {
+            if ((counts[y] || 0) < 6) under.push(y + ':' + (counts[y] || 0));
+        }
+        expect(under).toEqual([]);
+    });
+});
+
+describe('fictionalization (P4.8 / HIST-007 / D2)', () => {
+    test('no audited real names remain in the roster, rival pool, or placeholder cast', () => {
+        const fs = require('fs');
+        const sample = ['Clark Gable', 'Bette Davis', 'Humphrey Bogart', 'Katharine Hepburn',
+            'John Ford', 'Frank Capra', 'Alfred Hitchcock', 'Greta Garbo', 'James Cagney',
+            'Fred Astaire', 'Orson Welles', 'Marilyn Monroe', 'John Wayne'];
+        for (const f of ['js/data/talent-roster.js', 'js/systems/rival-studios.js', 'js/systems/production.js']) {
+            const src = fs.readFileSync(f, 'utf8');
+            const found = sample.filter(n => src.includes(n));
+            expect({ file: f, found }).toEqual({ file: f, found: [] });
+        }
+    });
+
+    test('no verbatim famous film titles remain as player scripts', () => {
+        const fs = require('fs');
+        const src = fs.readFileSync('js/data/scripts.js', 'utf8');
+        const sample = ['"Citizen Kane"', '"Casablanca"', '"King Kong"', '"The Maltese Falcon"',
+            '"It Happened One Night"', '"The Wizard of Oz"', '"Double Indemnity"', '"Rebecca"'];
+        expect(sample.filter(t => src.includes('title: ' + t))).toEqual([]);
+    });
+});

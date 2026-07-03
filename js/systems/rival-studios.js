@@ -10,9 +10,9 @@ window.RivalStudios = (function() {
     const RIVAL_STUDIOS = {
         mgm: {
             id: 'mgm',
-            name: 'Metro-Goldwyn-Mayer',
-            nickname: 'MGM',
-            slogan: 'More Stars Than There Are In Heaven',
+            name: 'Meridian Grand Studios',
+            nickname: 'Meridian',
+            slogan: 'Every Star in the Firmament',
             personality: {
                 aggression: 0.85,        // Very aggressive bidding
                 prestige: 0.95,          // Loves prestige films
@@ -30,9 +30,9 @@ window.RivalStudios = (function() {
 
         warner: {
             id: 'warner',
-            name: 'Warner Bros. Pictures',
-            nickname: 'Warner Bros',
-            slogan: 'Combining Good Citizenship with Good Picture Making',
+            name: 'Whitmore Brothers Pictures',
+            nickname: 'Whitmore Bros',
+            slogan: 'Pictures with a Conscience',
             personality: {
                 aggression: 0.70,
                 prestige: 0.60,
@@ -50,9 +50,9 @@ window.RivalStudios = (function() {
 
         rko: {
             id: 'rko',
-            name: 'RKO Pictures',
-            nickname: 'RKO',
-            slogan: 'It\'s an RKO Radio Picture!',
+            name: 'Regency Radio Pictures',
+            nickname: 'Regency',
+            slogan: 'A Regency Radio Picture!',
             personality: {
                 aggression: 0.60,
                 prestige: 0.70,
@@ -70,9 +70,9 @@ window.RivalStudios = (function() {
 
         paramount: {
             id: 'paramount',
-            name: 'Paramount Pictures',
-            nickname: 'Paramount',
-            slogan: 'If It\'s a Paramount Picture, It\'s the Best Show in Town!',
+            name: 'Pinnacle Pictures',
+            nickname: 'Pinnacle',
+            slogan: 'The Best Show in Town!',
             personality: {
                 aggression: 0.75,
                 prestige: 0.85,
@@ -143,16 +143,16 @@ window.RivalStudios = (function() {
 
     // Talent pool for rival studios to sign
     const TALENT_POOL = [
-        { name: 'Clark Gable', type: 'actor', starPower: 95, salary: 5000 },
-        { name: 'Bette Davis', type: 'actress', starPower: 90, salary: 4500 },
-        { name: 'James Cagney', type: 'actor', starPower: 88, salary: 4200 },
-        { name: 'Katharine Hepburn', type: 'actress', starPower: 92, salary: 4800 },
-        { name: 'Humphrey Bogart', type: 'actor', starPower: 85, salary: 4000 },
-        { name: 'Greta Garbo', type: 'actress', starPower: 93, salary: 5200 },
-        { name: 'James Stewart', type: 'actor', starPower: 87, salary: 4100 },
-        { name: 'Joan Crawford', type: 'actress', starPower: 89, salary: 4300 },
-        { name: 'Gary Cooper', type: 'actor', starPower: 91, salary: 4600 },
-        { name: 'Barbara Stanwyck', type: 'actress', starPower: 86, salary: 3900 }
+        { name: 'Vincent Ashcroft', type: 'actor', starPower: 95, salary: 5000 },
+        { name: 'Vivian Barrington', type: 'actress', starPower: 90, salary: 4500 },
+        { name: 'Gilbert Valentine', type: 'actor', starPower: 88, salary: 4200 },
+        { name: 'Dorothea Devereaux', type: 'actress', starPower: 92, salary: 4800 },
+        { name: 'Harold Caldwell', type: 'actor', starPower: 85, salary: 4000 },
+        { name: 'Katrine Lindqvist', type: 'actress', starPower: 93, salary: 5200 },
+        { name: 'Walter Fairweather', type: 'actor', starPower: 87, salary: 4100 },
+        { name: 'Constance Ingersoll', type: 'actress', starPower: 89, salary: 4300 },
+        { name: 'Eugene Hartline', type: 'actor', starPower: 91, salary: 4600 },
+        { name: 'Evelyn Galloway', type: 'actress', starPower: 86, salary: 3900 }
     ];
 
     /**

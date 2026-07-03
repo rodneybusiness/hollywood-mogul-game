@@ -85,7 +85,7 @@ window.HistoricalEvents = (function() {
             month: 8,
             id: 'production_code_written',
             title: 'Production Code Written',
-            description: 'The Motion Picture Production Code is formally drafted, though not yet enforced. The Pre-Code era continues for now.',
+            description: 'The Motion Picture Production Code is now under enforcement pressure, though not yet enforced. The Pre-Code era continues for now.',
             type: 'industry',
             importance: 'minor',
             effects: {},
@@ -2223,7 +2223,7 @@ window.HistoricalEvents = (function() {
                         <h3>The Film:</h3>
                         <ul>
                             <li>Wholesome fantasy in cynical times</li>
-                            <li>Wins Edmund Gwenn Best Supporting Actor</li>
+                            <li>Edmund Gwenn's Kris Kringle charms the nation (an Oscar will follow)</li>
                             <li>Proves escapism still viable</li>
                             <li>Safe content during HUAC era</li>
                         </ul>
@@ -3710,7 +3710,504 @@ window.HistoricalEvents = (function() {
                 `
             },
             newspaperHeadline: 'HOLLYWOOD 2010: STREAMING, SUPERHEROES, AND THE FUTURE'
-        }
+        },
+        // ================================================================
+        // DENSITY PASS (ROADMAP P4.9, audit HIST-002): 31 additional
+        // historically-grounded events bringing every year 1933-1949 to
+        // the >=6 events/year floor. All effects flow through the P4.1
+        // interpreter - no flavor-only events.
+        // ================================================================
+        {
+            id: 'recession_recovery',
+            year: 1938,
+            month: 7,
+            effects: { box_office_modifier: 0.08 },
+            modal: {
+                title: 'The Recession Lifts - 1938',
+                content: `
+                    <div class="historical-event">
+                        <p>The economy turns the corner and the ticket lines come back. Exhibitors breathe again.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'wartime_attendance_boom',
+            year: 1942,
+            month: 1,
+            effects: { box_office_modifier: 0.10 },
+            modal: {
+                title: 'War Workers Fill the Theaters - 1942',
+                content: `
+                    <div class="historical-event">
+                        <p>Full employment, gas rationing, and the need for two hours somewhere else: weekly attendance climbs toward its all-time peak.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'csu_strike_settled',
+            year: 1945,
+            month: 11,
+            effects: { production_costs: 0.93 },
+            modal: {
+                title: 'The Strike Is Settled - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>After eight months and a riot, the set decorators' strike ends in arbitration. The lots go back to work - warily.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'labor_peace_at_a_price',
+            year: 1947,
+            month: 8,
+            effects: { production_costs: 0.92 },
+            modal: {
+                title: 'Labor Peace, At a Price - 1947',
+                content: `
+                    <div class="historical-event">
+                        <p>The jurisdictional war ends with one union victorious and the other broken. Costs settle - and so does a long resentment.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'march_bank_holiday',
+            year: 1933,
+            month: 3,
+            effects: { box_office_modifier: -0.03, production_costs: 0.97 },
+            modal: {
+                title: 'Bank Holiday - 1933',
+                content: `
+                    <div class="historical-event">
+                        <p>FDR closes every bank in America. Box offices go quiet for a week - and the studios learn how fragile the ticket line is.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'dillinger_era_ends',
+            year: 1934,
+            month: 7,
+            effects: { genre_boost: { gangster: -0.15, crime: -0.1 } },
+            modal: {
+                title: 'The Outlaw Era Ends - 1934',
+                content: `
+                    <div class="historical-event">
+                        <p>John Dillinger is shot outside the Biograph Theater. With the Code tightening, the gangster cycle cools overnight.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'bank_night_craze',
+            year: 1934,
+            month: 9,
+            effects: { box_office_modifier: 0.05 },
+            modal: {
+                title: 'Bank Night Sweeps the Country - 1934',
+                content: `
+                    <div class="historical-event">
+                        <p>Theaters run cash-prize lotteries to pull Depression audiences back to the movies. Attendance ticks up - respectability ticks down.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'becky_sharp_technicolor',
+            year: 1935,
+            month: 6,
+            effects: { production_costs: 1.03, genre_boost: { musical: 0.08 } },
+            modal: {
+                title: 'Three-Strip Technicolor Arrives - 1935',
+                content: `
+                    <div class="historical-event">
+                        <p>The first full three-strip Technicolor feature dazzles critics. Color is expensive - and suddenly very desirable.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'directors_guild_founded',
+            year: 1936,
+            month: 1,
+            effects: { talent_cost_modifier: 0.05, labor_relations: true },
+            modal: {
+                title: 'The Directors Organize - 1936',
+                content: `
+                    <div class="historical-event">
+                        <p>Top directors found their guild in defiance of the studios. Labor is organizing above and below the line.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'gwtw_rights_record',
+            year: 1936,
+            month: 7,
+            effects: { audience_expectations: 5, budget_risk_modifier: 0.1 },
+            modal: {
+                title: 'A Record Price for a Novel - 1936',
+                content: `
+                    <div class="historical-event">
+                        <p>A producer pays a record 50,000 dollars for an unpublished Civil War novel. Prestige-adaptation fever grips every front office.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'republic_serial_boom',
+            year: 1937,
+            month: 3,
+            effects: { genre_boost: { western: 0.1 } },
+            modal: {
+                title: 'Saturday Serials Boom - 1937',
+                content: `
+                    <div class="historical-event">
+                        <p>Poverty Row rides high on chapter plays and singing cowboys. The B-western is reliable money.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'roosevelt_recession',
+            year: 1937,
+            month: 11,
+            effects: { box_office_modifier: -0.08 },
+            modal: {
+                title: 'The Roosevelt Recession - 1937',
+                content: `
+                    <div class="historical-event">
+                        <p>The recovery stalls and attendance sags with it. Nervous exhibitors demand surer bets.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'paramount_case_filed',
+            year: 1938,
+            month: 7,
+            effects: { political_risk: 5 },
+            modal: {
+                title: 'Washington Sues the Studios - 1938',
+                content: `
+                    <div class="historical-event">
+                        <p>The Justice Department files United States v. Paramount Pictures, attacking studio ownership of theaters. The case will take a decade - and change everything.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'war_in_europe_markets',
+            year: 1939,
+            month: 9,
+            effects: { box_office_modifier: -0.05, european_markets: false },
+            modal: {
+                title: 'War Closes the European Market - 1939',
+                content: `
+                    <div class="historical-event">
+                        <p>Germany invades Poland. Continental grosses evaporate as the lights go out across Europe.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'television_worlds_fair',
+            year: 1939,
+            month: 4,
+            effects: { audience_expectations: 2 },
+            modal: {
+                title: 'Television at the Fair - 1939',
+                content: `
+                    <div class="historical-event">
+                        <p>RCA demonstrates television at the New York World's Fair. A curiosity, executives say. For now.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'b_western_peak',
+            year: 1939,
+            month: 6,
+            effects: { genre_boost: { western: 0.08 } },
+            modal: {
+                title: 'Year of the Western - 1939',
+                content: `
+                    <div class="historical-event">
+                        <p>The A-western comes roaring back alongside the singing-cowboy programmers. Saddle up.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'peacetime_draft',
+            year: 1940,
+            month: 10,
+            effects: { draft_risk: 0.1, political_risk: 3 },
+            modal: {
+                title: 'The First Peacetime Draft - 1940',
+                content: `
+                    <div class="historical-event">
+                        <p>Registration begins under the Selective Training and Service Act. Casting directors start reading draft boards like trade papers.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'lend_lease_economy',
+            year: 1941,
+            month: 3,
+            effects: { production_costs: 1.03, genre_boost: { war: 0.05 } },
+            modal: {
+                title: 'Lend-Lease Heats the Economy - 1941',
+                content: `
+                    <div class="historical-event">
+                        <p>War production ramps up. Wages - and costs - start climbing across the lot.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'uso_founded',
+            year: 1941,
+            month: 2,
+            effects: { audience_expectations: 3, patriotic_sentiment: true },
+            modal: {
+                title: 'The USO Is Founded - 1941',
+                content: `
+                    <div class="historical-event">
+                        <p>Stars begin touring for the troops-to-be. Patriotic association is suddenly a career asset.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'war_bond_drives',
+            year: 1942,
+            month: 9,
+            effects: { box_office_modifier: 0.05 },
+            modal: {
+                title: 'Stars Sell War Bonds - 1942',
+                content: `
+                    <div class="historical-event">
+                        <p>Bond rallies fill theaters between features. Hollywood's war effort is box office in uniform.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'outlaw_censorship_fight',
+            year: 1943,
+            month: 2,
+            effects: { political_risk: 2, content_risk: true },
+            modal: {
+                title: 'A Producer Defies the Code - 1943',
+                content: `
+                    <div class="historical-event">
+                        <p>A maverick producer releases his notorious western without a seal in one defiant engagement. The industry watches the fight - and the grosses.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'de_havilland_decision',
+            year: 1944,
+            month: 12,
+            effects: { talent_cost_modifier: 0.1, labor_relations: true },
+            modal: {
+                title: 'The Seven-Year Contract Falls - 1944',
+                content: `
+                    <div class="historical-event">
+                        <p>A California appeals court rules studios cannot extend contracts with suspension time. Star leverage - and star salaries - will never be the same.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'fifth_war_loan',
+            year: 1944,
+            month: 6,
+            effects: { box_office_modifier: 0.04 },
+            modal: {
+                title: 'The Fifth War Loan - 1944',
+                content: `
+                    <div class="historical-event">
+                        <p>The biggest bond drive of the war runs through every theater in America.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'csu_strike_begins',
+            year: 1945,
+            month: 3,
+            effects: { production_costs: 1.1, budget_risk_modifier: 0.2, labor_tensions: true },
+            modal: {
+                title: 'The Set Decorators Walk Out - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>The Conference of Studio Unions strikes. Pickets ring the studio gates; production costs climb week by week.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'vj_day_celebration',
+            year: 1945,
+            month: 8,
+            effects: { box_office_modifier: 0.08 },
+            modal: {
+                title: 'Victory Over Japan - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>The war is over. America celebrates - and goes to the movies.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'hollywood_black_friday',
+            year: 1945,
+            month: 10,
+            effects: { political_risk: 5, production_costs: 1.03 },
+            modal: {
+                title: 'Black Friday at the Gates - 1945',
+                content: `
+                    <div class="historical-event">
+                        <p>Strikers and replacements battle outside a major studio. Fire hoses, tear gas, headlines.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'csu_lockout',
+            year: 1946,
+            month: 9,
+            effects: { production_costs: 1.08, labor_tensions: true },
+            modal: {
+                title: 'The Second Strike Wave - 1946',
+                content: `
+                    <div class="historical-event">
+                        <p>Jurisdictional war between the unions shuts stages again. The lots feel like armed camps.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'star_salary_spiral',
+            year: 1946,
+            month: 5,
+            effects: { talent_cost_modifier: 0.15 },
+            modal: {
+                title: 'Star Salaries Spiral - 1946',
+                content: `
+                    <div class="historical-event">
+                        <p>Flush times and free agency push top-star deals to record numbers.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'british_import_duty',
+            year: 1947,
+            month: 8,
+            effects: { box_office_modifier: -0.06, european_markets: false },
+            modal: {
+                title: 'Britain Taxes American Films - 1947',
+                content: `
+                    <div class="historical-event">
+                        <p>A 75 percent ad valorem duty freezes Hollywood revenue from its biggest foreign market overnight.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'drive_in_expansion',
+            year: 1947,
+            month: 6,
+            effects: { box_office_modifier: 0.02 },
+            modal: {
+                title: 'Drive-Ins Multiply - 1947',
+                content: `
+                    <div class="historical-event">
+                        <p>Ozoners sprout along every highway. New screens, new audiences, new mothers with sleeping kids in the back seat.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'anglo_film_settlement',
+            year: 1948,
+            month: 3,
+            effects: { box_office_modifier: 0.04 },
+            modal: {
+                title: 'The British Duty Is Settled - 1948',
+                content: `
+                    <div class="historical-event">
+                        <p>The import-duty standoff ends. The Atlantic pipeline reopens - at less favorable terms.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'television_takeoff',
+            year: 1948,
+            month: 10,
+            effects: { theater_attendance_decline: -0.03, television_competition: true },
+            modal: {
+                title: 'Television Takes Off - 1948',
+                content: `
+                    <div class="historical-event">
+                        <p>Set sales triple; urban first-run houses feel it first. The box in the living room is not a fad.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'consent_decrees_begin',
+            year: 1949,
+            month: 2,
+            effects: { distribution_cost_modifier: 0.05, studio_power_decline: true },
+            modal: {
+                title: 'The Consent Decrees Begin - 1949',
+                content: `
+                    <div class="historical-event">
+                        <p>The first majors sign consent decrees divorcing their theaters. Distribution will never be the same.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'television_two_million',
+            year: 1949,
+            month: 6,
+            effects: { theater_attendance_decline: -0.04 },
+            modal: {
+                title: 'Two Million Sets - 1949',
+                content: `
+                    <div class="historical-event">
+                        <p>Television reaches two million American homes. Neighborhood theaters begin to close.</p>
+                    </div>
+                `
+            }
+        },
+        {
+            id: 'b_picture_squeeze',
+            year: 1949,
+            month: 10,
+            effects: { genre_boost: { western: -0.05 }, production_costs: 1.02 },
+            modal: {
+                title: 'The B-Picture Squeeze - 1949',
+                content: `
+                    <div class="historical-event">
+                        <p>Double features fade and the B-market contracts. Poverty Row starts reading obituaries.</p>
+                    </div>
+                `
+            }
+        },
+
     ];
 
     /**

@@ -18,12 +18,12 @@ window.TalentRoster = (function() {
     const ACTORS = {
 
         // ========================================================================
-        // A-LIST STARS (Star Power: 85-99) - The Icons
+        // A-LIST STARS (Star Ashford: 85-99) - The Icons
         // ========================================================================
 
         clark_gable: {
-            id: 'clark_gable',
-            name: 'Clark Gable',
+            id: 'vincent_ashcroft',
+            name: 'Vincent Ashcroft',
             gender: 'male',
             starPower: 95,
             weeklyRate: 5000,
@@ -37,15 +37,15 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 12,
             chemistry: 85,
-            pairings: ['carole_lombard', 'vivien_leigh', 'claudette_colbert'],
-            rivalries: ['spencer_tracy'],
+            pairings: ['queenie_dellamore', 'lillian_norwood', 'claudette_colbert'],
+            rivalries: ['chester_jessup'],
             quirks: ['demands top billing', 'notorious ladies man', 'heavy drinker'],
-            description: 'The King of Hollywood. Gable\'s rugged masculinity and roguish charm made him the biggest male star of the era. His chemistry with leading ladies is legendary, and his box office power is unmatched.'
+            description: 'The King of Hollywood. Ashcroft\'s rugged masculinity and roguish charm made him the biggest male star of the era. His chemistry with leading ladies is legendary, and his box office power is unmatched.'
         },
 
         bette_davis: {
-            id: 'bette_davis',
-            name: 'Bette Davis',
+            id: 'vivian_barrington',
+            name: 'Vivian Barrington',
             gender: 'female',
             starPower: 92,
             weeklyRate: 4500,
@@ -59,14 +59,14 @@ window.TalentRoster = (function() {
             scandalRisk: 18,
             chemistry: 78,
             pairings: ['paul_henreid', 'george_brent'],
-            rivalries: ['joan_crawford', 'miriam_hopkins'],
+            rivalries: ['constance_ingersoll', 'miriam_hopkins'],
             quirks: ['fights with studio bosses', 'demands script approval', 'temperamental on set'],
-            description: 'First lady of the American screen. Davis\'s fierce intelligence and emotional intensity revolutionized acting for women. Notorious for battling Jack Warner and refusing roles beneath her dignity.'
+            description: 'First lady of the American screen. Barrington\'s fierce intelligence and emotional intensity revolutionized acting for women. Notorious for battling Jack Warner and refusing roles beneath her dignity.'
         },
 
         humphrey_bogart: {
-            id: 'humphrey_bogart',
-            name: 'Humphrey Bogart',
+            id: 'harold_caldwell',
+            name: 'Harold Caldwell',
             gender: 'male',
             starPower: 92,
             weeklyRate: 4800,
@@ -78,15 +78,15 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 10,
             chemistry: 90,
-            pairings: ['lauren_bacall', 'ingrid_bergman', 'katharine_hepburn'],
+            pairings: ['estelle_yardley', 'sylvia_underhill', 'dorothea_devereaux'],
             rivalries: ['george_raft'],
             quirks: ['heavy drinker', 'liberal politics', 'chess enthusiast'],
-            description: 'The quintessential tough guy with a soul. Bogart perfected the world-weary antihero, bringing moral complexity to gangsters, detectives, and soldiers. His raspy voice and lived-in face made him uniquely credible.'
+            description: 'The quintessential tough guy with a soul. Caldwell perfected the world-weary antihero, bringing moral complexity to gangsters, detectives, and soldiers. His raspy voice and lived-in face made him uniquely credible.'
         },
 
         katharine_hepburn: {
-            id: 'katharine_hepburn',
-            name: 'Katharine Hepburn',
+            id: 'dorothea_devereaux',
+            name: 'Dorothea Devereaux',
             gender: 'female',
             starPower: 90,
             weeklyRate: 4500,
@@ -99,15 +99,15 @@ window.TalentRoster = (function() {
             oscarPotential: 35,
             scandalRisk: 20,
             chemistry: 82,
-            pairings: ['cary_grant', 'spencer_tracy'],
-            rivalries: ['ginger_rogers'],
+            pairings: ['raymond_ellsworth', 'chester_jessup'],
+            rivalries: ['rosalind_sinclair'],
             quirks: ['wears pants', 'refuses publicity', 'aloof with press'],
-            description: 'Fiercely independent spirit who redefined leading ladies. Hepburn\'s aristocratic bearing and razor-sharp intelligence made her box office poison in the mid-30s, but she roared back stronger than ever.'
+            description: 'Fiercely independent spirit who redefined leading ladies. Newhall\'s aristocratic bearing and razor-sharp intelligence made her box office poison in the mid-30s, but she roared back stronger than ever.'
         },
 
         cary_grant: {
-            id: 'cary_grant',
-            name: 'Cary Grant',
+            id: 'raymond_ellsworth',
+            name: 'Raymond Ellsworth',
             gender: 'male',
             starPower: 94,
             weeklyRate: 4700,
@@ -119,15 +119,15 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 8,
             chemistry: 96,
-            pairings: ['katharine_hepburn', 'irene_dunne', 'rosalind_russell'],
+            pairings: ['dorothea_devereaux', 'irene_dunne', 'portia_birchall'],
             rivalries: [],
             quirks: ['perfectionist', 'demands retakes', 'controls own contracts'],
-            description: 'The most sophisticated leading man in Hollywood. Grant\'s unique blend of elegance and mischief made him perfect for both screwball comedies and Hitchcock thrillers. His timing is impeccable.'
+            description: 'The most sophisticated leading man in Hollywood. Grant\'s unique blend of elegance and mischief made him perfect for both screwball comedies and Carmichael thrillers. His timing is impeccable.'
         },
 
         james_stewart: {
-            id: 'james_stewart',
-            name: 'James Stewart',
+            id: 'walter_fairweather',
+            name: 'Walter Fairweather',
             gender: 'male',
             starPower: 88,
             weeklyRate: 4000,
@@ -141,15 +141,15 @@ window.TalentRoster = (function() {
             oscarPotential: 30,
             scandalRisk: 2,
             chemistry: 88,
-            pairings: ['jean_arthur', 'margaret_sullavan', 'donna_reed'],
+            pairings: ['opal_applewhite', 'margaret_sullavan', 'donna_reed'],
             rivalries: [],
             quirks: ['genuine war hero', 'shy off-screen', 'stammering style'],
             description: 'The most beloved everyman in Hollywood. Stewart\'s aw-shucks sincerity and stammering delivery made him the perfect embodiment of American values. His WWII service only enhanced his heroic image.'
         },
 
         barbara_stanwyck: {
-            id: 'barbara_stanwyck',
-            name: 'Barbara Stanwyck',
+            id: 'evelyn_galloway',
+            name: 'Evelyn Galloway',
             gender: 'female',
             starPower: 87,
             weeklyRate: 3800,
@@ -161,15 +161,15 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 6,
             chemistry: 85,
-            pairings: ['fred_macmurray', 'henry_fonda', 'joel_mccrea'],
+            pairings: ['fred_macmurray', 'leonard_redmond', 'joel_mccrea'],
             rivalries: [],
             quirks: ['total professional', 'one-take wonder', 'beloved by crews'],
-            description: 'The most versatile actress in Hollywood. Stanwyck could play anything from screwball comedy to film noir to westerns with equal conviction. Directors loved her professionalism and emotional honesty.'
+            description: 'The most versatile actress in Hollywood. Galloway could play anything from screwball comedy to film noir to westerns with equal conviction. Directors loved her professionalism and emotional honesty.'
         },
 
         gary_cooper: {
-            id: 'gary_cooper',
-            name: 'Gary Cooper',
+            id: 'eugene_hartline',
+            name: 'Eugene Hartline',
             gender: 'male',
             starPower: 91,
             weeklyRate: 4500,
@@ -182,15 +182,15 @@ window.TalentRoster = (function() {
             oscarPotential: 28,
             scandalRisk: 14,
             chemistry: 82,
-            pairings: ['grace_kelly', 'ingrid_bergman', 'claudette_colbert'],
+            pairings: ['ursula_mayfield', 'sylvia_underhill', 'claudette_colbert'],
             rivalries: [],
             quirks: ['notoriously late', 'ladies man', 'mumbles dialogue'],
-            description: 'The strong silent type incarnate. Cooper\'s natural authenticity and quiet moral authority made him the perfect American hero. His underplaying was revolutionary in an era of theatrical acting.'
+            description: 'The strong silent type incarnate. Hartline\'s natural authenticity and quiet moral authority made him the perfect American hero. His underplaying was revolutionary in an era of theatrical acting.'
         },
 
         joan_crawford: {
-            id: 'joan_crawford',
-            name: 'Joan Crawford',
+            id: 'constance_ingersoll',
+            name: 'Constance Ingersoll',
             gender: 'female',
             starPower: 89,
             weeklyRate: 4200,
@@ -204,14 +204,14 @@ window.TalentRoster = (function() {
             scandalRisk: 15,
             chemistry: 80,
             pairings: ['franchot_tone', 'john_garfield'],
-            rivalries: ['bette_davis', 'norma_shearer'],
+            rivalries: ['vivian_barrington', 'norma_shearer'],
             quirks: ['perfectionist about appearance', 'control freak', 'studio politician'],
-            description: 'The ultimate survivor and self-made star. Crawford\'s fierce ambition and glamorous image embodied the American dream. Her rivalry with Bette Davis became legendary Hollywood lore.'
+            description: 'The ultimate survivor and self-made star. Ingersoll\'s fierce ambition and glamorous image embodied the American dream. Her rivalry with Vivian Barrington became legendary Hollywood lore.'
         },
 
         spencer_tracy: {
-            id: 'spencer_tracy',
-            name: 'Spencer Tracy',
+            id: 'chester_jessup',
+            name: 'Chester Jessup',
             gender: 'male',
             starPower: 90,
             weeklyRate: 4300,
@@ -224,15 +224,15 @@ window.TalentRoster = (function() {
             oscarPotential: 32,
             scandalRisk: 16,
             chemistry: 88,
-            pairings: ['katharine_hepburn', 'joan_bennett'],
-            rivalries: ['clark_gable'],
-            quirks: ['heavy drinker', 'affair with Hepburn', 'insecure about acting'],
-            description: 'The actor\'s actor. Tracy\'s naturalistic style revolutionized screen acting. His emotional depth and working-class dignity made him believable in everything from priests to fishermen to scientists.'
+            pairings: ['dorothea_devereaux', 'joan_bennett'],
+            rivalries: ['vincent_ashcroft'],
+            quirks: ['heavy drinker', 'affair with Newhall', 'insecure about acting'],
+            description: 'The actor\'s actor. Jessup\'s naturalistic style revolutionized screen acting. His emotional depth and working-class dignity made him believable in everything from priests to fishermen to scientists.'
         },
 
         marlene_dietrich: {
-            id: 'marlene_dietrich',
-            name: 'Marlene Dietrich',
+            id: 'marjorie_kingsford',
+            name: 'Marjorie Kingsford',
             gender: 'female',
             starPower: 88,
             weeklyRate: 4200,
@@ -244,15 +244,15 @@ window.TalentRoster = (function() {
             oscarPotential: 15,
             scandalRisk: 22,
             chemistry: 85,
-            pairings: ['gary_cooper', 'john_wayne'],
+            pairings: ['eugene_hartline', 'bernard_draper'],
             rivalries: ['greta_garbo'],
             quirks: ['demands control of lighting', 'bisexual affairs', 'thick German accent'],
-            description: 'The ultimate European sophisticate. Dietrich\'s androgynous beauty and exotic allure made her unique in Hollywood. Her thick accent and mysterious persona became her trademarks.'
+            description: 'The ultimate European sophisticate. Kingsford\'s androgynous beauty and exotic allure made her unique in Hollywood. Her thick accent and mysterious persona became her trademarks.'
         },
 
         errol_flynn: {
-            id: 'errol_flynn',
-            name: 'Errol Flynn',
+            id: 'howard_lockridge',
+            name: 'Howard Lockridge',
             gender: 'male',
             starPower: 87,
             weeklyRate: 3900,
@@ -265,15 +265,15 @@ window.TalentRoster = (function() {
             oscarPotential: 8,
             scandalRisk: 35, // Highest scandal risk!
             chemistry: 88,
-            pairings: ['olivia_de_havilland', 'maureen_ohara'],
+            pairings: ['gloria_marlowe', 'maureen_ohara'],
             rivalries: ['ronald_reagan'],
             quirks: ['statutory rape trial 1942', 'heavy drinker', 'drug user', 'womanizer'],
-            description: 'The ultimate swashbuckler whose off-screen life was as wild as his films. Flynn\'s athletic grace and devil-may-care charm made him perfect for adventure films, but scandals and substance abuse plagued his career.'
+            description: 'The ultimate swashbuckler whose off-screen life was as wild as his films. Lockridge\'s athletic grace and devil-may-care charm made him perfect for adventure films, but scandals and substance abuse plagued his career.'
         },
 
         olivia_de_havilland: {
-            id: 'olivia_de_havilland',
-            name: 'Olivia de Havilland',
+            id: 'gloria_marlowe',
+            name: 'Gloria Marlowe',
             gender: 'female',
             starPower: 86,
             weeklyRate: 3700,
@@ -286,15 +286,15 @@ window.TalentRoster = (function() {
             oscarPotential: 30,
             scandalRisk: 5,
             chemistry: 86,
-            pairings: ['errol_flynn', 'montgomery_clift'],
-            rivalries: ['joan_fontaine'], // Real-life sister rivalry!
+            pairings: ['howard_lockridge', 'clyde_kirkwood'],
+            rivalries: ['beatrice_quimby'], // Real-life sister rivalry!
             quirks: ['sued Warner Bros', 'bitter feud with sister', 'fighting typecasting'],
-            description: 'Sweet-faced but steely actress who changed Hollywood. De Havilland\'s lawsuit against Warner Bros. broke the studio contract system. Her bitter rivalry with sister Joan Fontaine became Hollywood legend.'
+            description: 'Sweet-faced but steely actress who changed Hollywood. De Marlowe\'s lawsuit against Warner Bros. broke the studio contract system. Her bitter rivalry with sister Beatrice Quimby became Hollywood legend.'
         },
 
         vivien_leigh: {
-            id: 'vivien_leigh',
-            name: 'Vivien Leigh',
+            id: 'lillian_norwood',
+            name: 'Lillian Norwood',
             gender: 'female',
             starPower: 90,
             weeklyRate: 4400,
@@ -307,15 +307,15 @@ window.TalentRoster = (function() {
             oscarPotential: 35,
             scandalRisk: 18,
             chemistry: 84,
-            pairings: ['clark_gable', 'laurence_olivier'],
+            pairings: ['vincent_ashcroft', 'laurence_olivier'],
             rivalries: [],
             quirks: ['mental health issues', 'affair with Olivier', 'British accent'],
-            description: 'Exquisitely beautiful British actress who became Scarlett O\'Hara. Leigh\'s stunning performance in Gone with the Wind made her a legend, though mental health struggles limited her Hollywood career.'
+            description: 'Exquisitely beautiful British actress who became Scarlett O\'Hara. Nightingale\'s stunning performance in Gone with the Wind made her a legend, though mental health struggles limited her Hollywood career.'
         },
 
         william_powell: {
-            id: 'william_powell',
-            name: 'William Powell',
+            id: 'franklin_ogilvie',
+            name: 'Franklin Ogilvie',
             gender: 'male',
             starPower: 86,
             weeklyRate: 3800,
@@ -327,15 +327,15 @@ window.TalentRoster = (function() {
             oscarPotential: 20,
             scandalRisk: 4,
             chemistry: 92,
-            pairings: ['myrna_loy', 'carole_lombard'],
+            pairings: ['frances_prescott', 'queenie_dellamore'],
             rivalries: [],
-            quirks: ['health problems', 'widower of Harlow', 'meticulous preparation'],
-            description: 'The epitome of sophisticated wit and dapper charm. Powell\'s partnership with Myrna Loy in The Thin Man series created cinema\'s most delightful married couple. His elegance and timing were unmatched.'
+            quirks: ['health problems', 'widower of Eversleigh', 'meticulous preparation'],
+            description: 'The epitome of sophisticated wit and dapper charm. Powell\'s partnership with Frances Prescott in The Thin Man series created cinema\'s most delightful married couple. His elegance and timing were unmatched.'
         },
 
         myrna_loy: {
-            id: 'myrna_loy',
-            name: 'Myrna Loy',
+            id: 'frances_prescott',
+            name: 'Frances Prescott',
             gender: 'female',
             starPower: 85,
             weeklyRate: 3600,
@@ -347,19 +347,19 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 6,
             chemistry: 92,
-            pairings: ['william_powell', 'cary_grant', 'clark_gable'],
+            pairings: ['franklin_ogilvie', 'raymond_ellsworth', 'vincent_ashcroft'],
             rivalries: [],
             quirks: ['political activist', 'anti-Nazi', 'multiple divorces'],
-            description: 'The perfect wife of the American screen. Loy\'s sophisticated wit and natural charm made her the ideal partner for William Powell. She embodied the modern woman - smart, sexy, and self-assured.'
+            description: 'The perfect wife of the American screen. Loy\'s sophisticated wit and natural charm made her the ideal partner for Franklin Ogilvie. She embodied the modern woman - smart, sexy, and self-assured.'
         },
 
         // ========================================================================
-        // B-LIST STARS (Star Power: 70-84) - Rising and Established Stars
+        // B-LIST STARS (Star Ashford: 70-84) - Rising and Established Stars
         // ========================================================================
 
         joan_fontaine: {
-            id: 'joan_fontaine',
-            name: 'Joan Fontaine',
+            id: 'beatrice_quimby',
+            name: 'Beatrice Quimby',
             gender: 'female',
             starPower: 82,
             weeklyRate: 3200,
@@ -372,15 +372,15 @@ window.TalentRoster = (function() {
             oscarPotential: 28,
             scandalRisk: 10,
             chemistry: 82,
-            pairings: ['cary_grant', 'laurence_olivier'],
-            rivalries: ['olivia_de_havilland'], // Real-life sister rivalry!
+            pairings: ['raymond_ellsworth', 'laurence_olivier'],
+            rivalries: ['gloria_marlowe'], // Real-life sister rivalry!
             quirks: ['bitter feud with sister', 'four marriages', 'insecure'],
-            description: 'Ethereal beauty perfect for Hitchcock\'s vulnerable heroines. Fontaine\'s delicate beauty and psychological depth made her ideal for Gothic thrillers. Her bitter rivalry with sister Olivia never healed.'
+            description: 'Ethereal beauty perfect for Carmichael\'s vulnerable heroines. Quimby\'s delicate beauty and psychological depth made her ideal for Gothic thrillers. Her bitter rivalry with sister Olivia never healed.'
         },
 
         henry_fonda: {
-            id: 'henry_fonda',
-            name: 'Henry Fonda',
+            id: 'leonard_redmond',
+            name: 'Leonard Redmond',
             gender: 'male',
             starPower: 84,
             weeklyRate: 3500,
@@ -393,15 +393,15 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 8,
             chemistry: 83,
-            pairings: ['barbara_stanwyck', 'jane_darwell'],
+            pairings: ['evelyn_galloway', 'jane_darwell'],
             rivalries: [],
             quirks: ['liberal politics', 'perfectionist', 'distant father'],
-            description: 'The face of American conscience and integrity. Fonda\'s quiet intensity and moral authority made him perfect for playing principled men standing against injustice, from Tom Joad to Young Mr. Lincoln.'
+            description: 'The face of American conscience and integrity. Redmond\'s quiet intensity and moral authority made him perfect for playing principled men standing against injustice, from Tom Joad to Young Mr. Lincoln.'
         },
 
         ginger_rogers: {
-            id: 'ginger_rogers',
-            name: 'Ginger Rogers',
+            id: 'rosalind_sinclair',
+            name: 'Rosalind Sinclair',
             gender: 'female',
             starPower: 85,
             weeklyRate: 3600,
@@ -414,15 +414,15 @@ window.TalentRoster = (function() {
             oscarPotential: 20,
             scandalRisk: 7,
             chemistry: 94,
-            pairings: ['fred_astaire', 'cary_grant'],
-            rivalries: ['katharine_hepburn'],
-            quirks: ['did everything Astaire did backwards in heels', 'controlled by mother'],
-            description: 'The most versatile musical star who proved she could act too. Rogers did everything Astaire did "backwards and in high heels," then won an Oscar for drama. Her range was extraordinary.'
+            pairings: ['martin_thornbury', 'raymond_ellsworth'],
+            rivalries: ['dorothea_devereaux'],
+            quirks: ['did everything Thornbury did backwards in heels', 'controlled by mother'],
+            description: 'The most versatile musical star who proved she could act too. Sinclair did everything Thornbury did "backwards and in high heels," then won an Oscar for drama. Her range was extraordinary.'
         },
 
         fred_astaire: {
-            id: 'fred_astaire',
-            name: 'Fred Astaire',
+            id: 'martin_thornbury',
+            name: 'Martin Thornbury',
             gender: 'male',
             starPower: 84,
             weeklyRate: 3500,
@@ -434,15 +434,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 3,
             chemistry: 94,
-            pairings: ['ginger_rogers', 'rita_hayworth', 'judy_garland'],
-            rivalries: ['gene_kelly'],
+            pairings: ['rosalind_sinclair', 'irene_vandermeer', 'selma_harrington'],
+            rivalries: ['ellis_goldenberg'],
             quirks: ['perfectionist', 'innovative choreographer', 'insecure about looks'],
-            description: 'The most elegant dancer in film history. Astaire\'s partnership with Ginger Rogers created the greatest musicals of the 1930s. His perfectionism and innovation revolutionized screen dancing.'
+            description: 'The most elegant dancer in film history. Thornbury\'s partnership with Rosalind Sinclair created the greatest musicals of the 1930s. His perfectionism and innovation revolutionized screen dancing.'
         },
 
         ingrid_bergman: {
-            id: 'ingrid_bergman',
-            name: 'Ingrid Bergman',
+            id: 'sylvia_underhill',
+            name: 'Sylvia Underhill',
             gender: 'female',
             starPower: 88,
             weeklyRate: 4000,
@@ -455,15 +455,15 @@ window.TalentRoster = (function() {
             oscarPotential: 32,
             scandalRisk: 10, // Scandal comes in 1950
             chemistry: 90,
-            pairings: ['humphrey_bogart', 'charles_boyer', 'gary_cooper'],
+            pairings: ['harold_caldwell', 'charles_boyer', 'eugene_hartline'],
             rivalries: [],
             quirks: ['refused makeup', 'natural beauty', 'Swedish accent'],
-            description: 'Luminous Swedish beauty who embodied purity and nobility. Bergman\'s natural acting and radiant presence made her perfect for playing saints and martyrs. Her refusal to wear heavy makeup was revolutionary.'
+            description: 'Luminous Swedish beauty who embodied purity and nobility. Underhill\'s natural acting and radiant presence made her perfect for playing saints and martyrs. Her refusal to wear heavy makeup was revolutionary.'
         },
 
         rita_hayworth: {
-            id: 'rita_hayworth',
-            name: 'Rita Hayworth',
+            id: 'irene_vandermeer',
+            name: 'Irene Vandermeer',
             gender: 'female',
             starPower: 83,
             weeklyRate: 3400,
@@ -475,15 +475,15 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 16,
             chemistry: 86,
-            pairings: ['fred_astaire', 'glenn_ford', 'orson_welles'],
-            rivalries: ['gene_tierney'],
+            pairings: ['martin_thornbury', 'lawrence_lindqvist', 'vincent_halloway'],
+            rivalries: ['pauline_blackwood'],
             quirks: ['born Margarita Cansino', 'abusive father', 'love goddess image'],
-            description: 'The ultimate love goddess of the 1940s. Hayworth\'s sultry beauty and dancing ability made her a pin-up icon. Her Gilda performance created the definitive femme fatale, though she resented being just a sex symbol.'
+            description: 'The ultimate love goddess of the 1940s. Vandermeer\'s sultry beauty and dancing ability made her a pin-up icon. Her Gilda performance created the definitive femme fatale, though she resented being just a sex symbol.'
         },
 
         gregory_peck: {
-            id: 'gregory_peck',
-            name: 'Gregory Peck',
+            id: 'russell_whitfield',
+            name: 'Birchall Whitfield',
             gender: 'male',
             starPower: 80,
             weeklyRate: 3000,
@@ -502,8 +502,8 @@ window.TalentRoster = (function() {
         },
 
         lauren_bacall: {
-            id: 'lauren_bacall',
-            name: 'Lauren Bacall',
+            id: 'estelle_yardley',
+            name: 'Estelle Yardley',
             gender: 'female',
             starPower: 78,
             weeklyRate: 2800,
@@ -515,15 +515,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 8,
             chemistry: 95,
-            pairings: ['humphrey_bogart'],
+            pairings: ['harold_caldwell'],
             rivalries: [],
-            quirks: ['married Bogart', 'smoky voice', 'The Look'],
-            description: 'Sultry newcomer who became Bogart\'s perfect match. Bacall\'s husky voice, knowing sexuality, and cool confidence made her an instant icon. Her real-life romance with Bogart added to her mystique.'
+            quirks: ['married Caldwell', 'smoky voice', 'The Look'],
+            description: 'Sultry newcomer who became Caldwell\'s perfect match. Yardley\'s husky voice, knowing sexuality, and cool confidence made her an instant icon. Her real-life romance with Caldwell added to her mystique.'
         },
 
         tyrone_power: {
-            id: 'tyrone_power',
-            name: 'Tyrone Power',
+            id: 'theodore_ashford',
+            name: 'Theodore Ashford',
             gender: 'male',
             starPower: 86,
             weeklyRate: 3700,
@@ -536,15 +536,15 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 12,
             chemistry: 87,
-            pairings: ['gene_tierney', 'alice_faye', 'linda_darnell'],
-            rivalries: ['errol_flynn'],
+            pairings: ['pauline_blackwood', 'alice_faye', 'adelaide_oakhurst'],
+            rivalries: ['howard_lockridge'],
             quirks: ['too handsome', 'wanted serious roles', 'war hero'],
-            description: 'Impossibly handsome matinee idol who yearned for serious roles. Power\'s devastating good looks made him perfect for swashbucklers and romances, but he fought to prove his acting ability.'
+            description: 'Impossibly handsome matinee idol who yearned for serious roles. Ashford\'s devastating good looks made him perfect for swashbucklers and romances, but he fought to prove his acting ability.'
         },
 
         gene_tierney: {
-            id: 'gene_tierney',
-            name: 'Gene Tierney',
+            id: 'pauline_blackwood',
+            name: 'Pauline Blackwood',
             gender: 'female',
             starPower: 82,
             weeklyRate: 3300,
@@ -556,15 +556,15 @@ window.TalentRoster = (function() {
             oscarPotential: 20,
             scandalRisk: 14,
             chemistry: 84,
-            pairings: ['tyrone_power', 'dana_andrews', 'rex_harrison'],
-            rivalries: ['rita_hayworth'],
+            pairings: ['theodore_ashford', 'everett_jennings', 'rex_harrison'],
+            rivalries: ['irene_vandermeer'],
             quirks: ['mental health struggles', 'tragic life', 'overbite'],
-            description: 'Hauntingly beautiful actress with a tragic personal life. Tierney\'s ethereal loveliness and wounded quality made her perfect for noir. Off-screen tragedies with her daughter haunted her life.'
+            description: 'Hauntingly beautiful actress with a tragic personal life. Blackwood\'s ethereal loveliness and wounded quality made her perfect for noir. Off-screen tragedies with her daughter haunted her life.'
         },
 
         veronica_lake: {
-            id: 'veronica_lake',
-            name: 'Veronica Lake',
+            id: 'harriet_carmichael',
+            name: 'Harriet Carmichael',
             gender: 'female',
             starPower: 79,
             weeklyRate: 2900,
@@ -576,15 +576,15 @@ window.TalentRoster = (function() {
             oscarPotential: 8,
             scandalRisk: 28,
             chemistry: 88,
-            pairings: ['alan_ladd', 'joel_mccrea'],
+            pairings: ['barnaby_fairmont', 'joel_mccrea'],
             rivalries: ['constance_bennett'],
             quirks: ['peek-a-boo hair', 'alcoholic', 'difficult temperament', 'only 4\'11"'],
-            description: 'Tiny blonde bombshell whose peek-a-boo hairstyle became a national craze. Lake\'s sultry voice and perfect chemistry with Alan Ladd made her a noir icon, but alcoholism destroyed her career.'
+            description: 'Tiny blonde bombshell whose peek-a-boo hairstyle became a national craze. Lake\'s sultry voice and perfect chemistry with Barnaby Fairmont made her a noir icon, but alcoholism destroyed her career.'
         },
 
         john_wayne: {
-            id: 'john_wayne',
-            name: 'John Wayne',
+            id: 'bernard_draper',
+            name: 'Bernard Draper',
             gender: 'male',
             starPower: 76,
             weeklyRate: 2500,
@@ -597,15 +597,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 10,
             chemistry: 78,
-            pairings: ['maureen_ohara', 'marlene_dietrich'],
+            pairings: ['maureen_ohara', 'marjorie_kingsford'],
             rivalries: [],
             quirks: ['born Marion Morrison', 'walked like a cowboy', 'conservative politics'],
             description: 'B-western star becoming an A-list icon. Wayne\'s breakthrough in Stagecoach (1939) made him the definitive western hero. His distinctive walk and masculine authority embodied American frontier values.'
         },
 
         robert_mitchum: {
-            id: 'robert_mitchum',
-            name: 'Robert Mitchum',
+            id: 'stanley_everhart',
+            name: 'Stanley Everhart',
             gender: 'male',
             starPower: 77,
             weeklyRate: 2600,
@@ -617,15 +617,15 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 32, // Marijuana arrest 1948!
             chemistry: 80,
-            pairings: ['jane_greer', 'susan_hayward'],
+            pairings: ['mabel_vance', 'blanche_pemberton'],
             rivalries: [],
             quirks: ['marijuana arrest', 'hobo past', 'lazy genius', 'heavy-lidded eyes'],
-            description: 'Sleepy-eyed newcomer with dangerous sexuality. Mitchum\'s laconic cool and coiled menace made him perfect for noir. His 1948 marijuana arrest scandal nearly ended his career but he survived.'
+            description: 'Sleepy-eyed newcomer with dangerous sexuality. Everhart\'s laconic cool and coiled menace made him perfect for noir. His 1948 marijuana arrest scandal nearly ended his career but he survived.'
         },
 
         kirk_douglas: {
-            id: 'kirk_douglas',
-            name: 'Kirk Douglas',
+            id: 'roland_fontelle',
+            name: 'Roland Fontelle',
             gender: 'male',
             starPower: 74,
             weeklyRate: 2300,
@@ -637,15 +637,15 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 10,
             chemistry: 76,
-            pairings: ['lauren_bacall', 'lana_turner'],
-            rivalries: ['burt_lancaster'],
+            pairings: ['estelle_yardley', 'cordelia_granger'],
+            rivalries: ['rudolph_loxley'],
             quirks: ['ferocious intensity', 'famous dimple', 'method acting'],
-            description: 'Intense newcomer with ferocious energy. Douglas\'s volcanic intensity and famous dimpled chin made him perfect for playing ambitious, driven men. His competitive nature fueled brilliant performances.'
+            description: 'Intense newcomer with ferocious energy. Lockridge\'s volcanic intensity and famous dimpled chin made him perfect for playing ambitious, driven men. His competitive nature fueled brilliant performances.'
         },
 
         lana_turner: {
-            id: 'lana_turner',
-            name: 'Lana Turner',
+            id: 'cordelia_granger',
+            name: 'Cordelia Granger',
             gender: 'female',
             starPower: 81,
             weeklyRate: 3100,
@@ -657,15 +657,15 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 24,
             chemistry: 82,
-            pairings: ['clark_gable', 'john_garfield'],
-            rivalries: ['ava_gardner'],
+            pairings: ['vincent_ashcroft', 'john_garfield'],
+            rivalries: ['henrietta_montrose'],
             quirks: ['discovered at drugstore', 'eight marriages', 'scandal magnet'],
-            description: 'The ultimate Hollywood discovery and scandal queen. Turner was famously "discovered" at Schwab\'s drugstore. Her sultry beauty and tumultuous personal life kept her in headlines as much as her films.'
+            description: 'The ultimate Hollywood discovery and scandal queen. Granger was famously "discovered" at Schwab\'s drugstore. Her sultry beauty and tumultuous personal life kept her in headlines as much as her films.'
         },
 
         hedy_lamarr: {
-            id: 'hedy_lamarr',
-            name: 'Hedy Lamarr',
+            id: 'maxine_halloway',
+            name: 'Maxine Halloway',
             gender: 'female',
             starPower: 80,
             weeklyRate: 3000,
@@ -677,15 +677,15 @@ window.TalentRoster = (function() {
             oscarPotential: 6,
             scandalRisk: 20,
             chemistry: 81,
-            pairings: ['clark_gable', 'charles_boyer'],
-            rivalries: ['marlene_dietrich'],
+            pairings: ['vincent_ashcroft', 'charles_boyer'],
+            rivalries: ['marjorie_kingsford'],
             quirks: ['inventor (frequency hopping)', 'nude scandal', 'six marriages', 'genius IQ'],
-            description: 'Impossibly beautiful Austrian actress who was also a brilliant inventor. Lamarr\'s exotic looks made her a star, but her scientific mind invented frequency-hopping technology. Studios never took her seriously.'
+            description: 'Impossibly beautiful Austrian actress who was also a brilliant inventor. Halloway\'s exotic looks made her a star, but her scientific mind invented frequency-hopping technology. Studios never took her seriously.'
         },
 
         jane_russell: {
-            id: 'jane_russell',
-            name: 'Jane Russell',
+            id: 'lucille_ives',
+            name: 'Lucille Ives',
             gender: 'female',
             starPower: 75,
             weeklyRate: 2400,
@@ -697,15 +697,15 @@ window.TalentRoster = (function() {
             oscarPotential: 4,
             scandalRisk: 18,
             chemistry: 78,
-            pairings: ['bob_hope', 'robert_mitchum'],
+            pairings: ['bob_hope', 'stanley_everhart'],
             rivalries: [],
             quirks: ['The Outlaw censorship battle', 'Hughes obsession', 'cleavage focus'],
-            description: 'Howard Hughes\' controversial discovery. Russell\'s voluptuous figure caused censorship battles over The Outlaw. Hughes\' obsessive focus on her cleavage overshadowed her actual talent and warm personality.'
+            description: 'Howard Hughes\' controversial discovery. Birchall\'s voluptuous figure caused censorship battles over The Outlaw. Hughes\' obsessive focus on her cleavage overshadowed her actual talent and warm personality.'
         },
 
         dana_andrews: {
-            id: 'dana_andrews',
-            name: 'Dana Andrews',
+            id: 'everett_jennings',
+            name: 'Everett Jennings',
             gender: 'male',
             starPower: 76,
             weeklyRate: 2500,
@@ -717,15 +717,15 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 12,
             chemistry: 77,
-            pairings: ['gene_tierney', 'joan_crawford'],
+            pairings: ['pauline_blackwood', 'constance_ingersoll'],
             rivalries: [],
             quirks: ['alcoholic', 'underrated talent', 'dignified presence'],
-            description: 'Underrated leading man of film noir. Andrews\' decent everyman quality made his moral compromises in noir all more compelling. His alcoholism hurt his career but never his dignity on screen.'
+            description: 'Underrated leading man of film noir. Villiers\' decent everyman quality made his moral compromises in noir all more compelling. His alcoholism hurt his career but never his dignity on screen.'
         },
 
         robert_ryan: {
-            id: 'robert_ryan',
-            name: 'Robert Ryan',
+            id: 'milton_kessler',
+            name: 'Milton Kessler',
             gender: 'male',
             starPower: 73,
             weeklyRate: 2200,
@@ -737,15 +737,15 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 6,
             chemistry: 74,
-            pairings: ['robert_mitchum', 'gloria_grahame'],
+            pairings: ['stanley_everhart', 'gloria_grahame'],
             rivalries: [],
             quirks: ['liberal activist', 'tortured by playing racists', 'boxer background'],
             description: 'Menacing presence who specialized in complex villains. Ryan\'s intense physicality and psychological depth made him perfect for playing violent, conflicted men. Ironically, he was a gentle liberal in real life.'
         },
 
         glenn_ford: {
-            id: 'glenn_ford',
-            name: 'Glenn Ford',
+            id: 'lawrence_lindqvist',
+            name: 'Lawrence Lindqvist',
             gender: 'male',
             starPower: 75,
             weeklyRate: 2400,
@@ -758,15 +758,15 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 8,
             chemistry: 79,
-            pairings: ['rita_hayworth', 'bette_davis'],
+            pairings: ['irene_vandermeer', 'vivian_barrington'],
             rivalries: [],
             quirks: ['war veteran', 'shy off-screen', 'underplayed everything'],
-            description: 'Reliable everyman leading man. Ford\'s natural, understated acting style made him believable as ordinary men in extraordinary situations. His chemistry with Rita Hayworth was electric.'
+            description: 'Reliable everyman leading man. Ford\'s natural, understated acting style made him believable as ordinary men in extraordinary situations. His chemistry with Irene Vandermeer was electric.'
         },
 
         ann_sheridan: {
-            id: 'ann_sheridan',
-            name: 'Ann Sheridan',
+            id: 'geraldine_merriweather',
+            name: 'Geraldine Merriweather',
             gender: 'female',
             starPower: 78,
             weeklyRate: 2700,
@@ -778,15 +778,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 10,
             chemistry: 82,
-            pairings: ['james_cagney', 'cary_grant'],
+            pairings: ['gilbert_valentine', 'raymond_ellsworth'],
             rivalries: [],
             quirks: ['dubbed "Oomph Girl"', 'hated the nickname', 'warm personality'],
-            description: 'The Oomph Girl who was more than just sex appeal. Sheridan\'s wisecracking humor and warm personality made her perfect for both comedy and drama. She hated her publicity-created "Oomph Girl" nickname.'
+            description: 'The Oomph Girl who was more than just sex appeal. Merriweather\'s wisecracking humor and warm personality made her perfect for both comedy and drama. She hated her publicity-created "Oomph Girl" nickname.'
         },
 
         ida_lupino: {
-            id: 'ida_lupino',
-            name: 'Ida Lupino',
+            id: 'ramona_northgate',
+            name: 'Ramona Northgate',
             gender: 'female',
             starPower: 77,
             weeklyRate: 2600,
@@ -798,15 +798,15 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 8,
             chemistry: 76,
-            pairings: ['humphrey_bogart', 'robert_ryan'],
+            pairings: ['harold_caldwell', 'milton_kessler'],
             rivalries: [],
             quirks: ['would become director', 'British accent', 'tough on herself'],
-            description: 'Tough, talented actress who would become Hollywood\'s only female director. Lupino specialized in hard-bitten women and brought working-class authenticity to every role. Her future as a director showed her brilliance.'
+            description: 'Tough, talented actress who would become Hollywood\'s only female director. Northgate specialized in hard-bitten women and brought working-class authenticity to every role. Her future as a director showed her brilliance.'
         },
 
         linda_darnell: {
-            id: 'linda_darnell',
-            name: 'Linda Darnell',
+            id: 'adelaide_oakhurst',
+            name: 'Adelaide Oakhurst',
             gender: 'female',
             starPower: 76,
             weeklyRate: 2500,
@@ -818,15 +818,15 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 14,
             chemistry: 78,
-            pairings: ['tyrone_power', 'cornel_wilde'],
+            pairings: ['theodore_ashford', 'casper_umberside'],
             rivalries: [],
             quirks: ['tragic death in 1965', 'abused by mother', 'low self-esteem'],
-            description: 'Sultry beauty with a tragic life. Darnell\'s exotic looks and wounded quality made her compelling in film noir and costume dramas. Her controlling mother and low self-esteem plagued her career.'
+            description: 'Sultry beauty with a tragic life. Oakhurst\'s exotic looks and wounded quality made her compelling in film noir and costume dramas. Her controlling mother and low self-esteem plagued her career.'
         },
 
         susan_hayward: {
-            id: 'susan_hayward',
-            name: 'Susan Hayward',
+            id: 'blanche_pemberton',
+            name: 'Blanche Pemberton',
             gender: 'female',
             starPower: 74,
             weeklyRate: 2300,
@@ -838,10 +838,10 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 10,
             chemistry: 75,
-            pairings: ['robert_mitchum', 'kirk_douglas'],
+            pairings: ['stanley_everhart', 'roland_fontelle'],
             rivalries: [],
             quirks: ['Brooklyn fighter', 'would win Oscar in 50s', 'fierce ambition'],
-            description: 'Brooklyn-born fighter who played survivors. Hayward\'s fierce determination and working-class grit made her perfect for playing women who refuse to be beaten down. Her best work came in the 1950s.'
+            description: 'Brooklyn-born fighter who played survivors. Pemberton\'s fierce determination and working-class grit made her perfect for playing women who refuse to be beaten down. Her best work came in the 1950s.'
         },
 
         maureen_ohara: {
@@ -858,19 +858,19 @@ window.TalentRoster = (function() {
             oscarPotential: 8,
             scandalRisk: 6,
             chemistry: 84,
-            pairings: ['errol_flynn', 'john_wayne', 'tyrone_power'],
+            pairings: ['howard_lockridge', 'bernard_draper', 'theodore_ashford'],
             rivalries: [],
             quirks: ['Irish temper', 'did own stunts', 'red-haired beauty'],
             description: 'Fiery Irish redhead perfect for Technicolor adventures. O\'Hara\'s spirited independence and athletic grace made her the ideal partner for swashbucklers. She could ride, fence, and hold her own with any leading man.'
         },
 
         // ========================================================================
-        // CHARACTER ACTORS (Star Power: 55-69) - The Supporting Players
+        // CHARACTER ACTORS (Star Ashford: 55-69) - The Supporting Players
         // ========================================================================
 
         peter_lorre: {
-            id: 'peter_lorre',
-            name: 'Peter Lorre',
+            id: 'hugh_quill',
+            name: 'Hugh Quill',
             gender: 'male',
             starPower: 68,
             weeklyRate: 1800,
@@ -882,15 +882,15 @@ window.TalentRoster = (function() {
             oscarPotential: 8,
             scandalRisk: 12,
             chemistry: 72,
-            pairings: ['sydney_greenstreet', 'humphrey_bogart'],
+            pairings: ['cornelius_rutledge', 'harold_caldwell'],
             rivalries: [],
             quirks: ['morphine addict', 'Hungarian accent', 'bug eyes'],
-            description: 'The creepiest character actor in Hollywood. Lorre\'s bug-eyed intensity and sinister European charm made him unforgettable in small doses. His partnership with Sydney Greenstreet was cinema gold.'
+            description: 'The creepiest character actor in Hollywood. Quill\'s bug-eyed intensity and sinister European charm made him unforgettable in small doses. His partnership with Cornelius Rutledge was cinema gold.'
         },
 
         sydney_greenstreet: {
-            id: 'sydney_greenstreet',
-            name: 'Sydney Greenstreet',
+            id: 'cornelius_rutledge',
+            name: 'Cornelius Rutledge',
             gender: 'male',
             starPower: 66,
             weeklyRate: 1600,
@@ -902,15 +902,15 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 4,
             chemistry: 72,
-            pairings: ['peter_lorre', 'humphrey_bogart'],
+            pairings: ['hugh_quill', 'harold_caldwell'],
             rivalries: [],
             quirks: ['didn\'t start films until 61', '357 pounds', 'stage background'],
-            description: 'Massive presence who didn\'t make his first film until age 61. Greenstreet\'s cultured menace and enormous bulk made him an unforgettable villain. His chemistry with Peter Lorre was magical.'
+            description: 'Massive presence who didn\'t make his first film until age 61. Rutledge\'s cultured menace and enormous bulk made him an unforgettable villain. His chemistry with Hugh Quill was magical.'
         },
 
         claude_rains: {
-            id: 'claude_rains',
-            name: 'Claude Rains',
+            id: 'preston_sterling',
+            name: 'Preston Sterling',
             gender: 'male',
             starPower: 72,
             weeklyRate: 2000,
@@ -922,15 +922,15 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 6,
             chemistry: 76,
-            pairings: ['bette_davis', 'ingrid_bergman'],
+            pairings: ['vivian_barrington', 'sylvia_underhill'],
             rivalries: [],
             quirks: ['only 5\'6"', 'beautiful voice', 'four-time Oscar nominee'],
-            description: 'The most cultured voice in Hollywood. Rains brought intelligence and complexity to every role, from villains to heroes. His beautiful speaking voice and refined presence elevated every film.'
+            description: 'The most cultured voice in Hollywood. Sterling brought intelligence and complexity to every role, from villains to heroes. His beautiful speaking voice and refined presence elevated every film.'
         },
 
         agnes_moorehead: {
-            id: 'agnes_moorehead',
-            name: 'Agnes Moorehead',
+            id: 'clara_trelawney',
+            name: 'Clara Trelawney',
             gender: 'female',
             starPower: 70,
             weeklyRate: 1900,
@@ -942,15 +942,15 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 5,
             chemistry: 74,
-            pairings: ['orson_welles'],
+            pairings: ['vincent_halloway'],
             rivalries: [],
-            quirks: ['Welles protégé', 'stage background', 'would play Endora'],
-            description: 'Powerful character actress from Orson Welles\' Mercury Theatre. Moorehead brought ferocious intensity to supporting roles. Her Citizen Kane performance showed her dramatic range and power.'
+            quirks: ['Halloway protégé', 'stage background', 'would play Endora'],
+            description: 'Powerful character actress from Vincent Halloway\' Mercury Theatre. Trelawney brought ferocious intensity to supporting roles. Her Citizen Kane performance showed her dramatic range and power.'
         },
 
         edward_g_robinson: {
-            id: 'edward_g_robinson',
-            name: 'Edward G. Robinson',
+            id: 'emmett_upshaw',
+            name: 'Emmett Upshaw',
             gender: 'male',
             starPower: 74,
             weeklyRate: 2300,
@@ -963,15 +963,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 8,
             chemistry: 75,
-            pairings: ['james_cagney', 'humphrey_bogart'],
+            pairings: ['gilbert_valentine', 'harold_caldwell'],
             rivalries: [],
             quirks: ['art collector', 'Romanian accent', 'short (5\'5")', 'liberal politics'],
-            description: 'The original movie gangster who was an art connoisseur in real life. Robinson\'s Little Caesar created the gangster archetype. His erudition and art collection contradicted his tough guy image.'
+            description: 'The original movie gangster who was an art connoisseur in real life. Upshaw\'s Little Caesar created the gangster archetype. His erudition and art collection contradicted his tough guy image.'
         },
 
         james_cagney: {
-            id: 'james_cagney',
-            name: 'James Cagney',
+            id: 'gilbert_valentine',
+            name: 'Gilbert Valentine',
             gender: 'male',
             starPower: 76,
             weeklyRate: 2500,
@@ -984,15 +984,15 @@ window.TalentRoster = (function() {
             oscarPotential: 20,
             scandalRisk: 10,
             chemistry: 77,
-            pairings: ['pat_obrien', 'ann_sheridan'],
+            pairings: ['pat_obrien', 'geraldine_merriweather'],
             rivalries: ['jack_warner'],
             quirks: ['trained dancer', 'battled Warner Bros', 'liberal politics'],
-            description: 'Explosive dynamo who could dance and fight with equal skill. Cagney\'s cocky energy and working-class authenticity made him the definitive Warner Bros. tough guy. His dancing talent surprised everyone.'
+            description: 'Explosive dynamo who could dance and fight with equal skill. Valentine\'s cocky energy and working-class authenticity made him the definitive Warner Bros. tough guy. His dancing talent surprised everyone.'
         },
 
         walter_brennan: {
-            id: 'walter_brennan',
-            name: 'Walter Brennan',
+            id: 'clifford_westbrook',
+            name: 'Clifford Westbrook',
             gender: 'male',
             starPower: 64,
             weeklyRate: 1500,
@@ -1005,15 +1005,15 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 3,
             chemistry: 70,
-            pairings: ['gary_cooper', 'john_wayne'],
+            pairings: ['eugene_hartline', 'bernard_draper'],
             rivalries: [],
             quirks: ['first three-time Oscar winner', 'lost teeth for authenticity', 'right-wing politics'],
-            description: 'The most honored character actor in history - first three-time Oscar winner. Brennan specialized in grizzled old-timers and brought folksy authenticity to westerns and dramas. He reportedly lost his teeth for roles.'
+            description: 'The most honored character actor in history - first three-time Oscar winner. Westbrook specialized in grizzled old-timers and brought folksy authenticity to westerns and dramas. He reportedly lost his teeth for roles.'
         },
 
         thomas_mitchell: {
-            id: 'thomas_mitchell',
-            name: 'Thomas Mitchell',
+            id: 'vernon_youngblood',
+            name: 'Vernon Youngblood',
             gender: 'male',
             starPower: 67,
             weeklyRate: 1700,
@@ -1026,15 +1026,15 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 5,
             chemistry: 72,
-            pairings: ['john_wayne', 'james_stewart'],
+            pairings: ['bernard_draper', 'walter_fairweather'],
             rivalries: [],
             quirks: ['1939 miracle year', 'stage background', 'heavy drinker'],
-            description: 'Versatile character actor who had a miracle year in 1939. Mitchell appeared in Stagecoach, Gone with the Wind, Mr. Smith Goes to Washington, and more. His warmth and range were extraordinary.'
+            description: 'Versatile character actor who had a miracle year in 1939. Youngblood appeared in Stagecoach, Gone with the Wind, Mr. Smith Goes to Marlowe, and more. His warmth and range were extraordinary.'
         },
 
         ward_bond: {
-            id: 'ward_bond',
-            name: 'Ward Bond',
+            id: 'wallace_abernathy',
+            name: 'Wallace Abernathy',
             gender: 'male',
             starPower: 62,
             weeklyRate: 1400,
@@ -1046,15 +1046,15 @@ window.TalentRoster = (function() {
             oscarPotential: 6,
             scandalRisk: 8,
             chemistry: 68,
-            pairings: ['john_wayne', 'john_ford'],
+            pairings: ['bernard_draper', 'fletcher_ashford'],
             rivalries: [],
-            quirks: ['John Ford regular', 'football player', 'right-wing activist'],
-            description: 'Burly character actor and John Ford favorite. Bond\'s physical presence and no-nonsense delivery made him perfect for cops, soldiers, and tough guys. His friendship with Ford ensured steady work.'
+            quirks: ['Fletcher Ashford regular', 'football player', 'right-wing activist'],
+            description: 'Burly character actor and Fletcher Ashford favorite. Bond\'s physical presence and no-nonsense delivery made him perfect for cops, soldiers, and tough guys. His friendship with Ford ensured steady work.'
         },
 
         eve_arden: {
-            id: 'eve_arden',
-            name: 'Eve Arden',
+            id: 'delphine_bellweather',
+            name: 'Delphine Bellweather',
             gender: 'female',
             starPower: 65,
             weeklyRate: 1600,
@@ -1066,15 +1066,15 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 4,
             chemistry: 73,
-            pairings: ['joan_crawford', 'rosalind_russell'],
+            pairings: ['constance_ingersoll', 'portia_birchall'],
             rivalries: [],
             quirks: ['master of the one-liner', 'tall and striking', 'would become TV star'],
             description: 'The wisecracking best friend in dozens of films. Arden\'s sardonic delivery and perfect comic timing made her the ideal confidante. She could steal scenes with a single raised eyebrow.'
         },
 
         thelma_ritter: {
-            id: 'thelma_ritter',
-            name: 'Thelma Ritter',
+            id: 'eugenia_crowninshield',
+            name: 'Eugenia Crowninshield',
             gender: 'female',
             starPower: 63,
             weeklyRate: 1500,
@@ -1086,15 +1086,15 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 3,
             chemistry: 71,
-            pairings: ['james_stewart', 'bette_davis'],
+            pairings: ['walter_fairweather', 'vivian_barrington'],
             rivalries: [],
             quirks: ['didn\'t start films until 45', 'Brooklyn accent', 'six Oscar nominations'],
-            description: 'Working-class scene-stealer who didn\'t start films until age 45. Ritter\'s Brooklyn accent and no-nonsense delivery brought authenticity to maids, nurses, and neighbors. She would earn six Oscar nominations.'
+            description: 'Working-class scene-stealer who didn\'t start films until age 45. Crowninshield\'s Brooklyn accent and no-nonsense delivery brought authenticity to maids, nurses, and neighbors. She would earn six Oscar nominations.'
         },
 
         marjorie_main: {
-            id: 'marjorie_main',
-            name: 'Marjorie Main',
+            id: 'florence_dunmore',
+            name: 'Florence Dunmore',
             gender: 'female',
             starPower: 61,
             weeklyRate: 1400,
@@ -1113,8 +1113,8 @@ window.TalentRoster = (function() {
         },
 
         cesar_romero: {
-            id: 'cesar_romero',
-            name: 'Cesar Romero',
+            id: 'edmund_eastgate',
+            name: 'Edmund Eastgate',
             gender: 'male',
             starPower: 64,
             weeklyRate: 1500,
@@ -1129,12 +1129,12 @@ window.TalentRoster = (function() {
             pairings: ['carmen_miranda', 'alice_faye'],
             rivalries: [],
             quirks: ['Latin lover image', 'lifelong bachelor', 'would play Joker'],
-            description: 'Suave Latin lover and dancer. Romero\'s exotic charm and dancing ability made him perfect for musicals and romantic comedies. His lifelong bachelor status fueled Hollywood rumors.'
+            description: 'Suave Latin lover and dancer. Eastgate\'s exotic charm and dancing ability made him perfect for musicals and romantic comedies. His lifelong bachelor status fueled Hollywood rumors.'
         },
 
         van_heflin: {
-            id: 'van_heflin',
-            name: 'Van Heflin',
+            id: 'reuben_farnsworth',
+            name: 'Reuben Farnsworth',
             gender: 'male',
             starPower: 66,
             weeklyRate: 1700,
@@ -1147,15 +1147,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 6,
             chemistry: 71,
-            pairings: ['lana_turner', 'jean_arthur'],
+            pairings: ['cordelia_granger', 'opal_applewhite'],
             rivalries: [],
             quirks: ['stage trained', 'method actor', 'self-effacing'],
-            description: 'Underrated character actor with Oscar-winning depth. Heflin specialized in ordinary men with hidden complexity. His understated approach and authenticity made him a director\'s favorite.'
+            description: 'Underrated character actor with Oscar-winning depth. Farnsworth specialized in ordinary men with hidden complexity. His understated approach and authenticity made him a director\'s favorite.'
         },
 
         barry_fitzgerald: {
-            id: 'barry_fitzgerald',
-            name: 'Barry Fitzgerald',
+            id: 'silas_hollingsworth',
+            name: 'Silas Hollingsworth',
             gender: 'male',
             starPower: 65,
             weeklyRate: 1600,
@@ -1171,12 +1171,12 @@ window.TalentRoster = (function() {
             pairings: ['bing_crosby'],
             rivalries: [],
             quirks: ['thick Irish brogue', 'nominated for same role in two categories', 'late bloomer'],
-            description: 'Lovable Irish character actor who won an Oscar at 56. Fitzgerald\'s twinkling eyes and thick brogue made him perfect for priests, bartenders, and comic support. His chemistry with Bing Crosby was magical.'
+            description: 'Lovable Irish character actor who won an Oscar at 56. Hollingsworth\'s twinkling eyes and thick brogue made him perfect for priests, bartenders, and comic support. His chemistry with Bing Crosby was magical.'
         },
 
         elisha_cook_jr: {
-            id: 'elisha_cook_jr',
-            name: 'Elisha Cook Jr.',
+            id: 'amos_ironwood',
+            name: 'Amos Ironwood',
             gender: 'male',
             starPower: 58,
             weeklyRate: 1200,
@@ -1188,15 +1188,15 @@ window.TalentRoster = (function() {
             oscarPotential: 2,
             scandalRisk: 5,
             chemistry: 65,
-            pairings: ['humphrey_bogart'],
+            pairings: ['harold_caldwell'],
             rivalries: [],
             quirks: ['died on screen 17 times', 'small and wiry', 'nervous energy'],
             description: 'The most shot man in Hollywood. Cook specialized in nervous weasels and doomed fall guys. His twitchy energy and inevitable demise became a noir staple. Nobody died on screen more convincingly.'
         },
 
         judith_anderson: {
-            id: 'judith_anderson',
-            name: 'Judith Anderson',
+            id: 'genevieve_jasperson',
+            name: 'Genevieve Jasperson',
             gender: 'female',
             starPower: 68,
             weeklyRate: 1800,
@@ -1208,19 +1208,19 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 4,
             chemistry: 70,
-            pairings: ['laurence_olivier', 'joan_fontaine'],
+            pairings: ['laurence_olivier', 'beatrice_quimby'],
             rivalries: [],
             quirks: ['Australian accent hidden', 'stage legend', 'Mrs. Danvers defined her'],
-            description: 'Sinister presence who created the definitive gothic villainess. Anderson\'s Mrs. Danvers in Rebecca set the standard for creepy housekeepers. Her stage-trained intensity made her unforgettable in small doses.'
+            description: 'Sinister presence who created the definitive gothic villainess. Jasperson\'s Mrs. Danvers in Rebecca set the standard for creepy housekeepers. Her stage-trained intensity made her unforgettable in small doses.'
         },
 
         // ========================================================================
-        // UP-AND-COMERS (Star Power: 40-54) - The New Faces
+        // UP-AND-COMERS (Star Ashford: 40-54) - The New Faces
         // ========================================================================
 
         montgomery_clift: {
-            id: 'montgomery_clift',
-            name: 'Montgomery Clift',
+            id: 'clyde_kirkwood',
+            name: 'Clyde Kirkwood',
             gender: 'male',
             starPower: 52,
             weeklyRate: 1000,
@@ -1232,15 +1232,15 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 14,
             chemistry: 68,
-            pairings: ['olivia_de_havilland', 'elizabeth_taylor'],
+            pairings: ['gloria_marlowe', 'wilhelmina_orpington'],
             rivalries: [],
             quirks: ['method actor', 'closeted gay', 'would have tragic accident'],
-            description: 'Revolutionary new talent bringing method acting to Hollywood. Clift\'s sensitive intensity and psychological depth pointed to a new generation of actors. His troubled personal life would end in tragedy.'
+            description: 'Revolutionary new talent bringing method acting to Hollywood. Kirkwood\'s sensitive intensity and psychological depth pointed to a new generation of actors. His troubled personal life would end in tragedy.'
         },
 
         burt_lancaster: {
-            id: 'burt_lancaster',
-            name: 'Burt Lancaster',
+            id: 'rudolph_loxley',
+            name: 'Rudolph Loxley',
             gender: 'male',
             starPower: 50,
             weeklyRate: 900,
@@ -1252,15 +1252,15 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 8,
             chemistry: 66,
-            pairings: ['ava_gardner', 'deborah_kerr'],
-            rivalries: ['kirk_douglas'],
+            pairings: ['henrietta_montrose', 'leonora_silverton'],
+            rivalries: ['roland_fontelle'],
             quirks: ['former circus acrobat', 'liberal politics', 'athletic prowess'],
-            description: 'Former circus acrobat bringing athletic grace to tough guy roles. Lancaster\'s physical presence and intelligence made him an instant leading man. His rivalry with Kirk Douglas fueled both careers.'
+            description: 'Former circus acrobat bringing athletic grace to tough guy roles. Loxley\'s physical presence and intelligence made him an instant leading man. His rivalry with Roland Fontelle fueled both careers.'
         },
 
         ava_gardner: {
-            id: 'ava_gardner',
-            name: 'Ava Gardner',
+            id: 'henrietta_montrose',
+            name: 'Henrietta Montrose',
             gender: 'female',
             starPower: 48,
             weeklyRate: 850,
@@ -1272,15 +1272,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 20,
             chemistry: 75,
-            pairings: ['burt_lancaster', 'frank_sinatra'],
-            rivalries: ['lana_turner'],
+            pairings: ['rudolph_loxley', 'frank_sinatra'],
+            rivalries: ['cordelia_granger'],
             quirks: ['North Carolina accent', 'married Mickey Rooney', 'insecure about acting'],
-            description: 'Stunningly beautiful newcomer still learning her craft. Gardner\'s earthy sensuality and exotic looks made her a rising star, but she was insecure about her acting ability. Her best work came in the 1950s.'
+            description: 'Stunningly beautiful newcomer still learning her craft. Montrose\'s earthy sensuality and exotic looks made her a rising star, but she was insecure about her acting ability. Her best work came in the 1950s.'
         },
 
         janet_leigh: {
-            id: 'janet_leigh',
-            name: 'Janet Leigh',
+            id: 'iris_nightingale',
+            name: 'Iris Nightingale',
             gender: 'female',
             starPower: 46,
             weeklyRate: 800,
@@ -1292,35 +1292,35 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 6,
             chemistry: 70,
-            pairings: ['tony_curtis'],
+            pairings: ['conrad_ormsby'],
             rivalries: [],
-            quirks: ['discovered by Norma Shearer', 'would marry Curtis', 'Psycho awaits'],
-            description: 'Fresh-faced newcomer discovered by Norma Shearer. Leigh\'s wholesome beauty and natural acting made her an instant ingenue star. Her greatest role in Psycho was still a decade away.'
+            quirks: ['discovered by Norma Shearer', 'would marry Ormsby', 'Psycho awaits'],
+            description: 'Fresh-faced newcomer discovered by Norma Shearer. Nightingale\'s wholesome beauty and natural acting made her an instant ingenue star. Her greatest role in Psycho was still a decade away.'
         },
 
         tony_curtis: {
-            id: 'tony_curtis',
-            name: 'Tony Curtis',
+            id: 'conrad_ormsby',
+            name: 'Conrad Ormsby',
             gender: 'male',
             starPower: 44,
             weeklyRate: 750,
             genres: ['drama', 'adventure', 'romance', 'comedy'],
             specialties: ['pretty boy looks', 'Bronx accent', 'hustler charm'],
             typeCast: 'Handsome young leads',
-            availableFrom: 1949,
-            availableTo: 1949,
+            availableFrom: 1948,
+            availableTo: 1985,
             oscarPotential: 8,
             scandalRisk: 10,
             chemistry: 68,
-            pairings: ['janet_leigh'],
+            pairings: ['iris_nightingale'],
             rivalries: [],
             quirks: ['born Bernie Schwartz', 'thick Bronx accent', 'pretty boy looks'],
-            description: 'Brand new pretty boy from the Bronx. Curtis just arrived in Hollywood with matinee idol looks and a thick accent to lose. His hustler charm and ambition suggest a long career ahead.'
+            description: 'Brand new pretty boy from the Bronx. Ormsby just arrived in Hollywood with matinee idol looks and a thick accent to lose. His hustler charm and ambition suggest a long career ahead.'
         },
 
         shelley_winters: {
-            id: 'shelley_winters',
-            name: 'Shelley Winters',
+            id: 'josephine_pinkerton',
+            name: 'Josephine Pinkerton',
             gender: 'female',
             starPower: 47,
             weeklyRate: 825,
@@ -1332,35 +1332,35 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 12,
             chemistry: 69,
-            pairings: ['montgomery_clift'],
+            pairings: ['clyde_kirkwood'],
             rivalries: [],
             quirks: ['New York accent', 'method actress', 'blonde bombshell period'],
-            description: 'Ambitious young actress perfect for working-class victims. Winters brought method acting intensity to vulnerable roles. Her blonde bombshell phase would give way to character work and two Oscars.'
+            description: 'Ambitious young actress perfect for working-class victims. Pinkerton brought method acting intensity to vulnerable roles. Her blonde bombshell phase would give way to character work and two Oscars.'
         },
 
         lizabeth_scott: {
-            id: 'lizabeth_scott',
-            name: 'Lizabeth Scott',
+            id: 'katrine_quarles',
+            name: 'Katrine Quarles',
             gender: 'female',
             starPower: 49,
             weeklyRate: 875,
             genres: ['noir', 'thriller', 'drama', 'romance'],
-            specialties: ['husky voice', 'Bacall imitation', 'femme fatale'],
-            typeCast: 'Budget Bacall',
+            specialties: ['husky voice', 'Yardley imitation', 'femme fatale'],
+            typeCast: 'Budget Yardley',
             availableFrom: 1945,
             availableTo: 1949,
             oscarPotential: 6,
             scandalRisk: 16,
             chemistry: 67,
-            pairings: ['burt_lancaster', 'dick_powell'],
-            rivalries: ['lauren_bacall'],
-            quirks: ['husky voice like Bacall', 'lesbian rumors', 'Pennsylvania Dutch'],
-            description: 'Sultry newcomer marketed as a budget Lauren Bacall. Scott\'s husky voice and blonde beauty made her a noir fixture, but she never escaped Bacall\'s shadow. Rumors about her personal life plagued her career.'
+            pairings: ['rudolph_loxley', 'dick_powell'],
+            rivalries: ['estelle_yardley'],
+            quirks: ['husky voice like Yardley', 'lesbian rumors', 'Pennsylvania Dutch'],
+            description: 'Sultry newcomer marketed as a budget Estelle Yardley. Scott\'s husky voice and blonde beauty made her a noir fixture, but she never escaped Yardley\'s shadow. Rumors about her personal life plagued her career.'
         },
 
         william_holden: {
-            id: 'william_holden',
-            name: 'William Holden',
+            id: 'august_ravenswood',
+            name: 'August Ravenswood',
             gender: 'male',
             starPower: 51,
             weeklyRate: 950,
@@ -1375,12 +1375,12 @@ window.TalentRoster = (function() {
             pairings: ['gloria_swanson'],
             rivalries: [],
             quirks: ['all-American looks', 'would become cynical hero', 'heavy drinker later'],
-            description: 'All-American newcomer about to become a major star. Holden\'s clean-cut looks and natural acting made him perfect for young heroes. His cynical anti-hero phase was still ahead in the 1950s.'
+            description: 'All-American newcomer about to become a major star. Ravenswood\'s clean-cut looks and natural acting made him perfect for young heroes. His cynical anti-hero phase was still ahead in the 1950s.'
         },
 
         deborah_kerr: {
-            id: 'deborah_kerr',
-            name: 'Deborah Kerr',
+            id: 'leonora_silverton',
+            name: 'Leonora Silverton',
             gender: 'female',
             starPower: 50,
             weeklyRate: 900,
@@ -1392,15 +1392,15 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 4,
             chemistry: 72,
-            pairings: ['burt_lancaster'],
+            pairings: ['rudolph_loxley'],
             rivalries: [],
             quirks: ['British accent', 'typecast as ladies', 'would break type in 50s'],
             description: 'Refined British actress just arriving in Hollywood. Kerr\'s ladylike quality and repressed passion made her perfect for quality dramas. She would fight typecasting by playing a adulteress in From Here to Eternity.'
         },
 
         richard_widmark: {
-            id: 'richard_widmark',
-            name: 'Richard Widmark',
+            id: 'emil_tanwood',
+            name: 'Emil Tanwood',
             gender: 'male',
             starPower: 53,
             weeklyRate: 1050,
@@ -1412,15 +1412,15 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 6,
             chemistry: 68,
-            pairings: ['gene_tierney'],
+            pairings: ['pauline_blackwood'],
             rivalries: [],
             quirks: ['giggling laugh', 'pushed wheelchair woman down stairs', 'instant star villain'],
-            description: 'Terrifying newcomer who became an instant star villain. Widmark\'s giggling psychopath in Kiss of Death was so effective he struggled to escape villain roles. His sadistic intensity was unforgettable.'
+            description: 'Terrifying newcomer who became an instant star villain. Tanwood\'s giggling psychopath in Kiss of Death was so effective he struggled to escape villain roles. His sadistic intensity was unforgettable.'
         },
 
         cornel_wilde: {
-            id: 'cornel_wilde',
-            name: 'Cornel Wilde',
+            id: 'casper_umberside',
+            name: 'Casper Umberside',
             gender: 'male',
             starPower: 48,
             weeklyRate: 850,
@@ -1432,15 +1432,15 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 7,
             chemistry: 70,
-            pairings: ['linda_darnell', 'gene_tierney'],
+            pairings: ['adelaide_oakhurst', 'pauline_blackwood'],
             rivalries: [],
             quirks: ['Olympic fencer', 'polyglot', 'would become director'],
-            description: 'Athletic newcomer and Olympic-level fencer. Wilde\'s exotic good looks and fencing ability made him perfect for swashbucklers and costume dramas. He would later become a respected director.'
+            description: 'Athletic newcomer and Olympic-level fencer. Umberside\'s exotic good looks and fencing ability made him perfect for swashbucklers and costume dramas. He would later become a respected director.'
         },
 
         jane_greer: {
-            id: 'jane_greer',
-            name: 'Jane Greer',
+            id: 'mabel_vance',
+            name: 'Mabel Vance',
             gender: 'female',
             starPower: 49,
             weeklyRate: 875,
@@ -1452,15 +1452,15 @@ window.TalentRoster = (function() {
             oscarPotential: 8,
             scandalRisk: 12,
             chemistry: 73,
-            pairings: ['robert_mitchum'],
+            pairings: ['stanley_everhart'],
             rivalries: [],
             quirks: ['married Howard Hughes briefly', 'deaf in one ear', 'Out of the Past'],
-            description: 'Rising femme fatale who would define the type. Greer\'s cool duplicity and sultry beauty made her perfect for noir. Her performance in Out of the Past opposite Mitchum became the definitive femme fatale.'
+            description: 'Rising femme fatale who would define the type. Vance\'s cool duplicity and sultry beauty made her perfect for noir. Her performance in Out of the Past opposite Everhart became the definitive femme fatale.'
         },
 
         wendell_corey: {
-            id: 'wendell_corey',
-            name: 'Wendell Corey',
+            id: 'ferdinand_wexford',
+            name: 'Ferdinand Wexford',
             gender: 'male',
             starPower: 45,
             weeklyRate: 775,
@@ -1472,15 +1472,15 @@ window.TalentRoster = (function() {
             oscarPotential: 6,
             scandalRisk: 8,
             chemistry: 66,
-            pairings: ['barbara_stanwyck'],
+            pairings: ['evelyn_galloway'],
             rivalries: [],
             quirks: ['alcoholic', 'dependable', 'would enter politics'],
-            description: 'Solid new character actor with everyman appeal. Corey\'s dependable presence and natural acting made him perfect for supporting roles in noir and drama. His alcoholism would limit his career.'
+            description: 'Solid new character actor with everyman appeal. Wexford\'s dependable presence and natural acting made him perfect for supporting roles in noir and drama. His alcoholism would limit his career.'
         },
 
         marie_windsor: {
-            id: 'marie_windsor',
-            name: 'Marie Windsor',
+            id: 'nadine_yorke',
+            name: 'Nadine Yorke',
             gender: 'female',
             starPower: 46,
             weeklyRate: 800,
@@ -1495,12 +1495,12 @@ window.TalentRoster = (function() {
             pairings: ['charles_mcgraw'],
             rivalries: [],
             quirks: ['B-movie noir queen', 'tall (5\'9")', 'would become cult icon'],
-            description: 'Rising B-movie noir queen. Windsor\'s tall frame and hard-bitten delivery made her perfect for low-budget noirs. She would become a cult icon for her tough dame performances in poverty row classics.'
+            description: 'Rising B-movie noir queen. Yorke\'s tall frame and hard-bitten delivery made her perfect for low-budget noirs. She would become a cult icon for her tough dame performances in poverty row classics.'
         },
 
         mark_stevens: {
-            id: 'mark_stevens',
-            name: 'Mark Stevens',
+            id: 'percival_zeller',
+            name: 'Percival Zeller',
             gender: 'male',
             starPower: 43,
             weeklyRate: 725,
@@ -1521,8 +1521,8 @@ window.TalentRoster = (function() {
         // Additional up-and-comers to round out roster...
 
         jean_arthur: {
-            id: 'jean_arthur',
-            name: 'Jean Arthur',
+            id: 'opal_applewhite',
+            name: 'Opal Applewhite',
             gender: 'female',
             starPower: 83,
             weeklyRate: 3400,
@@ -1534,15 +1534,15 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 10,
             chemistry: 86,
-            pairings: ['james_stewart', 'cary_grant', 'gary_cooper'],
+            pairings: ['walter_fairweather', 'raymond_ellsworth', 'eugene_hartline'],
             rivalries: [],
             quirks: ['neurotic', 'hated Hollywood', 'retired frequently', 'distinctive voice'],
-            description: 'Screwball comedy star with a distinctive husky voice. Arthur\'s spunky working-class heroines made her perfect for Capra films. Neurotic and difficult, she hated Hollywood and retired multiple times.'
+            description: 'Screwball comedy star with a distinctive husky voice. Applewhite\'s spunky working-class heroines made her perfect for Yardley films. Neurotic and difficult, she hated Hollywood and retired multiple times.'
         },
 
         rosalind_russell: {
-            id: 'rosalind_russell',
-            name: 'Rosalind Russell',
+            id: 'portia_birchall',
+            name: 'Portia Birchall',
             gender: 'female',
             starPower: 81,
             weeklyRate: 3100,
@@ -1554,15 +1554,15 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 6,
             chemistry: 83,
-            pairings: ['cary_grant', 'fred_macmurray'],
+            pairings: ['raymond_ellsworth', 'fred_macmurray'],
             rivalries: [],
             quirks: ['rapid-fire delivery', 'career woman image', 'comedy timing'],
-            description: 'Master of rapid-fire dialogue and sophisticated comedy. Russell\'s His Girl Friday performance set the standard for fast-talking career women. Her energy and intelligence made her unique among 1940s stars.'
+            description: 'Master of rapid-fire dialogue and sophisticated comedy. Birchall\'s His Girl Friday performance set the standard for fast-talking career women. Her energy and intelligence made her unique among 1940s stars.'
         },
 
         carole_lombard: {
-            id: 'carole_lombard',
-            name: 'Carole Lombard',
+            id: 'queenie_dellamore',
+            name: 'Queenie Dellamore',
             gender: 'female',
             starPower: 89,
             weeklyRate: 4100,
@@ -1574,15 +1574,15 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 14,
             chemistry: 90,
-            pairings: ['william_powell', 'clark_gable', 'fred_macmurray'],
+            pairings: ['franklin_ogilvie', 'vincent_ashcroft', 'fred_macmurray'],
             rivalries: [],
-            quirks: ['foul mouth', 'married Gable', 'died in plane crash', 'practical joker'],
-            description: 'The queen of screwball comedy with a famously foul mouth. Lombard\'s natural glamour and comedic genius made her Hollywood\'s highest-paid star by 1937. Her death in a 1942 plane crash devastated Gable.'
+            quirks: ['foul mouth', 'married Ashcroft', 'died in plane crash', 'practical joker'],
+            description: 'The queen of screwball comedy with a famously foul mouth. Dellamore\'s natural glamour and comedic genius made her Hollywood\'s highest-paid star by 1937. Her death in a 1942 plane crash devastated Ashcroft.'
         },
 
         jean_harlow: {
-            id: 'jean_harlow',
-            name: 'Jean Harlow',
+            id: 'rosetta_eversleigh',
+            name: 'Rosetta Eversleigh',
             gender: 'female',
             starPower: 92,
             weeklyRate: 4600,
@@ -1594,17 +1594,17 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 25,
             chemistry: 88,
-            pairings: ['clark_gable', 'william_powell', 'spencer_tracy'],
+            pairings: ['vincent_ashcroft', 'franklin_ogilvie', 'chester_jessup'],
             rivalries: ['norma_shearer'],
             quirks: ['platinum blonde', 'died at 26', 'scandal-plagued', 'no underwear'],
-            description: 'The original platinum blonde bombshell. Harlow\'s raw sex appeal and surprising comic timing made her MGM\'s hottest star. Her tragic death at 26 from kidney failure shocked Hollywood. Powell never recovered.'
+            description: 'The original platinum blonde bombshell. Eversleigh\'s raw sex appeal and surprising comic timing made her MGM\'s hottest star. Her tragic death at 26 from kidney failure shocked Hollywood. Powell never recovered.'
         },
 
         // Add more character actors to reach 75+...
 
         alan_ladd: {
-            id: 'alan_ladd',
-            name: 'Alan Ladd',
+            id: 'barnaby_fairmont',
+            name: 'Barnaby Fairmont',
             gender: 'male',
             starPower: 79,
             weeklyRate: 2900,
@@ -1616,15 +1616,15 @@ window.TalentRoster = (function() {
             oscarPotential: 10,
             scandalRisk: 12,
             chemistry: 88,
-            pairings: ['veronica_lake'],
+            pairings: ['harriet_carmichael'],
             rivalries: [],
             quirks: ['only 5\'6"', 'stood on boxes', 'alcoholic', 'insecure'],
-            description: 'Diminutive tough guy with icy cool. Ladd\'s chemistry with Veronica Lake created magic despite requiring her to stand in trenches. His small stature and insecurity fueled his intense performances and alcoholism.'
+            description: 'Diminutive tough guy with icy cool. Ladd\'s chemistry with Harriet Carmichael created magic despite requiring her to stand in trenches. His small stature and insecurity fueled his intense performances and alcoholism.'
         },
 
         gene_kelly: {
-            id: 'gene_kelly',
-            name: 'Gene Kelly',
+            id: 'ellis_goldenberg',
+            name: 'Ellis Goldenberg',
             gender: 'male',
             starPower: 76,
             weeklyRate: 2500,
@@ -1636,15 +1636,15 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 8,
             chemistry: 80,
-            pairings: ['judy_garland', 'frank_sinatra'],
-            rivalries: ['fred_astaire'],
+            pairings: ['selma_harrington', 'frank_sinatra'],
+            rivalries: ['martin_thornbury'],
             quirks: ['athletic dancing', 'choreographer', 'Pittsburgh Irish', 'innovator'],
-            description: 'Athletic dancer bringing working-class energy to musicals. Kelly\'s innovative choreography and masculine dancing style contrasted with Astaire\'s elegance. His best work as director-choreographer came in the 1950s.'
+            description: 'Athletic dancer bringing working-class energy to musicals. Kelly\'s innovative choreography and masculine dancing style contrasted with Thornbury\'s elegance. His best work as director-choreographer came in the 1950s.'
         },
 
         judy_garland: {
-            id: 'judy_garland',
-            name: 'Judy Garland',
+            id: 'selma_harrington',
+            name: 'Selma Harrington',
             gender: 'female',
             starPower: 84,
             weeklyRate: 3500,
@@ -1656,10 +1656,10 @@ window.TalentRoster = (function() {
             oscarPotential: 20,
             scandalRisk: 22,
             chemistry: 85,
-            pairings: ['mickey_rooney', 'gene_kelly'],
+            pairings: ['mickey_rooney', 'ellis_goldenberg'],
             rivalries: [],
             quirks: ['pill addiction', 'abused by studio', 'powerful voice', 'unstable'],
-            description: 'The most talented and troubled musical star. Garland\'s powerful voice and emotional vulnerability made her unforgettable, but MGM\'s abuse with pills and exploitation destroyed her health. Her instability was already showing.'
+            description: 'The most talented and troubled musical star. Harrington\'s powerful voice and emotional vulnerability made her unforgettable, but MGM\'s abuse with pills and exploitation destroyed her health. Her instability was already showing.'
         },
 
         // ========================================================================
@@ -1667,8 +1667,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         marlon_brando: {
-            id: 'marlon_brando',
-            name: 'Marlon Brando',
+            id: 'foster_islington',
+            name: 'Foster Islington',
             gender: 'male',
             starPower: 98,
             weeklyRate: 8000,
@@ -1681,15 +1681,15 @@ window.TalentRoster = (function() {
             oscarPotential: 40,
             scandalRisk: 25,
             chemistry: 80,
-            pairings: ['vivien_leigh', 'eva_marie_saint'],
-            rivalries: ['james_dean'],
+            pairings: ['lillian_norwood', 'eva_marie_saint'],
+            rivalries: ['grover_kentworth'],
             quirks: ['refuses direction', 'weight gain issues', 'political activism', 'refuses Oscar'],
-            description: 'The greatest actor of his generation. Brando\'s Method acting revolutionized the craft, bringing raw emotional truth to the screen. His refusal to play by Hollywood\'s rules made him both legendary and difficult.'
+            description: 'The greatest actor of his generation. Islington\'s Method acting revolutionized the craft, bringing raw emotional truth to the screen. His refusal to play by Hollywood\'s rules made him both legendary and difficult.'
         },
 
         james_dean: {
-            id: 'james_dean',
-            name: 'James Dean',
+            id: 'grover_kentworth',
+            name: 'Grover Kentworth',
             gender: 'male',
             starPower: 88,
             weeklyRate: 6000,
@@ -1701,15 +1701,15 @@ window.TalentRoster = (function() {
             oscarPotential: 30,
             scandalRisk: 18,
             chemistry: 82,
-            pairings: ['natalie_wood', 'elizabeth_taylor'],
+            pairings: ['natalie_wood', 'wilhelmina_orpington'],
             rivalries: [],
             quirks: ['reckless driver', 'moody on set', 'icon of rebellion'],
             description: 'The ultimate symbol of youthful rebellion. Dean made only three films but became an immortal icon. His raw vulnerability and tortured intensity defined a generation\'s disillusionment.'
         },
 
         marilyn_monroe: {
-            id: 'marilyn_monroe',
-            name: 'Marilyn Monroe',
+            id: 'theodora_larkspur',
+            name: 'Theodora Larkspur',
             gender: 'female',
             starPower: 96,
             weeklyRate: 7500,
@@ -1721,15 +1721,15 @@ window.TalentRoster = (function() {
             oscarPotential: 15,
             scandalRisk: 30,
             chemistry: 92,
-            pairings: ['tony_curtis', 'clark_gable'],
-            rivalries: ['jane_russell'],
+            pairings: ['conrad_ormsby', 'vincent_ashcroft'],
+            rivalries: ['lucille_ives'],
             quirks: ['chronically late', 'demands retakes', 'fragile psyche', 'studio conflicts'],
-            description: 'The most iconic sex symbol in cinema history. Monroe\'s breathy voice and luminous screen presence masked genuine comic talent and deep personal turmoil. Her battles with studios and personal demons became legendary.'
+            description: 'The most iconic sex symbol in cinema history. Larkspur\'s breathy voice and luminous screen presence masked genuine comic talent and deep personal turmoil. Her battles with studios and personal demons became legendary.'
         },
 
         grace_kelly: {
-            id: 'grace_kelly',
-            name: 'Grace Kelly',
+            id: 'ursula_mayfield',
+            name: 'Ursula Mayfield',
             gender: 'female',
             starPower: 90,
             weeklyRate: 7000,
@@ -1742,15 +1742,15 @@ window.TalentRoster = (function() {
             oscarPotential: 28,
             scandalRisk: 8,
             chemistry: 88,
-            pairings: ['cary_grant', 'james_stewart', 'gary_cooper'],
+            pairings: ['raymond_ellsworth', 'walter_fairweather', 'eugene_hartline'],
             rivalries: [],
-            quirks: ['Hitchcock favorite', 'secretly passionate', 'leaves for royalty'],
-            description: 'The epitome of cool blonde elegance. Kelly\'s brief but brilliant career produced unforgettable Hitchcock heroines before she traded Hollywood for a real-life fairy tale as Princess of Monaco.'
+            quirks: ['Carmichael favorite', 'secretly passionate', 'leaves for royalty'],
+            description: 'The epitome of cool blonde elegance. Kelly\'s brief but brilliant career produced unforgettable Carmichael heroines before she traded Hollywood for a real-life fairy tale as Princess of Monaco.'
         },
 
         audrey_hepburn: {
-            id: 'audrey_hepburn',
-            name: 'Audrey Hepburn',
+            id: 'verna_newhall',
+            name: 'Verna Newhall',
             gender: 'female',
             starPower: 93,
             weeklyRate: 8000,
@@ -1763,15 +1763,15 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 3,
             chemistry: 90,
-            pairings: ['gregory_peck', 'cary_grant', 'fred_astaire'],
+            pairings: ['russell_whitfield', 'raymond_ellsworth', 'martin_thornbury'],
             rivalries: [],
             quirks: ['fashion icon', 'humanitarian', 'insecure about talent'],
-            description: 'The most elegant star in Hollywood history. Hepburn\'s gamine charm, impeccable style, and genuine warmth made her beloved worldwide. Her transition from actress to humanitarian was seamless.'
+            description: 'The most elegant star in Hollywood history. Newhall\'s gamine charm, impeccable style, and genuine warmth made her beloved worldwide. Her transition from actress to humanitarian was seamless.'
         },
 
         elizabeth_taylor: {
-            id: 'elizabeth_taylor',
-            name: 'Elizabeth Taylor',
+            id: 'wilhelmina_orpington',
+            name: 'Wilhelmina Orpington',
             gender: 'female',
             starPower: 95,
             weeklyRate: 10000,
@@ -1784,15 +1784,15 @@ window.TalentRoster = (function() {
             oscarPotential: 30,
             scandalRisk: 35,
             chemistry: 88,
-            pairings: ['richard_burton', 'montgomery_clift', 'paul_newman'],
+            pairings: ['richard_burton', 'clyde_kirkwood', 'ives_rosemont'],
             rivalries: ['debbie_reynolds'],
             quirks: ['multiple marriages', 'health problems', 'jewelry obsession', 'tabloid magnet'],
-            description: 'The last great studio-era movie star. Taylor\'s violet eyes, stunning beauty, and tumultuous personal life kept her in headlines for decades. Her on-screen passion was matched only by her off-screen drama.'
+            description: 'The last great studio-era movie star. Orpington\'s violet eyes, stunning beauty, and tumultuous personal life kept her in headlines for decades. Her on-screen passion was matched only by her off-screen drama.'
         },
 
         rock_hudson: {
-            id: 'rock_hudson',
-            name: 'Rock Hudson',
+            id: 'hollis_pallister',
+            name: 'Hollis Pallister',
             gender: 'male',
             starPower: 85,
             weeklyRate: 7000,
@@ -1804,15 +1804,15 @@ window.TalentRoster = (function() {
             oscarPotential: 15,
             scandalRisk: 20,
             chemistry: 85,
-            pairings: ['doris_day', 'elizabeth_taylor'],
+            pairings: ['doris_day', 'wilhelmina_orpington'],
             rivalries: [],
             quirks: ['closeted personal life', 'studio-manufactured image', 'reliable professional'],
-            description: 'The quintessential 1950s leading man. Hudson\'s towering physique and easy charm made him the top box office draw. His comedies with Doris Day defined an era, while his private life remained carefully hidden.'
+            description: 'The quintessential 1950s leading man. Pallister\'s towering physique and easy charm made him the top box office draw. His comedies with Doris Day defined an era, while his private life remained carefully hidden.'
         },
 
         kim_novak: {
-            id: 'kim_novak',
-            name: 'Kim Novak',
+            id: 'arlene_quintrell',
+            name: 'Arlene Quintrell',
             gender: 'female',
             starPower: 82,
             weeklyRate: 6000,
@@ -1824,10 +1824,10 @@ window.TalentRoster = (function() {
             oscarPotential: 15,
             scandalRisk: 14,
             chemistry: 80,
-            pairings: ['james_stewart', 'frank_sinatra'],
-            rivalries: ['grace_kelly'],
-            quirks: ['Hitchcock muse', 'studio-controlled image', 'resistant to typecasting'],
-            description: 'Columbia\'s answer to Marilyn Monroe, but with a haunting depth. Novak\'s ethereal presence in Vertigo created one of cinema\'s most unforgettable performances. Her mysterious quality made her perfect for Hitchcock.'
+            pairings: ['walter_fairweather', 'frank_sinatra'],
+            rivalries: ['ursula_mayfield'],
+            quirks: ['Carmichael muse', 'studio-controlled image', 'resistant to typecasting'],
+            description: 'Columbia\'s answer to Theodora Larkspur, but with a haunting depth. Novak\'s ethereal presence in Vertigo created one of cinema\'s most unforgettable performances. Her mysterious quality made her perfect for Carmichael.'
         },
 
         // ========================================================================
@@ -1835,8 +1835,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         paul_newman: {
-            id: 'paul_newman',
-            name: 'Paul Newman',
+            id: 'ives_rosemont',
+            name: 'Ives Rosemont',
             gender: 'male',
             starPower: 94,
             weeklyRate: 15000,
@@ -1852,12 +1852,12 @@ window.TalentRoster = (function() {
             pairings: ['joanne_woodward', 'robert_redford'],
             rivalries: [],
             quirks: ['race car driver', 'political activist', 'philanthropist', 'loyal husband'],
-            description: 'The coolest actor in Hollywood. Newman\'s piercing blue eyes and effortless charisma masked serious dramatic talent. His partnership with Robert Redford produced cinematic magic, and his philanthropy set a new standard.'
+            description: 'The coolest actor in Hollywood. Rosemont\'s piercing blue eyes and effortless charisma masked serious dramatic talent. His partnership with Robert Redford produced cinematic magic, and his philanthropy set a new standard.'
         },
 
         steve_mcqueen: {
-            id: 'steve_mcqueen',
-            name: 'Steve McQueen',
+            id: 'jasper_summerfield',
+            name: 'Jasper Summerfield',
             gender: 'male',
             starPower: 90,
             weeklyRate: 14000,
@@ -1869,15 +1869,15 @@ window.TalentRoster = (function() {
             oscarPotential: 15,
             scandalRisk: 18,
             chemistry: 78,
-            pairings: ['faye_dunaway', 'ali_macgraw'],
-            rivalries: ['paul_newman'],
+            pairings: ['daphne_ellsworth', 'ali_macgraw'],
+            rivalries: ['ives_rosemont'],
             quirks: ['motorcycle obsession', 'difficult on set', 'demands top billing', 'paranoid'],
-            description: 'The King of Cool. McQueen\'s laconic intensity and physical magnetism made him the ultimate action star. His anti-establishment persona and love of speed defined a new kind of masculine cool.'
+            description: 'The King of Cool. Summerfield\'s laconic intensity and physical magnetism made him the ultimate action star. His anti-establishment persona and love of speed defined a new kind of masculine cool.'
         },
 
         sidney_poitier: {
-            id: 'sidney_poitier',
-            name: 'Sidney Poitier',
+            id: 'kermit_thistlewood',
+            name: 'Kermit Thistlewood',
             gender: 'male',
             starPower: 88,
             weeklyRate: 12000,
@@ -1890,15 +1890,15 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 5,
             chemistry: 82,
-            pairings: ['rod_steiger', 'tony_curtis'],
+            pairings: ['rod_steiger', 'conrad_ormsby'],
             rivalries: [],
             quirks: ['racial barrier breaker', 'refuses demeaning roles', 'regal bearing'],
-            description: 'The man who broke Hollywood\'s color barrier. Poitier\'s dignified presence and immense talent made him the first Black actor to win the Best Actor Oscar. His insistence on roles of dignity changed the industry forever.'
+            description: 'The man who broke Hollywood\'s color barrier. Thistlewood\'s dignified presence and immense talent made him the first Black actor to win the Best Actor Oscar. His insistence on roles of dignity changed the industry forever.'
         },
 
         sean_connery: {
-            id: 'sean_connery',
-            name: 'Sean Connery',
+            id: 'lyle_uxbridge',
+            name: 'Lyle Uxbridge',
             gender: 'male',
             starPower: 92,
             weeklyRate: 15000,
@@ -1914,12 +1914,12 @@ window.TalentRoster = (function() {
             pairings: ['honor_blackman', 'ursula_andress'],
             rivalries: ['roger_moore'],
             quirks: ['Bond typecasting', 'refuses toupee off-screen', 'Scottish pride'],
-            description: 'The definitive James Bond and so much more. Connery\'s raw masculine charisma and dangerous charm made him an international superstar. His later career proved he was far more than 007.'
+            description: 'The definitive James Bond and so much more. Uxbridge\'s raw masculine charisma and dangerous charm made him an international superstar. His later career proved he was far more than 007.'
         },
 
         julie_andrews: {
-            id: 'julie_andrews',
-            name: 'Julie Andrews',
+            id: 'bettina_villiers',
+            name: 'Bettina Villiers',
             gender: 'female',
             starPower: 90,
             weeklyRate: 14000,
@@ -1935,12 +1935,12 @@ window.TalentRoster = (function() {
             pairings: ['dick_van_dyke', 'christopher_plummer'],
             rivalries: [],
             quirks: ['practically perfect', 'stage-trained voice', 'subversive humor'],
-            description: 'The voice of a generation. Andrews dominated the 1960s musical with Mary Poppins and The Sound of Music, her crystal-clear soprano and impeccable charm creating two of cinema\'s most beloved characters.'
+            description: 'The voice of a generation. Villiers dominated the 1960s musical with Mary Poppins and The Sound of Music, her crystal-clear soprano and impeccable charm creating two of cinema\'s most beloved characters.'
         },
 
         sophia_loren: {
-            id: 'sophia_loren',
-            name: 'Sophia Loren',
+            id: 'celeste_winterbourne',
+            name: 'Celeste Winterbourne',
             gender: 'female',
             starPower: 89,
             weeklyRate: 13000,
@@ -1953,10 +1953,10 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 12,
             chemistry: 88,
-            pairings: ['marcello_mastroianni', 'cary_grant'],
+            pairings: ['marcello_mastroianni', 'raymond_ellsworth'],
             rivalries: ['gina_lollobrigida'],
             quirks: ['international glamour', 'rose from poverty', 'Italian fire'],
-            description: 'Italy\'s greatest film export. Loren\'s stunning beauty and raw dramatic power made her the first actress to win an Oscar for a non-English language performance. Her rags-to-riches story was more dramatic than any film.'
+            description: 'Italy\'s greatest film export. Winterbourne\'s stunning beauty and raw dramatic power made her the first actress to win an Oscar for a non-English language performance. Her rags-to-riches story was more dramatic than any film.'
         },
 
         // ========================================================================
@@ -1964,8 +1964,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         robert_de_niro: {
-            id: 'robert_de_niro',
-            name: 'Robert De Niro',
+            id: 'mordecai_ashcroft',
+            name: 'Mordecai Ashcroft',
             gender: 'male',
             starPower: 96,
             weeklyRate: 30000,
@@ -1979,14 +1979,14 @@ window.TalentRoster = (function() {
             scandalRisk: 8,
             chemistry: 85,
             pairings: ['joe_pesci', 'harvey_keitel'],
-            rivalries: ['al_pacino'],
-            quirks: ['extreme method acting', 'gains weight for roles', 'Scorsese partnership'],
+            rivalries: ['newton_barrington'],
+            quirks: ['extreme method acting', 'gains weight for roles', 'Umberside partnership'],
             description: 'The greatest actor of his generation. De Niro\'s total commitment to Method acting produced some of cinema\'s most unforgettable performances. His physical and psychological transformations remain unmatched.'
         },
 
         al_pacino: {
-            id: 'al_pacino',
-            name: 'Al Pacino',
+            id: 'newton_barrington',
+            name: 'Newton Barrington',
             gender: 'male',
             starPower: 95,
             weeklyRate: 28000,
@@ -1999,15 +1999,15 @@ window.TalentRoster = (function() {
             oscarPotential: 32,
             scandalRisk: 10,
             chemistry: 82,
-            pairings: ['diane_keaton', 'robert_de_niro'],
-            rivalries: ['robert_de_niro'],
+            pairings: ['eloise_fairweather', 'mordecai_ashcroft'],
+            rivalries: ['mordecai_ashcroft'],
             quirks: ['Hoo-ah!', 'theatrical training', 'increasingly bombastic'],
-            description: 'The most electrifying actor in American cinema. Pacino\'s volcanic intensity and theatrical flair produced Michael Corleone, Tony Montana, and countless other iconic performances. His quiet menace could explode into operatic fury.'
+            description: 'The most electrifying actor in American cinema. Barrington\'s volcanic intensity and theatrical flair produced Michael Corleone, Tony Montana, and countless other iconic performances. His quiet menace could explode into operatic fury.'
         },
 
         jack_nicholson: {
-            id: 'jack_nicholson',
-            name: 'Jack Nicholson',
+            id: 'orville_caldwell',
+            name: 'Orville Caldwell',
             gender: 'male',
             starPower: 96,
             weeklyRate: 30000,
@@ -2020,15 +2020,15 @@ window.TalentRoster = (function() {
             oscarPotential: 35,
             scandalRisk: 22,
             chemistry: 88,
-            pairings: ['faye_dunaway', 'shirley_maclaine'],
+            pairings: ['daphne_ellsworth', 'shirley_maclaine'],
             rivalries: [],
             quirks: ['sunglasses indoors', 'Lakers superfan', 'legendary partier', 'eyebrow acting'],
-            description: 'The most charismatic actor of his era. Nicholson\'s devilish grin and unpredictable energy made every film an event. Three Oscars barely capture the breadth of his talent, from Easy Rider to The Shining to As Good as It Gets.'
+            description: 'The most charismatic actor of his era. Caldwell\'s devilish grin and unpredictable energy made every film an event. Three Oscars barely capture the breadth of his talent, from Easy Rider to The Shining to As Good as It Gets.'
         },
 
         dustin_hoffman: {
-            id: 'dustin_hoffman',
-            name: 'Dustin Hoffman',
+            id: 'phineas_devereaux',
+            name: 'Phineas Devereaux',
             gender: 'male',
             starPower: 90,
             weeklyRate: 25000,
@@ -2041,15 +2041,15 @@ window.TalentRoster = (function() {
             oscarPotential: 30,
             scandalRisk: 12,
             chemistry: 84,
-            pairings: ['meryl_streep', 'tom_cruise'],
+            pairings: ['fern_hartline', 'tom_cruise'],
             rivalries: [],
             quirks: ['perfectionist', 'difficult on set', 'Method extremist'],
-            description: 'The anti-movie star who became a movie star. Hoffman\'s unconventional looks and obsessive commitment to character made him the most unlikely leading man in Hollywood. His range from The Graduate to Tootsie to Rain Man is staggering.'
+            description: 'The anti-movie star who became a movie star. Devereaux\'s unconventional looks and obsessive commitment to character made him the most unlikely leading man in Hollywood. His range from The Graduate to Tootsie to Rain Man is staggering.'
         },
 
         faye_dunaway: {
-            id: 'faye_dunaway',
-            name: 'Faye Dunaway',
+            id: 'daphne_ellsworth',
+            name: 'Daphne Ellsworth',
             gender: 'female',
             starPower: 86,
             weeklyRate: 20000,
@@ -2062,15 +2062,15 @@ window.TalentRoster = (function() {
             oscarPotential: 28,
             scandalRisk: 16,
             chemistry: 82,
-            pairings: ['warren_beatty', 'jack_nicholson', 'steve_mcqueen'],
+            pairings: ['warren_beatty', 'orville_caldwell', 'jasper_summerfield'],
             rivalries: [],
             quirks: ['demands perfection', 'temperamental', 'high-maintenance'],
-            description: 'The ice-cold beauty of New Hollywood. Dunaway\'s fierce intelligence and stunning presence defined the era, from Bonnie and Clyde to Chinatown to Network. Her intensity could be riveting or terrifying, sometimes both.'
+            description: 'The ice-cold beauty of New Hollywood. Ellsworth\'s fierce intelligence and stunning presence defined the era, from Bonnie and Clyde to Chinatown to Network. Her intensity could be riveting or terrifying, sometimes both.'
         },
 
         diane_keaton: {
-            id: 'diane_keaton',
-            name: 'Diane Keaton',
+            id: 'eloise_fairweather',
+            name: 'Eloise Fairweather',
             gender: 'female',
             starPower: 85,
             weeklyRate: 18000,
@@ -2083,10 +2083,10 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 5,
             chemistry: 86,
-            pairings: ['woody_allen', 'al_pacino'],
+            pairings: ['ellis_yorke', 'newton_barrington'],
             rivalries: [],
             quirks: ['signature menswear style', 'self-deprecating', 'Allen muse'],
-            description: 'The most original screen presence of her generation. Keaton\'s quirky charm, distinctive fashion sense, and natural comic timing created Annie Hall, one of cinema\'s most beloved characters. Her dramatic range surprised everyone.'
+            description: 'The most original screen presence of her generation. Fairweather\'s quirky charm, distinctive fashion sense, and natural comic timing created Annie Hall, one of cinema\'s most beloved characters. Her dramatic range surprised everyone.'
         },
 
         // ========================================================================
@@ -2094,8 +2094,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         harrison_ford: {
-            id: 'harrison_ford',
-            name: 'Harrison Ford',
+            id: 'quincy_galloway',
+            name: 'Quincy Galloway',
             gender: 'male',
             starPower: 97,
             weeklyRate: 75000,
@@ -2107,15 +2107,15 @@ window.TalentRoster = (function() {
             oscarPotential: 15,
             scandalRisk: 6,
             chemistry: 85,
-            pairings: ['carrie_fisher', 'karen_allen', 'sean_connery'],
+            pairings: ['carrie_fisher', 'karen_allen', 'lyle_uxbridge'],
             rivalries: [],
             quirks: ['former carpenter', 'private person', 'planes and crashes', 'grumpy interviews'],
             description: 'The biggest movie star of the blockbuster era. Ford\'s everyman appeal and dry humor made Han Solo and Indiana Jones into cultural icons. His ability to seem like a regular guy doing extraordinary things was unmatched.'
         },
 
         meryl_streep: {
-            id: 'meryl_streep',
-            name: 'Meryl Streep',
+            id: 'fern_hartline',
+            name: 'Fern Hartline',
             gender: 'female',
             starPower: 93,
             weeklyRate: 60000,
@@ -2128,15 +2128,15 @@ window.TalentRoster = (function() {
             oscarPotential: 40,
             scandalRisk: 2,
             chemistry: 88,
-            pairings: ['dustin_hoffman', 'robert_de_niro'],
+            pairings: ['phineas_devereaux', 'mordecai_ashcroft'],
             rivalries: [],
             quirks: ['accent perfectionist', 'most nominated ever', 'versatility incarnate'],
-            description: 'Widely considered the greatest living actress. Streep\'s chameleon-like ability to disappear into any role, era, or accent is unmatched. Her Oscar record will likely never be broken.'
+            description: 'Widely considered the greatest living actress. Hartline\'s chameleon-like ability to disappear into any role, era, or accent is unmatched. Her Oscar record will likely never be broken.'
         },
 
         tom_hanks: {
-            id: 'tom_hanks',
-            name: 'Tom Hanks',
+            id: 'roscoe_ingersoll',
+            name: 'Roscoe Ingersoll',
             gender: 'male',
             starPower: 96,
             weeklyRate: 100000,
@@ -2152,12 +2152,12 @@ window.TalentRoster = (function() {
             pairings: ['meg_ryan', 'wilson_the_volleyball'],
             rivalries: [],
             quirks: ['America\'s dad', 'back-to-back Oscars', 'typewriter collector'],
-            description: 'America\'s most beloved actor. Hanks\'s natural warmth and emotional authenticity transformed him from comic actor to dramatic powerhouse. His consecutive Oscar wins cemented his status as the modern James Stewart.'
+            description: 'America\'s most beloved actor. Hanks\'s natural warmth and emotional authenticity transformed him from comic actor to dramatic powerhouse. His consecutive Oscar wins cemented his status as the modern Walter Fairweather.'
         },
 
         sigourney_weaver: {
-            id: 'sigourney_weaver',
-            name: 'Sigourney Weaver',
+            id: 'greta_jessup',
+            name: 'Greta Jessup',
             gender: 'female',
             starPower: 84,
             weeklyRate: 50000,
@@ -2172,12 +2172,12 @@ window.TalentRoster = (function() {
             pairings: ['bill_murray'],
             rivalries: [],
             quirks: ['sci-fi queen', 'feminist icon', 'Yale-trained'],
-            description: 'The woman who proved female action heroes could carry blockbusters. Weaver\'s Ripley in Alien shattered gender barriers in sci-fi and action. Her intelligence and physical presence redefined what a leading lady could be.'
+            description: 'The woman who proved female action heroes could carry blockbusters. Jessup\'s Ripley in Alien shattered gender barriers in sci-fi and action. Her intelligence and physical presence redefined what a leading lady could be.'
         },
 
         eddie_murphy: {
-            id: 'eddie_murphy',
-            name: 'Eddie Murphy',
+            id: 'sylvan_kingsford',
+            name: 'Sylvan Kingsford',
             gender: 'male',
             starPower: 93,
             weeklyRate: 80000,
@@ -2192,12 +2192,12 @@ window.TalentRoster = (function() {
             pairings: ['nick_nolte', 'dan_aykroyd'],
             rivalries: [],
             quirks: ['SNL breakout', 'standup legend', 'multiple-role films'],
-            description: 'The most bankable comedian of the 1980s. Murphy\'s explosive energy and fearless comedy made him a superstar before he turned 25. His box office dominance in the 1980s was rivaled only by Spielberg.'
+            description: 'The most bankable comedian of the 1980s. Kingsford\'s explosive energy and fearless comedy made him a superstar before he turned 25. His box office dominance in the 1980s was rivaled only by Zeller.'
         },
 
         michael_douglas: {
-            id: 'michael_douglas',
-            name: 'Michael Douglas',
+            id: 'thaddeus_lockridge',
+            name: 'Thaddeus Lockridge',
             gender: 'male',
             starPower: 87,
             weeklyRate: 55000,
@@ -2213,7 +2213,7 @@ window.TalentRoster = (function() {
             pairings: ['kathleen_turner', 'sharon_stone'],
             rivalries: [],
             quirks: ['producer-actor', 'father\'s shadow', 'tabloid personal life'],
-            description: 'The definitive 1980s alpha male. Douglas\'s Gordon Gekko became the icon of Reagan-era excess. His ability to make morally compromised characters charismatic and compelling was his greatest gift.'
+            description: 'The definitive 1980s alpha male. Lockridge\'s Gordon Gekko became the icon of Reagan-era excess. His ability to make morally compromised characters charismatic and compelling was his greatest gift.'
         },
 
         // ========================================================================
@@ -2221,8 +2221,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         denzel_washington: {
-            id: 'denzel_washington',
-            name: 'Denzel Washington',
+            id: 'ulysses_marlowe',
+            name: 'Ulysses Marlowe',
             gender: 'male',
             starPower: 95,
             weeklyRate: 120000,
@@ -2235,15 +2235,15 @@ window.TalentRoster = (function() {
             oscarPotential: 32,
             scandalRisk: 3,
             chemistry: 88,
-            pairings: ['julia_roberts', 'ethan_hawke'],
+            pairings: ['vivian_norwood', 'ethan_hawke'],
             rivalries: [],
             quirks: ['methodical preparation', 'refuses villain roles (mostly)', 'quiet dignity'],
-            description: 'The most respected actor of his generation. Washington\'s commanding presence and quiet intensity brought dignity and complexity to every role. His Oscar for Training Day proved he could play against type brilliantly.'
+            description: 'The most respected actor of his generation. Marlowe\'s commanding presence and quiet intensity brought dignity and complexity to every role. His Oscar for Training Day proved he could play against type brilliantly.'
         },
 
         julia_roberts: {
-            id: 'julia_roberts',
-            name: 'Julia Roberts',
+            id: 'vivian_norwood',
+            name: 'Vivian Norwood',
             gender: 'female',
             starPower: 94,
             weeklyRate: 150000,
@@ -2256,15 +2256,15 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 14,
             chemistry: 92,
-            pairings: ['richard_gere', 'hugh_grant', 'denzel_washington'],
+            pairings: ['richard_gere', 'hugh_grant', 'ulysses_marlowe'],
             rivalries: [],
             quirks: ['biggest female star', 'runaway bride reputation', 'infectious laugh'],
-            description: 'America\'s Sweetheart. Roberts\'s megawatt smile and natural charm made her the highest-paid actress in Hollywood. Pretty Woman created a modern fairy tale, and her box office power was unprecedented for a female star.'
+            description: 'America\'s Sweetheart. Norwood\'s megawatt smile and natural charm made her the highest-paid actress in Hollywood. Pretty Woman created a modern fairy tale, and her box office power was unprecedented for a female star.'
         },
 
         brad_pitt: {
-            id: 'brad_pitt',
-            name: 'Brad Pitt',
+            id: 'virgil_ogilvie',
+            name: 'Virgil Ogilvie',
             gender: 'male',
             starPower: 94,
             weeklyRate: 150000,
@@ -2276,15 +2276,15 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 18,
             chemistry: 88,
-            pairings: ['george_clooney', 'edward_norton'],
+            pairings: ['cyrus_thornbury', 'edward_norton'],
             rivalries: [],
             quirks: ['tabloid magnet', 'produces serious films', 'snacks on set'],
             description: 'The rare combination of matinee idol looks and serious acting ambition. Pitt\'s willingness to take risks with Fight Club, Se7en, and Snatch proved there was real talent behind the pretty face.'
         },
 
         samuel_l_jackson: {
-            id: 'samuel_l_jackson',
-            name: 'Samuel L. Jackson',
+            id: 'wendell_prescott',
+            name: 'Wendell Prescott',
             gender: 'male',
             starPower: 90,
             weeklyRate: 100000,
@@ -2298,13 +2298,13 @@ window.TalentRoster = (function() {
             chemistry: 85,
             pairings: ['john_travolta', 'bruce_willis'],
             rivalries: [],
-            quirks: ['Tarantino favorite', 'most prolific A-lister', 'golf obsession'],
+            quirks: ['Dellamore favorite', 'most prolific A-lister', 'golf obsession'],
             description: 'The hardest working man in Hollywood. Jackson\'s Pulp Fiction breakthrough launched one of the most prolific careers in film history. His commanding voice and explosive presence make every film better.'
         },
 
         jodie_foster: {
-            id: 'jodie_foster',
-            name: 'Jodie Foster',
+            id: 'dorothea_quimby',
+            name: 'Dorothea Quimby',
             gender: 'female',
             starPower: 88,
             weeklyRate: 90000,
@@ -2324,8 +2324,8 @@ window.TalentRoster = (function() {
         },
 
         will_smith: {
-            id: 'will_smith',
-            name: 'Will Smith',
+            id: 'alonzo_redmond',
+            name: 'Alonzo Redmond',
             gender: 'male',
             starPower: 95,
             weeklyRate: 200000,
@@ -2348,8 +2348,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         leonardo_dicaprio: {
-            id: 'leonardo_dicaprio',
-            name: 'Leonardo DiCaprio',
+            id: 'bertram_sinclair',
+            name: 'Bertram Sinclair',
             gender: 'male',
             starPower: 97,
             weeklyRate: 300000,
@@ -2361,15 +2361,15 @@ window.TalentRoster = (function() {
             oscarPotential: 35,
             scandalRisk: 10,
             chemistry: 85,
-            pairings: ['kate_winslet', 'cate_blanchett'],
+            pairings: ['kate_winslet', 'evelyn_underhill'],
             rivalries: [],
-            quirks: ['Scorsese partnership', 'environmental activism', 'model girlfriends', 'Oscar quest'],
-            description: 'The most dedicated actor of his generation. DiCaprio survived teen heartthrob status to become the go-to leading man for prestige cinema. His Scorsese collaborations and intense commitment to every role cemented his legacy.'
+            quirks: ['Umberside partnership', 'environmental activism', 'model girlfriends', 'Oscar quest'],
+            description: 'The most dedicated actor of his generation. Sinclair survived teen heartthrob status to become the go-to leading man for prestige cinema. His Umberside collaborations and intense commitment to every role cemented his legacy.'
         },
 
         george_clooney: {
-            id: 'george_clooney',
-            name: 'George Clooney',
+            id: 'cyrus_thornbury',
+            name: 'Cyrus Thornbury',
             gender: 'male',
             starPower: 91,
             weeklyRate: 200000,
@@ -2382,15 +2382,15 @@ window.TalentRoster = (function() {
             oscarPotential: 25,
             scandalRisk: 8,
             chemistry: 90,
-            pairings: ['brad_pitt', 'matt_damon'],
+            pairings: ['virgil_ogilvie', 'matt_damon'],
             rivalries: [],
             quirks: ['prankster', 'political activist', 'refuses superhero return', 'old-school star'],
-            description: 'The last old-school movie star. Clooney\'s Cary Grant-like charm and intelligence made him a throwback to Golden Age Hollywood. His dual career as actor and producer-director showed rare ambition and social conscience.'
+            description: 'The last old-school movie star. Thornbury\'s Raymond Ellsworth-like charm and intelligence made him a throwback to Golden Age Hollywood. His dual career as actor and producer-director showed rare ambition and social conscience.'
         },
 
         cate_blanchett: {
-            id: 'cate_blanchett',
-            name: 'Cate Blanchett',
+            id: 'evelyn_underhill',
+            name: 'Evelyn Underhill',
             gender: 'female',
             starPower: 90,
             weeklyRate: 150000,
@@ -2403,15 +2403,15 @@ window.TalentRoster = (function() {
             oscarPotential: 35,
             scandalRisk: 3,
             chemistry: 85,
-            pairings: ['leonardo_dicaprio', 'brad_pitt'],
+            pairings: ['bertram_sinclair', 'virgil_ogilvie'],
             rivalries: [],
             quirks: ['Australian theater roots', 'fearless role choices', 'effortless elegance'],
-            description: 'The most versatile actress of her generation. Blanchett\'s ability to transform into anyone from Queen Elizabeth to Bob Dylan to an elf queen demonstrated range that few can match. Her theatrical training gave her extraordinary power.'
+            description: 'The most versatile actress of her generation. Underhill\'s ability to transform into anyone from Queen Elizabeth to Bob Dylan to an elf queen demonstrated range that few can match. Her theatrical training gave her extraordinary power.'
         },
 
         angelina_jolie: {
-            id: 'angelina_jolie',
-            name: 'Angelina Jolie',
+            id: 'constance_vandermeer',
+            name: 'Constance Vandermeer',
             gender: 'female',
             starPower: 93,
             weeklyRate: 200000,
@@ -2424,20 +2424,20 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 20,
             chemistry: 85,
-            pairings: ['brad_pitt'],
+            pairings: ['virgil_ogilvie'],
             rivalries: [],
             quirks: ['humanitarian missions', 'tabloid magnet', 'action star credibility', 'directs too'],
-            description: 'The most famous woman in the world. Jolie\'s combination of dark beauty, fearless physicality, and genuine humanitarian work made her a global icon. Her Lara Croft proved women could carry action franchises.'
+            description: 'The most famous woman in the world. Vandermeer\'s combination of dark beauty, fearless physicality, and genuine humanitarian work made her a global icon. Her Lara Croft proved women could carry action franchises.'
         },
 
         johnny_depp: {
-            id: 'johnny_depp',
-            name: 'Johnny Depp',
+            id: 'dexter_whitfield',
+            name: 'Dexter Whitfield',
             gender: 'male',
             starPower: 95,
             weeklyRate: 250000,
             genres: ['adventure', 'fantasy', 'drama', 'comedy', 'horror'],
-            specialties: ['eccentric characters', 'physical comedy', 'Tim Burton muse'],
+            specialties: ['eccentric characters', 'physical comedy', 'Hollis Birchall muse'],
             typeCast: 'Eccentric outsiders and charming rogues',
             availableFrom: 1990,
             availableTo: 2010,
@@ -2463,8 +2463,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         frank_capra: {
-            id: 'frank_capra',
-            name: 'Frank Capra',
+            id: 'ezra_yardley',
+            name: 'Ezra Yardley',
             talent: 95,
             weeklyRate: 5000,
             genres: ['comedy', 'drama', 'romance'],
@@ -2475,12 +2475,12 @@ window.TalentRoster = (function() {
             oscarPotential: 35,
             scandalRisk: 5,
             specialties: ['uplifting', 'populist', 'heartwarming', 'common man heroes'],
-            description: 'Master of Americana and populist fables. Capra\'s films celebrate the common man standing up to corruption and cynicism. His sentimental optimism and brilliant comic timing made him the top director of the 1930s.'
+            description: 'Master of Americana and populist fables. Yardley\'s films celebrate the common man standing up to corruption and cynicism. His sentimental optimism and brilliant comic timing made him the top director of the 1930s.'
         },
 
         john_ford: {
-            id: 'john_ford',
-            name: 'John Ford',
+            id: 'fletcher_ashford',
+            name: 'Fletcher Ashford',
             talent: 97,
             weeklyRate: 5500,
             genres: ['western', 'drama', 'war'],
@@ -2495,8 +2495,8 @@ window.TalentRoster = (function() {
         },
 
         howard_hawks: {
-            id: 'howard_hawks',
-            name: 'Howard Hawks',
+            id: 'gideon_blackwood',
+            name: 'Gideon Blackwood',
             talent: 94,
             weeklyRate: 4800,
             genres: ['comedy', 'western', 'noir', 'adventure', 'crime'],
@@ -2505,12 +2505,12 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 6,
             specialties: ['dialogue', 'professionalism', 'strong women', 'overlapping talk'],
-            description: 'The ultimate genre master and professional. Hawks excelled at everything - screwball comedy, westerns, noir, war films. His rapid-fire dialogue, strong women, and celebration of professionalism made every film distinctive.'
+            description: 'The ultimate genre master and professional. Blackwood excelled at everything - screwball comedy, westerns, noir, war films. His rapid-fire dialogue, strong women, and celebration of professionalism made every film distinctive.'
         },
 
         alfred_hitchcock: {
-            id: 'alfred_hitchcock',
-            name: 'Alfred Hitchcock',
+            id: 'horace_carmichael',
+            name: 'Horace Carmichael',
             talent: 99,
             weeklyRate: 6500,
             genres: ['thriller', 'noir', 'suspense', 'crime'],
@@ -2520,12 +2520,12 @@ window.TalentRoster = (function() {
             scandalRisk: 8,
             specialties: ['suspense', 'visual storytelling', 'psychology', 'MacGuffins'],
             budgetRisk: false,
-            description: 'The Master of Suspense. Hitchcock\'s mathematical precision, visual brilliance, and psychological insight made him the supreme thriller director. His use of suspense over surprise and visual storytelling was revolutionary. Brilliant but cruel to actors.'
+            description: 'The Master of Suspense. Carmichael\'s mathematical precision, visual brilliance, and psychological insight made him the supreme thriller director. His use of suspense over surprise and visual storytelling was revolutionary. Brilliant but cruel to actors.'
         },
 
         billy_wilder: {
-            id: 'billy_wilder',
-            name: 'Billy Wilder',
+            id: 'ignatius_draper',
+            name: 'Ignatius Draper',
             talent: 96,
             weeklyRate: 5200,
             genres: ['noir', 'comedy', 'drama', 'satire'],
@@ -2535,12 +2535,12 @@ window.TalentRoster = (function() {
             oscarPotential: 36,
             scandalRisk: 10,
             specialties: ['cynicism', 'wit', 'dark comedy', 'Austrian precision'],
-            description: 'Cynical genius who perfected dark comedy and film noir. Wilder\'s European sophistication and bitter wit created unique American films. His scripts were surgical in their precision, his characters deeply flawed and human.'
+            description: 'Cynical genius who perfected dark comedy and film noir. Draper\'s European sophistication and bitter wit created unique American films. His scripts were surgical in their precision, his characters deeply flawed and human.'
         },
 
         william_wyler: {
-            id: 'william_wyler',
-            name: 'William Wyler',
+            id: 'jules_everhart',
+            name: 'Jules Everhart',
             talent: 94,
             weeklyRate: 5000,
             genres: ['drama', 'romance', 'war', 'western'],
@@ -2551,12 +2551,12 @@ window.TalentRoster = (function() {
             oscarPotential: 35,
             scandalRisk: 6,
             specialties: ['prestige', 'literary adaptations', 'depth of field', 'perfectionism'],
-            description: 'Meticulous craftsman known for endless retakes. Wyler\'s deep focus photography and perfectionism drove actors crazy but won Oscars. His literary adaptations and prestige dramas set the standard for quality filmmaking.'
+            description: 'Meticulous craftsman known for endless retakes. Everhart\'s deep focus photography and perfectionism drove actors crazy but won Oscars. His literary adaptations and prestige dramas set the standard for quality filmmaking.'
         },
 
         george_cukor: {
-            id: 'george_cukor',
-            name: 'George Cukor',
+            id: 'kingsley_fontelle',
+            name: 'Kingsley Fontelle',
             talent: 91,
             weeklyRate: 4500,
             genres: ['comedy', 'drama', 'romance', 'melodrama'],
@@ -2565,12 +2565,12 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 12,
             specialties: ['women\'s pictures', 'sophisticated dialogue', 'actor direction', 'drawing room comedy'],
-            description: 'The women\'s director who brought out brilliant performances. Cukor\'s sophisticated touch and understanding of actresses made him the favorite of Hollywood\'s leading ladies. His homosexuality was an open secret.'
+            description: 'The women\'s director who brought out brilliant performances. Fontelle\'s sophisticated touch and understanding of actresses made him the favorite of Hollywood\'s leading ladies. His homosexuality was an open secret.'
         },
 
         victor_fleming: {
-            id: 'victor_fleming',
-            name: 'Victor Fleming',
+            id: 'lemuel_granger',
+            name: 'Lemuel Granger',
             talent: 90,
             weeklyRate: 4400,
             genres: ['adventure', 'drama', 'romance', 'epic'],
@@ -2580,7 +2580,7 @@ window.TalentRoster = (function() {
             oscarPotential: 28,
             scandalRisk: 10,
             specialties: ['epic scale', 'masculine adventure', 'Technicolor spectacle', 'star wrangling'],
-            description: 'The master of epic spectacle and masculine adventure. Fleming directed both Gone with the Wind and The Wizard of Oz in 1939 - the most remarkable year in film history. His masculine, no-nonsense style contrasted with his romantic subjects.'
+            description: 'The master of epic spectacle and masculine adventure. Granger directed both Gone with the Wind and The Wizard of Oz in 1939 - the most remarkable year in film history. His masculine, no-nonsense style contrasted with his romantic subjects.'
         },
 
         // ========================================================================
@@ -2588,8 +2588,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         orson_welles: {
-            id: 'orson_welles',
-            name: 'Orson Welles',
+            id: 'vincent_halloway',
+            name: 'Vincent Halloway',
             talent: 98, // Genius but difficult
             weeklyRate: 6000,
             genres: ['drama', 'noir', 'thriller'],
@@ -2600,12 +2600,12 @@ window.TalentRoster = (function() {
             scandalRisk: 20,
             specialties: ['innovation', 'visual brilliance', 'controversy', 'deep focus'],
             budgetRisk: true, // Often over budget and over schedule
-            description: 'The boy genius who revolutionized cinema at 25. Welles\' Citizen Kane changed film language forever, but his arrogance and perfectionism made him unemployable. A brilliant, impossible talent whose vision exceeded studio patience.'
+            description: 'The boy genius who revolutionized cinema at 25. Halloway\' Citizen Kane changed film language forever, but his arrogance and perfectionism made him unemployable. A brilliant, impossible talent whose vision exceeded studio patience.'
         },
 
         preston_sturges: {
-            id: 'preston_sturges',
-            name: 'Preston Sturges',
+            id: 'harold_ives',
+            name: 'Harold Ives',
             talent: 91,
             weeklyRate: 4600,
             genres: ['comedy', 'satire', 'screwball'],
@@ -2615,12 +2615,12 @@ window.TalentRoster = (function() {
             oscarPotential: 24,
             scandalRisk: 14,
             specialties: ['screwball', 'satire', 'rapid dialogue', 'stock company'],
-            description: 'Comedy innovator who became first screenwriter-director. Sturges\' rapid-fire dialogue and satirical edge revolutionized comedy. His stock company of character actors and sophisticated wit made his 1940-44 run the greatest in comedy history.'
+            description: 'Comedy innovator who became first screenwriter-director. Ives\' rapid-fire dialogue and satirical edge revolutionized comedy. His stock company of character actors and sophisticated wit made his 1940-44 run the greatest in comedy history.'
         },
 
         john_huston: {
-            id: 'john_huston',
-            name: 'John Huston',
+            id: 'raymond_jennings',
+            name: 'Raymond Jennings',
             talent: 92,
             weeklyRate: 4700,
             genres: ['noir', 'drama', 'adventure', 'war'],
@@ -2631,12 +2631,12 @@ window.TalentRoster = (function() {
             oscarPotential: 32,
             scandalRisk: 18,
             specialties: ['hard-boiled', 'literary adaptation', 'male bonding', 'adventure'],
-            description: 'Adventure storyteller and masculine filmmaker. Huston\'s hard-boiled sensibility and love of male bonding rituals created distinctive films. A writer-director who respected literature and brought literary quality to tough genres.'
+            description: 'Adventure storyteller and masculine filmmaker. Jennings\'s hard-boiled sensibility and love of male bonding rituals created distinctive films. A writer-director who respected literature and brought literary quality to tough genres.'
         },
 
         michael_curtiz: {
-            id: 'michael_curtiz',
-            name: 'Michael Curtiz',
+            id: 'walter_kessler',
+            name: 'Walter Kessler',
             talent: 88,
             weeklyRate: 4000,
             genres: ['drama', 'adventure', 'war', 'musical', 'romance'],
@@ -2646,12 +2646,12 @@ window.TalentRoster = (function() {
             oscarPotential: 26,
             scandalRisk: 8,
             specialties: ['versatility', 'pace', 'professionalism', 'studio workhorse'],
-            description: 'The ultimate studio workhorse who could do anything. Curtiz directed hundreds of films in every genre with speed and professionalism. His Hungarian-mangled English was legendary, but his visual sense and pace were flawless.'
+            description: 'The ultimate studio workhorse who could do anything. Kessler directed hundreds of films in every genre with speed and professionalism. His Hungarian-mangled English was legendary, but his visual sense and pace were flawless.'
         },
 
         ernst_lubitsch: {
-            id: 'ernst_lubitsch',
-            name: 'Ernst Lubitsch',
+            id: 'eugene_lindqvist',
+            name: 'Eugene Lindqvist',
             talent: 93,
             weeklyRate: 4800,
             genres: ['comedy', 'romance', 'musical'],
@@ -2660,12 +2660,12 @@ window.TalentRoster = (function() {
             oscarPotential: 22,
             scandalRisk: 6,
             specialties: ['sophistication', 'the lubitsch touch', 'wit', 'continental elegance'],
-            description: 'Master of innuendo and sophisticated comedy. Lubitsch\'s "touch" - suggesting sex and scandal through wit and visual subtlety - made him unique. His European sophistication brought elegance to American comedy. The directors\' director.'
+            description: 'Master of innuendo and sophisticated comedy. Lindqvist\'s "touch" - suggesting sex and scandal through wit and visual subtlety - made him unique. His European sophistication brought elegance to American comedy. The directors\' director.'
         },
 
         king_vidor: {
-            id: 'king_vidor',
-            name: 'King Vidor',
+            id: 'chester_merriweather',
+            name: 'Chester Merriweather',
             talent: 90,
             weeklyRate: 4400,
             genres: ['drama', 'war', 'western', 'epic'],
@@ -2674,12 +2674,12 @@ window.TalentRoster = (function() {
             oscarPotential: 24,
             scandalRisk: 10,
             specialties: ['visual grandeur', 'social consciousness', 'epic scale', 'montage'],
-            description: 'Visionary director of epic scope and social conscience. Vidor\'s films combined spectacular visuals with social commentary. His silent masterpieces influenced all directors, and his sound films maintained his visual brilliance.'
+            description: 'Visionary director of epic scope and social conscience. Merriweather\'s films combined spectacular visuals with social commentary. His silent masterpieces influenced all directors, and his sound films maintained his visual brilliance.'
         },
 
         leo_mccarey: {
-            id: 'leo_mccarey',
-            name: 'Leo McCarey',
+            id: 'howard_northgate',
+            name: 'Howard Northgate',
             talent: 89,
             weeklyRate: 4200,
             genres: ['comedy', 'drama', 'romance'],
@@ -2689,12 +2689,12 @@ window.TalentRoster = (function() {
             oscarPotential: 30,
             scandalRisk: 8,
             specialties: ['improvisation', 'warmth', 'sentiment', 'comedy-drama balance'],
-            description: 'Master of improvisation and heartfelt comedy-drama. McCarey let actors improvise and captured magical moments. His ability to balance tears and laughter, sentiment and comedy, made him unique. Directors worshipped his instinct.'
+            description: 'Master of improvisation and heartfelt comedy-drama. Northgate let actors improvise and captured magical moments. His ability to balance tears and laughter, sentiment and comedy, made him unique. Directors worshipped his instinct.'
         },
 
         raoul_walsh: {
-            id: 'raoul_walsh',
-            name: 'Raoul Walsh',
+            id: 'franklin_oakhurst',
+            name: 'Franklin Oakhurst',
             talent: 86,
             weeklyRate: 3800,
             genres: ['western', 'adventure', 'war', 'crime'],
@@ -2703,12 +2703,12 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 12,
             specialties: ['action', 'masculine energy', 'outdoor adventure', 'pace'],
-            description: 'One-eyed action master and masculine filmmaker. Walsh directed with enormous energy and visual flair. His adventures and westerns moved like locomotives, his male characters were vital and energetic. Lost an eye in 1928, wore eyepatch forever.'
+            description: 'One-eyed action master and masculine filmmaker. Oakhurst directed with enormous energy and visual flair. His adventures and westerns moved like locomotives, his male characters were vital and energetic. Lost an eye in 1928, wore eyepatch forever.'
         },
 
         rouben_mamoulian: {
-            id: 'rouben_mamoulian',
-            name: 'Rouben Mamoulian',
+            id: 'leonard_pemberton',
+            name: 'Leonard Pemberton',
             talent: 87,
             weeklyRate: 3900,
             genres: ['musical', 'drama', 'romance', 'horror'],
@@ -2717,12 +2717,12 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 7,
             specialties: ['visual innovation', 'Technicolor pioneer', 'stylization', 'theatricality'],
-            description: 'Innovative stylist and Technicolor pioneer. Mamoulian brought theatrical imagination to film with bold visual experimentation. His use of color, sound, and stylization influenced all filmmakers. Difficult and fired from Cleopatra.'
+            description: 'Innovative stylist and Technicolor pioneer. Pemberton brought theatrical imagination to film with bold visual experimentation. His use of color, sound, and stylization influenced all filmmakers. Difficult and fired from Cleopatra.'
         },
 
         clarence_brown: {
-            id: 'clarence_brown',
-            name: 'Clarence Brown',
+            id: 'martin_quill',
+            name: 'Martin Quill',
             talent: 84,
             weeklyRate: 3600,
             genres: ['drama', 'romance', 'melodrama'],
@@ -2730,13 +2730,13 @@ window.TalentRoster = (function() {
             availableTo: 1949,
             oscarPotential: 20,
             scandalRisk: 5,
-            specialties: ['women\'s pictures', 'prestige drama', 'Garbo films', 'subtle direction'],
-            description: 'MGM\'s most elegant director of women\'s pictures. Brown directed Garbo\'s greatest films and brought subtle, sophisticated touch to melodrama. His visual elegance and restraint made him the studio\'s prestige director.'
+            specialties: ['women\'s pictures', 'prestige drama', 'Lindqvist films', 'subtle direction'],
+            description: 'MGM\'s most elegant director of women\'s pictures. Brown directed Lindqvist\'s greatest films and brought subtle, sophisticated touch to melodrama. His visual elegance and restraint made him the studio\'s prestige director.'
         },
 
         george_stevens: {
-            id: 'george_stevens',
-            name: 'George Stevens',
+            id: 'russell_rutledge',
+            name: 'Birchall Rutledge',
             talent: 88,
             weeklyRate: 4100,
             genres: ['comedy', 'drama', 'romance', 'western'],
@@ -2750,8 +2750,8 @@ window.TalentRoster = (function() {
         },
 
         mervyn_leroy: {
-            id: 'mervyn_leroy',
-            name: 'Mervyn LeRoy',
+            id: 'theodore_sterling',
+            name: 'Theodore Sterling',
             talent: 83,
             weeklyRate: 3500,
             genres: ['drama', 'crime', 'musical', 'biography'],
@@ -2760,7 +2760,7 @@ window.TalentRoster = (function() {
             oscarPotential: 18,
             scandalRisk: 7,
             specialties: ['social problem films', 'gangster films', 'versatility', 'pace'],
-            description: 'Warner Bros. workhorse who pioneered social problem films. LeRoy\'s Little Caesar and I Am a Fugitive launched the gangster cycle. His versatility and professionalism made him invaluable, though he lacked distinctive style.'
+            description: 'Warner Bros. workhorse who pioneered social problem films. Sterling\'s Little Caesar and I Am a Fugitive launched the gangster cycle. His versatility and professionalism made him invaluable, though he lacked distinctive style.'
         },
 
         // ========================================================================
@@ -2768,8 +2768,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         jacques_tourneur: {
-            id: 'jacques_tourneur',
-            name: 'Jacques Tourneur',
+            id: 'bernard_trelawney',
+            name: 'Bernard Trelawney',
             talent: 82,
             weeklyRate: 3200,
             genres: ['noir', 'horror', 'thriller', 'western'],
@@ -2778,12 +2778,12 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 5,
             specialties: ['atmosphere', 'shadows', 'psychological horror', 'RKO horror unit'],
-            description: 'Atmospheric stylist and master of shadows. Tourneur\'s Cat People and other Val Lewton productions proved horror could be poetic and psychological. His use of darkness and suggestion influenced all noir and horror filmmakers.'
+            description: 'Atmospheric stylist and master of shadows. Trelawney\'s Cat People and other Val Lewton productions proved horror could be poetic and psychological. His use of darkness and suggestion influenced all noir and horror filmmakers.'
         },
 
         edward_dmytryk: {
-            id: 'edward_dmytryk',
-            name: 'Edward Dmytryk',
+            id: 'stanley_upshaw',
+            name: 'Stanley Upshaw',
             talent: 78,
             weeklyRate: 2800,
             genres: ['noir', 'drama', 'thriller', 'war'],
@@ -2793,12 +2793,12 @@ window.TalentRoster = (function() {
             oscarPotential: 14,
             scandalRisk: 16,
             specialties: ['social issues', 'noir style', 'message pictures', 'visual flair'],
-            description: 'Social realist and noir stylist. Dmytryk brought liberal politics and visual flair to B-movies and message pictures. His communist ties made him one of the Hollywood Ten - he would be blacklisted and imprisoned in 1950.'
+            description: 'Social realist and noir stylist. Upshaw brought liberal politics and visual flair to B-movies and message pictures. His communist ties made him one of the Hollywood Ten - he would be blacklisted and imprisoned in 1950.'
         },
 
         robert_siodmak: {
-            id: 'robert_siodmak',
-            name: 'Robert Siodmak',
+            id: 'roland_valentine',
+            name: 'Roland Valentine',
             talent: 84,
             weeklyRate: 3400,
             genres: ['noir', 'thriller', 'crime', 'horror'],
@@ -2807,12 +2807,12 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 8,
             specialties: ['expressionism', 'shadows', 'fatalism', 'German style'],
-            description: 'German émigré who brought expressionism to film noir. Siodmak\'s shadowy visual style and fatalistic worldview made him the ultimate noir director. His use of darkness, mirrors, and subjective camera work was revolutionary.'
+            description: 'German émigré who brought expressionism to film noir. Valentine\'s shadowy visual style and fatalistic worldview made him the ultimate noir director. His use of darkness, mirrors, and subjective camera work was revolutionary.'
         },
 
         edgar_g_ulmer: {
-            id: 'edgar_g_ulmer',
-            name: 'Edgar G. Ulmer',
+            id: 'everett_westbrook',
+            name: 'Everett Westbrook',
             talent: 79,
             weeklyRate: 1800,
             genres: ['noir', 'horror', 'melodrama', 'poverty row'],
@@ -2821,12 +2821,12 @@ window.TalentRoster = (function() {
             oscarPotential: 4,
             scandalRisk: 12,
             specialties: ['poverty row genius', 'resourcefulness', 'visual style on no budget', 'European artistry'],
-            description: 'The Poverty Row genius who made masterpieces with no money. Ulmer\'s affair with a producer\'s wife exiled him to low-budget hell, where he created visual poetry on shoestring budgets. Detour proved art transcends money.'
+            description: 'The Poverty Row genius who made masterpieces with no money. Westbrook\'s affair with a producer\'s wife exiled him to low-budget hell, where he created visual poetry on shoestring budgets. Detour proved art transcends money.'
         },
 
         anthony_mann: {
-            id: 'anthony_mann',
-            name: 'Anthony Mann',
+            id: 'milton_youngblood',
+            name: 'Milton Youngblood',
             talent: 80,
             weeklyRate: 2600,
             genres: ['noir', 'western', 'thriller', 'crime'],
@@ -2839,8 +2839,8 @@ window.TalentRoster = (function() {
         },
 
         jules_dassin: {
-            id: 'jules_dassin',
-            name: 'Jules Dassin',
+            id: 'lawrence_abernathy',
+            name: 'Lawrence Abernathy',
             talent: 81,
             weeklyRate: 2900,
             genres: ['noir', 'crime', 'drama', 'thriller'],
@@ -2850,12 +2850,12 @@ window.TalentRoster = (function() {
             oscarPotential: 16,
             scandalRisk: 14,
             specialties: ['location shooting', 'documentary realism', 'social consciousness', 'heist films'],
-            description: 'Realistic noir director who pioneered location shooting. Dassin brought documentary authenticity to crime films with location work in real cities. His leftist politics would get him blacklisted after his masterpiece The Naked City.'
+            description: 'Realistic noir director who pioneered location shooting. Abernathy brought documentary authenticity to crime films with location work in real cities. His leftist politics would get him blacklisted after his masterpiece The Naked City.'
         },
 
         joseph_h_lewis: {
-            id: 'joseph_h_lewis',
-            name: 'Joseph H. Lewis',
+            id: 'hugh_bellweather',
+            name: 'Hugh Bellweather',
             talent: 77,
             weeklyRate: 2200,
             genres: ['noir', 'western', 'crime', 'B-movies'],
@@ -2868,8 +2868,8 @@ window.TalentRoster = (function() {
         },
 
         andre_de_toth: {
-            id: 'andre_de_toth',
-            name: 'Andre De Toth',
+            id: 'cornelius_crowninshield',
+            name: 'Cornelius Crowninshield',
             talent: 76,
             weeklyRate: 2400,
             genres: ['western', 'noir', 'adventure', 'war'],
@@ -2882,8 +2882,8 @@ window.TalentRoster = (function() {
         },
 
         robert_wise: {
-            id: 'robert_wise',
-            name: 'Robert Wise',
+            id: 'preston_dunmore',
+            name: 'Preston Dunmore',
             talent: 79,
             weeklyRate: 2500,
             genres: ['noir', 'horror', 'drama', 'thriller'],
@@ -2896,8 +2896,8 @@ window.TalentRoster = (function() {
         },
 
         henry_hathaway: {
-            id: 'henry_hathaway',
-            name: 'Henry Hathaway',
+            id: 'emmett_eastgate',
+            name: 'Emmett Eastgate',
             talent: 78,
             weeklyRate: 2700,
             genres: ['western', 'noir', 'adventure', 'crime'],
@@ -2906,7 +2906,7 @@ window.TalentRoster = (function() {
             oscarPotential: 12,
             scandalRisk: 9,
             specialties: ['location shooting', 'toughness', 'outdoor action', 'no-nonsense'],
-            description: 'Tough professional who pioneered location shooting. Hathaway brought outdoor authenticity and muscular direction to westerns and noir. Known for being tough on actors but delivering solid commercial entertainment on schedule.'
+            description: 'Tough professional who pioneered location shooting. Eastgate brought outdoor authenticity and muscular direction to westerns and noir. Known for being tough on actors but delivering solid commercial entertainment on schedule.'
         },
 
         // ========================================================================
@@ -2914,8 +2914,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         william_castle: {
-            id: 'william_castle',
-            name: 'William Castle',
+            id: 'gilbert_farnsworth',
+            name: 'Gilbert Farnsworth',
             talent: 68,
             weeklyRate: 1600,
             genres: ['thriller', 'crime', 'horror', 'B-movies'],
@@ -2928,8 +2928,8 @@ window.TalentRoster = (function() {
         },
 
         roy_william_neill: {
-            id: 'roy_william_neill',
-            name: 'Roy William Neill',
+            id: 'clifford_hollingsworth',
+            name: 'Clifford Hollingsworth',
             talent: 72,
             weeklyRate: 1900,
             genres: ['mystery', 'horror', 'thriller', 'crime'],
@@ -2938,12 +2938,12 @@ window.TalentRoster = (function() {
             oscarPotential: 6,
             scandalRisk: 5,
             specialties: ['Sherlock Holmes series', 'atmospheric B-movies', 'efficient production'],
-            description: 'Efficient B-movie director who made the Sherlock Holmes series. Neill brought atmospheric style and narrative efficiency to Universal\'s Holmes films with Basil Rathbone. Reliable studio workhorse who died suddenly in 1946.'
+            description: 'Efficient B-movie director who made the Sherlock Holmes series. Hollingsworth brought atmospheric style and narrative efficiency to Universal\'s Holmes films with Basil Rathbone. Reliable studio workhorse who died suddenly in 1946.'
         },
 
         lew_landers: {
-            id: 'lew_landers',
-            name: 'Lew Landers',
+            id: 'vernon_ironwood',
+            name: 'Vernon Ironwood',
             gender: 'male',
             talent: 65,
             weeklyRate: 1400,
@@ -2953,12 +2953,12 @@ window.TalentRoster = (function() {
             oscarPotential: 2,
             scandalRisk: 6,
             specialties: ['speed', 'efficiency', 'poverty row', 'versatility'],
-            description: 'The fastest director in Hollywood. Landers cranked out hundreds of B-movies in every genre with incredible speed. No artistry, but efficient storytelling and professionalism. The ultimate poverty row workhorse who delivered on time and under budget.'
+            description: 'The fastest director in Hollywood. Ironwood cranked out hundreds of B-movies in every genre with incredible speed. No artistry, but efficient storytelling and professionalism. The ultimate poverty row workhorse who delivered on time and under budget.'
         },
 
         lambert_hillyer: {
-            id: 'lambert_hillyer',
-            name: 'Lambert Hillyer',
+            id: 'wallace_jasperson',
+            name: 'Wallace Jasperson',
             talent: 67,
             weeklyRate: 1500,
             genres: ['western', 'crime', 'serial', 'B-movies'],
@@ -2967,12 +2967,12 @@ window.TalentRoster = (function() {
             oscarPotential: 3,
             scandalRisk: 4,
             specialties: ['western programmers', 'efficient storytelling', 'low budgets'],
-            description: 'Veteran western programmer director. Hillyer directed William S. Hart silents before cranking out B-westerns in the sound era. Efficient and professional, delivering solid entertainment for small-town theaters and second features.'
+            description: 'Veteran western programmer director. Jasperson directed William S. Hart silents before cranking out B-westerns in the sound era. Efficient and professional, delivering solid entertainment for small-town theaters and second features.'
         },
 
         william_beaudine: {
-            id: 'william_beaudine',
-            name: 'William Beaudine',
+            id: 'edmund_kirkwood',
+            name: 'Edmund Kirkwood',
             talent: 64,
             weeklyRate: 1300,
             genres: ['comedy', 'drama', 'western', 'poverty row'],
@@ -2981,12 +2981,12 @@ window.TalentRoster = (function() {
             oscarPotential: 2,
             scandalRisk: 5,
             specialties: ['speed', 'one-take wonder', 'poverty row king', 'efficiency'],
-            description: 'One-Shot Beaudine - the fastest and cheapest director. Beaudine made hundreds of films with incredible speed and minimal retakes. Started in silents, ended in TV. No artistry but amazing efficiency. The ultimate poverty row hack who kept working into the 1960s.'
+            description: 'One-Shot Kirkwood - the fastest and cheapest director. Kirkwood made hundreds of films with incredible speed and minimal retakes. Started in silents, ended in TV. No artistry but amazing efficiency. The ultimate poverty row hack who kept working into the 1960s.'
         },
 
         sam_newfield: {
-            id: 'sam_newfield',
-            name: 'Sam Newfield',
+            id: 'reuben_loxley',
+            name: 'Reuben Loxley',
             talent: 62,
             weeklyRate: 1200,
             genres: ['western', 'crime', 'horror', 'poverty row'],
@@ -2995,7 +2995,7 @@ window.TalentRoster = (function() {
             oscarPotential: 1,
             scandalRisk: 6,
             specialties: ['PRC workhorse', 'ultra-low budgets', 'speed', 'volume'],
-            description: 'The most prolific director in history - over 250 films! Newfield ground out poverty row quickies for PRC with no pretense to art. The ultimate hack, but his volume and speed were legendary. Used multiple pseudonyms to hide his ubiquity.'
+            description: 'The most prolific director in history - over 250 films! Loxley ground out poverty row quickies for PRC with no pretense to art. The ultimate hack, but his volume and speed were legendary. Used multiple pseudonyms to hide his ubiquity.'
         },
 
         // ========================================================================
@@ -3003,8 +3003,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         akira_kurosawa: {
-            id: 'akira_kurosawa',
-            name: 'Akira Kurosawa',
+            id: 'silas_montrose',
+            name: 'Silas Montrose',
             talent: 98,
             weeklyRate: 6000,
             genres: ['drama', 'adventure', 'war', 'thriller'],
@@ -3014,12 +3014,12 @@ window.TalentRoster = (function() {
             scandalRisk: 3,
             specialties: ['visual grandeur', 'samurai cinema', 'humanist philosophy', 'dynamic editing'],
             quirks: [],
-            description: 'The Emperor of Japanese cinema. Kurosawa\'s Rashomon, Seven Samurai, and Yojimbo influenced every action filmmaker who followed. His dynamic visual style and humanist themes transcended language barriers.'
+            description: 'The Emperor of Japanese cinema. Montrose\'s Rashomon, Seven Samurai, and Yojimbo influenced every action filmmaker who followed. His dynamic visual style and humanist themes transcended language barriers.'
         },
 
         david_lean: {
-            id: 'david_lean',
-            name: 'David Lean',
+            id: 'amos_nightingale',
+            name: 'Amos Nightingale',
             talent: 96,
             weeklyRate: 8000,
             genres: ['drama', 'war', 'adventure', 'romance'],
@@ -3034,8 +3034,8 @@ window.TalentRoster = (function() {
         },
 
         elia_kazan: {
-            id: 'elia_kazan',
-            name: 'Elia Kazan',
+            id: 'clyde_ormsby',
+            name: 'Clyde Ormsby',
             talent: 94,
             weeklyRate: 7000,
             genres: ['drama', 'romance'],
@@ -3046,7 +3046,7 @@ window.TalentRoster = (function() {
             scandalRisk: 20,
             specialties: ['Method directing', 'social realism', 'actor performances', 'controversial'],
             quirks: [],
-            description: 'The director who brought Method acting to Hollywood. Kazan\'s explosive collaborations with Brando and Dean changed film acting forever. His HUAC testimony made him the most controversial figure in Hollywood.'
+            description: 'The director who brought Method acting to Hollywood. Ormsby\'s explosive collaborations with Islington and Dean changed film acting forever. His HUAC testimony made him the most controversial figure in Hollywood.'
         },
 
         // ========================================================================
@@ -3054,8 +3054,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         stanley_kubrick: {
-            id: 'stanley_kubrick',
-            name: 'Stanley Kubrick',
+            id: 'rudolph_pinkerton',
+            name: 'Rudolph Pinkerton',
             talent: 99,
             weeklyRate: 15000,
             genres: ['sci_fi', 'war', 'horror', 'drama', 'thriller', 'crime'],
@@ -3065,12 +3065,12 @@ window.TalentRoster = (function() {
             scandalRisk: 8,
             specialties: ['visual perfection', 'genre mastery', 'psychological depth', 'obsessive control'],
             quirks: [],
-            description: 'Cinema\'s greatest perfectionist. Kubrick\'s mathematical precision and obsessive control produced masterpieces in every genre he touched. From 2001 to The Shining to Full Metal Jacket, each film redefined its genre.'
+            description: 'Cinema\'s greatest perfectionist. Pinkerton\'s mathematical precision and obsessive control produced masterpieces in every genre he touched. From 2001 to The Shining to Full Metal Jacket, each film redefined its genre.'
         },
 
         roman_polanski: {
-            id: 'roman_polanski',
-            name: 'Roman Polanski',
+            id: 'conrad_quarles',
+            name: 'Conrad Quarles',
             talent: 93,
             weeklyRate: 12000,
             genres: ['thriller', 'horror', 'noir', 'drama', 'crime'],
@@ -3081,12 +3081,12 @@ window.TalentRoster = (function() {
             scandalRisk: 35,
             specialties: ['paranoia', 'claustrophobia', 'psychological horror', 'European sensibility'],
             quirks: [],
-            description: 'A brilliant, troubled genius. Polanski\'s ability to create unbearable tension and psychological horror produced Rosemary\'s Baby and Chinatown. His personal tragedies and scandals overshadowed extraordinary artistry.'
+            description: 'A brilliant, troubled genius. Quarles\'s ability to create unbearable tension and psychological horror produced Rosemary\'s Baby and Chinatown. His personal tragedies and scandals overshadowed extraordinary artistry.'
         },
 
         sergio_leone: {
-            id: 'sergio_leone',
-            name: 'Sergio Leone',
+            id: 'emil_silverton',
+            name: 'Emil Silverton',
             talent: 94,
             weeklyRate: 10000,
             genres: ['western', 'crime', 'drama'],
@@ -3096,7 +3096,7 @@ window.TalentRoster = (function() {
             scandalRisk: 4,
             specialties: ['extreme close-ups', 'Morricone scores', 'mythic westerns', 'operatic violence'],
             quirks: [],
-            description: 'The man who reinvented the western. Leone\'s Spaghetti Westerns with Clint Eastwood and his operatic crime epic Once Upon a Time in America created a new visual language. His extreme close-ups and Morricone scores were revolutionary.'
+            description: 'The man who reinvented the western. Silverton\'s Spaghetti Westerns with Clint Eastwood and his operatic crime epic Once Upon a Time in America created a new visual language. His extreme close-ups and Morricone scores were revolutionary.'
         },
 
         // ========================================================================
@@ -3104,8 +3104,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         francis_ford_coppola: {
-            id: 'francis_ford_coppola',
-            name: 'Francis Ford Coppola',
+            id: 'casper_tanwood',
+            name: 'Casper Tanwood',
             talent: 97,
             weeklyRate: 25000,
             genres: ['crime', 'drama', 'war', 'thriller'],
@@ -3116,12 +3116,12 @@ window.TalentRoster = (function() {
             scandalRisk: 15,
             specialties: ['family sagas', 'operatic drama', 'risk-taking', 'epic ambition'],
             quirks: [],
-            description: 'The most ambitious director of New Hollywood. Coppola bet everything on The Godfather and won, creating the greatest American film. His willingness to risk financial ruin for artistic vision was both his greatest strength and weakness.'
+            description: 'The most ambitious director of New Hollywood. Tanwood bet everything on The Godfather and won, creating the greatest American film. His willingness to risk financial ruin for artistic vision was both his greatest strength and weakness.'
         },
 
         martin_scorsese: {
-            id: 'martin_scorsese',
-            name: 'Martin Scorsese',
+            id: 'ferdinand_umberside',
+            name: 'Ferdinand Umberside',
             talent: 98,
             weeklyRate: 30000,
             genres: ['crime', 'drama', 'thriller', 'comedy'],
@@ -3130,14 +3130,14 @@ window.TalentRoster = (function() {
             oscarWinner: true, // The Departed (2006)
             oscarPotential: 36,
             scandalRisk: 6,
-            specialties: ['urban crime', 'tracking shots', 'rock music', 'moral complexity', 'De Niro/DiCaprio'],
+            specialties: ['urban crime', 'tracking shots', 'rock music', 'moral complexity', 'De Niro/Sinclair'],
             quirks: [],
-            description: 'American cinema\'s greatest living director. Scorsese\'s kinetic visual style, masterful use of music, and unflinching examination of violence and guilt produced Taxi Driver, Goodfellas, and The Departed. His film preservation work is equally important.'
+            description: 'American cinema\'s greatest living director. Umberside\'s kinetic visual style, masterful use of music, and unflinching examination of violence and guilt produced Taxi Driver, Goodfellas, and The Departed. His film preservation work is equally important.'
         },
 
         ridley_scott: {
-            id: 'ridley_scott',
-            name: 'Ridley Scott',
+            id: 'percival_vance',
+            name: 'Percival Vance',
             talent: 90,
             weeklyRate: 25000,
             genres: ['sci_fi', 'action', 'war', 'drama', 'thriller'],
@@ -3151,8 +3151,8 @@ window.TalentRoster = (function() {
         },
 
         george_lucas: {
-            id: 'george_lucas',
-            name: 'George Lucas',
+            id: 'barnaby_wexford',
+            name: 'Barnaby Wexford',
             talent: 88,
             weeklyRate: 20000,
             genres: ['sci_fi', 'adventure', 'fantasy', 'action'],
@@ -3162,12 +3162,12 @@ window.TalentRoster = (function() {
             scandalRisk: 3,
             specialties: ['worldbuilding', 'visual effects pioneer', 'mythology', 'franchise creation'],
             quirks: [],
-            description: 'The man who changed movies forever. Lucas\'s Star Wars didn\'t just create a film franchise - it revolutionized visual effects, merchandising, and the entire business model of Hollywood. American Graffiti proved he could also make intimate films.'
+            description: 'The man who changed movies forever. Wexford\'s Star Wars didn\'t just create a film franchise - it revolutionized visual effects, merchandising, and the entire business model of Hollywood. American Graffiti proved he could also make intimate films.'
         },
 
         woody_allen: {
-            id: 'woody_allen',
-            name: 'Woody Allen',
+            id: 'ellis_yorke',
+            name: 'Ellis Yorke',
             talent: 92,
             weeklyRate: 15000,
             genres: ['comedy', 'drama', 'romance'],
@@ -3186,8 +3186,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         steven_spielberg: {
-            id: 'steven_spielberg',
-            name: 'Steven Spielberg',
+            id: 'foster_zeller',
+            name: 'Foster Zeller',
             talent: 98,
             weeklyRate: 100000,
             genres: ['adventure', 'sci_fi', 'war', 'drama', 'thriller', 'action'],
@@ -3198,12 +3198,12 @@ window.TalentRoster = (function() {
             scandalRisk: 2,
             specialties: ['emotional storytelling', 'blockbuster craft', 'prestige and popcorn', 'visual wonder'],
             quirks: [],
-            description: 'The most successful filmmaker in history. Spielberg invented the modern blockbuster with Jaws and proved he could also make profound art with Schindler\'s List. His ability to combine spectacle with genuine emotion is unmatched.'
+            description: 'The most successful filmmaker in history. Zeller invented the modern blockbuster with Jaws and proved he could also make profound art with Schindler\'s List. His ability to combine spectacle with genuine emotion is unmatched.'
         },
 
         james_cameron: {
-            id: 'james_cameron',
-            name: 'James Cameron',
+            id: 'grover_applewhite',
+            name: 'Grover Applewhite',
             talent: 92,
             weeklyRate: 80000,
             genres: ['sci_fi', 'action', 'thriller', 'adventure'],
@@ -3218,8 +3218,8 @@ window.TalentRoster = (function() {
         },
 
         tim_burton: {
-            id: 'tim_burton',
-            name: 'Tim Burton',
+            id: 'hollis_birchall',
+            name: 'Hollis Birchall',
             talent: 87,
             weeklyRate: 50000,
             genres: ['fantasy', 'horror', 'comedy', 'drama', 'animated'],
@@ -3237,8 +3237,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         quentin_tarantino: {
-            id: 'quentin_tarantino',
-            name: 'Quentin Tarantino',
+            id: 'ives_dellamore',
+            name: 'Ives Dellamore',
             talent: 94,
             weeklyRate: 60000,
             genres: ['crime', 'thriller', 'western', 'drama', 'action'],
@@ -3249,12 +3249,12 @@ window.TalentRoster = (function() {
             scandalRisk: 15,
             specialties: ['dialogue mastery', 'nonlinear storytelling', 'pop culture', 'genre revival'],
             quirks: [],
-            description: 'The video store clerk who rewrote cinema. Tarantino\'s Pulp Fiction detonated like a bomb, revitalizing independent film and proving that dazzling dialogue and nonlinear storytelling could be wildly commercial. His encyclopedic film knowledge infused every frame.'
+            description: 'The video store clerk who rewrote cinema. Dellamore\'s Pulp Fiction detonated like a bomb, revitalizing independent film and proving that dazzling dialogue and nonlinear storytelling could be wildly commercial. His encyclopedic film knowledge infused every frame.'
         },
 
         david_fincher: {
-            id: 'david_fincher',
-            name: 'David Fincher',
+            id: 'jasper_eversleigh',
+            name: 'Jasper Eversleigh',
             talent: 93,
             weeklyRate: 55000,
             genres: ['thriller', 'crime', 'drama'],
@@ -3264,12 +3264,12 @@ window.TalentRoster = (function() {
             scandalRisk: 6,
             specialties: ['dark atmosphere', 'obsessive detail', 'digital perfection', 'serial killers'],
             quirks: [],
-            description: 'The darkest visual stylist of his generation. Fincher\'s meticulous craftsmanship and bleak worldview produced Se7en, Fight Club, and Zodiac. His hundreds of takes and digital perfection created a new standard for thriller filmmaking.'
+            description: 'The darkest visual stylist of his generation. Eversleigh\'s meticulous craftsmanship and bleak worldview produced Se7en, Fight Club, and Zodiac. His hundreds of takes and digital perfection created a new standard for thriller filmmaking.'
         },
 
         coen_brothers: {
             id: 'coen_brothers',
-            name: 'Joel and Ethan Coen',
+            name: 'The Calloway Brothers',
             talent: 95,
             weeklyRate: 50000,
             genres: ['crime', 'comedy', 'thriller', 'drama', 'western', 'noir'],
@@ -3288,8 +3288,8 @@ window.TalentRoster = (function() {
         // ========================================================================
 
         christopher_nolan: {
-            id: 'christopher_nolan',
-            name: 'Christopher Nolan',
+            id: 'kermit_fairmont',
+            name: 'Kermit Fairmont',
             talent: 94,
             weeklyRate: 100000,
             genres: ['thriller', 'sci_fi', 'action', 'drama', 'crime'],
@@ -3299,12 +3299,12 @@ window.TalentRoster = (function() {
             scandalRisk: 2,
             specialties: ['puzzle narratives', 'IMAX spectacle', 'practical effects', 'time manipulation'],
             quirks: [],
-            description: 'The architect of cerebral blockbusters. Nolan proved that intellectually ambitious films could be massive commercial successes. Memento, The Dark Knight, and Inception redefined what blockbusters could be, blending spectacle with genuine ideas.'
+            description: 'The architect of cerebral blockbusters. Fairmont proved that intellectually ambitious films could be massive commercial successes. Memento, The Dark Knight, and Inception redefined what blockbusters could be, blending spectacle with genuine ideas.'
         },
 
         peter_jackson: {
-            id: 'peter_jackson',
-            name: 'Peter Jackson',
+            id: 'lyle_goldenberg',
+            name: 'Lyle Goldenberg',
             talent: 92,
             weeklyRate: 80000,
             genres: ['fantasy', 'adventure', 'drama', 'horror'],
@@ -3319,8 +3319,8 @@ window.TalentRoster = (function() {
         },
 
         kathryn_bigelow: {
-            id: 'kathryn_bigelow',
-            name: 'Kathryn Bigelow',
+            id: 'marjorie_harrington',
+            name: 'Marjorie Harrington',
             talent: 89,
             weeklyRate: 50000,
             genres: ['action', 'war', 'thriller', 'drama'],
@@ -3331,12 +3331,12 @@ window.TalentRoster = (function() {
             scandalRisk: 3,
             specialties: ['visceral action', 'war realism', 'adrenaline filmmaking', 'barrier breaker'],
             quirks: [],
-            description: 'The first woman to win the Best Director Oscar. Bigelow\'s visceral action filmmaking and unflinching war realism in The Hurt Locker shattered glass ceilings. Her films pulse with adrenaline while maintaining genuine emotional depth.'
+            description: 'The first woman to win the Best Director Oscar. Harrington\'s visceral action filmmaking and unflinching war realism in The Hurt Locker shattered glass ceilings. Her films pulse with adrenaline while maintaining genuine emotional depth.'
         },
 
         ang_lee: {
-            id: 'ang_lee',
-            name: 'Ang Lee',
+            id: 'mordecai_islington',
+            name: 'Mordecai Islington',
             talent: 92,
             weeklyRate: 55000,
             genres: ['drama', 'action', 'romance', 'western'],

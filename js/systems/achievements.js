@@ -266,11 +266,11 @@ window.AchievementSystem = (function() {
 
         friendly_witness: {
             id: 'friendly_witness',
-            title: 'Friendly Witness',
-            description: 'Cooperate with HUAC',
+            title: 'The Names You Gave',
+            description: 'Cooperated with HUAC. History will remember — and so will the people you named.',
             icon: '⚖️',
             category: 'historical',
-            points: 20,
+            points: 0,
             secret: true,
             checkCondition: (gameState) => {
                 return (gameState.longTermEffects || []).includes('cooperative_witness');
